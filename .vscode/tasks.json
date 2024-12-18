@@ -1,0 +1,72 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+      {
+          "label": "Install All Recommended Extensions",
+          "type": "shell",
+          "windows": {
+              "command": "foreach ($ext in (Get-Content -Raw .vscode/extensions.json | ConvertFrom-Json).recommendations) { Write-Host Installing $ext; code --install-extension $ext; }"
+          },
+          "linux": {
+              "command": "cat .vscode/extensions.json | jq .recommendations[] | xargs -n 1 code . --install-extension"
+          },
+          "runOptions": {
+              "runOn": "folderOpen"
+          },
+          "presentation": {
+              "reveal": "silent"
+          },
+          "problemMatcher": []
+      },{
+          "label": "Reset Git to Initial Commit and Force Push",
+          "type": "shell",
+          "command": "./scripts/git/reset.sh",
+          "problemMatcher": [],
+          "group": {
+            "kind": "build",
+            "isDefault": true
+          }
+        },{
+          "label": "Flux Clean Up",
+          "type": "shell",
+          "command": "./scripts/flux/cleanUp.sh",
+          "problemMatcher": [],
+          "group": {
+            "kind": "build",
+            "isDefault": true
+          }
+        },{
+          "label": "Update Clustertool",
+          "type": "shell",
+          "command": "sudo ./scripts/ctupdater.sh",
+          "problemMatcher": [],
+          "group": {
+            "kind": "build",
+            "isDefault": true
+          }
+        },{
+          "label": "Delete Identifier files",
+          "type": "shell",
+          "command": "find ./ -type f -name \"*.Identifier\" -exec echo 'Deleting:' {} \\; -exec rm {} \\;",
+          "problemMatcher": [],
+          "group": {
+              "kind": "build",
+              "isDefault": true
+          }
+      },{
+    "label": "Set Git Config from YAML",
+    "type": "shell",
+    "command": "./scripts/gitConfig.sh",
+    "problemMatcher": [],
+    "group": "build",
+    "detail": "Sets Git username and email from clusters/main/clusterenv.yaml and confirms values"
+  },{
+    "label": "Update flux NOW!!!",
+    "type": "shell",
+    "command": "./scripts/fluxUpdater.sh ",
+    "problemMatcher": [],
+    "group": "build",
+    "detail": "Reconciles the git cluster with flux asap"
+  }
+  ]
+}
