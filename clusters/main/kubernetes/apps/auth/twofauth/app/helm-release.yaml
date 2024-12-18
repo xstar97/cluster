@@ -115,3 +115,19 @@ spec:
               cacheCapacity: 10Gi
       varrun:
         enabled: false
+    cnpg:
+      main:
+        cluster:
+          singleNode: true
+        backups:
+          enabled: true
+          credentials: cloudflare
+          scheduledBackups:
+            - name: daily-backup
+              schedule: "0 5 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cloudflare
