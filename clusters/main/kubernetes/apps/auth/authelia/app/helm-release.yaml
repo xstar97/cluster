@@ -1,0 +1,127 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: authelia
+  namespace: authelia
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: authelia
+      version: 25.5.4
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 5m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    credentials:
+      cloudflare:
+        type: s3
+        url: "${S3URL_RESTIC}"
+        bucket: "${S3_BUCKET_RESTIC}"
+        accessKey: "${S3ID_RESTIC}"
+        secretKey: "${S3KEY_RESTIC}"
+        encrKey: "${S3KEY_RESTIC}"
+    defaultCertificate: xstar-wildcard
+    ingress:
+        main:
+          enabled: true
+          integrations:
+            traefik:
+              enabled: true
+              entrypoints:
+              - websecure
+            certManager:
+              enabled: true
+              certificateIssuer: domain-0-le-prod 
+          hosts:
+            - host: auth.${DOMAIN_0}
+              paths:
+                - path: /
+                  pathType: Prefix
+    cnpg:
+      main:
+        cluster:
+          singleNode: true
+        backups:
+          enabled: true
+          credentials: cloudflare
+          scheduledBackups:
+            - name: daily-backup
+              schedule: "0 5 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cloudflare
+    persistence:
+      config:
+        volsync:
+          - name: config
+            type: restic
+            credentials: cloudflare
+            dest:
+              enabled: true
+            src:
+              enabled: true
+              trigger:
+                schedule: 10 0 * * *
+    workload:
+      main:
+        replicas: 1
+        strategy: RollingUpdate
+    theme: dark
+    totp:
+      issuer: ${DOMAIN_0}
+    notifier:
+      filesystem:
+        enabled: false
+      smtp:
+        enabled: true
+        host: ${SMTP_GMAIL_HOST}
+        plain_password: ${SMTP_GMAIL_PASS_AUTHELIA}
+        port: 587
+        sender: auth@${DOMAIN_0}
+        startup_check_address: auth@${DOMAIN_0}
+        username: ${SMTP_GMAIL_EMAIL}
+    domain: ${DOMAIN_0}
+    authentication_backend:
+      file:
+        enabled: false
+      ldap:
+        enabled: true
+        implementation: custom
+        additional_groups_dn: ou=groups
+        additional_users_dn: ou=people
+        base_dn: ${LLDAP_LDAP_BASE_DN}
+        groups_filter: (member={dn})
+        plain_password: ${LLDAP_LDAP_PWDMANAGER_PASS}
+        url: ${LLDAP_URL_CLUSTER}
+        user: ${LLDAP_LDAP_PWDMANAGER_USER}
+        users_filter: (&(|({username_attribute}={input})({mail_attribute}={input}))(objectClass=person))
+    access_control:
+      rules:
+      - domain:
+        - ${DOMAIN_0}
+        - '*.${DOMAIN_0}'
+        domain_regex: []
+        networks: []
+        policy: one_factor
+        resources: []
+        subject:
+        - group:admin
