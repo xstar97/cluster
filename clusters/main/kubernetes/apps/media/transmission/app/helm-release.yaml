@@ -1,0 +1,195 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: transmission
+  namespace: transmission
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: transmission
+      version: 22.2.2
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              version: v1
+              kind: Deployment
+              name: transmission
+            patch: |
+              - op: add
+                path: /spec/template/spec/containers/1/resources/limits/truecharts.org~1tun
+                value: 1
+  values:
+    global:
+      stopAll: true
+    defaultCertificate: domain-0-wildcard
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 9091
+      torrent:
+        enabled: true
+        type: ClusterIP
+        ports:
+          torrent:
+            enabled: true
+            port: 61538
+            protocol: tcp
+          torrentudp:
+            enabled: true
+            port: "{{ .Values.service.torrent.ports.torrent.port }}"
+            protocol: udp
+      gluetun:
+        enabled: true
+        type: ClusterIP
+        ports:
+          gluetun:
+            enabled: true
+            port: 8888
+            protocol: http
+          control:
+            enabled: true
+            port: 8000
+            protocol: http
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                # URL is set here so it wont be able to get overwritten by the user
+                # as this will break the probes, if the need arises we can expose it.
+                TRANSMISSION__RPC_URL: "/transmission"
+                # TRANSMISSION__RPC_USERNAME: ""
+                # TRANSMISSION__RPC_PASSWORD: ""
+                # TRANSMISSION__RPC_AUTHENTICATION_REQUIRED: false
+                # TRANSMISSION__ALT_SPEED_DOWN: 50
+                # TRANSMISSION__ALT_SPEED_ENABLED: false
+                # TRANSMISSION__ALT_SPEED_TIME_BEGIN: 540
+                # TRANSMISSION__ALT_SPEED_TIME_DAY: 127
+                # TRANSMISSION__ALT_SPEED_TIME_ENABLED: false
+                # TRANSMISSION__ALT_SPEED_TIME_END: 1020
+                # TRANSMISSION__ALT_SPEED_UP: 50
+                # TRANSMISSION__BIND_ADDRESS_IPV4: "0.0.0.0"
+                # TRANSMISSION__BIND_ADDRESS_IPV6: "::"
+                # TRANSMISSION__BLOCKLIST_ENABLED: true
+                # TRANSMISSION__BLOCKLIST_URL: "https://github.com/Naunter/BT_BlockLists/releases/download/v.1/bt_blocklists.gz"
+                # TRANSMISSION__CACHE_SIZE_MB: 4
+                TRANSMISSION__DHT_ENABLED: true
+                TRANSMISSION__DOWNLOAD_DIR: "{{ .Values.persistence.downloads.mountPath }}/complete"
+                TRANSMISSION__DOWNLOAD_QUEUE_ENABLED: true
+                TRANSMISSION__DOWNLOAD_QUEUE_SIZE: 5
+                TRANSMISSION__ENCRYPTION: 2
+                TRANSMISSION__IDLE_SEEDING_LIMIT: 30
+                TRANSMISSION__IDLE_SEEDING_LIMIT_ENABLED: true
+                TRANSMISSION__INCOMPLETE_DIR: "{{ .Values.persistence.downloads.mountPath }}/incomplete"
+                TRANSMISSION__INCOMPLETE_DIR_ENABLED: true
+                TRANSMISSION__LPD_ENABLED: true
+                # TRANSMISSION__MESSAGE_LEVEL: 2
+                # TRANSMISSION__PEER_CONGESTION_ALGORITHM: ""
+                # TRANSMISSION__PEER_ID_TTL_HOURS: 6
+                TRANSMISSION__PEER_LIMIT_GLOBAL: 200000
+                TRANSMISSION__PEER_LIMIT_PER_TORRENT: 5000
+                TRANSMISSION__PEER_PORT: "{{ .Values.service.torrent.ports.torrent.port }}"
+                # TRANSMISSION__PEER_PORT_RANDOM_HIGH: 65535
+                # TRANSMISSION__PEER_PORT_RANDOM_LOW: 49152
+                # TRANSMISSION__PEER_PORT_RANDOM_ON_START: false
+                # TRANSMISSION__PEER_SOCKET_TOS: default"
+                TRANSMISSION__PEX_ENABLED: true
+                # TRANSMISSION__PORT_FORWARDING_ENABLED: false
+                TRANSMISSION__PREALLOCATION: 1
+                TRANSMISSION__PREFETCH_ENABLED: true
+                TRANSMISSION__QUEUE_STALLED_ENABLED: true
+                TRANSMISSION__QUEUE_STALLED_MINUTES: 30
+                TRANSMISSION__RATIO_LIMIT: 0
+                TRANSMISSION__RATIO_LIMIT_ENABLED: true
+                TRANSMISSION__RENAME_PARTIAL_FILES: true
+                # TRANSMISSION__RPC_BIND_ADDRESS: "0.0.0.0"
+                # TRANSMISSION__RPC_ENABLED: true
+                # TRANSMISSION__RPC_HOST_WHITELIST: ""
+                # TRANSMISSION__RPC_HOST_WHITELIST_ENABLED: false
+                TRANSMISSION__RPC_PORT: "{{ .Values.service.main.ports.main.port }}"
+                # TRANSMISSION__RPC_URL: "/transmission/"
+                # TRANSMISSION__RPC_WHITELIST: ""
+                # TRANSMISSION__RPC_WHITELIST_ENABLED: false
+                # TRANSMISSION__SCRAPE_PAUSED_TORRENTS_ENABLED: true
+                # TRANSMISSION__SCRIPT_TORRENT_DONE_ENABLED: false
+                # TRANSMISSION__SCRIPT_TORRENT_DONE_FILENAME: ""
+                # TRANSMISSION__SEED_QUEUE_ENABLED: false
+                # TRANSMISSION__SEED_QUEUE_SIZE: 10
+                # TRANSMISSION__SPEED_LIMIT_DOWN: 100
+                # TRANSMISSION__SPEED_LIMIT_DOWN_ENABLED: false
+                # TRANSMISSION__SPEED_LIMIT_UP: 100
+                # TRANSMISSION__SPEED_LIMIT_UP_ENABLED: false
+                TRANSMISSION__START_ADDED_TORRENTS: true
+                # TRANSMISSION__TRASH_ORIGINAL_TORRENT_FILES: false
+                TRANSMISSION__UMASK: 0022
+                # TRANSMISSION__UPLOAD_SLOTS_PER_TORRENT: 14
+                TRANSMISSION__UTP_ENABLED: true
+                # TRANSMISSION__WATCH_DIR: "/watch"
+                # TRANSMISSION__WATCH_DIR_ENABLED: false
+    ingress:
+      main:
+        enabled: true
+        integrations:
+          traefik:
+            enabled: true
+            middlewares:
+              - name: local
+                namespace: traefik
+          certManager:
+            enabled: true
+            certificateIssuer: domain-0-le-prod
+        hosts:
+          - host: transmission.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
+    addons:
+      vpn:
+        type: gluetun
+        killSwitch: true
+        excludedNetworks_IPv4:
+          - "10.0.0.0/8"
+        excludedNetworks_IPv6: []
+        env:
+          VPN_TYPE: "wireguard"
+          VPN_SERVICE_PROVIDER: "custom"
+          VPN_ENDPOINT_IP: "${VPN_ENDPOINT_IP}"
+          VPN_ENDPOINT_PORT: "${VPN_ENDPOINT_PORT}"
+          WIREGUARD_PUBLIC_KEY: "${WIREGUARD_PUBLIC_KEY}"
+          WIREGUARD_PRIVATE_KEY: "${WIREGUARD_PRIVATE_KEY}"
+          WIREGUARD_ADDRESSES: "${WIREGUARD_ADDRESSES}"
+          FIREWALL_VPN_INPUT_PORTS: "{{ .Values.service.torrent.ports.torrent.port }}"
+          VPN_PORT_FORWARDING_LISTENING_PORT: "{{ .Values.service.torrent.ports.torrent.port }}"
+    persistence:
+      config:
+        enabled: true
+        mountPath: "/config"
+      downloads:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${DOWNLOADS_NFS}
+        mountPath: "${DOWNLOADS_LOCAL}"
