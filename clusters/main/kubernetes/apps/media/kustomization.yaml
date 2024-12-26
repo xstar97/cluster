@@ -19,7 +19,6 @@ resources:
   - sonarr/ks.yaml
   - sonarr-animes/ks.yaml
   - tautulli/ks.yaml
-  - transmission/ks.yaml
   - qbittorrent/ks.yaml
   - pasta/ks.yaml
   - plex-auto-languages/ks.yaml
