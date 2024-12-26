@@ -73,6 +73,7 @@ spec:
           bedrock:
             enabled: true
             port: 19132
+            protocol: udp
       web:
         enabled: true
         type: ClusterIP
