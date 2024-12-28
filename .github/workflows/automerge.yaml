@@ -5,6 +5,7 @@ on:
     workflows: ["Placeholder"]  # Name of the main CI workflow
     types:
       - completed
+  workflow_dispatch: # Allows manual trigger
 
 jobs:
   automerge:
