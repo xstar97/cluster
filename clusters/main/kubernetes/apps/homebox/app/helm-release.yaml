@@ -1,0 +1,83 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: homebox
+  namespace: homebox
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: homebox
+      version: 8.8.1
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    credentials:
+      cloudflare:
+        type: s3
+        url: "${S3URL_RESTIC}"
+        bucket: "${S3_BUCKET_RESTIC}"
+        accessKey: "${S3ID_RESTIC}"
+        secretKey: "${S3KEY_RESTIC}"
+        encrKey: "${S3KEY_RESTIC}"
+    defaultCertificate: domain-0-wildcard
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 10603
+    ingress:
+      main:
+        enabled: true
+        integrations:
+          homepage:
+            enabled: true
+            group: "Inventory"
+            widget:
+              custom:
+                username: "${HOMEBOX_USER}"
+                password: "${HOMEBOX_PASS}"
+          traefik:
+            enabled: true
+            middlewares:
+              - name: local
+                namespace: traefik
+          certManager:
+            enabled: true
+            certificateIssuer: domain-0-le-prod 
+        hosts:
+          - host: homebox.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
+    persistence:
+      data:
+        volsync:
+          - name: data
+            type: restic
+            credentials: cloudflare
+            dest:
+              cacheCapacity: 10Gi
+              enabled: true
+            src:
+              enabled: true
+              cacheCapacity: 10Gi

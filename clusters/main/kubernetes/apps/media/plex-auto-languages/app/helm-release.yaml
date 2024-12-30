@@ -1,0 +1,73 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: plex-auto-languages
+  namespace: plex-auto-languages
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: plex-auto-languages
+      version: 10.3.1
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    credentials:
+      cloudflare:
+        type: s3
+        url: "${S3URL_RESTIC}"
+        bucket: "${S3_BUCKET_RESTIC}"
+        accessKey: "${S3ID_RESTIC}"
+        secretKey: "${S3KEY_RESTIC}"
+        encrKey: "${S3KEY_RESTIC}"
+    service:
+      main:
+        enabled: false
+        ports:
+          main:
+            enabled: false
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              probes:
+                liveness:
+                  enabled: false
+                readiness:
+                  enabled: false
+                startup:
+                  enabled: false
+              env:
+                PLEX_TOKEN: ${PLEX_TOKEN_PAL}
+                PLEX_URL: ${PLEX_CLUSTER_URL}
+    persistence:
+      config:
+        volsync:
+          - name: data
+            type: restic
+            credentials: cloudflare
+            dest:
+              cacheCapacity: 10Gi
+              enabled: true
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
