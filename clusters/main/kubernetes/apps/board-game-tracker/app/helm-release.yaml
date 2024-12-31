@@ -1,0 +1,94 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: board-game-tracker
+  namespace: board-game-tracker
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 14.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    image:
+      repository: uping/boardgametracker
+      pullPolicy: IfNotPresent
+      tag: dev
+    global:
+      stopAll: false
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
+    defaultCertificate: domain-0-wildcard
+    service:
+      main:
+        ports:
+          main:
+            port: 5444
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                DB_HOST:
+                  secretKeyRef:
+                    name: cnpg-main-urls
+                    key: host
+                DB_USER: "{{ .Values.cnpg.main.user }}"
+                DB_PASSWORD:
+                  secretKeyRef:
+                    name: cnpg-main-user
+                    key: password
+                DB_NAME: "{{ .Values.cnpg.main.database }}"
+                DB_PORT: 5432
+    ingress:
+        main:
+          enabled: true
+          integrations:
+            traefik:
+              enabled: true
+              middlewares:
+                - name: local
+                  namespace: traefik
+            certManager:
+              enabled: true
+              certificateIssuer: domain-0-le-prod
+          hosts:
+            - host: boardgametracker.${DOMAIN_0}
+              paths:
+                - path: /
+                  pathType: Prefix
+    persistence:
+      data:
+        enabled: true
+        mountPath: /app/data
+      images:
+        enabled: true
+        mountPath: /app/images
+    cnpg:
+      main:
+        enabled: true
+        user: boardgametracker
+        database: boardgametracker 
