@@ -1,0 +1,112 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: romm
+  namespace: romm
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: romm
+      version: 10.17.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    credentials:
+      cloudflare:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    defaultCertificate: xstar-wildcard
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 8000
+    romm:
+      auth:
+        user: "${ROMM_ADMIN_USER}"
+        pass: "${ROMM_ADMIN_PASS}"
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                # URL is set here so it wont be able to get overwritten by the user
+                # as this will break the probes, if the need arises we can expose it.
+                ROMM_HOST: "localhost"
+                IGDB_CLIENT_ID: "${ROMM_CLIENT_ID}"
+                IGDB_CLIENT_SECRET: "${ROMM_CLIENT_SECRET}"
+                DISABLE_EMULATOR_JS: false
+                DISABLE_RUFFLE_RS: false
+    ingress:
+      main:
+        enabled: true
+        integrations:
+          homepage:
+            enabled: true
+            group: "Games"
+            widget:
+              custom:
+                username: "${ROMM_ADMIN_USER}"
+                password: "${ROMM_ADMIN_PASS}"
+          traefik:
+            enabled: true
+            middlewares:
+              - name: local
+                namespace: traefik
+          certManager:
+            enabled: true
+            certificateIssuer: domain-0-le-prod 
+        hosts:
+          - host: romm.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
+    persistence:
+      config:
+        volsync:
+          - name: data
+            type: restic
+            credentials: cloudflare
+            dest:
+              cacheCapacity: 10Gi
+              enabled: true
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
+      resources:
+        enabled: true
+        mountPath: /romm/resources
+      assets:
+        enabled: true
+        mountPath: /romm/assets
+      library:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${ROMS_NFS}
+        mountPath: /romm/library

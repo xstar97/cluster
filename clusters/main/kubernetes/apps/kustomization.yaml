@@ -1,0 +1,27 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - kubernetes-dashboard/ks.yaml
+  - media
+  - auth
+  - adguard-home/ks.yaml
+  - homepage/ks.yaml
+  - it-tools/ks.yaml
+  - peanut/ks.yaml
+  - romm/ks.yaml
+  - external-services
+  - muse/ks.yaml
+  - myspeed/ks.yaml
+  - reubah/ks.yaml
+  - wallos/ks.yaml
+  - cloudflared/ks.yaml
+  - grocy/ks.yaml
+  - homebox/ks.yaml
+  - minecraft
+  - snippet-box/ks.yaml
+  - stirling-pdf/ks.yaml
+  - theme-park/ks.yaml
+  - uptime-kuma/ks.yaml
+  - board-game-tracker/ks.yaml
+  - clue-solver/ks.yaml
+  - receipt-wrangler/ks.yaml
