@@ -31,7 +31,7 @@ spec:
     global:
       stopAll: false
     credentials:
-      cloudflare:
+      cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
         bucket: "${CF_S3_RESTIC_BUCKET}"

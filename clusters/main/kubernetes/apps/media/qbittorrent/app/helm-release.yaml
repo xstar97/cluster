@@ -42,7 +42,7 @@ spec:
     global:
       stopAll: false
     credentials:
-      cloudflare:
+      cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
         bucket: "${CF_S3_RESTIC_BUCKET}"
@@ -110,7 +110,7 @@ spec:
         volsync:
           - name: data
             type: restic
-            credentials: cloudflare
+            credentials: cf-restic
             dest:
               cacheCapacity: 10Gi
               enabled: true

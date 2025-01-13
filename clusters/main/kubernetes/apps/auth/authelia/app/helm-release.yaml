@@ -29,7 +29,7 @@ spec:
     keepHistory: false
   values:
     credentials:
-      cloudflare:
+      cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
         bucket: "${CF_S3_RESTIC_BUCKET}"
@@ -65,7 +65,7 @@ spec:
           singleNode: true
         backups:
           enabled: true
-          credentials: cloudflare
+          credentials: cf-restic
           scheduledBackups:
             - name: daily-backup
               schedule: "0 5 0 * * *"
@@ -74,13 +74,13 @@ spec:
               suspend: false
         recovery:
           method: object_store
-          credentials: cloudflare
+          credentials: cf-restic
     persistence:
       config:
         volsync:
           - name: config
             type: restic
-            credentials: cloudflare
+            credentials: cf-restic
             dest:
               enabled: true
             src:
