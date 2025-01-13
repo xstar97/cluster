@@ -1,0 +1,90 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: grocy
+  namespace: grocy
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: grocy
+      version: 20.5.1
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    credentials:
+      cloudflare:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    defaultCertificate: domain-0-wildcard
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 80
+    ingress:
+      main:
+        enabled: true
+        integrations:
+          traefik:
+            enabled: true
+            middlewares:
+              - name: local
+                namespace: traefik
+          certManager:
+            enabled: true
+            certificateIssuer: domain-0-le-prod 
+        hosts:
+          - host: grocy.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                GROCY_AUTH_CLASS: 'Grocy\Middleware\LdapAuthMiddleware'
+                GROCY_LDAP_ADDRESS: "${LLDAP_URL_CLUSTER}"
+                GROCY_LDAP_BASE_DN: "ou=people,${LLDAP_LDAP_BASE_DN}"
+                GROCY_LDAP_BIND_DN: "${LLDAP_LDAP_PWDMANAGER_USER}"
+                GROCY_LDAP_BIND_PW: "${LLDAP_LDAP_PWDMANAGER_PASS}"
+                GROCY_LDAP_USER_FILTER: "(&(objectClass=person)(memberof=cn=grocy,ou=groups,${LLDAP_LDAP_BASE_DN}))"
+                GROCY_LDAP_UID_ATTR: "uid"
+
+    persistence:
+      config:
+        volsync:
+          - name: data
+            type: restic
+            credentials: cloudflare
+            dest:
+              cacheCapacity: 10Gi
+              enabled: true
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
