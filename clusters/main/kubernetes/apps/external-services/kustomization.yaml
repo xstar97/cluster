@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - es-mc-java-map/ks.yaml
+  - es-mc-java-stats/ks.yaml
+  - es-mc-java-plan/ks.yaml
+  - es-scale/ks.yaml
+  - es-router/ks.yaml
+  - es-netdata-router/ks.yaml

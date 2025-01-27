@@ -1,0 +1,15 @@
+age.agekey
+^clustertool.exe
+^clustertool*
+^clustertool
+*clustertool.exe
+clustertool.exe
+clustertool
+sopssecret.yaml
+sopssecret*
+*sopssecret*
+mounts/
+scripts/plex/__pycache__/*
+talos/*
+scripts/talos/output/*
+charts/*

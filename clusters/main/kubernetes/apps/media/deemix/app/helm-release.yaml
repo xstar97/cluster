@@ -1,0 +1,91 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: deemix
+  namespace: deemix
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: deemix
+      version: 12.4.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    defaultCertificate: domain-0-wildcard
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 6595
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                DEEMIX_SINGLE_USER: true
+    ingress:
+      main:
+        enabled: true
+        integrations:
+          homepage:
+            enabled: false
+          traefik:
+            enabled: true
+            middlewares:
+              - name: local
+                namespace: traefik
+          certManager:
+            enabled: true
+            certificateIssuer: domain-0-le-prod
+        hosts:
+          - host: deemix.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
+    persistence:
+      config:
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              cacheCapacity: 10Gi
+              enabled: true
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
+      data:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${DOWNLOADS_NFS}/complete
+        mountPath: "${DOWNLOADS_LOCAL}/complete"
