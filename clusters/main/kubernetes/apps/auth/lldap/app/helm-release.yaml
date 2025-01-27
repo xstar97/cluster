@@ -1,0 +1,135 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: lldap
+  namespace: lldap
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: lldap
+      version: 7.6.1
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    defaultCertificate: domain-0-wildcard
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 3000
+      ldap:
+        type: ClusterIP
+        ports:
+          ldap:
+            port: 3890
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              command:
+                - "/app/lldap"
+              args:
+                - "run"
+              env:
+                LLDAP_HTTP_PORT: "{{ .Values.service.main.ports.main.port }}"
+                LLDAP_LDAP_PORT: "{{ .Values.service.ldap.ports.ldap.port }}"
+                LLDAP_HTTP_URL: "http://localhost:{{ .Values.service.main.ports.main.port }}"
+                LLDAP_LDAP_BASE_DN: "${LLDAP_LDAP_BASE_DN}"
+                # ADMIN
+                LLDAP_LDAP_USER_DN: "${LLDAP_LDAP_USER_DN}"
+                LLDAP_LDAP_USER_EMAIL: "${LLDAP_LDAP_USER_EMAIL}"
+                LLDAP_LDAP_USER_PASS: "${LLDAP_LDAP_USER_PASS}"
+                # LOGGING
+                LLDAP_VERBOSE: false
+                # SMTP
+                LLDAP_SMTP_OPTIONS__ENABLE_PASSWORD_RESET: true
+                LLDAP_SMTP_OPTIONS__SERVER: "${SMTP_GMAIL_HOST}"
+                LLDAP_SMTP_OPTIONS__PORT: 587
+                LLDAP_SMTP_OPTIONS__SMTP_ENCRYPTION: "STARTTLS"
+                LLDAP_SMTP_OPTIONS__USER: "${SMTP_GMAIL_EMAIL}"
+                LLDAP_SMTP_OPTIONS__PASSWORD: "${SMTP_GMAIL_PASS_LLDAP}"
+                LLDAP_SMTP_OPTIONS__FROM: "${LLDAP_SMTP_OPTIONS__FROM}"
+                LLDAP_SMTP_OPTIONS__REPLY_TO: "${LLDAP_SMTP_OPTIONS__REPLY_TO}"
+                LLDAP_JWT_SECRET:
+                  - secretRef:
+                      name: secrets
+                      key: LLDAP_JWT_SECRET
+                LLDAP_key_file: "/data/private_key"
+                LLDAP_database_url:
+                  secretKeyRef:
+                    name: cnpg-main-urls
+                    key: std
+    ingress:
+      main:
+        enabled: true
+        integrations:
+          traefik:
+            enabled: true
+            middlewares:
+              - name: local
+                namespace: traefik
+          certManager:
+            enabled: true
+            certificateIssuer: domain-0-le-prod
+        hosts:
+          - host: lldap.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
+    persistence:
+      data:
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              cacheCapacity: 10Gi
+              enabled: true
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
+    cnpg:
+      main:
+        cluster:
+          singleNode: true
+        backups:
+          enabled: true
+          credentials: cf-restic
+          scheduledBackups:
+            - name: daily-backup
+              schedule: "0 5 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic
