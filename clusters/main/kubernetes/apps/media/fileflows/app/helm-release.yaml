@@ -69,11 +69,15 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              cacheCapacity: 10Gi
               enabled: true
+              cacheCapacity: 10Gi
+              cleanupTempPVC: true
+              cleanupCachePVC: true
             src:
               enabled: true
               cacheCapacity: 10Gi
+              cleanupTempPVC: true
+              cleanupCachePVC: true
       logs:
         enabled: true
         mountPath: /app/Logs
@@ -95,3 +99,10 @@ spec:
         server: ${SCALE_IP}
         path: ${DOWNLOADS_NFS}
         mountPath: "${DOWNLOADS_LOCAL}"
+    resources:
+      limits:
+        nvidia.com/gpu: 1
+    workload:
+      main:
+        podSpec:
+          runtimeClassName: "nvidia"
