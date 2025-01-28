@@ -29,15 +29,7 @@ spec:
     keepHistory: false
   values:
     global:
-<<<<<<< HEAD
-<<<<<<< HEAD
       stopAll: false
-=======
-      stopAll: true
->>>>>>> 27f4dd1 (Initial commit)
-=======
-      stopAll: false
->>>>>>> 92e1af1 (update)
     credentials:
       cf-restic:
         type: s3
@@ -105,27 +97,10 @@ spec:
         server: ${SCALE_IP}
         path: ${MEDIA_NFS}
         mountPath: ${MEDIA_LOCAL}
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 92e1af1 (update)
     resources:
       limits:
         nvidia.com/gpu: 1
     workload:
       main:
         podSpec:
-<<<<<<< HEAD
           runtimeClassName: "nvidia"
-=======
-    # resources:
-    #   limits:
-    #     nvidia.com/gpu: 1
-    # workload:
-    #   main:
-    #     podSpec:
-    #       runtimeClassName: "nvidia"
->>>>>>> 27f4dd1 (Initial commit)
-=======
-          runtimeClassName: "nvidia"
->>>>>>> 92e1af1 (update)
