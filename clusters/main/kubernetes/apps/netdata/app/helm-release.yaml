@@ -114,7 +114,7 @@ spec:
               cleanupTempPVC: true
               cleanupCachePVC: true
       passwd:
-        enabled: true
+        enabled: false
       group:
         enabled: false
       proc:
