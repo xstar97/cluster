@@ -22,3 +22,4 @@ resources:
   - qbittorrent/ks.yaml
   - pasta/ks.yaml
   - plex-auto-languages/ks.yaml
+  - theme-park/ks.yaml

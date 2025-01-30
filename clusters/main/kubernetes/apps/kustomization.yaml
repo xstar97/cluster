@@ -24,5 +24,4 @@ resources:
   - board-game-tracker/ks.yaml
   - clue-solver/ks.yaml
   - receipt-wrangler/ks.yaml
-  - theme-park/ks.yaml
   - netdata/ks.yaml
