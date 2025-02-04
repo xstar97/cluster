@@ -1,0 +1,127 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: netdata
+  namespace: netdata
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: netdata
+      version: 12.3.2
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    defaultCertificate: domain-0-wildcard
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 19999
+    ingress:
+      main:
+        enabled: true
+        integrations:
+          homepage:
+            enabled: true
+            group: "Monitoring"
+            name: "TalOS NetData"
+          traefik:
+            enabled: true
+            middlewares:
+              - name: local
+                namespace: traefik
+          certManager:
+            enabled: true
+            certificateIssuer: domain-0-le-prod 
+        hosts:
+          - host: talos.netdata.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
+    persistence:
+      config:
+        targetSelectAll: true
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+              cacheCapacity: 10Gi
+              cleanupTempPVC: true
+              cleanupCachePVC: true
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
+              cleanupTempPVC: true
+              cleanupCachePVC: true
+      lib:
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+              cacheCapacity: 10Gi
+              cleanupTempPVC: true
+              cleanupCachePVC: true
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
+              cleanupTempPVC: true
+              cleanupCachePVC: true
+      cache:
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+              cacheCapacity: 10Gi
+              cleanupTempPVC: true
+              cleanupCachePVC: true
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
+              cleanupTempPVC: true
+              cleanupCachePVC: true
+      passwd:
+        enabled: false
+      group:
+        enabled: false
+      proc:
+        enabled: true
+      dev:
+        enabled: true
+      sys:
+        enabled: true
+      os:
+        enabled: true

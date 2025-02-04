@@ -1,0 +1,202 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: authelia
+  namespace: authelia
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: authelia
+      version: 26.4.3
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 5m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    defaultCertificate: xstar-wildcard
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 9091
+    ingress:
+        main:
+          enabled: true
+          integrations:
+            traefik:
+              enabled: true
+              entrypoints:
+              - websecure
+            certManager:
+              enabled: true
+              certificateIssuer: domain-0-le-prod 
+          hosts:
+            - host: auth.${DOMAIN_0}
+              paths:
+                - path: /
+                  pathType: Prefix
+    cnpg:
+      main:
+        cluster:
+          singleNode: true
+        backups:
+          enabled: true
+          credentials: cf-restic
+          scheduledBackups:
+            - name: daily-backup
+              schedule: "0 5 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic
+    persistence:
+      config:
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+              cleanupTempPVC: true
+              cleanupCachePVC: true
+            src:
+              enabled: true
+              cleanupTempPVC: true
+              cleanupCachePVC: true
+              trigger:
+                schedule: 10 0 * * *
+
+    domain: ${DOMAIN_0}
+    ##
+    ## Server Configuration
+    ##
+    server:
+      ##
+      ## Port sets the configured port for the daemon, service, and the probes.
+      ## Default is 9091 and should not need to be changed.
+      ##
+      port: 9091
+      ## Buffers usually should be configured to be the same value.
+      ## Explanation at https://www.authelia.com/docs/configuration/server.html
+      ## Read buffer size adjusts the server's max incoming request size in bytes.
+      ## Write buffer size does the same for outgoing responses.
+      read_buffer_size: 4096
+      write_buffer_size: 4096
+      ## Set the single level path Authelia listens on.
+      ## Must be alphanumeric chars and should not contain any slashes.
+      path: ""
+    log:
+      ## Level of verbosity for logs: info, debug, trace.
+      level: trace
+      ## Format the logs are written as: json, text.
+      format: text
+      ## TODO: Statefulness check should check if this is set, and the configMap should enable it.
+      ## File path where the logs will be written. If not set logs are written to stdout.
+      # file_path: /config/authelia.log
+    ## Default redirection URL
+    ##
+    ## If user tries to authenticate without any referer, Authelia does not know where to redirect the user to at the end
+    ## of the authentication process. This parameter allows you to specify the default redirection URL Authelia will use
+    ## in such a case.
+    ##
+    ## Note: this parameter is optional. If not provided, user won't be redirected upon successful authentication.
+    ## Default is https://www.<domain> (value at the top of the values.yaml).
+    default_redirection_url: "https://auth.${DOMAIN_0}"
+    theme: dark
+    totp:
+      issuer: ${DOMAIN_0}
+    ##
+    ## Password Policy Config
+    ##
+    ## Parameters used for Password Policies
+    password_policy:
+      ## See: https://www.authelia.com/configuration/security/password-policy/
+      standard:
+        enabled: false
+        min_length: 8
+        max_length: 0
+        require_uppercase: false
+        require_lowercase: false
+        require_number: false
+        require_special: false
+      zxcvbn:
+        ## See https://www.authelia.com/configuration/security/password-policy/#zxcvbn for more info
+        enabled: false
+        min_score: 3
+    notifier:
+      filesystem:
+        enabled: false
+      smtp:
+        enabled: true
+        host: ${SMTP_GMAIL_HOST}
+        plain_password: ${SMTP_GMAIL_PASS_AUTHELIA}
+        port: 587
+        sender: auth@${DOMAIN_0}
+        startup_check_address: auth@${DOMAIN_0}
+        username: ${SMTP_GMAIL_EMAIL}
+    authentication_backend:
+      file:
+        enabled: false
+      ldap:
+        enabled: true
+        implementation: custom
+        url: ${LLDAP_URL_CLUSTER}
+        address: ${LLDAP_URL_CLUSTER}
+        additional_groups_dn: ou=groups
+        additional_users_dn: ou=people
+        base_dn: ${LLDAP_LDAP_BASE_DN}
+        users_filter: "(&({username_attribute}={input})(objectClass=person))"
+        groups_filter: (member={dn})
+        ## The attribute holding the name of the group
+        group_name_attribute: "cn"
+        ## The attribute holding the mail address of the user. If multiple email addresses are defined for a user, only the
+        ## first one returned by the LDAP server is used.
+        mail_attribute: "mail"
+        ## The attribute holding the display name of the user. This will be used to greet an authenticated user.
+        display_name_attribute: "displayName"
+        # The attribute holding the name of the group.
+        attributes:
+          display_name: displayName
+          username: uid
+          group_name: cn
+          mail: mail
+        user: ${LLDAP_LDAP_PWDMANAGER_USER}
+        plain_password: ${LLDAP_LDAP_PWDMANAGER_PASS}
+        password: ${LLDAP_LDAP_PWDMANAGER_PASS}
+    access_control:
+      rules:
+      - domain:
+        - ${DOMAIN_0}
+        - '*.${DOMAIN_0}'
+        domain_regex: []
+        networks: []
+        policy: one_factor
+        resources: []
+        subject:
+        - group:lldap_admin
