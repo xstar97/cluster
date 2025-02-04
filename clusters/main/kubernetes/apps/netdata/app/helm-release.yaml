@@ -45,6 +45,19 @@ spec:
         ports:
           main:
             port: 19999
+    containers:
+      main:
+        probes:
+          liveness:
+            path: "/api/v1/info"
+          readiness:
+            path: "/api/v1/info"
+          startup:
+            path: "/api/v1/info"
+        env:
+          NETDATA_CLAIM_URL: "${NETDATA_CLAIM_URL_TALOS}"
+          NETDATA_CLAIM_TOKEN: "${NETDATA_CLAIM_TOKEN_TALOS}"
+          NETDATA_CLAIM_ROOMS: "${NETDATA_CLAIM_ROOMS_TALOS}"
     ingress:
       main:
         enabled: true
