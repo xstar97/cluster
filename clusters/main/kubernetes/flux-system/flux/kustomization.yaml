@@ -7,4 +7,3 @@ resources:
   - flux.yaml
   # - sopssecret.secret.yaml
   - upgradesettings.yaml
-  - .decrypted~clustersettings.secret.yaml
