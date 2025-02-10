@@ -66,22 +66,6 @@ spec:
               paths:
                 - path: /
                   pathType: Prefix
-    cnpg:
-      main:
-        cluster:
-          singleNode: true
-        backups:
-          enabled: true
-          credentials: tn-restic
-          scheduledBackups:
-            - name: daily-backup
-              schedule: "0 5 0 * * *"
-              backupOwnerReference: self
-              immediate: true
-              suspend: false
-        recovery:
-          method: object_store
-          credentials: tn-restic
     persistence:
       config:
         volsync:
@@ -207,3 +191,19 @@ spec:
         resources: []
         subject:
         - group:lldap_admin
+    cnpg:
+      main:
+        cluster:
+          singleNode: true
+        backups:
+          enabled: true
+          credentials: tn-restic
+          scheduledBackups:
+            - name: daily-backup
+              schedule: "0 5 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: tn-restic
