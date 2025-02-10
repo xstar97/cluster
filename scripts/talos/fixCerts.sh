@@ -9,12 +9,13 @@ CA_KEY="ca.key"
 ADMIN_CRT="admin.crt"
 ADMIN_KEY="admin.key"
 ADMIN_CSR="admin.csr"
-CONTROL_PLANE_IP="127.0.0.1" #10.0.0.191"  # Update this with the actual control plane IP
-NODES="main"  # Update this with the correct none
+CONTROL_PLANE_IP="10.0.0.191"
+ENDPOINT_IP="127.0.0.1"
+NODES="main" 
 
 # Step 1: Create talosconfig using talosctl
 echo "Creating talosconfig using talosctl..."
-talosctl gen config --with-secrets "$SECRETS_YAML" --output-types talosconfig -o "$TALOSCONFIG" main "https://10.0.0.191" --force
+talosctl gen config --with-secrets "$SECRETS_YAML" --output-types talosconfig -o "$TALOSCONFIG" main "https://$ENDPOINT_IP" --force
 
 # Step 2: Extract the CA cert and key from the control plane config
 echo "Extracting CA certificate and key from controlplane.yaml..."
@@ -30,7 +31,7 @@ fi
 # Step 3: Generate fresh credentials (admin key, CSR, and cert)
 echo "Generating fresh credentials..."
 talosctl gen key --name admin --force
-talosctl gen csr --key "$ADMIN_KEY" --ip "$CONTROL_PLANE_IP" --force
+talosctl gen csr --key "$ADMIN_KEY" --ip "$ENDPOINT_IP" --force
 
 # Correct the crt command:
 talosctl gen crt --ca "${CA_CRT%.*}" --csr "$ADMIN_CSR" --name admin --force
@@ -47,7 +48,7 @@ yq eval '.contexts.main.ca = "'"$(base64 -w0 "$CA_CRT")"'" | .contexts.main.crt 
 
 # Step 5: Directly save and update Kubernetes config
 echo "Updating Kubernetes config with new credentials..."
-talosctl kubeconfig -n "$NODES" -e "https://$CONTROL_PLANE_IP" --talosconfig "$TALOSCONFIG" --force
+talosctl kubeconfig -n "$NODES" -e "https://$ENDPOINT_IP" --talosconfig "$TALOSCONFIG" --force
 
 echo "Script execution completed."
 
