@@ -28,7 +28,7 @@ spec:
     keepHistory: false
   values:
     global:
-      stopAll: false
+      stopAll: true
     credentials:
       cf-restic:
         type: s3
@@ -88,13 +88,13 @@ spec:
             dest:
               cacheCapacity: 20Gi
               enabled: true
-              # cleanupTempPVC: true
-              # cleanupCachePVC: true
+              cleanupTempPVC: true
+              cleanupCachePVC: true
             src:
               enabled: true
               cacheCapacity: 20Gi
-              # cleanupTempPVC: true
-              # cleanupCachePVC: true
+              cleanupTempPVC: true
+              cleanupCachePVC: true
       transcode:
         enabled: true
         type: emptyDir
