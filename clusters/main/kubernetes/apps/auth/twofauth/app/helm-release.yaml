@@ -113,7 +113,7 @@ spec:
         volsync:
           - name: data
             type: restic
-            credentials: tn-restic
+            credentials: cf-restic
             dest:
               enabled: true
               cacheCapacity: 10Gi
@@ -132,7 +132,7 @@ spec:
           singleNode: true
         backups:
           enabled: true
-          credentials: tn-restic
+          credentials: cf-restic
           scheduledBackups:
             - name: daily-backup
               schedule: "0 5 0 * * *"
@@ -141,4 +141,4 @@ spec:
               suspend: false
         recovery:
           method: object_store
-          credentials: tn-restic
+          credentials: cf-restic

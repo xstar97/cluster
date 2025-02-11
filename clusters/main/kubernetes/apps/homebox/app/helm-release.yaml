@@ -81,7 +81,7 @@ spec:
         volsync:
           - name: data
             type: restic
-            credentials: tn-restic
+            credentials: cf-restic
             dest:
               enabled: true
               cacheCapacity: 10Gi
