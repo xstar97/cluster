@@ -95,6 +95,11 @@ spec:
               cacheCapacity: 20Gi
               # cleanupTempPVC: true
               # cleanupCachePVC: true
+      transcode:
+        enabled: true
+        type: emptyDir
+        mountPath: /transcode
+        medium: Memory
       media:
         enabled: true
         type: nfs
