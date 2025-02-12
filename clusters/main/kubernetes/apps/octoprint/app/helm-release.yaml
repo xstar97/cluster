@@ -76,7 +76,7 @@ spec:
             enabled: true
             certificateIssuer: domain-0-le-prod 
         hosts:
-          - host: adguard.home.${DOMAIN_0}
+          - host: octoprint.${DOMAIN_0}
             paths:
               - path: /
                 pathType: Prefix
