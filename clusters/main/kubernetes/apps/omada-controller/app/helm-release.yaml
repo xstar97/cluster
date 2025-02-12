@@ -101,6 +101,7 @@ spec:
             group: "Networking"
             widget:
               custom:
+                type: omada
                 username: "${OMADA_USER}"
                 password: "${ADGUARD_HOME_PASS}"
                 site: "${ADGUARD_HOME_SITE}"
