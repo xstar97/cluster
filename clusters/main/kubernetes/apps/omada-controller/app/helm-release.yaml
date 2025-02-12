@@ -82,6 +82,16 @@ spec:
             enabled: true
             port: 29814
             targetPort: 29814
+      omada-udp:
+        enabled: true
+        loadBalancerIP: ${OMADA_IP}
+        type: LoadBalancer
+        ports:
+          omada-udp1:
+            enabled: true
+            protocol: udp
+            port: 29810
+            targetPort: 29810
     ingress:
       main:
         enabled: true
