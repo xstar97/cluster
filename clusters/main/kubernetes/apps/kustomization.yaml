@@ -24,3 +24,4 @@ resources:
   - clue-solver/ks.yaml
   - netdata/ks.yaml
   - omada-controller/ks.yaml
+  - octoprint/ks.yaml
