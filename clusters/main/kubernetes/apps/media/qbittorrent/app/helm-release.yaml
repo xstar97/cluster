@@ -75,6 +75,15 @@ spec:
             enabled: true
             port: "{{ .Values.service.torrent.ports.torrent.port }}"
             protocol: udp
+    gluetun:
+      enabled: true
+      type: ClusterIP
+      ports:
+        gluetun:
+          enabled: true
+          port: 8000
+          targetPort: 8000
+          protocol: http
     ingress:
       main:
         enabled: true
