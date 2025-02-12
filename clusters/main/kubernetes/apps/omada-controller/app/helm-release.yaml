@@ -104,7 +104,7 @@ spec:
                 type: omada
                 username: "${OMADA_USER}"
                 password: '${OMADA_PASS}'
-                site: '${ADGUARD_HOME_SITE}'
+                site: '${OMADA_SITE}'
           traefik:
             enabled: true
             middlewares:
