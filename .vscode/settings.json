@@ -16,5 +16,34 @@
           "path": "/usr/bin/fish"
         }
       },
-    "terminal.integrated.defaultProfile.linux": "fish"
+    "terminal.integrated.defaultProfile.linux": "fish",
+    "cSpell.words": [
+        "AUTHELIA",
+        "Cloudflared",
+        "DDNS",
+        "DOCKERHUB",
+        "fluxcd",
+        "Gluetun",
+        "HOMEBOX",
+        "KAVITA",
+        "KOILLECTION",
+        "LIDARR",
+        "LLDAP",
+        "MAGICMIRROR",
+        "metallb",
+        "Omada",
+        "PROWLARR",
+        "PWDMANAGER",
+        "RADARR",
+        "RCON",
+        "RESTIC",
+        "Restreamer",
+        "ROMM",
+        "SHOUTRRR",
+        "SONARR",
+        "TAUTULLI",
+        "Traefik",
+        "TWOFAUTH",
+        "VAULTWARDEN"
+    ]
 }
