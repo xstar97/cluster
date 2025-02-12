@@ -1,11 +1,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: adguard-home
+  name: octoprint
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/apps/adguard-home/app
+  path: clusters/main/kubernetes/apps/octoprint/app
   prune: true
   sourceRef:
     kind: GitRepository
