@@ -62,7 +62,7 @@ spec:
         enabled: true
         integrations:
           homepage:
-            enabled: false
+            enabled: true
             group: "Monitoring"
             widget:
               custom:
