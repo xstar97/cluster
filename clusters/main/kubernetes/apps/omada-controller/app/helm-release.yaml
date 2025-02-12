@@ -48,10 +48,40 @@ spec:
     defaultCertificate: domain-0-wildcard
     service:
       main:
-        type: ClusterIP
+        loadBalancerIP: ${OMADA_IP}
+        type: LoadBalancer
         ports:
           main:
             port: 8043
+      comm:
+        enabled: true
+        loadBalancerIP: ${OMADA_IP}
+        type: LoadBalancer
+        ports:
+          comm:
+            enabled: true
+            port: 8843
+      omada-tcp:
+        enabled: true
+        loadBalancerIP: ${OMADA_IP}
+        type: LoadBalancer
+        ports:
+          omada-tcp1:
+            enabled: true
+            port: 29811
+            targetPort: 29811
+          omada-tcp2:
+            enabled: true
+            port: 29812
+            targetPort: 29812
+          omada-tcp3:
+            enabled: true
+            port: 29813
+            targetPort: 29813
+          omada-tcp4:
+            enabled: true
+            port: 29814
+            targetPort: 29814
     ingress:
       main:
         enabled: true
