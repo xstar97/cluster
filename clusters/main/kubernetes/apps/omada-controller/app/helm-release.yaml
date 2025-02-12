@@ -103,7 +103,7 @@ spec:
               custom:
                 type: omada
                 username: "${OMADA_USER}"
-                password: "${ADGUARD_HOME_PASS}"
+                password: '${ADGUARD_HOME_PASS}'
                 site: '${ADGUARD_HOME_SITE}'
           traefik:
             enabled: true
