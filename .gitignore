@@ -16,3 +16,4 @@ charts/*
 **/.decrypted~*
 scripts/output/*
 kubeconfig
+charts.md
