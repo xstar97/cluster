@@ -17,4 +17,3 @@ charts/*
 scripts/output/*
 kubeconfig
 charts.md
-scripts/genAlias.sh

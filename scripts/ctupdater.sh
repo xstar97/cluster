@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source the utility file
-source /workspaces/cluster/scripts/utils.sh
+source $PWD/scripts/utils.sh
 
 # Check if the following are installed
 check_command "curl"
@@ -9,9 +9,9 @@ check_command "tar"
 
 # Define variables
 GITHUB_REPO="truecharts/public"
-DOWNLOAD_DIR="/workspaces/cluster/tmp"
+DOWNLOAD_DIR="$PWD/tmp"
 INSTALL_DIR="/usr/local/bin"
-BACKUP_DIR="/workspaces/cluster/backup"
+BACKUP_DIR="$PWD/backup"
 VERSION_FILE="$DOWNLOAD_DIR/latest.txt"
 FORCE_UPDATE=false
 SPECIFIC_VERSION=""

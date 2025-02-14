@@ -1,0 +1,18 @@
+aliases:
+  dns: "/workspaces/cluster/scripts/talos/dns.sh"
+  updateFlux: "/workspaces/cluster/scripts/flux/updater.sh"
+  cleanupFlux: "/workspaces/cluster/scripts/flux/cleanUp.sh"
+  fwhp: "/workspaces/cluster/scripts/flux/webhookPath.sh"
+  pods: "/workspaces/cluster/scripts/talos/pods.sh"
+  gitConfig: "/workspaces/cluster/scripts/git/config.sh"
+  gitReset: "/workspaces/cluster/scripts/git/reset.sh"
+  updateKubectl: "/workspaces/cluster/scripts/talos/updateKubectl.sh"
+  updateTalosctl: "/workspaces/cluster/scripts/talos/updateTalosctl.sh"
+  tcdbinfo: "/workspaces/cluster/scripts/talos/tcdbinfo.sh"
+  stopAll: "/workspaces/cluster/scripts/talos/stopAll.sh"
+  k: "kubectl"
+  f: "flux"
+  gto: "gitops"
+  ct: clustertool
+  watcher: "/workspaces/cluster/scripts/watcher.sh"
+  
