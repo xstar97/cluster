@@ -16,3 +16,4 @@ aliases:
   ct: clustertool
   tcl: talosctl
   watcher: "/workspaces/cluster/scripts/watcher.sh"
+  test-nvidia: "/workspaces/cluster/scripts/talos/nvidia-smi.sh"
