@@ -14,5 +14,5 @@ aliases:
   f: "flux"
   gto: "gitops"
   ct: clustertool
+  tcl: talosctl
   watcher: "/workspaces/cluster/scripts/watcher.sh"
-  
