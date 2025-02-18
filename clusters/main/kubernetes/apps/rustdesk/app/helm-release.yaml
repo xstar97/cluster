@@ -67,18 +67,18 @@ spec:
           # ID registration and heartbeat service.
           id:
             enabled: true
-            port: 21116
+            port: 443 # 21116
             protocol: udp
           # Hole punching and connection service.
-          id2:
-            enabled: true
-            port: 21116
-            protocol: tcp
+          # id2:
+          #   enabled: true
+          #   port: 21116
+          #   protocol: tcp
           # Relay services.
           main:
             primary: true
             enabled: true
-            port: 21117
+            port: 443
             protocol: tcp
           # Nat type test
           nat:
@@ -91,11 +91,12 @@ spec:
           containers:
             main:
               env:
-                RELAY: "localhost:{{ .Values.service.main.ports.main.port }},${RUSTDESK_IP}:{{ .Values.service.main.ports.main.port }}"
-                ENCRYPTED_ONLY: 0
+                PORT: 443
+                RELAY: "rustdesk.${DOMAIN_0}" # "localhost:{{ .Values.service.main.ports.main.port }},${RUSTDESK_IP}:{{ .Values.service.main.ports.main.port }}"
+                ENCRYPTED_ONLY: 1
     ingress:
         main:
-          enabled: false
+          enabled: true
           integrations:
             traefik:
               enabled: true
