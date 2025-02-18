@@ -92,7 +92,7 @@ spec:
             main:
               env:
                 RELAY: "rustdesk.${DOMAIN_0}" # "localhost:{{ .Values.service.main.ports.main.port }},${RUSTDESK_IP}:{{ .Values.service.main.ports.main.port }}"
-                ENCRYPTED_ONLY: 0
+                ENCRYPTED_ONLY: 1
     ingress:
         main:
           enabled: true
