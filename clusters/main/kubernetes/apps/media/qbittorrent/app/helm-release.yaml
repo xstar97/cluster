@@ -103,7 +103,7 @@ spec:
         restartPolicy: OnFailure
         containers:
           qbitportforward:
-            primary: true
+            primary: false
             enabled: false
     addons:
       vpn:
