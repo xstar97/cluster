@@ -91,7 +91,7 @@ spec:
           containers:
             main:
               env:
-                RELAY: "rustdesk.${DOMAIN_0}" # "localhost:{{ .Values.service.main.ports.main.port }},${RUSTDESK_IP}:{{ .Values.service.main.ports.main.port }}"
+                RELAY: "${RUSTDESK_IP}:{{ .Values.service.main.ports.main.port }},rustdesk.${DOMAIN_0}"
                 ENCRYPTED_ONLY: 1
     ingress:
         main:
