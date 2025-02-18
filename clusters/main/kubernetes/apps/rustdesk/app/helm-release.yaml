@@ -51,6 +51,8 @@ spec:
     defaultCertificate: domain-0-wildcard
     service:
       main:
+        type: LoadBalancer
+        loadBalancerIP: ${RUSTDESK_IP}
         ports:
           # Support web clients.
           client1:
@@ -89,11 +91,11 @@ spec:
           containers:
             main:
               env:
-                RELAY: "localhost:{{ .Values.service.main.ports.main.port }},rustdesk.${DOMAIN_0}:443,rustdesk.${DOMAIN_0}:{{ .Values.service.main.ports.main.port }}"
-                ENCRYPTED_ONLY: 1
+                RELAY: "localhost:{{ .Values.service.main.ports.main.port }},${RUSTDESK_IP}:{{ .Values.service.main.ports.main.port }}"
+                ENCRYPTED_ONLY: 0
     ingress:
         main:
-          enabled: true
+          enabled: false
           integrations:
             traefik:
               enabled: true
