@@ -103,6 +103,6 @@ spec:
           replacement: https://stats.${DOMAIN_2}/
           permanent: true
         - name: traefik-dash
-          regex: https://traefik\.${DOMAIN_1}/?$
-          replacement: https://traefik.${DOMAIN_1}/dashboard/#/
+          regex: https://traefik\.${DOMAIN_0}/?$
+          replacement: https://traefik.${DOMAIN_0}/dashboard/#/
           permanent: true
