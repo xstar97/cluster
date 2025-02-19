@@ -107,6 +107,6 @@ spec:
           replacement: https://traefik.${DOMAIN_0}/dashboard/#/
           permanent: true
         - name: kubernetes-dash
-          regex: https://dashboard\.${DOMAIN_0}/?$
+          regex: https://dashboard\.${DOMAIN_0}/#/?$
           replacement: https://dashboard.${DOMAIN_0}/#/workloads?namespace=_all
           permanent: true
