@@ -13,7 +13,7 @@ if [[ -z "$1" ]]; then
 fi
 
 CHART_NAME="$1"
-NAMESPACE="default"
+NAMESPACE="$1"
 
 # Parse namespace flag if provided
 while [[ $# -gt 0 ]]; do
