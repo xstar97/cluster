@@ -25,3 +25,4 @@ resources:
   - theme-park/ks.yaml
   - radarr2/ks.yaml
   - sonarr2/ks.yaml
+  - unmanic/ks.yaml
