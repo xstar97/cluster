@@ -75,15 +75,15 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              enabled: true
+              enabled: false
               cacheCapacity: 10Gi
-              # cleanupTempPVC: true
-              # cleanupCachePVC: true
+              cleanupTempPVC: true
+              cleanupCachePVC: true
             src:
-              enabled: true
+              enabled: false
               cacheCapacity: 10Gi
-              # cleanupTempPVC: true
-              # cleanupCachePVC: true
+              cleanupTempPVC: true
+              cleanupCachePVC: true
       logs:
         enabled: true
         mountPath: /app/Logs
