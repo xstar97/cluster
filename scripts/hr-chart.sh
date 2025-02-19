@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set the base path for the cluster
-BASE_PATH="/workspaces/cluster"
+BASE_PATH="$PWD"
 
 # Ensure a chart name is provided
 if [[ -z "$1" ]]; then

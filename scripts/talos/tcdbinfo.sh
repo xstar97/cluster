@@ -1,20 +1,14 @@
 #!/bin/bash
 
+# Set the base path for the cluster
+BASE_PATH="$PWD"
+
 # Source the utility file
-source /workspaces/cluster/scripts/utils.sh
+source $BASE_PATH/scripts/utils.sh
 
-# Check if kubectl is installed
+# Check if the following are installed
 check_command "kubectl"
-
-# Check if column is installed, and provide installation instructions if missing
-if ! command -v column &>/dev/null; then
-    echo "Error: 'column' command not found. Please install 'util-linux' using:"
-    echo "  Debian/Ubuntu: sudo apt install util-linux"
-    echo "  CentOS/RHEL: sudo dnf install util-linux"
-    echo "  Alpine Linux: sudo apk add util-linux"
-    echo "  Arch Linux: sudo pacman -S util-linux"
-    exit 1
-fi
+check_command "column"
 
 # Get namespaces and secret names
 namespaces=$(kubectl get secrets -A | grep -E "dbcreds|cnpg-main-urls" | awk '{print $1, $2}')

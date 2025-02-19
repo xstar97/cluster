@@ -1,7 +1,10 @@
 #!/bin/bash
 
+# Set the base path for the cluster
+BASE_PATH="$PWD"
+
 # Source the utility file
-source /workspaces/cluster/scripts/utils.sh
+source $BASE_PATH/scripts/utils.sh
 
 echo "Starting cleanup script for Flux kustomize-controller..."
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Source the utility file
-source /workspaces/cluster/scripts/utils.sh
+source $PWD/scripts/utils.sh
 
 # Check if the following are installed
 check_command "kubectl"

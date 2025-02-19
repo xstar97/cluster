@@ -4,8 +4,11 @@
 # ./dns.sh to list all charts
 # ./dns.sh namespace to list a namespace chart(s)
 
+# Set the base path for the cluster
+BASE_PATH="$PWD"
+
 # Source the utility file
-source /workspaces/cluster/scripts/utils.sh
+source $BASE_PATH/scripts/utils.sh
 
 # Check if the following are installed
 check_command "kubectl"

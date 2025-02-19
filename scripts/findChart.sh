@@ -1,7 +1,10 @@
 #!/bin/bash
 
+# Set the base path for the cluster
+BASE_PATH="$PWD"
+
 # Define the directory to search for Helm release files
-search_dir="clusters/main/kubernetes"
+search_dir="$BASE_PATH/clusters/main/kubernetes"
 
 # Function to search for the keyword in Helm release files
 search_keyword() {

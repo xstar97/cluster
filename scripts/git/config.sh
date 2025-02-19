@@ -1,10 +1,13 @@
 #!/bin/bash
 
-# Define the YAML file path
-CONFIG="clusters/main/clusterenv.yaml"
+# Set the base path for the cluster
+BASE_PATH="$PWD"
 
 # Source the utility file
-source /workspaces/cluster/scripts/utils.sh
+source $BASE_PATH/scripts/utils.sh
+
+# Define the YAML file path
+CONFIG="$BASE_PATH/clusters/main/clusterenv.yaml"
 
 # Check if the following are installed
 check_command "yq"
