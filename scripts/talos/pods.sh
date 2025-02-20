@@ -5,15 +5,6 @@
 # ./containers.sh -h
 # ./containers.sh -s|l NAMESPACE
 
-# Set the base path for the cluster
-BASE_PATH="$PWD"
-
-# Source the utility file
-source $BASE_PATH/scripts/utils.sh
-
-# Check if the following are installed
-check_command "kubectl"
-
 # Display usage information
 pod_help() {
     echo "Usage: pod_handler [option] [app_name]"
