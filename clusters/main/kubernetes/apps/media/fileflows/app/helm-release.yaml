@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: fileflows
-      version: 13.0.4
+      version: 13.1.0
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -27,6 +27,10 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    image:
+      repository: docker.io/revenz/fileflows
+      tag: modded-25.02@sha256:7589c2bbe9a41d75a393bb826ec781a6225b02b7bc3d4fae171f4f9cc0d3b90b
+      pullPolicy: IfNotPresent
     global:
       stopAll: false
     credentials:
