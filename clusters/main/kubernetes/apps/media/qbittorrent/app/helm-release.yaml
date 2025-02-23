@@ -111,7 +111,8 @@ spec:
         enabled: true
         data:
           config.toml: |-
-              auth = "none"
+              auth = "apikey"
+              apikey = "${GLUETUN_API_KEY}"
 
     addons:
       vpn:
