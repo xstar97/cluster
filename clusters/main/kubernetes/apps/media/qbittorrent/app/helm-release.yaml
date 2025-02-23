@@ -106,12 +106,12 @@ spec:
               - path: /
                 pathType: Prefix
 
-  configmap:
-    gluetun-auth-config:
-      enabled: true
-      data:
-        config.toml: |-
-            auth = "none"
+    configmap:
+      gluetun-auth-config:
+        enabled: true
+        data:
+          config.toml: |-
+              auth = "none"
 
     addons:
       vpn:
