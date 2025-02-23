@@ -75,6 +75,16 @@ spec:
             enabled: true
             port: "{{ .Values.service.torrent.ports.torrent.port }}"
             protocol: udp
+      glue:
+        enabled: true
+        type: ClusterIP
+        ports:
+          control:
+            enabled: true
+            port: 8000
+          proxy:
+            enabled: true
+            port: 8888
     ingress:
       main:
         enabled: true
@@ -95,16 +105,6 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-    qbitportforward:
-      enabled: true
-      type: CronJob
-      schedule: "*/5 * * * *"
-      podSpec:
-        restartPolicy: OnFailure
-        containers:
-          qbitportforward:
-            primary: false
-            enabled: false
     addons:
       vpn:
         type: gluetun
