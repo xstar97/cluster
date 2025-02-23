@@ -113,7 +113,6 @@ spec:
         enabled: true
         data:
           config.toml: |-
-              routes = ["GET /v1/openvpn/portforwarded", "GET /v1/publicip/ip"]
               auth = "apikey"
               apikey = "${GLUETUN_API_KEY}"
 
@@ -135,7 +134,6 @@ spec:
           FIREWALL_VPN_INPUT_PORTS: "{{ .Values.service.torrent.ports.torrent.port }}"
           VPN_PORT_FORWARDING_LISTENING_PORT: "{{ .Values.service.torrent.ports.torrent.port }}"
           HTTPPROXY: "on"
-          HTTP_CONTROL_SERVER_AUTH_CONFIG_FILEPATH: "/config/gluetun.toml"
     persistence:
       config:
         volsync:
@@ -165,5 +163,5 @@ spec:
         targetSelector:
           main:
             gluetun:
-              mountPath: /config/gluetun.toml
+              mountPath: /gluetun/auth/config.toml
               subPath: gluetun.toml
