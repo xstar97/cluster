@@ -1,5 +1,6 @@
 # stop_all function to toggle the 'stopAll' value in HelmRelease
 function stop_all
+    check_command "kubectl"
     # Ensure chart name is provided
     if test (count $argv) -lt 1
         echo "Usage: stop_all <chart-name> -n <namespace>"

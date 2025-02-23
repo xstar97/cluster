@@ -1,6 +1,7 @@
 # utils/git_reset.fish
 
 function git_reset
+    check_command "git"
     echo "Resetting repository to a new initial commit..."
     
     # Reset to a new initial commit and force push to the main branch

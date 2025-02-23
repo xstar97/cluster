@@ -1,5 +1,7 @@
 # dns function to fetch and format DNS details for services
 function dns
+    check_command "kubectl"
+    
     set app_names $argv
 
     # Get all namespaces and services

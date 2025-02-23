@@ -1,6 +1,7 @@
 # utils/gen_alias.fish
 
 function gen_alias
+    check_command "yq"
     # Path to YAML file
     set yaml_file "$PWD/scripts/aliases.yaml"
 

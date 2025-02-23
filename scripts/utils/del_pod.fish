@@ -1,4 +1,6 @@
 function del_pod
+    check_command "kubectl"
+    
     set test_mode false
 
     # Check if the first argument is -t for test mode

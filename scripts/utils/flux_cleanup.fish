@@ -2,6 +2,8 @@
 
 # Function to perform cleanup in the flux-system namespace
 function flux_cleanup
+    check_command "kubectl"
+    check_command "flux"
     # Fetch the name of the kustomize-controller pod
     echo "Looking for the kustomize-controller pod in the 'flux-system' namespace..."
     set POD_NAME (kubectl get pods -n flux-system -l app=kustomize-controller -o jsonpath='{.items[0].metadata.name}')

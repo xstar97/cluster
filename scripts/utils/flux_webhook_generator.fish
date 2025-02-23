@@ -2,6 +2,8 @@
 
 # Function to generate the Flux webhook URL
 function flux_webhook_generator
+    check_command "kubectl"
+    check_command "flux"
     # Namespace and receiver name
     set NAMESPACE "flux-system"
     set RECEIVER_NAME "github-receiver"

@@ -1,4 +1,6 @@
 function describe_pods
+    check_command "kubectl"
+    
     if test (count $argv) -lt 1
         echo "Usage: describe_pods <namespace>"
         return 1

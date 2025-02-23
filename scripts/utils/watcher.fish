@@ -1,4 +1,5 @@
 function watcher
+    check_command "watch"
     # Check if at least one argument (command) is provided
     if test (count $argv) -lt 1
         echo "Usage: watcher [interval] <command...>"
