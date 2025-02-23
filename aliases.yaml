@@ -1,6 +1,6 @@
 aliases:
   utils: "scripts/utils.sh"
-  update-scripts: "git --git-dir=./scripts/.git --work-tree=./scripts pull"
+  gen-alias: "scripts/utils.sh gen-alias --config /workspaces/cluster/aliases.yaml"
   dns: "utils dns"
   updateFlux: "utils flux_updater"
   cleanupFlux: "utils flux_cleanup"
@@ -8,14 +8,15 @@ aliases:
   pods: "/workspaces/cluster/scripts/pods.sh"
   gitConfig: "utils git_config"
   gitReset: "utils git_reset"
+  updateCliTools: "/workspaces/cluster/scripts/updateCliTools.sh"
   tcdbinfo: "utils tcdbinfo"
   stopAll: "utils stop_all"
   k: "kubectl"
   f: "flux"
   gto: "gitops"
   ct: clustertool
-  ctv: "ct info | awk -F': ' '/Clustertool Version/ {print $2}'"
   tcl: talosctl
   watcher: "utils watcher"
   test-nvidia: "utils nvidia-smi"
+  ctv: "ct info | awk -F': ' '/Clustertool Version/ {print $2}'"
   hr-chart: "utils hr-chart"

@@ -1,23 +1,47 @@
 # utils/gen_alias.fish
 
 function gen_alias
-    check_command "yq"
-    # Path to YAML file
+    # Default YAML file path
     set yaml_file "$PWD/scripts/aliases.yaml"
+    echo "Using default YAML file: $yaml_file"
+
+    # Parse options
+    for arg in $argv
+        switch $arg
+            case '--config'
+                set yaml_file (string split '=' $argv[2]) # Fetch the config file path from the flag
+                echo "Custom config file set to: $yaml_file"
+                break
+            case '*'
+                # Handle other flags or arguments if necessary
+                echo "Unknown argument: $arg"
+                break
+        end
+    end
+
+    # Check if 'yq' command is available
+    check_command "yq"
+    echo "Checking if 'yq' is installed..."
 
     # Check if yq (YAML processor) is installed
     if not command -q yq
         echo "Error: 'yq' is required to parse YAML. Install it using 'brew install yq' or 'sudo apt install yq'"
         exit 1
+    else
+        echo "'yq' is installed, proceeding with parsing YAML..."
     end
 
     # Read the YAML file and set aliases
+    echo "Reading aliases from YAML file: $yaml_file"
     for key in (yq eval '.aliases | keys | .[]' $yaml_file)
+        echo "Processing alias: $key"
         set value (yq eval ".aliases[\"$key\"]" $yaml_file)
+        echo "Setting alias '$key' to '$value'"
         alias $key "$value" --save
     end
 
-    echo "Aliases set, verify."
-
+    echo "Aliases have been successfully set. Please verify."
+    
+    # List all aliases set
     alias
 end
