@@ -21,16 +21,7 @@ function gen_alias
 
     # Check if 'yq' command is available
     check_command "yq"
-    echo "Checking if 'yq' is installed..."
-
-    # Check if yq (YAML processor) is installed
-    if not command -q yq
-        echo "Error: 'yq' is required to parse YAML. Install it using 'brew install yq' or 'sudo apt install yq'"
-        exit 1
-    else
-        echo "'yq' is installed, proceeding with parsing YAML..."
-    end
-
+    
     # Read the YAML file and set aliases
     echo "Reading aliases from YAML file: $yaml_file"
     for key in (yq eval '.aliases | keys | .[]' $yaml_file)
