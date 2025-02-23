@@ -40,7 +40,7 @@ spec:
                 value: 1
   values:
     global:
-      stopAll: false
+      stopAll: true
     credentials:
       cf-restic:
         type: s3
