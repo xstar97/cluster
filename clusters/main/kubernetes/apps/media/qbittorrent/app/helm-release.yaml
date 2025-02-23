@@ -111,6 +111,7 @@ spec:
         enabled: true
         data:
           config.toml: |-
+              routes = ["GET /v1/openvpn/portforwarded", "GET /v1/publicip/ip"]
               auth = "apikey"
               apikey = "${GLUETUN_API_KEY}"
 
