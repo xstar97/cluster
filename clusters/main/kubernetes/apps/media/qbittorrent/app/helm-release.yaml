@@ -166,7 +166,7 @@ spec:
         type: configmap
         objectName: gluetun-auth-config
         targetSelector:
-          main:
+          gluetun:
             gluetun:
               mountPath: /auth/config.toml
               subPath: config.toml
