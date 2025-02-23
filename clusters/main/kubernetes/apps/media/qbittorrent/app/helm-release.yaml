@@ -82,9 +82,11 @@ spec:
           control:
             enabled: true
             port: 8000
+            protocol: http
           proxy:
             enabled: true
             port: 8888
+            protocol: http
     ingress:
       main:
         enabled: true
