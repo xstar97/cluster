@@ -8,6 +8,9 @@ To get started, clone the repository and set executable permissions:
 
 ```bash
 git clone https://github.com/xstar97/cluster-scripts ./scripts
+```
+
+```
 chmod -R +x scripts/
 ```
 
