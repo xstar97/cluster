@@ -40,7 +40,7 @@ spec:
                 value: 1
   values:
     global:
-      stopAll: true
+      stopAll: false
     credentials:
       cf-restic:
         type: s3
@@ -131,7 +131,7 @@ spec:
           FIREWALL_VPN_INPUT_PORTS: "{{ .Values.service.torrent.ports.torrent.port }}"
           VPN_PORT_FORWARDING_LISTENING_PORT: "{{ .Values.service.torrent.ports.torrent.port }}"
           HTTPPROXY: "on"
-          HTTP_CONTROL_SERVER_AUTH_CONFIG_FILEPATH: "{{ .Values.persistence.gluetun-auth-config.main.gluetun.mountPath }}"
+          HTTP_CONTROL_SERVER_AUTH_CONFIG_FILEPATH: "{{ .Values.persistence.gluetunauthconfig.main.gluetun.mountPath }}"
     persistence:
       config:
         volsync:
@@ -154,7 +154,7 @@ spec:
         server: ${SCALE_IP}
         path: ${DOWNLOADS_NFS}
         mountPath: "${DOWNLOADS_LOCAL}"
-      gluetun-auth-config:
+      gluetunauthconfig:
         enabled: true
         type: configmap
         objectName: gluetun-auth-config
