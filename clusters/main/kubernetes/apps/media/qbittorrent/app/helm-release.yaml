@@ -113,6 +113,10 @@ spec:
         enabled: true
         data:
           config.toml: |-
+              [[roles]]
+              name = "qbittorrent"
+              # Define a list of routes with the syntax "Http-Method /path"
+              routes = ["GET /v1/wireguard/portforwarded","GET /v1/publicip/ip", "GET /v1/updater/status", "GET /v1/dns/status", "GET /v1/wireguard/status"]
               auth = "apikey"
               apikey = "${GLUETUN_API_KEY}"
 
