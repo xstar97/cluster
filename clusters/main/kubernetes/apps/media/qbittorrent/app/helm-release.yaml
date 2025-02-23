@@ -105,6 +105,14 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+
+    configmap:
+      gluetun-auth-config:
+        enabled: true
+        data:
+          config.toml: |-
+              auth = "none"
+
     addons:
       vpn:
         type: gluetun
@@ -122,6 +130,8 @@ spec:
           WIREGUARD_ADDRESSES: "${WIREGUARD_ADDRESSES}"
           FIREWALL_VPN_INPUT_PORTS: "{{ .Values.service.torrent.ports.torrent.port }}"
           VPN_PORT_FORWARDING_LISTENING_PORT: "{{ .Values.service.torrent.ports.torrent.port }}"
+          HTTPPROXY: "on"
+          HTTP_CONTROL_SERVER_AUTH_CONFIG_FILEPATH: "{{ .Values.persistence.mountPath }}"
     persistence:
       config:
         volsync:
@@ -144,3 +154,12 @@ spec:
         server: ${SCALE_IP}
         path: ${DOWNLOADS_NFS}
         mountPath: "${DOWNLOADS_LOCAL}"
+      gluetun-auth-config:
+        enabled: true
+        type: configmap
+        objectName: gluetun-auth-config
+        targetSelector:
+          main:
+            gluetun:
+              mountPath: /config/gluetun.toml
+              subPath: gluetun.toml
