@@ -17,6 +17,6 @@ aliases:
   ct: clustertool
   tcl: talosctl
   watcher: "utils watcher"
-  test-nvidia: "utils nvidia-smi"
+  test-nvidia: "utils nvidia_smi"
   ctv: "ct info | awk -F': ' '/Clustertool Version/ {print $2}'"
   hr-chart: "utils hr-chart"
