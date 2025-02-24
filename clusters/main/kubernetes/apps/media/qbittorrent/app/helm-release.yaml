@@ -171,3 +171,4 @@ spec:
         objectName: gluetun-auth-config
         readOnly: true
         subPath: config.toml
+        targetSelectAll: true
