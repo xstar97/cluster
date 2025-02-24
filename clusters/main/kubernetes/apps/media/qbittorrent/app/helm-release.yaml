@@ -107,19 +107,6 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-
-    configmap:
-      gluetun-auth-config:
-        enabled: true
-        data:
-          config.toml: |-
-              [[roles]]
-              name = "qbittorrent"
-              # Define a list of routes with the syntax "Http-Method /path"
-              routes = ["GET /v1/wireguard/portforwarded","GET /v1/publicip/ip", "GET /v1/updater/status", "GET /v1/dns/status", "GET /v1/wireguard/status"]
-              auth = "apikey"
-              apikey = "${GLUETUN_API_KEY}"
-
     addons:
       vpn:
         type: gluetun
@@ -138,7 +125,7 @@ spec:
           FIREWALL_VPN_INPUT_PORTS: "{{ .Values.service.torrent.ports.torrent.port }}"
           VPN_PORT_FORWARDING_LISTENING_PORT: "{{ .Values.service.torrent.ports.torrent.port }}"
           HTTPPROXY: "on"
-          HTTP_CONTROL_SERVER_AUTH_CONFIG_FILEPATH: "/auth/config.toml"
+
     persistence:
       config:
         volsync:
@@ -161,12 +148,3 @@ spec:
         server: ${SCALE_IP}
         path: ${DOWNLOADS_NFS}
         mountPath: "${DOWNLOADS_LOCAL}"
-      gluetun-auth-config:
-        enabled: true
-        type: configmap
-        objectName: gluetun-auth-config
-        targetSelector:
-          gluetun:
-            gluetun:
-              mountPath: /auth/config.toml
-              subPath: config.toml
