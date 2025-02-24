@@ -132,13 +132,14 @@ spec:
         enabled: true
         data:
           config.toml: >-
-            mappings:
             [[roles]]
+            
             name = "qbittorrent"
-            # Define a list of routes with the syntax "Http-Method /path"
+
             routes = ["GET /v1/vpn/status","GET /v1/publicip/ip"]
-            # Define an authentication method with its parameters
+
             auth = "apikey"
+            
             apikey = "${GLUETUN_API_KEY}"
 
     persistence:
