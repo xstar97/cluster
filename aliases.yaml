@@ -8,7 +8,7 @@ aliases:
   pods: "/workspaces/cluster/scripts/pods.sh"
   gitConfig: "utils git_config"
   gitReset: "utils git_reset"
-  updateCliTools: "/workspaces/cluster/scripts/updateCliTools.sh"
+  updateCliTools: "sudo /workspaces/cluster/scripts/updateCliTools.sh"
   tcdbinfo: "utils tcdbinfo"
   stopAll: "utils stop_all"
   k: "kubectl"
