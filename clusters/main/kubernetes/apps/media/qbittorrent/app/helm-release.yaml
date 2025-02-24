@@ -82,7 +82,7 @@ spec:
           control:
             enabled: true
             port: 8000
-            protocol: http
+            # protocol: http
           proxy:
             enabled: true
             port: 8888
