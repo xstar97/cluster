@@ -1,6 +1,6 @@
 aliases:
-  utils: "scripts/utils.sh"
-  gen-alias: "scripts/utils.sh gen-alias --config /workspaces/cluster/aliases.yaml"
+  utils: "/workspaces/cluster/scripts/utils.sh"
+  gen-alias: "utils gen_alias --config /workspaces/cluster/aliases.yaml"
   dns: "utils dns"
   updateFlux: "utils flux_updater"
   cleanupFlux: "utils flux_cleanup"

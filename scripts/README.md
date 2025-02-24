@@ -34,7 +34,7 @@ To view the available commands and get more information on how to use them, run:
 utils
 ```
 
-### Example
+### dns
 
 get cluster urls for a chart.
 

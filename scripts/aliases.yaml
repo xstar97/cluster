@@ -1,6 +1,7 @@
 aliases:
   utils: "scripts/utils.sh"
   update-scripts: "git --git-dir=./scripts/.git --work-tree=./scripts pull"
+  gen-alias: "utils gen_alias --config /workspaces/cluster/scripts/aliases.yaml"
   dns: "utils dns"
   updateFlux: "utils flux_updater"
   cleanupFlux: "utils flux_cleanup"
