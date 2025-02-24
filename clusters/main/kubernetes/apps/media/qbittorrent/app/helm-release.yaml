@@ -125,6 +125,7 @@ spec:
           FIREWALL_VPN_INPUT_PORTS: "{{ .Values.service.torrent.ports.torrent.port }}"
           VPN_PORT_FORWARDING_LISTENING_PORT: "{{ .Values.service.torrent.ports.torrent.port }}"
           HTTPPROXY: "on"
+          HTTP_CONTROL_SERVER_ADDRESS: ":{{ .Values.service.glue.ports.control.port }}"
 
     persistence:
       config:
