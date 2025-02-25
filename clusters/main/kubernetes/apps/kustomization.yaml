@@ -25,4 +25,4 @@ resources:
   - netdata/ks.yaml
   - omada-controller/ks.yaml
   - octoprint/ks.yaml
-    - mend-renovate/ks.yaml
+  - mend-renovate/ks.yaml
