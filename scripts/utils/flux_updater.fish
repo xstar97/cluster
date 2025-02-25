@@ -1,6 +1,5 @@
-# utils/flux_updater.fish
-
-# Function to reconcile the Flux Git source
+# Description: Updates flux manually
+# Example: flux_updater
 function flux_updater
     check_command flux
     echo "Reconciling Flux Git source..."

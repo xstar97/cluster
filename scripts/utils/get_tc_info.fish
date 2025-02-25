@@ -1,3 +1,5 @@
+# Description: Gets the Chart and value data for a TC helm repo chart.
+# Example: get_tc_info plex
 function get_tc_info
     check_command "yq"
     check_command "helm"

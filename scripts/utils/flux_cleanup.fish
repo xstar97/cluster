@@ -1,6 +1,5 @@
-# utils/flux_cleanup.fish
-
-# Function to perform cleanup in the flux-system namespace
+# Description: Rebuilds cache for flux
+# Example: flux_cleanup
 function flux_cleanup
     check_command "kubectl"
     check_command "flux"

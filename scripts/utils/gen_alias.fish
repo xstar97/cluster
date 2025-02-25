@@ -1,5 +1,5 @@
-# utils/gen_alias.fish
-
+# Description: Generates Alias commands
+# Example: gen_alias [--config /path/to/alias.yaml]
 function gen_alias
     # Default YAML file path
     set yaml_file "$PWD/scripts/aliases.yaml"

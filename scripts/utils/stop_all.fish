@@ -1,3 +1,5 @@
+# Description: Stops and start a chart if stopAll is configured.
+# Example: stop_all sonarr [--status](checks status) | run again to change the state
 function stop_all
     check_command "kubectl"
     

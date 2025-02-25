@@ -1,4 +1,5 @@
-# dns function to fetch and format DNS details for services
+# Description: Get cluster urls from a chart.
+# Example: dns chart [namespace]
 function dns
     check_command "kubectl"
     

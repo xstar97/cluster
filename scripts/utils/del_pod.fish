@@ -1,3 +1,5 @@
+# Description: Deletes pods.
+# Example: del_pod
 function del_pod
     check_command "kubectl"
     

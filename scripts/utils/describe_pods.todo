@@ -1,3 +1,5 @@
+# Description: Get info from a chart.
+# Example: describe_pods chart [ namespace]
 function describe_pods
     check_command "kubectl"
     

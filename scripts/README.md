@@ -1,10 +1,10 @@
 # Cluster Scripts
 
-This repository contains a set of utility scripts for managing and configuring your cluster. The scripts can be easily cloned and set up on your system.
+This repository contains a collection of utility scripts designed to simplify managing your Kubernetes cluster.
 
 ## Installation
 
-To get started, clone the repository and set executable permissions:
+To get started, clone the repository and give executable permissions to the scripts:
 
 ```bash
 git clone https://github.com/xstar97/cluster-scripts ./scripts
@@ -12,17 +12,19 @@ git clone https://github.com/xstar97/cluster-scripts ./scripts
 
 ## Set Up Aliases
 
-To create alias commands for the available utility scripts, run the following command:
+You can create alias commands for the available utility scripts by running:
 
 ```bash
 ./scripts/utils.sh gen_alias
 ```
 
+To specify a custom configuration file for aliases, use:
+
 ```bash
 ./scripts/utils.sh gen_alias --config /path/to/aliases.yaml
 ```
 
-short alias command variants:
+Short alias command variants are also available:
 
 ```bash
 genAlias
@@ -32,33 +34,24 @@ genAlias
 genAlias --config /path/to/aliases.yaml
 ```
 
+## Updating Scripts
+
+To ensure your scripts are up-to-date, use the following command to pull the latest changes:
+
+```bash
+updateScripts
+```
 
 ## Usage
 
-To view the available commands and get more information on how to use them, run:
+To view the available commands and get detailed usage information, run:
 
 ```bash
 utils
 ```
 
-### dns
+The `-h` flag provides a description of each function along with example usage. Here are the available functions:
 
-get cluster urls for a chart.
+## Contributing
 
-```bash
-utils dns plex
-```
-outputs:
-
-```yaml
-plex:
-  plex.plex.svc.cluster.local:32400 | TCP
-```
-
-## Updating Scripts
-
-To keep your scripts up to date, run the following command to pull the latest changes using this alias command:
-
-```bash
-updateScripts
-```
+Feel free to contribute by submitting issues and pull requests. For major changes, please open an issue first to discuss what you would like to change.

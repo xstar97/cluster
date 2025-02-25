@@ -1,3 +1,5 @@
+# Description: Generates user,passwords,addresses,and ports for DBs.
+# Example: tcdbinfo
 function tcdbinfo
     check_command "kubectl"
     # Get namespaces and secret names

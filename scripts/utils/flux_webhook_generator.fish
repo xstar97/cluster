@@ -1,6 +1,5 @@
-# utils/flux_webhook_generator.fish
-
-# Function to generate the Flux webhook URL
+# Description: Generates a webhook for github
+# Example: flux_webhook_generator
 function flux_webhook_generator
     check_command "kubectl"
     check_command "flux"

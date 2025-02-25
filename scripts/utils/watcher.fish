@@ -1,3 +1,5 @@
+# Description: Repeats a script for X time in seconds
+# Example: watcher [-n 2] "kubectl get pods -n sonarr"
 function watcher
     check_command "watch"
     # Check if at least one argument (command) is provided

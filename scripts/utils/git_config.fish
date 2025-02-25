@@ -1,5 +1,5 @@
-# utils/git_config.fish
-
+# Description: Sets the user and email for git if the variables are set in clusterenv.yaml
+# Example: git_config
 function git_config
     set CONFIG "$BASE_PATH/clusters/main/clusterenv.yaml"
 

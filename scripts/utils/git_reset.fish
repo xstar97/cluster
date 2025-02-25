@@ -1,5 +1,5 @@
-# utils/git_reset.fish
-
+# Description: Resets the git history
+# Example: git_reset
 function git_reset
     check_command "git"
     echo "Resetting repository to a new initial commit..."

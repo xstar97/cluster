@@ -1,5 +1,5 @@
-# utils/hr_chart.fish
-
+# Description: Find a chart locally
+# Example: hr_chart
 function hr_chart
     # Ensure a chart name is provided
     if test (count $argv) -lt 1
