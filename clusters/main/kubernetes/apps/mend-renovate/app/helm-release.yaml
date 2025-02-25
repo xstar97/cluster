@@ -65,7 +65,8 @@ spec:
                 MEND_RNV_PLATFORM: github
                 # See https://github.com/mend/renovate-ce-ee/blob/main/docs/setup-for-github.md
                 MEND_RNV_GITHUB_APP_ID: ${MEND_RNV_GITHUB_APP_ID}
-                MEND_RNV_GITHUB_APP_KEY: ${MEND_RNV_GITHUB_APP_KEY}
+                RNV_GITHUB_PEM_FILE_PATH: "{{ .Values.persistence.db.mountPath }}/renovate.private-key.pem"
+                # MEND_RNV_GITHUB_APP_KEY: ${MEND_RNV_GITHUB_APP_KEY}
                 MEND_RNV_WEBHOOK_SECRET: ${MEND_RNV_WEBHOOK_SECRET}
                 
                 # Mend Renovate Application settings (Optional)
