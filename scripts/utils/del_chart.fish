@@ -1,6 +1,6 @@
 function del_chart
-    if test (count $argv) -lt 2
-        echo "Usage: del_chart CHART_NAME -n NAMESPACE [--helm] [--flux] [-y]"
+    if test (count $argv) -lt 1
+        echo "Usage: del_chart CHART_NAME [-n NAMESPACE] [--helm] [--flux] [-y]"
         return 1
     end
 
@@ -35,27 +35,29 @@ function del_chart
         set i (math $i + 1)
     end
 
-    # Ensure required parameters are set
-    if test -z "$chart_name" -o -z "$namespace"
-        echo "Error: CHART_NAME and NAMESPACE are required."
+    # If namespace is not set, default to chart name
+    if test -z "$namespace"
+        set namespace $chart_name
+    end
+
+    # Ensure that chart name is set
+    if test -z "$chart_name"
+        echo "Error: CHART_NAME is required."
         return 1
     end
 
+    # Ensure at least one mode (Helm or Flux) is specified
     if test $use_helm -eq 0 -a $use_flux -eq 0
         echo "Error: Must specify at least one of --helm or --flux."
         return 1
     end
 
-    # Confirmation prompt before deleting
-    if test $confirm_delete -eq 0
-        echo -n "Are you sure you want to delete '$chart_name' from namespace '$namespace' using"
-        if test $use_helm -eq 1; echo -n " Helm"; end
-        if test $use_flux -eq 1; echo -n " Flux"; end
-        echo "? (y/N): "
-        
+    # Only prompt for confirmation if using Helm (Flux already has its own)
+    if test $use_helm -eq 1 -a $confirm_delete -eq 0
+        echo -n "Are you sure you want to delete Helm release '$chart_name' from namespace '$namespace'? (y/N): "
         read -l confirm
         if not test "$confirm" = "y" -o "$confirm" = "Y"
-            echo "Deletion canceled."
+            echo "Helm deletion canceled."
             return 0
         end
     end
