@@ -1,0 +1,120 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mend-renovate
+  namespace: mend-renovate
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: mend-renovate
+      version: 1.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    defaultCertificate: domain-0-wildcard
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 80
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                MEND_RNV_SERVER_PORT: "{{ .Values.service.main.ports.main.port }}"
+                # Accept TOS required
+                MEND_RNV_ACCEPT_TOS: "Y"
+                # unregistered public license key
+                MEND_RNV_LICENSE_KEY: eyJsaW1pdCI6IjEwIn0=.30440220457941b71ea8eb345c729031718b692169f0ce2cf020095fd328812f4d7d5bc1022022648d1a29e71d486f89f27bdc8754dfd6df0ddda64a23155000a61a105da2a1
+                MEND_RNV_PLATFORM: github
+                # See https://github.com/mend/renovate-ce-ee/blob/main/docs/setup-for-github.md
+                MEND_RNV_GITHUB_APP_ID: ${MEND_RNV_GITHUB_APP_ID}
+                MEND_RNV_GITHUB_APP_KEY: ${MEND_RNV_GITHUB_APP_KEY}
+                MEND_RNV_WEBHOOK_SECRET: ${MEND_RNV_WEBHOOK_SECRET}
+                
+                # Mend Renovate Application settings (Optional)
+                MEND_RNV_SQLITE_FILE_PATH: "{{ .Values.persistence.db.mountPath }}/renovate-ce.sqlite"
+                MEND_RNV_LOG_HISTORY_DIR: "{{ .Values.persistence.logs.mountPath }}"
+                MEND_RNV_AUTODISCOVER_FILTER: "xstar97/cluster"
+                # MEND_RNV_ENQUEUE_JOBS_ON_STARTUP: disabled  # Options: 'enabled', 'disabled', 'discovered' (default)
+    ingress:
+      main:
+        enabled: true
+        integrations:
+          traefik:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: domain-0-le-prod 
+        hosts:
+          - host: renovate.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
+    persistence:
+      db:
+        enabled: true
+        mountPath: /db
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              cacheCapacity: 10Gi
+              enabled: true
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
+              cleanupTempPVC: true
+              cleanupCachePVC: true
+      logs:
+        enabled: true
+        mountPath: /logs
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              cacheCapacity: 10Gi
+              enabled: true
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
+              cleanupTempPVC: true
+              cleanupCachePVC: true 
