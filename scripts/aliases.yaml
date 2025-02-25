@@ -19,5 +19,5 @@ aliases:
   stopAll: "utils stop_all"
   watcher: "utils watcher"
   testNvidia: "utils nvidia-smi"
-  hr-chart: "utils hr_chart"
+  hrChart: "utils hr_chart"
   delChart: "utils del_chart"

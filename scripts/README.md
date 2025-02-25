@@ -10,10 +10,6 @@ To get started, clone the repository and set executable permissions:
 git clone https://github.com/xstar97/cluster-scripts ./scripts
 ```
 
-```
-chmod -R +x scripts/
-```
-
 ## Set Up Aliases
 
 To create alias commands for the available utility scripts, run the following command:
@@ -25,6 +21,17 @@ To create alias commands for the available utility scripts, run the following co
 ```bash
 ./scripts/utils.sh gen_alias --config /path/to/aliases.yaml
 ```
+
+short alias command variants:
+
+```bash
+genAlias
+```
+
+```bash
+genAlias --config /path/to/aliases.yaml
+```
+
 
 ## Usage
 
@@ -53,5 +60,5 @@ plex:
 To keep your scripts up to date, run the following command to pull the latest changes using this alias command:
 
 ```bash
-update-scripts
+updateScripts
 ```
