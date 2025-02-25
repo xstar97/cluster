@@ -12,6 +12,7 @@
       cancel-in-progress: true
     env:
       KUBERNETES_DIR: ./clusters/main/kubernetes
+      KUBECONFORM_SCRIPT: .github/workflows/kubeconform.sh
     
     jobs:
       kubeconform:
@@ -29,7 +30,7 @@
     
           - name: Run kubeconform
             shell: bash
-            run: bash ./scripts/kubeconform.sh ${{ env.KUBERNETES_DIR }}
+            run: bash ${{ env.KUBECONFORM_SCRIPT}}  ${{ env.KUBERNETES_DIR }}
     
       flux-diff:
         name: Flux Diff

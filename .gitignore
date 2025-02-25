@@ -17,4 +17,4 @@ charts/*
 scripts/output/*
 kubeconfig
 charts.md
-scripts2/*
+scripts/*
