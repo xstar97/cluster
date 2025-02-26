@@ -34,17 +34,10 @@ spec:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-stirling-pdf"
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-      tn-restic:
-        type: s3
-        url: "${TN_S3_RESTIC_URL}"
-        bucket: "${TN_S3_RESTIC_BUCKET}"
-        accessKey: "${TN_S3_RESTIC_ID}"
-        secretKey: "${TN_S3_RESTIC_KEY}"
-        encrKey: "${TN_S3_RESTIC_KEY}"
     defaultCertificate: domain-0-wildcard
     service:
       main:
@@ -72,7 +65,40 @@ spec:
     persistence:
       configs:
         volsync:
-          - name: data
+          - name: configs
+            type: restic
+            credentials: cf-restic
+            dest:
+              cacheCapacity: 10Gi
+              enabled: true
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
+      tessdata:
+        volsync:
+          - name: tessdata
+            type: restic
+            credentials: cf-restic
+            dest:
+              cacheCapacity: 10Gi
+              enabled: true
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
+      custom-files:
+        volsync:
+          - name: custom-files
+            type: restic
+            credentials: cf-restic
+            dest:
+              cacheCapacity: 10Gi
+              enabled: true
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
+      logs:
+        volsync:
+          - name: logs
             type: restic
             credentials: cf-restic
             dest:
