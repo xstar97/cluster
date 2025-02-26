@@ -23,6 +23,4 @@ resources:
   - pasta/ks.yaml
   - plex-auto-languages/ks.yaml
   - theme-park/ks.yaml
-  - radarr2/ks.yaml
-  - sonarr2/ks.yaml
   - unmanic/ks.yaml
