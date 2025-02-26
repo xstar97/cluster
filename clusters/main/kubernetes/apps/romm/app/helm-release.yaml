@@ -34,17 +34,10 @@ spec:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-romm"
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-      tn-restic:
-        type: s3
-        url: "${TN_S3_RESTIC_URL}"
-        bucket: "${TN_S3_RESTIC_BUCKET}"
-        accessKey: "${TN_S3_RESTIC_ID}"
-        secretKey: "${TN_S3_RESTIC_KEY}"
-        encrKey: "${TN_S3_RESTIC_KEY}"
     defaultCertificate: xstar-wildcard
     service:
       main:
@@ -96,7 +89,7 @@ spec:
     persistence:
       config:
         volsync:
-          - name: data
+          - name: config
             type: restic
             credentials: cf-restic
             dest:
@@ -110,11 +103,35 @@ spec:
               cleanupTempPVC: true
               cleanupCachePVC: true
       resources:
-        enabled: true
-        mountPath: /romm/resources
+        volsync:
+          - name: resources
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+              cacheCapacity: 10Gi
+              cleanupTempPVC: true
+              cleanupCachePVC: true
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
+              cleanupTempPVC: true
+              cleanupCachePVC: true
       assets:
-        enabled: true
-        mountPath: /romm/assets
+        volsync:
+          - name: assets
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+              cacheCapacity: 10Gi
+              cleanupTempPVC: true
+              cleanupCachePVC: true
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
+              cleanupTempPVC: true
+              cleanupCachePVC: true
       library:
         enabled: true
         type: nfs

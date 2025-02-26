@@ -34,17 +34,10 @@ spec:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-wallos"
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-      tn-restic:
-        type: s3
-        url: "${TN_S3_RESTIC_URL}"
-        bucket: "${TN_S3_RESTIC_BUCKET}"
-        accessKey: "${TN_S3_RESTIC_ID}"
-        secretKey: "${TN_S3_RESTIC_KEY}"
-        encrKey: "${TN_S3_RESTIC_KEY}"
     defaultCertificate: domain-0-wildcard
     service:
       main:
@@ -72,7 +65,7 @@ spec:
     persistence:
       database:
         volsync:
-          - name: data
+          - name: database
             type: restic
             credentials: cf-restic
             dest:
@@ -87,7 +80,7 @@ spec:
               cleanupCachePVC: true
       logos:
         volsync:
-          - name: data
+          - name: logos
             type: restic
             credentials: cf-restic
             dest:
