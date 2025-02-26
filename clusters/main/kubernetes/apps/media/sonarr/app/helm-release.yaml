@@ -65,6 +65,7 @@ spec:
             enabled: true
             name: Sonarr (Series)
             group: "Media Manager"
+            siteMonitor: http://sonarr.sonarr.svc.cluster.local:8989
             widget:
               custom:
                 key: "${SONARR_SERIES_KEY}"
