@@ -98,9 +98,9 @@ spec:
             credentials: cf-restic
             dest:
               cacheCapacity: 10Gi
-              enabled: false
+              enabled: true
             src:
-              enabled: false
+              enabled: true
               cacheCapacity: 10Gi
               cleanupTempPVC: true
               cleanupCachePVC: true
@@ -113,9 +113,9 @@ spec:
             credentials: cf-restic
             dest:
               cacheCapacity: 10Gi
-              enabled: false
+              enabled: true
             src:
-              enabled: false
+              enabled: true
               cacheCapacity: 10Gi
               cleanupTempPVC: true
               cleanupCachePVC: true 
