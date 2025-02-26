@@ -28,7 +28,7 @@ spec:
     keepHistory: false
   values:
     global:
-      stopAll: false
+      stopAll: true
     securityContext:
       container:
         readOnlyRootFilesystem: false
@@ -101,10 +101,10 @@ spec:
         server: ${SCALE_IP}
         path: ${DOWNLOADS_NFS}
         mountPath: ${DOWNLOADS_LOCAL}
-    resources:
-      limits:
-        nvidia.com/gpu: 1
-    workload:
-      main:
-        podSpec:
-          runtimeClassName: nvidia
+    # resources:
+    #   limits:
+    #     nvidia.com/gpu: 0
+    # workload:
+    #   main:
+    #     podSpec:
+    #       runtimeClassName: nvidia
