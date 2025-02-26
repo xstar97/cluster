@@ -67,6 +67,7 @@ spec:
                 MEND_RNV_GITHUB_APP_ID: ${MEND_RNV_GITHUB_APP_ID}
                 MEND_RNV_GITHUB_APP_KEY: ${MEND_RNV_GITHUB_APP_KEY}
                 MEND_RNV_WEBHOOK_SECRET: ${MEND_RNV_WEBHOOK_SECRET}
+                MEND_RNV_WEBHOOK_URL: "https://renovate.${DOMAIN_0}/webhook"
                 
                 # Mend Renovate Application settings (Optional)
                 MEND_RNV_SQLITE_FILE_PATH: "{{ .Values.persistence.db.mountPath }}/renovate-ce.sqlite"
