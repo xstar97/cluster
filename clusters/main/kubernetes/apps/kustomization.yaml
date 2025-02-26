@@ -26,3 +26,4 @@ resources:
   - omada-controller/ks.yaml
   - octoprint/ks.yaml
   - mend-renovate/ks.yaml
+  - string-is/ks.yaml
