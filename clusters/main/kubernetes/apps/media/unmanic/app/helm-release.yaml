@@ -70,7 +70,7 @@ spec:
     persistence:
       config:
         volsync:
-          - name: data
+          - name: config
             type: restic
             credentials: cf-restic
             dest:
