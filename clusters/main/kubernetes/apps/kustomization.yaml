@@ -26,4 +26,3 @@ resources:
   - octoprint/ks.yaml
   - mend-renovate/ks.yaml
   - string-is/ks.yaml
-  - scrutiny/ks.yaml
