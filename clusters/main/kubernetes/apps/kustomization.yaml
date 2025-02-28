@@ -26,3 +26,4 @@ resources:
   - octoprint/ks.yaml
   - mend-renovate/ks.yaml
   - string-is/ks.yaml
+  - speedtest-tracker/ks.yaml
