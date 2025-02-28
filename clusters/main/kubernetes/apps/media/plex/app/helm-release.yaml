@@ -92,7 +92,7 @@ spec:
         enabled: true
         type: emptyDir
         mountPath: /transcode
-        medium: Memory
+        medium: "" # Memory
       media:
         enabled: true
         type: nfs
