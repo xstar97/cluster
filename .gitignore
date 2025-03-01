@@ -9,12 +9,11 @@ sopssecret.yaml
 sopssecret*
 *sopssecret*
 mounts/
-scripts/plex/__pycache__/*
 talos/*
 scripts/talos/output/*
 charts/*
 **/.decrypted~*
-scripts/output/*
+output/*
 kubeconfig
 charts.md
 scripts/*
