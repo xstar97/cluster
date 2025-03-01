@@ -48,7 +48,18 @@ spec:
         loadBalancerIP: ${PLEX_IP}
         ports:
           main:
-            port: 32400
+            port: 32400   
+    workload:
+      main:
+        podSpec:
+          runtimeClassName: nvidia
+          containers:
+            main:
+              env:
+                PLEX_CLAIM: "${PLEX_CLAIM_TOKEN}"
+              resources:
+                limits:
+                  nvidia.com/gpu: 1
     ingress:
       main:
         enabled: true
@@ -99,10 +110,3 @@ spec:
         server: ${SCALE_IP}
         path: ${MEDIA_NFS}
         mountPath: ${MEDIA_LOCAL}
-    resources:
-      limits:
-        nvidia.com/gpu: 1
-    workload:
-      main:
-        podSpec:
-          runtimeClassName: nvidia
