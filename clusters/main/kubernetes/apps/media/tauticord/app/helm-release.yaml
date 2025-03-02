@@ -95,7 +95,7 @@ spec:
         type: nfs
         server: ${SCALE_IP}
         path: ${MEDIA_NFS}
-        mountPath: "/monitor/${MEDIA_LOCAL}"
+        mountPath: "/monitor"
     addons:
       codeserver:
         enabled: true
