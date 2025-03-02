@@ -50,6 +50,13 @@ spec:
         podSpec:
           containers:
             main:
+              probes:
+                liveness:
+                  enabled: "{{ .Values.service.main.enabled }}"
+                readiness:
+                  enabled: "{{ .Values.service.main.enabled }}"
+                startup:
+                  enabled: "{{ .Values.service.main.enabled }}"
               env: {}
     ingress:
       main:
