@@ -74,7 +74,7 @@ spec:
         ports:
           control:
             enabled: true
-            port: 8000
+            port: 8080
             protocol: http
     ingress:
       main:
