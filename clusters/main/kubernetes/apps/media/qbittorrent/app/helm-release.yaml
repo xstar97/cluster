@@ -74,11 +74,15 @@ spec:
         ports:
           control:
             enabled: true
-            port: 8080
+            port: 8000
             protocol: http
           proxy:
             enabled: true
             port: 8888
+            protocol: http
+          health:
+            enabled: true
+            port: 9999
             protocol: http
     ingress:
       main:
@@ -118,7 +122,9 @@ spec:
           FIREWALL_VPN_INPUT_PORTS: "{{ .Values.service.torrent.ports.torrent.port }}"
           VPN_PORT_FORWARDING_LISTENING_PORT: "{{ .Values.service.torrent.ports.torrent.port }}"
           HTTPPROXY: "on"
-          HTTP_CONTROL_SERVER_ADDRESS: "localhost:{{ .Values.service.glue.ports.control.port }}"
+          HTTPPROXY_LISTENING_ADDRESS: "0.0.0.0:{{ .Values.service.glue.ports.proxy.port }}"
+          HTTP_CONTROL_SERVER_ADDRESS: "0.0.0.0:{{ .Values.service.glue.ports.control.port }}"
+          HEALTH_SERVER_ADDRESS: "0.0.0.0:{{ .Values.service.glue.ports.health.port }}"
 
     configmap:
       gluetun-auth-config:
