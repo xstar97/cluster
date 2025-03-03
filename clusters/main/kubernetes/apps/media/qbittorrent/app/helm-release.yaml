@@ -123,7 +123,7 @@ spec:
           VPN_PORT_FORWARDING_LISTENING_PORT: "{{ .Values.service.torrent.ports.torrent.port }}"
           HTTPPROXY: "on"
           HTTPPROXY_LISTENING_ADDRESS: "0.0.0.0:{{ .Values.service.glue.ports.proxy.port }}"
-          HTTP_CONTROL_SERVER_controlADDRESS: "0.0.0.0:{{ .Values.service.glue.ports.control.port }}"
+          HTTP_CONTROL_SERVER_ADDRESS: "0.0.0.0:{{ .Values.service.glue.ports.control.port }}"
           HTTP_CONTROL_SERVER_LOG: "on"
           HEALTH_SERVER_ADDRESS: "0.0.0.0:{{ .Values.service.glue.ports.health.port }}"
 
