@@ -53,13 +53,13 @@ spec:
               probes:
                 liveness:
                   enabled: "{{ .Values.service.main.enabled }}"
-                  path: "/webhooks" # /webhooks/tautulli/recently_added
+                  path: "/ping"
                 readiness:
                   enabled: "{{ .Values.service.main.enabled }}"
-                  path: "/webhooks" # /webhooks/tautulli/recently_added
+                  path: "/ping"
                 startup:
                   enabled: "{{ .Values.service.main.enabled }}"
-                  path: "/webhooks" # /webhooks/tautulli/recently_added
+                  path: "/ping"
               env: {}
     ingress:
       main:
