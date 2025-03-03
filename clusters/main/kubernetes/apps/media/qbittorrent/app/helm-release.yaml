@@ -70,15 +70,12 @@ spec:
             protocol: udp
       glue:
         enabled: true
-        type: ClusterIP
+        type: LoadBalancer
+        loadBalancerIP: ${GLUETUN_IP}
         ports:
           control:
             enabled: true
             port: 7777
-            protocol: http
-          proxy:
-            enabled: true
-            port: 8888
             protocol: http
           health:
             enabled: true
@@ -121,10 +118,7 @@ spec:
           WIREGUARD_ADDRESSES: "${WIREGUARD_ADDRESSES}"
           FIREWALL_VPN_INPUT_PORTS: "{{ .Values.service.torrent.ports.torrent.port }}"
           VPN_PORT_FORWARDING_LISTENING_PORT: "{{ .Values.service.torrent.ports.torrent.port }}"
-          HTTPPROXY: "off"
-          HTTPPROXY_LISTENING_ADDRESS: "0.0.0.0:{{ .Values.service.glue.ports.proxy.port }}"
           HTTP_CONTROL_SERVER_ADDRESS: "0.0.0.0:{{ .Values.service.glue.ports.control.port }}"
-          HTTP_CONTROL_SERVER_LOG: "on"
           HEALTH_SERVER_ADDRESS: "0.0.0.0:{{ .Values.service.glue.ports.health.port }}"
 
     configmap:
