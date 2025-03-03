@@ -120,15 +120,6 @@ spec:
         data:
           config.toml: >-
             auth = "none"
-            # [[roles]]
-            
-            # name = "qbittorrent"
-
-            # routes = ["GET /v1/vpn/status","GET /v1/publicip/ip"]
-
-            # auth = "apikey"
-            
-            # apikey = "${GLUETUN_API_KEY}"
 
     persistence:
       config:
