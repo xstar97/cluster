@@ -71,7 +71,7 @@ spec:
       glue:
         enabled: true
         type: LoadBalancer
-        loadBalancerIP: ${GLUETUN_IP}
+        loadBalancerIP: "${GLUETUN_IP}"
         ports:
           control:
             enabled: true
