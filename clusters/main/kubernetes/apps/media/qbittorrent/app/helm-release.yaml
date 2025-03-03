@@ -119,9 +119,15 @@ spec:
         enabled: true
         data:
           config.toml: >-
+            [[roles]]
+            
+            name = "qbittorrent"
+
+            routes = ["GET /v1/vpn/status","GET /v1/publicip/ip"]
 
             auth = "none"
-            
+          
+
 
     persistence:
       config:
