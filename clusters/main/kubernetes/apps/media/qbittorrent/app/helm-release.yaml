@@ -70,16 +70,11 @@ spec:
             protocol: udp
       glue:
         enabled: true
-        type: LoadBalancer
-        loadBalancerIP: "${GLUETUN_IP}"
+        type: ClusterIP
         ports:
           control:
             enabled: true
-            port: 7777
-            protocol: http
-          health:
-            enabled: true
-            port: 9999
+            port: 8000
             protocol: http
     ingress:
       main:
@@ -118,23 +113,22 @@ spec:
           WIREGUARD_ADDRESSES: "${WIREGUARD_ADDRESSES}"
           FIREWALL_VPN_INPUT_PORTS: "{{ .Values.service.torrent.ports.torrent.port }}"
           VPN_PORT_FORWARDING_LISTENING_PORT: "{{ .Values.service.torrent.ports.torrent.port }}"
-          HTTP_CONTROL_SERVER_ADDRESS: "0.0.0.0:{{ .Values.service.glue.ports.control.port }}"
-          HEALTH_SERVER_ADDRESS: "0.0.0.0:{{ .Values.service.glue.ports.health.port }}"
 
     configmap:
       gluetun-auth-config:
         enabled: true
         data:
           config.toml: >-
-            [[roles]]
+            auth = "none"
+            # [[roles]]
             
-            name = "qbittorrent"
+            # name = "qbittorrent"
 
-            routes = ["GET /v1/vpn/status","GET /v1/publicip/ip"]
+            # routes = ["GET /v1/vpn/status","GET /v1/publicip/ip"]
 
-            auth = "apikey"
+            # auth = "apikey"
             
-            apikey = "${GLUETUN_API_KEY}"
+            # apikey = "${GLUETUN_API_KEY}"
 
     persistence:
       config:
