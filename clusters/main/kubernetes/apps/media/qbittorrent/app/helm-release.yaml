@@ -115,6 +115,7 @@ spec:
           VPN_PORT_FORWARDING_LISTENING_PORT: "{{ .Values.service.torrent.ports.torrent.port }}"
           FIREWALL_INPUT_PORTS: "{{ .Values.service.glue.ports.control.port }}"
           HTTP_CONTROL_SERVER_ADDRESS: '{{ printf "0.0.0.0:%v" .Values.service.glue.ports.control.port }}'
+          FIREWALL_OUTBOUND_SUBNETS: 172.16.0.0/16,172.17.0.0/16
 
     configmap:
       gluetun-auth-config:
