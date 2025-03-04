@@ -9,13 +9,11 @@ sopssecret.yaml
 sopssecret*
 *sopssecret*
 mounts/
-talos/*
-scripts/talos/output/*
 charts/*
 **/.decrypted~*
 output/*
 kubeconfig
 charts.md
 scripts/
-noob-renovate.2025-02-25.private-key.pem
-status-badges.md
+/configs/noob-renovate.2025-02-25.private-key.pem
+/configs/output/

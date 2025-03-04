@@ -2,21 +2,31 @@
 # Example: gen_alias [--config /path/to/alias.yaml]
 function gen_alias
     # Default YAML file path
-    set yaml_file "$PWD/scripts/aliases.yaml"
-    echo "Using default YAML file: $yaml_file"
+    set default_yaml_file "./aliases.yaml"
+    set yaml_file $default_yaml_file
+
+    # Flag to check if custom config was used
+    set custom_config_used 0
 
     # Parse options
     for arg in $argv
         switch $arg
             case '--config'
                 set yaml_file (string split '=' $argv[2]) # Fetch the config file path from the flag
-                echo "Custom config file set to: $yaml_file"
+                set custom_config_used 1
                 break
             case '*'
                 # Handle other flags or arguments if necessary
                 echo "Unknown argument: $arg"
                 break
         end
+    end
+
+    # Display which YAML file is being used
+    if test $custom_config_used -eq 1
+        echo "Using custom YAML file: $yaml_file"
+    else
+        echo "Using default YAML file: $yaml_file"
     end
 
     # Check if 'yq' command is available
