@@ -29,9 +29,9 @@ A talos cluster for noobs.
 </div>
 
 
-Checkout what I used under [Kubernetes](https://github.com/xstar97/cluster/tree/main/clusters/main/kubernetes)
+Checkout what I deploy under:
 
-- kubernetes
+- [kubernetes](https://github.com/xstar97/cluster/tree/main/clusters/main/kubernetes)
   - apps
      - auth 
      - media
