@@ -83,7 +83,7 @@ spec:
 
     persistence:
       config:
-        type: pvc
+        enabled: true
         mountPath: "/config"
         volsync:
           - name: config
