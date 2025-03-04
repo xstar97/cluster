@@ -61,7 +61,7 @@ spec:
           containers:
             main:
               env:
-                PG_URL: '{{ printf "%s?client_encoding=utf8" .Values.cnpg.main.creds.std }}'
+                PG_URL: '{{ printf "%s?sslmode=disable" .Values.cnpg.main.creds.std | trimAll "\"" }}'
 
     ingress:
         main:
@@ -84,7 +84,12 @@ spec:
     persistence:
       config:
         enabled: true
-        mountPath: "/config"
+        targetSelector:
+          main:
+            main:
+              mountPath: /config
+            codeserver:
+              mountPath: /config
         volsync:
           - name: config
             type: restic
