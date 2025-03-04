@@ -1,0 +1,31 @@
+# uptime-kuma badges
+badges:
+  Uptime-Kuma:
+    - internet:
+      badge: 
+        url: "https://status.xstar97.com/api/badge/60/status"
+        queries:
+          style: "for-the-badge"
+          label: "Internet"
+      redirect: "https://github.com/xstar97/cluster"
+    - truenas-status:
+      badge: 
+        url: "https://status.xstar97.com/api/badge/57/status"
+        queries:
+          style: "for-the-badge"
+          label: "TrueNAS Server Status"
+      redirect: "https://github.com/xstar97/cluster"
+    - talos-status:
+      badge: 
+        url: "https://status.xstar97.com/api/badge/59/status"
+        queries:
+          style: "for-the-badge"
+          label: "Talos Server Status"
+      redirect: "https://github.com/xstar97/cluster"
+    - plex-status:
+      badge: 
+        url: "https://status.xstar97.com/api/badge/56/status"
+        queries:
+          style: "for-the-badge"
+          label: "Plex Server Status"
+      redirect: "https://github.com/xstar97/cluster"
