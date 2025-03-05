@@ -91,5 +91,5 @@ spec:
         enabled: true
         type: nfs
         server: ${SCALE_IP}
-        path: ${DOWNLOADS_NFS}/complete
-        mountPath: "${DOWNLOADS_LOCAL}/complete"
+        path: "${DOWNLOADS_NFS}/complete/music"
+        mountPath: "${DOWNLOADS_LOCAL}"
