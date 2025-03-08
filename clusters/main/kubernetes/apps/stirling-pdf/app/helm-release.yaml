@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: stirling-pdf
-      version: 1.27.6
+      version: 1.30.0
       sourceRef:
         kind: HelmRepository
         name: truecharts
