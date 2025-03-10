@@ -30,12 +30,10 @@ spec:
   values:
     global:
       stopAll: false
-
     image:
       repository: ollama/ollama
       pullPolicy: IfNotPresent
       tag: 0.5.13@sha256:a79fc15cecf33ed3b05c09a28415db7291c85c4c9d5945f4597317ca02456532
-
     credentials:
       cf-restic:
         type: s3
@@ -44,33 +42,28 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-
     securityContext:
       container:
         runAsNonRoot: false
         readOnlyRootFilesystem: false
         runAsUser: 0
         runAsGroup: 0
-
     defaultCertificate: domain-0-wildcard
     service:
       main:
         ports:
           main:
             port: 11434
-    
     ollama:
       origins:
         - "*"
         - "https://*.${DOMAIN_0}"
-
     workload:
       main:
         podSpec:
+          runtimeClassName: nvidia
           containers:
             main:
-              args:
-                - "serve"
               env:
                 OLLAMA_HOST: '{{ printf "http://0.0.0.0:%v" .Values.service.main.ports.main.port }}'
                 OLLAMA_MODELS: "{{.Values.persistence.models.mountPath }}"
@@ -79,7 +72,6 @@ spec:
               resources:
                 limits:
                   nvidia.com/gpu: 1
-
     ingress:
         main:
           enabled: true
@@ -97,7 +89,6 @@ spec:
               paths:
                 - path: /
                   pathType: Prefix
-
     persistence:
       config:
         enabled: true
@@ -115,7 +106,6 @@ spec:
       models:
         enabled: true
         mountPath: /models
-
     cnpg:
       main:
         enabled: false
