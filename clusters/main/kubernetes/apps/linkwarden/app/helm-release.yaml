@@ -64,7 +64,7 @@ spec:
       archive_limit: 5
       ollama:
         url: "http://ollama-app-template.ollama.svc.cluster.local:11434"
-        model: 'phi4-mini'
+        model: 'deepseek-r1:1.5b'
     
     workload:
       main:
