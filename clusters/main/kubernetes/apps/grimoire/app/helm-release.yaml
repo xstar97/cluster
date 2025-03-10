@@ -1,0 +1,113 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: grimoire
+  namespace: grimoire
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 14.5.2
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+
+    image:
+      repository: goniszewski/grimoire
+      pullPolicy: IfNotPresent
+      tag: 0.4.4@sha256:f62d25dcecbd77113385caf492554976386cdff73c1ce848a1cd78fc99cb0cda
+
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-grimoire"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+
+    securityContext:
+      readOnlyRootFilesystem: false
+
+    defaultCertificate: domain-0-wildcard
+    service:
+      main:
+        ports:
+          main:
+            port: 5173
+
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              probes:
+                liveness:
+                  enabled: true
+                  path: "/api/health"
+                readiness:
+                  enabled: true
+                  path: "/api/health"
+                startup:
+                  enabled: true
+                  path: "/api/health"
+              env:
+                PORT: "{{ .Values.service.main.ports.main.port }}"
+                PUBLIC_HTTPS_ONLY: true
+                PUBLIC_SIGNUP_DISABLED: false
+
+    ingress:
+        main:
+          enabled: true
+          integrations:
+            traefik:
+              enabled: true
+              middlewares:
+                - name: local
+                  namespace: traefik
+            certManager:
+              enabled: true
+              certificateIssuer: domain-0-le-prod
+          hosts:
+            - host: grimoire.${DOMAIN_0}
+              paths:
+                - path: /
+                  pathType: Prefix
+
+    persistence:
+      data:
+        enabled: true
+        mountPath: /app/data
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              cacheCapacity: 10Gi
+              enabled: true
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
+
+    cnpg:
+      main:
+        enabled: false

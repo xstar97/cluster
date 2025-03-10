@@ -30,3 +30,4 @@ resources:
   - gatus/ks.yaml
   - airtrail/ks.yaml
   - fasten/ks.yaml
+  - grimoire/ks.yaml
