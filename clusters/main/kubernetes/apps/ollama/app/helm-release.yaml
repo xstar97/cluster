@@ -65,11 +65,12 @@ spec:
           containers:
             main:
               env:
+                OLLAMA_HOST: '{{ printf "http://0.0.0.0:%v" .Values.service.main.ports.main.port }}'
                 OLLAMA_MODELS: "{{.Values.persistence.models.mountPath }}"
                 OLLAMA_NEW_ENGINE: true
-              resources:
-                limits:
-                  nvidia.com/gpu: 1
+              # resources:
+              #   limits:
+              #     nvidia.com/gpu: 0
 
     persistence:
       config:
