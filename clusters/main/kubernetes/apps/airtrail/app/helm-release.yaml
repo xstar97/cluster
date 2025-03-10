@@ -61,7 +61,7 @@ spec:
           containers:
             main:
               env:
-                ORIGIN: "https://airtrail.${DOMAIN_0}:433"
+                ORIGIN: "https://airtrail.${DOMAIN_0}:443"
                 DB_URL: '{{ printf "%s?sslmode=disable" .Values.cnpg.main.creds.std | trimAll "\"" }}'
 
     ingress:
