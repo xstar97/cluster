@@ -2,8 +2,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: recommendarr
-  namespace: recommendarr
+  name: airtrail
+  namespace: airtrail
 spec:
   interval: 15m
   chart:
@@ -32,15 +32,15 @@ spec:
       stopAll: false
 
     image:
-      repository: tannermiddleton/recommendarr
+      repository: tannermiddleton/airtrail
       pullPolicy: IfNotPresent
-      tag: v1.2.366@sha256:cca2712afa57fde21ad3f6b4cfcd8bace00aaf69767f9e5bb4957d3d1c7ef8b4
+      tag: v2.2.0@sha256:4f4780a980eb86162c122612b5fb4ade45ee1035a3f48bed1aa80fe0fcbeeef7
 
     credentials:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-authelia"
+        bucket: "${CF_S3_RESTIC_BUCKET}-airtrail"
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
@@ -53,7 +53,7 @@ spec:
       main:
         ports:
           main:
-            port: 3030
+            port: 3000
 
     workload:
       main:
@@ -61,11 +61,8 @@ spec:
           containers:
             main:
               env:
-                PORT: "{{ .Values.service.main.ports.main.port }}"
-                PUBLIC_URL: "https://recommendarr.${DOMAIN_0}"
-                # Force secure cookies even over HTTP (only use if behind HTTPS reverse proxy)
-                FORCE_SECURE_COOKIES: true
-                BASE_URL: "/"
+                ORIGIN: "https://airtrail.${DOMAIN_0}:433"
+                DB_URL: '{{ printf "%s?sslmode=disable" .Values.cnpg.main.creds.std | trimAll "\"" }}'
 
     ingress:
         main:
@@ -80,26 +77,27 @@ spec:
               enabled: true
               certificateIssuer: domain-0-le-prod
           hosts:
-            - host: recommendarr.${DOMAIN_0}
+            - host: airtrail.${DOMAIN_0}
               paths:
                 - path: /
                   pathType: Prefix
 
-    persistence:
-      data:
-        enabled: true
-        mountPath: /app/server/data
-        volsync:
-          - name: data
-            type: restic
-            credentials: cf-restic
-            dest:
-              cacheCapacity: 10Gi
-              enabled: true
-            src:
-              enabled: true
-              cacheCapacity: 10Gi
-
     cnpg:
       main:
-        enabled: false
+        enabled: true
+        user: airtrail
+        database: airtrail
+        cluster:
+          singleNode: true
+        backups:
+          enabled: true
+          credentials: cf-restic
+          scheduledBackups:
+            - name: daily-backup
+              schedule: "0 5 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic

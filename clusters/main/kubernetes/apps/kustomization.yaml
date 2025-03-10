@@ -28,3 +28,4 @@ resources:
   - string-is/ks.yaml
   - speedtest-tracker/ks.yaml
   - gatus/ks.yaml
+  - airtrail/ks.yaml
