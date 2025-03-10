@@ -64,7 +64,7 @@ spec:
       archive_limit: 5
       ollama:
         url: "http://ollama-app-template.ollama.svc.cluster.local:11434"
-        model: 'deepseek-coder:latest' # 'deepseek-r1:1.5b' # 'llama3.2:1b'
+        model: 'phi3:mini-4k' # 'deepseek-coder:latest'
     
     workload:
       main:
