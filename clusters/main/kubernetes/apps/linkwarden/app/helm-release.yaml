@@ -1,0 +1,147 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: linkwarden
+  namespace: linkwarden
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: linkwarden
+      version: 6.9.1
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+
+    global:
+      stopAll: false
+
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-linkwarden"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+  
+    securityContext:
+      container:
+        runAsNonRoot: false
+        readOnlyRootFilesystem: false
+        runAsUser: 0
+        runAsGroup: 0
+
+    defaultCertificate: domain-0-wildcard
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 3000
+
+    config:
+      nextauth_url: "http://example.com"
+      pagination_take_count: 20
+      autoscroll_timeout: 30
+      disable_registration: false
+      archive_limit: 5
+      ollama:
+        url: "http://ollama-app-template.ollama.svc.cluster.local:11434"
+        model: "phi3:mini-4k"
+    
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                DATABASE_URL:
+                  secretKeyRef:
+                    name: cnpg-main-urls
+                    key: std
+                NEXTAUTH_SECRET:
+                  secretKeyRef:
+                    name: linkwarden-secrets
+                    key: NEXTAUTH_SECRET
+                NEXTAUTH_URL: "{{ .Values.config.nextauth_url }}"
+                PAGINATION_TAKE_COUNT: "{{ .Values.config.pagination_take_count }}"
+                STORAGE_FOLDER: "/data"
+                AUTOSCROLL_TIMEOUT: "{{ .Values.config.autoscroll_timeout }}"
+                NEXT_PUBLIC_DISABLE_REGISTRATION: "{{ .Values.config.disable_registration }}"
+                RE_ARCHIVE_LIMIT: "{{ .Values.config.archive_limit }}"
+                NEXT_PUBLIC_OLLAMA_ENDPOINT_URL: "{{ .Values.config.ollama.url }}"
+                OLLAMA_MODEL: "{{ .Values.config.ollama.model }}"
+
+    ingress:
+      main:
+        enabled: true
+        integrations:
+          homepage:
+            enabled: true
+            group: "Monitoring"
+            custom:
+              key: ""
+          traefik:
+            enabled: true
+            middlewares:
+              - name: local
+                namespace: traefik
+          certManager:
+            enabled: true
+            certificateIssuer: domain-0-le-prod 
+        hosts:
+          - host: linkwarden.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
+
+    persistence:
+      data:
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+              cacheCapacity: 10Gi
+              cleanupTempPVC: true
+              cleanupCachePVC: true
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
+              cleanupTempPVC: true
+              cleanupCachePVC: true
+
+    cnpg:
+      main:
+        cluster:
+          singleNode: true
+        backups:
+          enabled: true
+          credentials: cf-restic
+          scheduledBackups:
+            - name: daily-backup
+              schedule: "0 5 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic

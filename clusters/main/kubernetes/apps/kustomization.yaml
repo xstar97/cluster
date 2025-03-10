@@ -32,3 +32,4 @@ resources:
   - fasten/ks.yaml
   - grimoire/ks.yaml
   - ollama/ks.yaml
+  - linkwarden/ks.yaml
