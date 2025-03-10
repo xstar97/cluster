@@ -64,7 +64,7 @@ spec:
       archive_limit: 5
       ollama:
         url: "http://ollama-app-template.ollama.svc.cluster.local:11434"
-        model: "phi3:mini-4k"
+        model: 'phi4-mini'
     
     workload:
       main:
