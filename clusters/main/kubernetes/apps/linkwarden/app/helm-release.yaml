@@ -57,7 +57,7 @@ spec:
             port: 3000
 
     config:
-      nextauth_url: "http://example.com"
+      nextauth_url: "https://linkwarden.${DOMAIN_0}"
       pagination_take_count: 20
       autoscroll_timeout: 30
       disable_registration: false
