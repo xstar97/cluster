@@ -69,6 +69,8 @@ spec:
         podSpec:
           containers:
             main:
+              args:
+                - "--gpus=all"
               env:
                 OLLAMA_HOST: '{{ printf "http://0.0.0.0:%v" .Values.service.main.ports.main.port }}'
                 OLLAMA_MODELS: "{{.Values.persistence.models.mountPath }}"
