@@ -62,6 +62,7 @@ spec:
     ollama:
       origins:
         - "*"
+        - "https://*.${DOMAIN_0}"
 
     workload:
       main:
