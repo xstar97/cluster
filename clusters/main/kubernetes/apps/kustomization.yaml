@@ -31,3 +31,4 @@ resources:
   - airtrail/ks.yaml
   - fasten/ks.yaml
   - grimoire/ks.yaml
+  - ollama/ks.yaml
