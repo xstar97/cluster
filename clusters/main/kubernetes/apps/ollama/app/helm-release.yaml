@@ -58,6 +58,10 @@ spec:
         ports:
           main:
             port: 11434
+    
+    ollama:
+      origins:
+        - "0.0.0.0"
 
     workload:
       main:
@@ -68,7 +72,7 @@ spec:
                 OLLAMA_HOST: '{{ printf "http://0.0.0.0:%v" .Values.service.main.ports.main.port }}'
                 OLLAMA_MODELS: "{{.Values.persistence.models.mountPath }}"
                 OLLAMA_NEW_ENGINE: true
-                # OLLAMA_ORIGINS: '{{ join "," .Values.ollama.origins }}'
+                OLLAMA_ORIGINS: '{{ join "," .Values.ollama.origins }}'
               resources:
                 limits:
                   nvidia.com/gpu: 1
