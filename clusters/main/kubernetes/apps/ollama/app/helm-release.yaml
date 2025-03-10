@@ -58,11 +58,13 @@ spec:
         ports:
           main:
             port: 11434
+
     ollama:
       origins:
         - "0.0.0.0"
         - "127.0.0.1"
         - "https://grimoire.${DOMAIN_0}"
+
     workload:
       main:
         podSpec:
