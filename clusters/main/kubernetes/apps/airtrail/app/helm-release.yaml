@@ -32,7 +32,7 @@ spec:
       stopAll: false
 
     image:
-      repository: tannermiddleton/airtrail
+      repository: johly/airtrail
       pullPolicy: IfNotPresent
       tag: v2.2.0@sha256:4f4780a980eb86162c122612b5fb4ade45ee1035a3f48bed1aa80fe0fcbeeef7
 
