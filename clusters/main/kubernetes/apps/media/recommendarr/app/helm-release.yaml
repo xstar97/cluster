@@ -34,7 +34,7 @@ spec:
     image:
       repository: tannermiddleton/recommendarr
       pullPolicy: IfNotPresent
-      tag: v1.2.70@sha256:855fda98ee176d06e0972ae3a9f356f227d6cce332ce954c3dc8a43f2a2fa02e
+      tag: v1.2.366@sha256:cca2712afa57fde21ad3f6b4cfcd8bace00aaf69767f9e5bb4957d3d1c7ef8b4
 
     credentials:
       cf-restic:
