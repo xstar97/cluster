@@ -65,6 +65,7 @@ spec:
                 PUBLIC_URL: "https://recommendarr.${DOMAIN_0}"
                 # Force secure cookies even over HTTP (only use if behind HTTPS reverse proxy)
                 FORCE_SECURE_COOKIES: true
+                BASE_URL: "/"
 
     ingress:
         main:
