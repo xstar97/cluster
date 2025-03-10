@@ -53,7 +53,7 @@ spec:
       main:
         ports:
           main:
-            port: 3000
+            port: 3030
 
     workload:
       main:
