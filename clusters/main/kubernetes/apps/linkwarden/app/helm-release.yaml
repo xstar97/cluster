@@ -96,8 +96,9 @@ spec:
           homepage:
             enabled: true
             group: "Monitoring"
-            custom:
-              key: "${LINKWARDEN_API_KEY}"
+            widget:
+              custom:
+                key: "${LINKWARDEN_API_KEY}"
           traefik:
             enabled: true
             middlewares:
