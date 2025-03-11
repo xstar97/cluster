@@ -51,6 +51,19 @@ spec:
         ports:
           main:
             port: 80
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                ENABLE_MJPG_STREAMER: "false"
+                # -- sets the Mjpg stream imput parameters
+                # Example "-y -n -r 640x480"
+                # MJPG_STREAMER_INPUT:
+                # -- sets the camera dev parameters
+                # Example "/dev/video0"
+                # CAMERA_DEV:
     ingress:
       main:
         enabled: true
