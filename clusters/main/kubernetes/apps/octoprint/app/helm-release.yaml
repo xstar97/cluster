@@ -87,3 +87,8 @@ spec:
               cacheCapacity: 10Gi
               cleanupTempPVC: true
               cleanupCachePVC: true
+      printer:
+        enabled: true
+        type: device
+        hostPath: /dev/serial/by-id/usb-1a86_USB_Serial-if00-port0
+        # mountPath: /dev/ttyACM0
