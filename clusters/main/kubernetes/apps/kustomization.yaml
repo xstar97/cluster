@@ -31,3 +31,4 @@ resources:
   - fasten/ks.yaml
   - ollama/ks.yaml
   - linkwarden/ks.yaml
+  - manyfold/ks.yaml
