@@ -23,7 +23,6 @@ resources:
   - uptime-kuma/ks.yaml
   - clue-solver/ks.yaml
   - omada-controller/ks.yaml
-  - octoprint/ks.yaml
   - mend-renovate/ks.yaml
   - string-is/ks.yaml
   - speedtest-tracker/ks.yaml
