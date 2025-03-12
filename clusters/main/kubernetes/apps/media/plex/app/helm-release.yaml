@@ -63,6 +63,7 @@ spec:
     ingress:
       main:
         enabled: true
+        ingressClassName: external
         integrations:
           homepage:
             enabled: true
@@ -71,7 +72,7 @@ spec:
               custom:
                 key: ${PLEX_TOKEN_PAL}
           traefik:
-            enabled: true
+            enabled: false
             middlewares:
               - name: local
                 namespace: traefik
