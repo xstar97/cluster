@@ -66,6 +66,7 @@ spec:
                 ACCESS_KEY_ID: "${CF_S3_RESTIC_ID}"
                 SECRET_ACCESS_KEY: "${CF_S3_RESTIC_KEY}"
                 USE_SSL: true
+                LIST_RECURSIVE: true
 
     ingress:
         main:
