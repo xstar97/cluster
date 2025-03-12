@@ -65,7 +65,7 @@ spec:
               insecureMode: false
     ingress:
       main:
-        enabled: true
+        enabled: false
         integrations:
           traefik:
             enabled: true
