@@ -60,7 +60,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: internal
+        # ingressClassName: internal
         integrations:
           homepage:
             enabled: true
@@ -69,7 +69,7 @@ spec:
               custom:
                 key: "${RADARR_KEY}"
           traefik:
-            enabled: false
+            enabled: true
           certManager:
             enabled: true
             certificateIssuer: domain-0-le-prod
