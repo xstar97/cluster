@@ -135,7 +135,7 @@ spec:
               type: S3
               config:
                 bucket: "${CF_S3_RESTIC_BUCKET}-thanos"
-                endpoint: "${CF_S3_RESTIC_URL}"
+                endpoint: "${CF_S3_RESTIC_URL_NO_HTTPS}"
                 insecure: true
                 access_key: "${CF_S3_RESTIC_ID}"
                 secret_key: "${CF_S3_RESTIC_KEY}"
