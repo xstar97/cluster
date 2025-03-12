@@ -30,6 +30,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    global:
+      stopAll: false
     defaultCertificate: domain-0-wildcard
     service:
       main:
