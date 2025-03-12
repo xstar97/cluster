@@ -17,7 +17,6 @@ resources:
   - grocy/ks.yaml
   - homebox/ks.yaml
   - clue-solver/ks.yaml
-  - mend-renovate/ks.yaml
   - airtrail/ks.yaml
   - fasten/ks.yaml
   - linkwarden/ks.yaml
