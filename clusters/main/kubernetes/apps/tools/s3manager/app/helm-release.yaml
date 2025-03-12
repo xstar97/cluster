@@ -51,6 +51,8 @@ spec:
     defaultCertificate: domain-0-wildcard
     service:
       main:
+        type: LoadBalancer
+        loadBalancerIP: 10.0.0.252
         ports:
           main:
             port: 8080
@@ -67,7 +69,7 @@ spec:
 
     ingress:
         main:
-          enabled: true
+          enabled: false
           integrations:
             traefik:
               enabled: true
