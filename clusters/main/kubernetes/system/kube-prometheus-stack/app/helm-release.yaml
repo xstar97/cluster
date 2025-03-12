@@ -80,7 +80,7 @@ spec:
       # `--store=dnssrv+_grpc._tcp.${kube-prometheus-stack.fullname}-thanos-discovery.${namespace}.svc.cluster.local` to discovery
       # Thanos sidecar on prometheus nodes
       thanosService:
-        enabled: true
+        enabled: false
         # annotations:
         #   metallb.io/ip-allocated-from-pool: main
         #   metallb.io/loadBalancerIPs: "${PROM_THANOS_IP}"
@@ -88,9 +88,9 @@ spec:
       # ServiceMonitor to scrape Sidecar metrics
       # Needs thanosService to be enabled as well
       thanosServiceMonitor:
-        enabled: true
+        enabled: false
       thanosIngress:
-        enabled: true
+        enabled: false
         annotations:
           cert-manager.io/cluster-issuer: domain-0-le-prod
           cert-manager.io/private-key-rotation-policy: Always
