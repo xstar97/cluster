@@ -59,7 +59,7 @@ spec:
             port: 7878
     ingress:
       main:
-        enabled: false
+        enabled: true
         # ingressClassName: internal
         integrations:
           homepage:
@@ -69,7 +69,7 @@ spec:
               custom:
                 key: "${RADARR_KEY}"
           traefik:
-            enabled: false
+            enabled: true
           certManager:
             enabled: true
             certificateIssuer: domain-0-le-prod
