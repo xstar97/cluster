@@ -41,11 +41,11 @@ spec:
             port: 80
     ingress:
       main:
-        enabled: false
+        enabled: true
         # ingressClassName: internal
         integrations:
           traefik:
-            enabled: false
+            enabled: true
             middlewares:
               - name: local
                 namespace: traefik
