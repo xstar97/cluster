@@ -5,7 +5,7 @@ resources:
   - external-services
   - media
   - minecraft
-  - networking
+  # - networking
   - kubernetes-dashboard/ks.yaml
   - adguard-home/ks.yaml
   - homepage/ks.yaml
