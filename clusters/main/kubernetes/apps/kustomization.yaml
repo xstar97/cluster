@@ -6,10 +6,10 @@ resources:
   - media
   - minecraft
   - networking
+  - observability
   - tools
   - kubernetes-dashboard/ks.yaml
   - homepage/ks.yaml
-  - peanut/ks.yaml
   - romm/ks.yaml
   - muse/ks.yaml
   - wallos/ks.yaml
@@ -21,4 +21,3 @@ resources:
   - fasten/ks.yaml
   - linkwarden/ks.yaml
   - manyfold/ks.yaml
-  - observability
