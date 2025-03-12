@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/apps/omada-controller/app
+  path: clusters/main/kubernetes/apps/networking/omada-controller/app
   prune: true
   sourceRef:
     kind: GitRepository

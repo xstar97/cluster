@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/apps/snippet-box/app
+  path: clusters/main/kubernetes/apps/tools/snippet-box/app
   prune: true
   sourceRef:
     kind: GitRepository

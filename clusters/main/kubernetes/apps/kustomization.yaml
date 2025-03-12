@@ -15,7 +15,6 @@ resources:
   - wallos/ks.yaml
   - grocy/ks.yaml
   - homebox/ks.yaml
-  - uptime-kuma/ks.yaml
   - clue-solver/ks.yaml
   - mend-renovate/ks.yaml
   - airtrail/ks.yaml

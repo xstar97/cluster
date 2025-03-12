@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/apps/speedtest-tracker/app
+  path: clusters/main/kubernetes/apps/networking/speedtest-tracker/app
   prune: true
   sourceRef:
     kind: GitRepository

@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/apps/stirling-pdf/app
+  path: clusters/main/kubernetes/apps/tools/stirling-pdf/app
   prune: true
   sourceRef:
     kind: GitRepository
