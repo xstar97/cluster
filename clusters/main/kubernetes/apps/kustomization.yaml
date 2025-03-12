@@ -5,6 +5,7 @@ resources:
   - external-services
   - media
   - minecraft
+  - networking
   - kubernetes-dashboard/ks.yaml
   - adguard-home/ks.yaml
   - homepage/ks.yaml
@@ -32,3 +33,4 @@ resources:
   - ollama/ks.yaml
   - linkwarden/ks.yaml
   - manyfold/ks.yaml
+  - observability
