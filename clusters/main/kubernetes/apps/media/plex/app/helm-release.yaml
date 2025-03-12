@@ -62,7 +62,7 @@ spec:
                   nvidia.com/gpu: 1
     ingress:
       main:
-        enabled: true
+        enabled: false
         # ingressClassName: external
         integrations:
           homepage:
@@ -72,7 +72,7 @@ spec:
               custom:
                 key: ${PLEX_TOKEN_PAL}
           traefik:
-            enabled: true
+            enabled: false
             middlewares:
               - name: local
                 namespace: traefik
