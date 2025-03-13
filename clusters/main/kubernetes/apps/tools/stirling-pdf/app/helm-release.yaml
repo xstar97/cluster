@@ -74,6 +74,15 @@ spec:
             src:
               enabled: true
               cacheCapacity: 10Gi
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              cacheCapacity: 10Gi
+              enabled: false
+            src:
+              enabled: false
+              cacheCapacity: 10Gi
       tessdata:
         volsync:
           - name: tessdata
