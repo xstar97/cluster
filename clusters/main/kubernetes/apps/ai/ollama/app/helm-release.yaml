@@ -74,22 +74,23 @@ spec:
                 limits:
                   nvidia.com/gpu: 1
     ingress:
-        main:
-          enabled: true
-          integrations:
-            traefik:
-              enabled: true
-              middlewares:
-                - name: local
-                  namespace: traefik
-            certManager:
-              enabled: true
-              certificateIssuer: domain-0-le-prod
-          hosts:
-            - host: ollama.${DOMAIN_0}
-              paths:
-                - path: /
-                  pathType: Prefix
+      main:
+        enabled: true
+        ingressClassName: ""
+        integrations:
+          traefik:
+            enabled: true
+            middlewares:
+              - name: local
+                namespace: traefik
+          certManager:
+            enabled: true
+            certificateIssuer: domain-0-le-prod
+        hosts:
+          - host: ollama.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
     persistence:
       config:
         enabled: true
