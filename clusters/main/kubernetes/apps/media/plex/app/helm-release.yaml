@@ -87,30 +87,17 @@ spec:
     persistence:
       config:
         volsync:
-          - name: data
-            type: restic
-            credentials: cf-restic
-            dest:
-              cacheCapacity: 20Gi
-              enabled: false
-              cleanupTempPVC: true
-              cleanupCachePVC: true
-            src:
-              enabled: false
-              cacheCapacity: 20Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
           - name: config
             type: restic
             credentials: cf-restic
             dest:
-              cacheCapacity: 20Gi
+              cacheCapacity: 100Gi
               enabled: false
               cleanupTempPVC: true
               cleanupCachePVC: true
             src:
               enabled: false
-              cacheCapacity: 20Gi
+              cacheCapacity: 100Gi
               cleanupTempPVC: true
               cleanupCachePVC: true
       transcode:
