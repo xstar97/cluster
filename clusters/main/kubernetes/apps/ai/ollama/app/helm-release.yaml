@@ -75,7 +75,7 @@ spec:
                   nvidia.com/gpu: 1
     ingress:
         main:
-          enabled: false
+          enabled: true
           integrations:
             traefik:
               enabled: true
