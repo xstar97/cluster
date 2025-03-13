@@ -92,11 +92,24 @@ spec:
             credentials: cf-restic
             dest:
               cacheCapacity: 20Gi
-              enabled: true
+              enabled: false
               cleanupTempPVC: true
               cleanupCachePVC: true
             src:
-              enabled: true
+              enabled: false
+              cacheCapacity: 20Gi
+              cleanupTempPVC: true
+              cleanupCachePVC: true
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              cacheCapacity: 20Gi
+              enabled: false
+              cleanupTempPVC: true
+              cleanupCachePVC: true
+            src:
+              enabled: false
               cacheCapacity: 20Gi
               cleanupTempPVC: true
               cleanupCachePVC: true
