@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/apps/actual/app
+  path: clusters/main/kubernetes/apps/financial/actual/app
   prune: true
   sourceRef:
     kind: GitRepository
