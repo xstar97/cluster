@@ -9,6 +9,7 @@ resources:
   - networking
   - observability
   - tools
+  - financial
   - kubernetes-dashboard/ks.yaml
   - homepage/ks.yaml
   - romm/ks.yaml
@@ -20,4 +21,3 @@ resources:
   - fasten/ks.yaml
   - linkwarden/ks.yaml
   - manyfold/ks.yaml
-  - financial
