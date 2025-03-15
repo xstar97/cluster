@@ -59,7 +59,7 @@ spec:
                 PLEX_CLAIM: "${PLEX_CLAIM_TOKEN}"
               resources:
                 limits:
-                  nvidia.com/gpu: 0 # 1
+                  nvidia.com/gpu: 1
     ingress:
       main:
         enabled: true
