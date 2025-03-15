@@ -43,11 +43,11 @@ A talos cluster for noobs.
 
 Checkout what I deploy under [kubernetes](https://github.com/xstar97/cluster/tree/main/clusters/main/kubernetes)
 
-# scripts
+## scripts
 
 You can clone my scripts easily through its own repo found [here](https://github.com/xstar97/cluster-scripts).
 
-# Socials
+## Socials
 
 <div align="center">
 <img alt="YouTube Channel Subscribers" src="https://img.shields.io/youtube/channel/subscribers/UCEb5JthC0sSKpMKOjrViL1Q">
