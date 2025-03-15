@@ -4,4 +4,3 @@ resources:
   - flux
   - weave-gitops
   - notifications
-  - flux2
