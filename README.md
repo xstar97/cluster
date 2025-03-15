@@ -1,6 +1,6 @@
 # cluster
 
-A talos cluster for noobs.
+A talos cluster for noobs. Checkout what I deploy under [kubernetes](https://github.com/xstar97/cluster/tree/main/clusters/main/kubernetes).
 
 <div align="center">
   <img src="https://visitor-badge.laobi.icu/badge?page_id=xstar97.cluster" />
@@ -40,8 +40,6 @@ A talos cluster for noobs.
     </div>
   </div>
 </div>
-
-Checkout what I deploy under [kubernetes](https://github.com/xstar97/cluster/tree/main/clusters/main/kubernetes)
 
 ## scripts
 
