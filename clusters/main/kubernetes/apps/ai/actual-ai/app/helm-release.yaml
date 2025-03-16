@@ -59,6 +59,13 @@ spec:
         podSpec:
           containers:
             main:
+              probes:
+                liveness:
+                  enabled: false
+                readiness:
+                  enabled: false
+                startup:
+                  enabled: false
               env:
                 ACTUAL_SERVER_URL: http://actual-actualserver.actual.svc.cluster.local:5006
                 ACTUAL_PASSWORD: ${ACTUAL_PASSWORD}
