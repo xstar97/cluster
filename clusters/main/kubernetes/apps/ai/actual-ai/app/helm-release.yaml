@@ -1,0 +1,98 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: actual-ai
+  namespace: actual-ai
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 14.5.3
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    image:
+      repository: sakowicz/actual-ai
+      pullPolicy: IfNotPresent
+      tag: 1.8.0@sha256:d329d8705c6efc8f0e6287b777a3effaf51fc37b1bd0ff32de6048a402f09d00
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-actual-ai"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        runAsNonRoot: false
+        readOnlyRootFilesystem: false
+        runAsUser: 0
+        runAsGroup: 0
+    service:
+      main:
+        enabled: false
+        ports:
+          main:
+            enabled: false
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                ACTUAL_SERVER_URL: http://actual-actualserver.actual.svc.cluster.local:5006
+                ACTUAL_PASSWORD: ${ACTUAL_PASSWORD}
+                ACTUAL_BUDGET_ID: "${ACTUAL_BUDGET_ID}" # This is the ID from Settings → Show advanced settings → Sync ID
+                CLASSIFICATION_SCHEDULE_CRON: 0 */4 * * * # How often to run classification.
+                CLASSIFY_ON_STARTUP: true # Whether to classify transactions on startup (don't wait for cron schedule)
+                SYNC_ACCOUNTS_BEFORE_CLASSIFY: false # Whether to sync accounts before classification
+                LLM_PROVIDER: ollama # Can be "openai", "anthropic", "google-generative-ai", "ollama" or "groq"
+                OLLAMA_MODEL: phi3.5 # llama3.1 optional. required if you want to use a Ollama specific model, default is "phi3.5"
+                OLLAMA_BASE_URL: http://ollama-app-template.ollama.svc.cluster.local:11434/api # optional. required for ollama provider
+                ACTUAL_E2E_PASSWORD:  # optional. required if you have E2E encryption
+                # NODE_TLS_REJECT_UNAUTHORIZED: 0 # optional. required if you have trouble connecting to Actual server 
+                # NOT_GUESSED_TAG=#actual-ai-miss
+                # GUESSED_TAG=#actual-ai
+                # PROMPT_TEMPLATE: >
+                #        I want to categorize the given bank transactions into the following categories:
+                #        {{#each categoryGroups}}
+                #        {{#each categories}}
+                #        * {{name}} ({{../name}}) (ID: "{{id}}")
+                #        {{/each}}
+                #        {{/each}}
+                #        Please categorize the following transaction:
+                #        * Amount: {{amount}}
+                #        * Type: {{type}}
+                #        {{#if description}}
+                #        * Description: {{description}}
+                #        {{/if}}
+                #        {{#if payee}}
+                #        * Payee: {{payee}}
+                #        {{^}}
+                #        * Payee: {{importedPayee}}
+                #        {{/if}}
+                #        ANSWER BY A CATEGORY ID - DO NOT CREATE ENTIRE SENTENCE - DO NOT WRITE CATEGORY NAME, JUST AN ID. Do not guess, if you don't know the answer, return "uncategorized".
+ 
+    cnpg:
+      main:
+        enabled: false
