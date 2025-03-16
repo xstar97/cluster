@@ -49,14 +49,11 @@ spec:
       main:
         enabled: true
         integrations:
+          traefik:
+            enabled: false
           homepage:
             enabled: true
             group: "Monitoring"
-          traefik:
-            enabled: true
-            middlewares:
-              - name: local
-                namespace: traefik
           certManager:
             enabled: true
             certificateIssuer: domain-0-le-prod 

@@ -56,7 +56,10 @@ spec:
     ingress:
       main:
         enabled: true
+        ingressClassName: "internal"
         integrations:
+          traefik:
+            enabled: false
           homepage:
             enabled: true
             group: "Media Downloads"
@@ -64,11 +67,6 @@ spec:
               custom:
                 url: http://sabnzbd.sabnzbd.svc.cluster.local:10097
                 key: "${SAB_KEY}"
-          traefik:
-            enabled: true
-            middlewares:
-              - name: local
-                namespace: traefik
           certManager:
             enabled: true
             certificateIssuer: domain-0-le-prod

@@ -48,18 +48,16 @@ spec:
     ingress:
       main:
         enabled: true
+        ingressClassName: "external"
         integrations:
+          traefik:
+            enabled: false
           homepage:
             enabled: true
             group: "Monitoring"
             widget:
               custom:
                 slug: "homelab"
-          traefik:
-            enabled: true
-            middlewares:
-              - name: local
-                namespace: traefik
           certManager:
             enabled: true
             certificateIssuer: domain-0-le-prod 

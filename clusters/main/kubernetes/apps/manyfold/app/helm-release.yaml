@@ -46,19 +46,20 @@ spec:
           main:
             port: 3214
     ingress:
-        main:
+      main:
+        enabled: true
+      ingressClassName: "internal"
+      hosts:
+        - host: manyfold.${DOMAIN_0}
+          paths:
+            - path: /
+              pathType: Prefix
+      integrations:
+        traefik:
+          enabled: false
+        certManager:
           enabled: true
-          hosts:
-            - host: manyfold.${DOMAIN_0}
-              paths:
-                - path: /
-                  pathType: Prefix
-          integrations:
-            traefik:
-              enabled: true
-            certManager:
-              enabled: true
-              certificateIssuer: domain-0-le-prod 
+          certificateIssuer: domain-0-le-prod 
 
     persistence:
       libraries:

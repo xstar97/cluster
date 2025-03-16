@@ -64,22 +64,20 @@ spec:
                 PG_URL: '{{ printf "%s?sslmode=disable" .Values.cnpg.main.creds.std | trimAll "\"" }}'
 
     ingress:
-        main:
-          enabled: true
-          integrations:
-            traefik:
-              enabled: true
-              middlewares:
-                - name: local
-                  namespace: traefik
-            certManager:
-              enabled: true
-              certificateIssuer: domain-0-le-prod
-          hosts:
-            - host: gatus.${DOMAIN_0}
-              paths:
-                - path: /
-                  pathType: Prefix
+      main:
+        enabled: true
+        ingressClassName: "external"
+        integrations:
+          traefik:
+            enabled: false
+          certManager:
+            enabled: true
+            certificateIssuer: domain-0-le-prod
+        hosts:
+          - host: gatus.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
 
     persistence:
       config:
@@ -111,12 +109,10 @@ spec:
               port: 36107
         ingress:
           enabled: true
+          ingressClassName: "external"
           integrations:
             traefik:
-              enabled: true
-              middlewares:
-                - name: local
-                  namespace: traefik
+              enabled: false
             certManager:
               enabled: true
               certificateIssuer: domain-0-le-prod 

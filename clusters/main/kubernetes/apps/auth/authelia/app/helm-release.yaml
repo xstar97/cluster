@@ -50,9 +50,7 @@ spec:
           enabled: true
           integrations:
             traefik:
-              enabled: true
-              entrypoints:
-              - websecure
+              enabled: false
             certManager:
               enabled: true
               certificateIssuer: domain-0-le-prod 

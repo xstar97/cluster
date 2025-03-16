@@ -42,15 +42,10 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: ""
+        ingressClassName: "internal"
         integrations:
           traefik:
-            enabled: true
-            middlewares:
-              - name: local
-                namespace: traefik
-              - name: kubernetes-dash
-                namespace: traefik
+            enabled: false
           certManager:
             enabled: true
             certificateIssuer: domain-0-le-prod 

@@ -60,16 +60,16 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: ""
+        ingressClassName: "internal"
         integrations:
+          traefik:
+            enabled: false
           homepage:
             enabled: true
             group: "Media Manager"
             widget:
               custom:
                 key: "${RADARR_KEY}"
-          traefik:
-            enabled: true
           certManager:
             enabled: true
             certificateIssuer: domain-0-le-prod

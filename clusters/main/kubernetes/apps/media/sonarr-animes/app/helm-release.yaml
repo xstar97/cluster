@@ -60,7 +60,10 @@ spec:
     ingress:
       main:
         enabled: true
+        ingressClassName: "internal"
         integrations:
+          traefik:
+            enabled: false
           homepage:
             enabled: true
             name: Sonarr (Animes)
@@ -68,8 +71,6 @@ spec:
             widget:
               custom:
                 key: "${SONARR_ANIMES_KEY}"
-          traefik:
-            enabled: true
           certManager:
             enabled: true
             certificateIssuer: domain-0-le-prod

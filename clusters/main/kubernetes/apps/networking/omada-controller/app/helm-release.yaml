@@ -88,6 +88,7 @@ spec:
     ingress:
       main:
         enabled: true
+        ingressClassName: "internal"
         integrations:
           homepage:
             enabled: true
@@ -99,10 +100,7 @@ spec:
                 password: '${OMADA_PASS}'
                 site: '${OMADA_SITE}'
           traefik:
-            enabled: true
-            middlewares:
-              - name: local
-                namespace: traefik
+            enabled: false
           certManager:
             enabled: true
             certificateIssuer: domain-0-le-prod 

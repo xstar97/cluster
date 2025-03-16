@@ -56,22 +56,20 @@ spec:
             port: 8080
 
     ingress:
-        main:
-          enabled: true
-          integrations:
-            traefik:
-              enabled: true
-              middlewares:
-                - name: local
-                  namespace: traefik
-            certManager:
-              enabled: true
-              certificateIssuer: domain-0-le-prod
-          hosts:
-            - host: fasten.${DOMAIN_0}
-              paths:
-                - path: /
-                  pathType: Prefix
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        integrations:
+          traefik:
+            enabled: false
+          certManager:
+            enabled: true
+            certificateIssuer: domain-0-le-prod
+        hosts:
+          - host: fasten.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
 
     persistence:
       db:

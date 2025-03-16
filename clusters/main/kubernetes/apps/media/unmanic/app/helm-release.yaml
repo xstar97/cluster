@@ -52,13 +52,13 @@ spec:
             port: 8888
     ingress:
       main:
-        enabled: true
+        enabled: false
         integrations:
+          traefik:
+            enabled: false
           homepage:
             enabled: true
             group: Media Transcoder
-          traefik:
-            enabled: true
           certManager:
             enabled: true
             certificateIssuer: domain-0-le-prod
