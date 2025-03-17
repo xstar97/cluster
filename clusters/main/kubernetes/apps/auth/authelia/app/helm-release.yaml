@@ -57,7 +57,7 @@ spec:
           traefik:
             enabled: true
           certManager:
-            enabled: false
+            enabled: true
             certificateIssuer: general-le-prod
     persistence:
       config:
