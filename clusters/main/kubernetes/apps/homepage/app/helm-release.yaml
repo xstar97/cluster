@@ -80,11 +80,11 @@ spec:
             codeserver:
               port: 36107
         ingress:
-          enabled: true
+          enabled: false
           ingressClassName: "" # "internal"
           integrations:
             traefik:
-              enabled: true
+              enabled: false
             certManager:
               enabled: false
               certificateIssuer: domain-general-le-prod 
