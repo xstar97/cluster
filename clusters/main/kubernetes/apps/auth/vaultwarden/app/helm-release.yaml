@@ -47,12 +47,12 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "" # "external"
+        ingressClassName: "external"
         integrations:
           traefik:
             enabled: false
           certManager:
-            enabled: false
+            enabled: true
             certificateIssuer: domain-0-le-prod 
         hosts:
           - host: vaultwarden.${DOMAIN_0}
