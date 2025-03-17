@@ -59,7 +59,7 @@ spec:
           # Options: HTTP01, cloudflare, route53, akamai, digitalocean, rfc2136, acmedns
           type: "cloudflare"
           # for cloudflare
-        - name: domain-general-le-prod
+        - name: domain-gen-le-prod
           # Used for both logging in to the DNS provider AND ACME registration
           email: "${DOMAIN_0_EMAIL}"
           server: 'https://acme-v02.api.letsencrypt.org/directory'
@@ -88,7 +88,7 @@ spec:
             - '*.${DOMAIN_1}'
         - name: general-wildcard
           enabled: true
-          certificateIssuer: domain-general-le-prod
+          certificateIssuer: domain-gen-le-prod
           hosts:
             - ${DOMAIN_0}
             - '*.${DOMAIN_0}'
