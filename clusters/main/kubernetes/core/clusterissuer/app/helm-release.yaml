@@ -75,7 +75,7 @@ spec:
       # Accepts comma-separated regex expressions
       replicationNamespaces: '.*'
       certificates:
-        - name: general-0-wildcard
+        - name: general-wildcard
           enabled: true
           certificateIssuer: domain-general-le-prod
           hosts:
