@@ -29,7 +29,7 @@ spec:
     keepHistory: false
   values:
     global:
-      stopAll: false
+      stopAll: true
     credentials:
       cf-restic:
         type: s3
@@ -65,7 +65,7 @@ spec:
             targetPort: 53
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "internal"
         integrations:
           traefik:
