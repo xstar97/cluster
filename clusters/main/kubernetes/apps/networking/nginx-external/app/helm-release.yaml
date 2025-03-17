@@ -30,12 +30,10 @@ spec:
     keepHistory: false
   values:
     controller:
-      replicaCount: 1
+      replicaCount: 2
       service:
         externalTrafficPolicy: Local
         annotations:
-          # TODO: Maybe play with this
-          # internal-dns.alpha.kubernetes.io/hostname: external.${DOMAIN_0}
           metallb.io/ip-allocated-from-pool: main
           metallb.io/loadBalancerIPs: ${NGINX_EXTERNAL_IP}
           metallb.universe.tf/ip-allocated-from-pool: main
@@ -63,7 +61,7 @@ spec:
         ssl-protocols: TLSv1.3 TLSv1.2
         use-forwarded-headers: "true"
       metrics:
-        enabled: false
+        enabled: true
       extraArgs:
         default-ssl-certificate: "clusterissuer/certificate-issuer-general-wildcard"
         publish-status-address: ${NGINX_EXTERNAL_IP}
@@ -72,8 +70,8 @@ spec:
         enabled: false
       resources:
         requests:
-          cpu: 100m
+          cpu: 1000m
         limits:
-          memory: 500Mi
+          memory: 1024Mi
     defaultBackend:
       enabled: false
