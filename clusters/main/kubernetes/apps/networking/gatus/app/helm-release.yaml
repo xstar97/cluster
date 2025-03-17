@@ -64,14 +64,14 @@ spec:
 
     ingress:
       main:
-        enabled: false
-        ingressClassName: "" # "external"
+        enabled: true
+        ingressClassName: external
         integrations:
           traefik:
             enabled: false
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod
+            certificateIssuer: domain-general-le-prod
         hosts:
           - host: gatus.${DOMAIN_0}
             paths:
