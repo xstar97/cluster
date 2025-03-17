@@ -51,16 +51,16 @@ spec:
             port: 8888
     ingress:
       main:
-        enabled: false
+        enabled: true
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           homepage:
             enabled: true
             group: Media Transcoder
           certManager:
             enabled: true
-            certificateIssuer: general-le-prod 
+            certificateIssuer: general-le-prod
         hosts:
           - host: unmanic.${DOMAIN_0}
             paths:

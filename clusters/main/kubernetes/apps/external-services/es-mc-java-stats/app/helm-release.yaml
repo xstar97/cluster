@@ -39,7 +39,7 @@ spec:
             port: 8100
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # "external"
         hosts:
           - host: stats.${DOMAIN_1}
@@ -48,7 +48,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           certManager:
             enabled: true
             certificateIssuer: general-le-prod

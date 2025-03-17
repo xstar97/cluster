@@ -30,12 +30,10 @@ spec:
   values:
     global:
       stopAll: false
-
     image:
       repository: ghcr.io/fastenhealth/fasten-onprem
       pullPolicy: IfNotPresent
       tag: main-v1.1.3@sha256:807c8cd60ec07afcf48d80ed492c02418cba2277508a7f50a2ec1c688286e90b
-
     credentials:
       cf-restic:
         type: s3
@@ -44,19 +42,16 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-
     securityContext:
       readOnlyRootFilesystem: false
-
     service:
       main:
         ports:
           main:
             port: 8080
-
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # "internal"
         hosts:
           - host: fasten.${DOMAIN_0}
@@ -65,11 +60,10 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-
     persistence:
       db:
         enabled: true
@@ -97,7 +91,6 @@ spec:
             src:
               enabled: true
               cacheCapacity: 10Gi
-
     cnpg:
       main:
         enabled: false

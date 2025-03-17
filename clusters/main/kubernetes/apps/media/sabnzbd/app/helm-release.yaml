@@ -54,7 +54,7 @@ spec:
                 SABNZBD__PORT: "{{ .Values.service.main.ports.main.port }}"
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # "internal"
         hosts:
           - host: sabd.${DOMAIN_0}
@@ -63,7 +63,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           homepage:
             enabled: true
             group: "Media Downloads"
@@ -73,7 +73,7 @@ spec:
                 key: "${SAB_KEY}"
           certManager:
             enabled: true
-            certificateIssuer: general-le-prod 
+            certificateIssuer: general-le-prod
     persistence:
       config:
         volsync:

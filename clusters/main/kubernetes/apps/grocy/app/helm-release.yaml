@@ -46,7 +46,7 @@ spec:
             port: 80
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # "internal" 
         hosts:
           - host: grocy.${DOMAIN_0}
@@ -55,7 +55,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
@@ -72,7 +72,6 @@ spec:
                 GROCY_LDAP_BIND_PW: "${LLDAP_LDAP_PWDMANAGER_PASS}"
                 GROCY_LDAP_USER_FILTER: "(&(objectClass=person)(memberof=cn=grocy,ou=groups,${LLDAP_LDAP_BASE_DN}))"
                 GROCY_LDAP_UID_ATTR: "uid"
-
     persistence:
       config:
         volsync:

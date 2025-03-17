@@ -53,16 +53,16 @@ spec:
                 DEEMIX_SINGLE_USER: true
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: # "internal"
         integrations:
           homepage:
             enabled: false
           traefik:
-            enabled: false
+            enabled: true
           certManager:
             enabled: true
-            certificateIssuer: general-le-prod 
+            certificateIssuer: general-le-prod
         hosts:
           - host: deemix.${DOMAIN_0}
             paths:

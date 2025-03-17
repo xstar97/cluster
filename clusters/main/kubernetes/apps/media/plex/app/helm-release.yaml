@@ -47,7 +47,7 @@ spec:
         loadBalancerIP: ${PLEX_IP}
         ports:
           main:
-            port: 32400   
+            port: 32400
     workload:
       main:
         podSpec:
@@ -61,11 +61,11 @@ spec:
                   nvidia.com/gpu: 1
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: # "external"
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           homepage:
             enabled: true
             group: Media Server
@@ -74,7 +74,7 @@ spec:
                 key: ${PLEX_TOKEN_PAL}
           certManager:
             enabled: true
-            certificateIssuer: general-le-prod 
+            certificateIssuer: general-le-prod
         hosts:
           - host: plex.${DOMAIN_0}
             paths:

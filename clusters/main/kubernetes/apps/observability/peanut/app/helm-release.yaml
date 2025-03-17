@@ -38,7 +38,7 @@ spec:
             port: 10688
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # "internal" 
         hosts:
           - host: peanut.${DOMAIN_0}
@@ -47,7 +47,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           homepage:
             enabled: true
             group: "Monitoring"

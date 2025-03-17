@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: sonarr
-      version:  23.6.6
+      version: 23.6.6
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -58,7 +58,7 @@ spec:
             port: 8989
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # "internal"
         hosts:
           - host: animes.sonarr.${DOMAIN_0}
@@ -67,7 +67,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           homepage:
             enabled: true
             name: Sonarr (Animes)

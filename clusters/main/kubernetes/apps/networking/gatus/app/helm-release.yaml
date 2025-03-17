@@ -30,12 +30,10 @@ spec:
   values:
     global:
       stopAll: false
-
     image:
       repository: ghcr.io/twin/gatus
       pullPolicy: IfNotPresent
       tag: v5.16.0@sha256:bb738c87cf2e2a08b8fff180cfc433e7b8b87bb1779c1fb1b00f8b748673e3c3
-
     credentials:
       cf-restic:
         type: s3
@@ -44,16 +42,13 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-
     securityContext:
       readOnlyRootFilesystem: false
-
     service:
       main:
         ports:
           main:
             port: 8080
-
     workload:
       main:
         podSpec:
@@ -61,10 +56,9 @@ spec:
             main:
               env:
                 PG_URL: '{{ printf "%s?sslmode=disable" .Values.cnpg.main.creds.std | trimAll "\"" }}'
-
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # external
         hosts:
           - host: gatus.${DOMAIN_0}
@@ -73,11 +67,10 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-
     persistence:
       config:
         enabled: true
@@ -97,7 +90,6 @@ spec:
             src:
               enabled: true
               cacheCapacity: 10Gi
-
     addons:
       codeserver:
         enabled: true
@@ -121,7 +113,6 @@ spec:
             certManager:
               enabled: true
               certificateIssuer: general-le-prod
-
     cnpg:
       main:
         enabled: true

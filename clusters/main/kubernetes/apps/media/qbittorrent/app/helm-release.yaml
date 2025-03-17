@@ -5,7 +5,7 @@ metadata:
   name: qbittorrent
   namespace: qbittorrent
 spec:
-  interval:  10m
+  interval: 10m
   chart:
     spec:
       chart: qbittorrent
@@ -77,7 +77,7 @@ spec:
             protocol: http
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # "internal" 
         hosts:
           - host: qbit.${DOMAIN_0}
@@ -86,7 +86,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           homepage:
             enabled: true
             group: "Media Downloads"
@@ -113,20 +113,18 @@ spec:
           FIREWALL_INPUT_PORTS: '{{ printf "%v,%v" .Values.service.main.ports.main.port .Values.service.glue.ports.control.port }}'
           HTTP_CONTROL_SERVER_ADDRESS: '{{ printf "0.0.0.0:%v" .Values.service.glue.ports.control.port }}'
           FIREWALL_OUTBOUND_SUBNETS: 172.16.0.0/16,172.17.0.0/16
-
     configmap:
       gluetun-auth-config:
         enabled: true
         data:
           config.toml: >-
             [[roles]]
-            
+
             name = "qbittorrent"
 
             routes = ["GET /v1/vpn/status","GET /v1/publicip/ip"]
 
             auth = "none"
-
     persistence:
       config:
         volsync:

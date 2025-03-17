@@ -62,7 +62,7 @@ spec:
               env: {}
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: # "internal" 
         hosts:
           - host: tauticord.${DOMAIN_0}
@@ -73,7 +73,7 @@ spec:
           homepage:
             enabled: false
           traefik:
-            enabled: false
+            enabled: true
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
@@ -119,7 +119,7 @@ spec:
               enabled: false
             certManager:
               enabled: true
-              certificateIssuer: general-le-prod 
+              certificateIssuer: general-le-prod
           hosts:
             - host: editor.tauticord.${DOMAIN_0}
               paths:

@@ -46,11 +46,11 @@ spec:
             port: 3001
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # "external"
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           homepage:
             enabled: true
             group: "Monitoring"
@@ -59,7 +59,7 @@ spec:
                 slug: "homelab"
           certManager:
             enabled: true
-            certificateIssuer: general-le-prod 
+            certificateIssuer: general-le-prod
         hosts:
           - host: status.${DOMAIN_0}
             paths:

@@ -86,7 +86,7 @@ spec:
             targetPort: 29810
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # "internal"
         integrations:
           homepage:
@@ -99,10 +99,10 @@ spec:
                 password: '${OMADA_PASS}'
                 site: '${OMADA_SITE}'
           traefik:
-            enabled: false
+            enabled: true
           certManager:
             enabled: true
-            certificateIssuer: general-le-prod 
+            certificateIssuer: general-le-prod
         hosts:
           - host: omada.controller.${DOMAIN_0}
             paths:

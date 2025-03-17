@@ -74,7 +74,7 @@ spec:
                   nvidia.com/gpu: 1
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # "internal" 
         hosts:
           - host: ollama.${DOMAIN_0}
@@ -83,7 +83,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           certManager:
             enabled: true
             certificateIssuer: general-le-prod

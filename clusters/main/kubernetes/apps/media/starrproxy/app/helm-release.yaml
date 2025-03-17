@@ -30,12 +30,10 @@ spec:
   values:
     global:
       stopAll: false
-
     image:
       repository: ghcr.io/notifiarr/starrproxy
       pullPolicy: IfNotPresent
       tag: main@sha256:a93424223e09a489cdfebb6c74d51660cd83ea89983ba01ebc218222355e0eef
-
     credentials:
       cf-restic:
         type: s3
@@ -44,27 +42,24 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-
     securityContext:
       container:
         runAsNonRoot: false
         readOnlyRootFilesystem: false
         runAsUser: 0
         runAsGroup: 0
-
     service:
       main:
         ports:
           main:
             port: 80
-
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # "internal"
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
@@ -73,7 +68,6 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-
     persistence:
       config:
         enabled: true
@@ -88,7 +82,6 @@ spec:
             src:
               enabled: true
               cacheCapacity: 10Gi
-
     cnpg:
       main:
         enabled: false

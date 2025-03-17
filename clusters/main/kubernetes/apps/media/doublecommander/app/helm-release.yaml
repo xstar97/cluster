@@ -38,14 +38,14 @@ spec:
             port: 3000
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: # "internal"
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           certManager:
             enabled: true
-            certificateIssuer: general-le-prod 
+            certificateIssuer: general-le-prod
         hosts:
           - host: files.${DOMAIN_0}
             paths:

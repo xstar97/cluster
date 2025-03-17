@@ -28,10 +28,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
-
     global:
       stopAll: false
-
     credentials:
       cf-restic:
         type: s3
@@ -40,21 +38,18 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-  
     securityContext:
       container:
         runAsNonRoot: false
         readOnlyRootFilesystem: false
         runAsUser: 0
         runAsGroup: 0
-
     service:
       main:
         type: ClusterIP
         ports:
           main:
             port: 3000
-
     config:
       nextauth_url: "https://linkwarden.${DOMAIN_0}"
       pagination_take_count: 20
@@ -64,7 +59,6 @@ spec:
       ollama:
         url: "http://ollama-app-template.ollama.svc.cluster.local:11434"
         model: 'phi3:mini-4k' # 'deepseek-coder:latest'
-    
     workload:
       main:
         podSpec:
@@ -87,10 +81,9 @@ spec:
                 RE_ARCHIVE_LIMIT: "{{ .Values.config.archive_limit }}"
                 NEXT_PUBLIC_OLLAMA_ENDPOINT_URL: "{{ .Values.config.ollama.url }}"
                 OLLAMA_MODEL: "{{ .Values.config.ollama.model }}"
-
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # "internal"
         hosts:
           - host: linkwarden.${DOMAIN_0}
@@ -99,7 +92,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           homepage:
             enabled: true
             group: "Monitoring"
@@ -109,7 +102,6 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-
     persistence:
       data:
         volsync:
@@ -126,7 +118,6 @@ spec:
               cacheCapacity: 10Gi
               cleanupTempPVC: true
               cleanupCachePVC: true
-
     cnpg:
       main:
         cluster:

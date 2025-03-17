@@ -52,23 +52,22 @@ spec:
             port: 80
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # "internal"
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           homepage:
             enabled: true
             group: "Monitoring"
           certManager:
             enabled: true
-            certificateIssuer: general-le-prod 
+            certificateIssuer: general-le-prod
         hosts:
           - host: speedtest.tracker.${DOMAIN_0}
             paths:
               - path: /
                 pathType: Prefix
-
     workload:
       main:
         podSpec:

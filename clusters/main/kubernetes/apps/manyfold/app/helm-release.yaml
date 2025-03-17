@@ -46,7 +46,7 @@ spec:
             port: 3214
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # "internal"
         hosts:
           - host: manyfold.${DOMAIN_0}
@@ -55,11 +55,10 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           certManager:
             enabled: true
-            certificateIssuer: general-le-prod 
-
+            certificateIssuer: general-le-prod
     persistence:
       libraries:
         volsync:
@@ -76,7 +75,6 @@ spec:
               cleanupCachePVC: true
               trigger:
                 schedule: 10 0 * * *
-
     cnpg:
       main:
         cluster:

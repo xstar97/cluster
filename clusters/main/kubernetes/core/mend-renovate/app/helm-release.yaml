@@ -66,7 +66,6 @@ spec:
                 MEND_RNV_GITHUB_APP_ID: "${MEND_RNV_GITHUB_APP_ID}"
                 MEND_RNV_GITHUB_APP_KEY: "${MEND_RNV_GITHUB_APP_KEY}"
                 MEND_RNV_WEBHOOK_SECRET: "${MEND_RNV_WEBHOOK_SECRET}"
-                
                 # Mend Renovate Application settings (Optional)
                 MEND_RNV_SQLITE_FILE_PATH: "{{ .Values.persistence.db.mountPath }}/renovate-ce.sqlite"
                 MEND_RNV_LOG_HISTORY_DIR: "{{ .Values.persistence.logs.mountPath }}"
@@ -74,14 +73,14 @@ spec:
                 # MEND_RNV_ENQUEUE_JOBS_ON_STARTUP: disabled  # Options: 'enabled', 'disabled', 'discovered' (default)
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # "external"
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           certManager:
             enabled: true
-            certificateIssuer: general-le-prod 
+            certificateIssuer: general-le-prod
         hosts:
           - host: renovate.${DOMAIN_0}
             paths:
@@ -117,4 +116,4 @@ spec:
               enabled: true
               cacheCapacity: 10Gi
               cleanupTempPVC: true
-              cleanupCachePVC: true 
+              cleanupCachePVC: true

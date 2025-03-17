@@ -39,7 +39,7 @@ spec:
         encrKey: "${CF_S3_RESTIC_KEY}"
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # "internal"
         hosts:
           - host: grafana.${DOMAIN_0}
@@ -48,7 +48,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
