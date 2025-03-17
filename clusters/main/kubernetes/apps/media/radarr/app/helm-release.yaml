@@ -58,7 +58,7 @@ spec:
             port: 7878
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "internal"
         integrations:
           traefik:

@@ -89,7 +89,7 @@ spec:
                     key: std
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "internal"
         integrations:
           traefik:

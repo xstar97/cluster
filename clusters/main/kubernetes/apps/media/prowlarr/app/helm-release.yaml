@@ -58,7 +58,7 @@ spec:
             port: 9696
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "internal"
         integrations:
           traefik:

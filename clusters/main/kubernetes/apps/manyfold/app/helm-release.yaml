@@ -46,7 +46,7 @@ spec:
             port: 3214
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "internal"
         hosts:
           - host: manyfold.${DOMAIN_0}

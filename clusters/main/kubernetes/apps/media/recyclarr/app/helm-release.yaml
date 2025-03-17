@@ -73,7 +73,7 @@ spec:
             codeserver:
               port: 36107
         ingress:
-          enabled: true
+          enabled: false
           ingressClassName: "internal"
           integrations:
             traefik:

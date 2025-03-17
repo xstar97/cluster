@@ -63,7 +63,7 @@ spec:
                 DISABLE_RUFFLE_RS: false
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "internal"
         integrations:
           traefik:

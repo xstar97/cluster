@@ -46,7 +46,7 @@ spec:
             port: 4545
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "internal"
         integrations:
           traefik:

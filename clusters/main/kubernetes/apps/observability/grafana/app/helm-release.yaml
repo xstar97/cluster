@@ -39,7 +39,7 @@ spec:
         encrKey: "${CF_S3_RESTIC_KEY}"
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "internal"
         integrations:
           traefik:

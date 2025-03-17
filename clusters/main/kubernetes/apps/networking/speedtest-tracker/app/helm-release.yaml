@@ -52,7 +52,7 @@ spec:
             port: 80
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "internal"
         integrations:
           traefik:

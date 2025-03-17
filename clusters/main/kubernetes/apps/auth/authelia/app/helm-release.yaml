@@ -46,7 +46,7 @@ spec:
             port: 9091
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "internal"
         integrations:
           traefik:

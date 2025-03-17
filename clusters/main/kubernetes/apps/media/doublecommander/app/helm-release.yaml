@@ -38,7 +38,7 @@ spec:
             port: 3000
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "internal"
         integrations:
           traefik:

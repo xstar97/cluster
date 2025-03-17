@@ -227,7 +227,7 @@ spec:
             codeserver:
               port: 36107
         ingress:
-          enabled: true
+          enabled: faalse
           ingressClassName: "internal"
           integrations:
             traefik:

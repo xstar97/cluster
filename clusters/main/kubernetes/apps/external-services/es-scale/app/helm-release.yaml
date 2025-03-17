@@ -39,7 +39,7 @@ spec:
             port: 444
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "internal"
         integrations:
           traefik:

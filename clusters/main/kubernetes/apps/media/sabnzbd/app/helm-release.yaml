@@ -54,7 +54,7 @@ spec:
                 SABNZBD__PORT: "{{ .Values.service.main.ports.main.port }}"
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "internal"
         integrations:
           traefik:

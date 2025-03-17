@@ -86,7 +86,7 @@ spec:
             targetPort: 29810
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "internal"
         integrations:
           homepage:
