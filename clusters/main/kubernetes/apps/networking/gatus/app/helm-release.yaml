@@ -108,7 +108,7 @@ spec:
               port: 36107
         ingress:
           enabled: false
-          ingressClassName: "internal"
+          ingressClassName: "" # "internal"
           integrations:
             traefik:
               enabled: false
