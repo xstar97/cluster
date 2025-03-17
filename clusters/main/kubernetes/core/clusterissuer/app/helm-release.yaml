@@ -87,7 +87,7 @@ spec:
           hosts:
             - ${DOMAIN_1}
             - '*.${DOMAIN_1}'
-        - name: domain-general-wildcard
+        - name: domains-general-wildcard
           enabled: false
           certificateIssuer: domain-general-le-prod
           hosts:
