@@ -34,7 +34,7 @@ spec:
       username: admin
       passwordHash: "$2a$10$zbuAGqz3.4YAk4NPiDMwVOzRJu1QwzAUkDxYDcg3c3L74xKDXf.fi"
     ingress:
-      enabled: true
+      enabled: false
       annotations:
         traefik.ingress.kubernetes.io/router.entrypoints: websecure
         cert-manager.io/cluster-issuer: general-le-prod
