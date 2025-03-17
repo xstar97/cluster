@@ -33,21 +33,6 @@ spec:
       create: true
       username: admin
       passwordHash: "$2a$10$zbuAGqz3.4YAk4NPiDMwVOzRJu1QwzAUkDxYDcg3c3L74xKDXf.fi"
-    ingress:
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: domain-0-le-prod
-        cert-manager.io/private-key-rotation-policy: Always
-        ingressClassName: external
-      tls:
-        - hosts:
-            - gitops.${DOMAIN_0}
-          secretName: flux-system-weave-gitops
-      hosts:
-        - host: gitops.${DOMAIN_0}
-          paths:
-            - path: /
-              pathType: Prefix
     networkPolicy:
       create: false
     metrics:
