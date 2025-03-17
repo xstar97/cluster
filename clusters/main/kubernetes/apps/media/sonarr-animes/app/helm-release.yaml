@@ -59,7 +59,7 @@ spec:
     ingress:
       main:
         enabled: false
-        ingressClassName: "internal"
+        ingressClassName: "" # "internal"
         integrations:
           traefik:
             enabled: false
@@ -72,7 +72,7 @@ spec:
                 key: "${SONARR_ANIMES_KEY}"
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod
+            certificateIssuer: domain-general-le-prod
         hosts:
           - host: animes.sonarr.${DOMAIN_0}
             paths:

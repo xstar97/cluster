@@ -68,7 +68,7 @@ spec:
             group: Media Transcoder
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod
+            certificateIssuer: domain-general-le-prod
         hosts:
           - host: fileflows.${DOMAIN_0}
             paths:

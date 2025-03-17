@@ -33,7 +33,7 @@ spec:
     ## set stopAll to "true" if you do not want to use traefik
     # and/or disable its service
     global:
-      stopAll: true
+      stopAll: false
     service:
       tcp:
         loadBalancerIP: ${TRAEFIK_IP}
@@ -64,11 +64,11 @@ spec:
               insecureMode: false
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: ""
         integrations:
           traefik:
-            enabled: true
+            enabled: false
             middlewares:
               - name: local
                 namespace: traefik
@@ -76,7 +76,7 @@ spec:
                 namespace: traefik
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod 
+            certificateIssuer: domain-general-le-prod 
           homepage:
             enabled: true
             group: "Networking"

@@ -53,7 +53,7 @@ spec:
             enabled: false
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod 
+            certificateIssuer: domain-general-le-prod 
         hosts:
           - host: homepage.${DOMAIN_0}
             paths:
@@ -80,14 +80,14 @@ spec:
             codeserver:
               port: 36107
         ingress:
-          enabled: false
+          enabled: true
           ingressClassName: "" # "internal"
           integrations:
             traefik:
-              enabled: false
+              enabled: true
             certManager:
               enabled: false
-              certificateIssuer: domain-0-le-prod 
+              certificateIssuer: domain-general-le-prod 
           hosts:
             - host: editor.homepage.${DOMAIN_0}
               paths:

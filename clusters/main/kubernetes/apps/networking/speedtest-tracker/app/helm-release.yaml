@@ -53,7 +53,7 @@ spec:
     ingress:
       main:
         enabled: false
-        ingressClassName: "internal"
+        ingressClassName: "" # "internal"
         integrations:
           traefik:
             enabled: false
@@ -62,7 +62,7 @@ spec:
             group: "Monitoring"
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod 
+            certificateIssuer: domain-general-le-prod 
         hosts:
           - host: speedtest.tracker.${DOMAIN_0}
             paths:

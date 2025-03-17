@@ -61,13 +61,13 @@ spec:
     ingress:
       main:
         enabled: false
-        ingressClassName: "internal"
+        ingressClassName: "" # "internal"
         integrations:
           traefik:
             enabled: false
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod
+            certificateIssuer: domain-general-le-prod
         hosts:
           - host: starrproxy.${DOMAIN_0}
             paths:

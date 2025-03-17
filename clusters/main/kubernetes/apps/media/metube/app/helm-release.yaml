@@ -64,8 +64,8 @@ spec:
           traefik:
             enabled: false
           certManager:
-            enabled: false
-            certificateIssuer: domain-0-le-prod
+            enabled: true
+            certificateIssuer: domain-general-le-prod
         hosts:
           - host: metube.${DOMAIN_0}
             paths:
