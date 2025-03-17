@@ -60,7 +60,7 @@ spec:
           type: "cloudflare"
           # for cloudflare
           cfapitoken: "${DOMAIN_1_CLOUDFLARE_TOKEN}"
-        - name: domain-gen-le-prod
+        - name: domain-general-le-prod
           # Used for both logging in to the DNS provider AND ACME registration
           email: "${DOMAIN_0_EMAIL}"
           server: 'https://acme-v02.api.letsencrypt.org/directory'
@@ -87,9 +87,9 @@ spec:
           hosts:
             - ${DOMAIN_1}
             - '*.${DOMAIN_1}'
-        - name: general-wildcard
-          enabled: true
-          certificateIssuer: domain-gen-le-prod
+        - name: domain-general-wildcard
+          enabled: false
+          certificateIssuer: domain-general-le-prod
           hosts:
             - ${DOMAIN_0}
             - '*.${DOMAIN_0}'
