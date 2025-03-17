@@ -63,7 +63,7 @@ spec:
         ssl-protocols: TLSv1.3 TLSv1.2
         use-forwarded-headers: "true"
       metrics:
-        enabled: tfalse
+        enabled: false
       extraArgs:
         default-ssl-certificate: "clusterissuer/certificate-issuer-general-wildcard"
         publish-status-address: ${NGINX_EXTERNAL_IP}
