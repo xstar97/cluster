@@ -95,12 +95,12 @@ spec:
             - 10.0.0.0/8
       redirectRegex:
         - name: mc-java-stats
-          regex: https://stats\.${DOMAIN_2}/?$
-          replacement: https://stats.${DOMAIN_2}/stats
+          regex: https://stats\.${DOMAIN_1}/?$
+          replacement: https://stats.${DOMAIN_1}/stats
           permanent: true
         - name: mc-java-map
-          regex: https://map\.${DOMAIN_2}/stats
-          replacement: https://stats.${DOMAIN_2}/
+          regex: https://map\.${DOMAIN_1}/stats
+          replacement: https://stats.${DOMAIN_1}/
           permanent: true
         - name: traefik-dash
           regex: https://traefik\.${DOMAIN_0}/?$
