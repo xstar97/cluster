@@ -54,7 +54,7 @@ spec:
     ingress:
       main:
         enabled: false
-        ingressClassName: "internal"
+        ingressClassName: # "internal"
         integrations:
           homepage:
             enabled: false
@@ -62,7 +62,7 @@ spec:
             enabled: false
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod
+            certificateIssuer: general-le-prod 
         hosts:
           - host: deemix.${DOMAIN_0}
             paths:

@@ -59,7 +59,12 @@ spec:
     ingress:
       main:
         enabled: false
-        ingressClassName: "internal"
+        ingressClassName: # "internal" 
+        hosts:
+          - host: lidarr.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
         integrations:
           traefik:
             enabled: false
@@ -71,12 +76,7 @@ spec:
                 key: "${LIDARR_KEY}"
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod
-        hosts:
-          - host: lidarr.${DOMAIN_0}
-            paths:
-              - path: /
-                pathType: Prefix
+            certificateIssuer: general-le-prod
     persistence:
       config:
         volsync:

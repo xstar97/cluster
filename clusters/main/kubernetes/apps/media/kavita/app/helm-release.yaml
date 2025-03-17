@@ -47,7 +47,12 @@ spec:
     ingress:
       main:
         enabled: false
-        ingressClassName: "internal"
+        ingressClassName: "" # "internal" 
+        hosts:
+          - host: kavita.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
         integrations:
           traefik:
             enabled: false
@@ -60,12 +65,7 @@ spec:
                 password: "${KAVITA_PASS}"
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod
-        hosts:
-          - host: kavita.${DOMAIN_0}
-            paths:
-              - path: /
-                pathType: Prefix
+            certificateIssuer: general-le-prod
     persistence:
       config:
         volsync:

@@ -60,7 +60,7 @@ spec:
             group: Media Transcoder
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod
+            certificateIssuer: general-le-prod 
         hosts:
           - host: unmanic.${DOMAIN_0}
             paths:

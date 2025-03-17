@@ -65,8 +65,8 @@ spec:
             targetPort: 53
     ingress:
       main:
-        enabled: true
-        ingressClassName: "internal"
+        enabled: false
+        ingressClassName: # "internal"
         integrations:
           traefik:
             enabled: false
@@ -79,7 +79,7 @@ spec:
                 password: "${ADGUARD_HOME_PASS}"
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod 
+            certificateIssuer: general-le-prod 
         hosts:
           - host: adguard.home.${DOMAIN_0}
             paths:

@@ -74,17 +74,16 @@ spec:
               port: 36107
         ingress:
           enabled: false
-          ingressClassName: "internal"
-          integrations:
-            traefik:
-              enabled: false
-            certManager:
-              enabled: true
-              certificateIssuer: domain-0-le-prod
+          ingressClassName: "" # "internal"
           hosts:
             - host: editor.recyclarr.${DOMAIN_0}
               paths:
                 - path: /
                   # Ignored if not kubeVersion >= 1.14-0
                   pathType: Prefix
-          tls: []
+          integrations:
+            traefik:
+              enabled: false
+            certManager:
+              enabled: true
+              certificateIssuer: general-le-prod 

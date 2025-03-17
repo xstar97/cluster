@@ -40,15 +40,15 @@ spec:
     ingress:
       main:
         enabled: false
-        ingressClassName: "external"
-        integrations:
-          traefik:
-            enabled: false
-          certManager:
-            enabled: true
-            certificateIssuer: domain-1-le-prod
+        ingressClassName: "" # "external"
         hosts:
           - host: map.${DOMAIN_1}
             paths:
               - path: /
                 pathType: Prefix
+        integrations:
+          traefik:
+            enabled: false
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod

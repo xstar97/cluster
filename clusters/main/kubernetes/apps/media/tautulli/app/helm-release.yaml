@@ -46,8 +46,8 @@ spec:
             port: 8181
     ingress:
       main:
-        enabled: true
-        ingressClassName: "internal"
+        enabled: false
+        ingressClassName: "" # "internal"
         integrations:
           traefik:
             enabled: false
@@ -59,7 +59,7 @@ spec:
                 key: "${TAUTULLI_KEY}"
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod
+            certificateIssuer: general-le-prod 
         hosts:
           - host: tautulli.${DOMAIN_0}
             paths:

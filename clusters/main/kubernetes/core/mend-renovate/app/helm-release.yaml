@@ -81,7 +81,7 @@ spec:
             enabled: false
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod 
+            certificateIssuer: general-le-prod 
         hosts:
           - host: renovate.${DOMAIN_0}
             paths:

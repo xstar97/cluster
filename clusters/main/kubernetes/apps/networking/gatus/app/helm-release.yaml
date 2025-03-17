@@ -66,17 +66,17 @@ spec:
       main:
         enabled: false
         ingressClassName: "" # external
-        integrations:
-          traefik:
-            enabled: false
-          certManager:
-            enabled: true
-            certificateIssuer: domain-general-le-prod
         hosts:
           - host: gatus.${DOMAIN_0}
             paths:
               - path: /
                 pathType: Prefix
+        integrations:
+          traefik:
+            enabled: false
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
 
     persistence:
       config:
@@ -109,19 +109,18 @@ spec:
         ingress:
           enabled: false
           ingressClassName: "" # "internal"
-          integrations:
-            traefik:
-              enabled: false
-            certManager:
-              enabled: true
-              certificateIssuer: domain-0-le-prod 
           hosts:
             - host: editor.gatus.${DOMAIN_0}
               paths:
                 - path: /
                   # Ignored if not kubeVersion >= 1.14-0
                   pathType: Prefix
-          tls: []
+          integrations:
+            traefik:
+              enabled: false
+            certManager:
+              enabled: true
+              certificateIssuer: general-le-prod
 
     cnpg:
       main:

@@ -40,17 +40,17 @@ spec:
       main:
         enabled: false
         ingressClassName: "" # "internal"
-        integrations:
-          traefik:
-            enabled: false
-          certManager:
-            enabled: true
-            certificateIssuer: domain-0-le-prod 
         hosts:
           - host: it.tools.${DOMAIN_0}
             paths:
               - path: /
                 pathType: Prefix
+        integrations:
+          traefik:
+            enabled: false
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
     persistence:
       cache:
         enabled: true

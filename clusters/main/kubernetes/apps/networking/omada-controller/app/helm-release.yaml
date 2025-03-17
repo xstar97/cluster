@@ -87,7 +87,7 @@ spec:
     ingress:
       main:
         enabled: false
-        ingressClassName: "internal"
+        ingressClassName: "" # "internal"
         integrations:
           homepage:
             enabled: true
@@ -102,7 +102,7 @@ spec:
             enabled: false
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod 
+            certificateIssuer: general-le-prod 
         hosts:
           - host: omada.controller.${DOMAIN_0}
             paths:

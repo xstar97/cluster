@@ -60,17 +60,17 @@ spec:
       main:
         enabled: false
         ingressClassName: "" # "internal"
-        integrations:
-          traefik:
-            enabled: false
-          certManager:
-            enabled: true
-            certificateIssuer: domain-general-le-prod
         hosts:
           - host: metube.${DOMAIN_0}
             paths:
               - path: /
                 pathType: Prefix
+        integrations:
+          traefik:
+            enabled: false
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
     persistence:
       config:
         volsync:

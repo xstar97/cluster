@@ -48,17 +48,17 @@ spec:
       main:
         enabled: false
         ingressClassName: "" # "internal"
-        integrations:
-          traefik:
-            enabled: false
-          certManager:
-            enabled: true
-            certificateIssuer: domain-general-le-prod 
         hosts:
           - host: homepage.${DOMAIN_0}
             paths:
               - path: /
                 pathType: Prefix
+        integrations:
+          traefik:
+            enabled: false
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
     persistence:
       config:
         volsync:
@@ -81,17 +81,16 @@ spec:
               port: 36107
         ingress:
           enabled: false
-          ingressClassName: "" # "internal"
-          integrations:
-            traefik:
-              enabled: false
-            certManager:
-              enabled: false
-              certificateIssuer: domain-general-le-prod 
+          ingressClassName: "" # "internal" 
           hosts:
             - host: editor.homepage.${DOMAIN_0}
               paths:
                 - path: /
                   # Ignored if not kubeVersion >= 1.14-0
                   pathType: Prefix
-          tls: []
+          integrations:
+            traefik:
+              enabled: false
+            certManager:
+              enabled: false
+              certificateIssuer: general-le-prod

@@ -56,7 +56,7 @@ spec:
             group: "Monitoring"
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod 
+            certificateIssuer: general-le-prod 
         hosts:
           - host: myspeed.${DOMAIN_0}
             paths:

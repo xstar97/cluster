@@ -62,7 +62,7 @@ spec:
             group: "Monitoring"
           certManager:
             enabled: true
-            certificateIssuer: domain-general-le-prod 
+            certificateIssuer: general-le-prod 
         hosts:
           - host: speedtest.tracker.${DOMAIN_0}
             paths:

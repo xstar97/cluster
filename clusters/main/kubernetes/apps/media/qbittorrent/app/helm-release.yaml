@@ -78,7 +78,12 @@ spec:
     ingress:
       main:
         enabled: false
-        ingressClassName: "internal"
+        ingressClassName: "" # "internal" 
+        hosts:
+          - host: qbit.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
         integrations:
           traefik:
             enabled: false
@@ -87,12 +92,7 @@ spec:
             group: "Media Downloads"
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod
-        hosts:
-          - host: qbit.${DOMAIN_0}
-            paths:
-              - path: /
-                pathType: Prefix
+            certificateIssuer: general-le-prod
     addons:
       vpn:
         type: gluetun

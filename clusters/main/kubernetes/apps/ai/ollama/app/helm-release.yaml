@@ -75,18 +75,18 @@ spec:
     ingress:
       main:
         enabled: false
-        ingressClassName: "internal"
-        integrations:
-          traefik:
-            enabled: false
-          certManager:
-            enabled: true
-            certificateIssuer: domain-0-le-prod
+        ingressClassName: "" # "internal" 
         hosts:
           - host: ollama.${DOMAIN_0}
             paths:
               - path: /
                 pathType: Prefix
+        integrations:
+          traefik:
+            enabled: false
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
     persistence:
       config:
         enabled: true

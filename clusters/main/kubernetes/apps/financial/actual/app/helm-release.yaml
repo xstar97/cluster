@@ -53,7 +53,7 @@ spec:
             enabled: false
           certManager:
             enabled: true
-            certificateIssuer: domain-general-le-prod 
+            certificateIssuer: general-le-prod 
         hosts:
           - host: actual.${DOMAIN_0}
             paths:

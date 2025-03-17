@@ -47,7 +47,7 @@ spec:
     ingress:
       main:
         enabled: false
-        ingressClassName: "internal"
+        ingressClassName: "" # "internal"
         hosts:
           - host: manyfold.${DOMAIN_0}
             paths:
@@ -58,7 +58,7 @@ spec:
             enabled: false
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod 
+            certificateIssuer: general-le-prod 
 
     persistence:
       libraries:

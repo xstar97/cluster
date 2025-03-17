@@ -39,7 +39,12 @@ spec:
     ingress:
       main:
         enabled: false
-        ingressClassName: "" # "internal"
+        ingressClassName: "" # "internal" 
+        hosts:
+          - host: peanut.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
         integrations:
           traefik:
             enabled: false
@@ -51,12 +56,7 @@ spec:
                 key: "${NUT_ROUTER_NAME}"
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod 
-        hosts:
-          - host: peanut.${DOMAIN_0}
-            paths:
-              - path: /
-                pathType: Prefix
+            certificateIssuer: general-le-prod
     workload:
       main:
         podSpec:

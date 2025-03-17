@@ -64,7 +64,12 @@ spec:
     ingress:
       main:
         enabled: false
-        ingressClassName: "internal"
+        ingressClassName: "" # "internal" 
+        hosts:
+          - host: romm.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
         integrations:
           traefik:
             enabled: false
@@ -77,12 +82,7 @@ spec:
                 password: "${ROMM_ADMIN_PASS}"
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod 
-        hosts:
-          - host: romm.${DOMAIN_0}
-            paths:
-              - path: /
-                pathType: Prefix
+            certificateIssuer: general-le-prod
     persistence:
       config:
         volsync:

@@ -76,7 +76,7 @@ spec:
                 namespace: traefik
           certManager:
             enabled: true
-            certificateIssuer: domain-general-le-prod 
+            certificateIssuer: general-le-prod  
           homepage:
             enabled: true
             group: "Networking"

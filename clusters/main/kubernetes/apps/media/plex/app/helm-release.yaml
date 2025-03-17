@@ -74,7 +74,7 @@ spec:
                 key: ${PLEX_TOKEN_PAL}
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod
+            certificateIssuer: general-le-prod 
         hosts:
           - host: plex.${DOMAIN_0}
             paths:

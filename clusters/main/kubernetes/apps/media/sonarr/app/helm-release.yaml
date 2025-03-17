@@ -60,6 +60,11 @@ spec:
       main:
         enabled: false
         ingressClassName: "" # "internal"
+        hosts:
+          - host: series.sonarr.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
         integrations:
           traefik:
             enabled: false
@@ -73,12 +78,7 @@ spec:
                 key: "${SONARR_SERIES_KEY}"
           certManager:
             enabled: true
-            certificateIssuer: domain-general-le-prod
-        hosts:
-          - host: series.sonarr.${DOMAIN_0}
-            paths:
-              - path: /
-                pathType: Prefix
+            certificateIssuer: general-le-prod
     persistence:
       config:
         volsync:

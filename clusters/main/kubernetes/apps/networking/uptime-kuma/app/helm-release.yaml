@@ -59,7 +59,7 @@ spec:
                 slug: "homelab"
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod 
+            certificateIssuer: general-le-prod 
         hosts:
           - host: status.${DOMAIN_0}
             paths:
