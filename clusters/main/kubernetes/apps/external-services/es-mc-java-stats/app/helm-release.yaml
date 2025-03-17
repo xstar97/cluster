@@ -39,7 +39,7 @@ spec:
             port: 8100
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "external"
         integrations:
           traefik:
