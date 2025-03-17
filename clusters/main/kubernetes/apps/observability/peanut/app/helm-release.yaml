@@ -38,8 +38,8 @@ spec:
             port: 10688
     ingress:
       main:
-        enabled: true
-        ingressClassName: "internal"
+        enabled: false
+        ingressClassName: "" # "internal"
         integrations:
           traefik:
             enabled: false

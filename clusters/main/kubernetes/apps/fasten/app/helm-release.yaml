@@ -56,8 +56,8 @@ spec:
 
     ingress:
       main:
-        enabled: true
-        ingressClassName: "internal"
+        enabled: false
+        ingressClassName: "" # "internal"
         integrations:
           traefik:
             enabled: false
