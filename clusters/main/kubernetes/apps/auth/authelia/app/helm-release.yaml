@@ -46,19 +46,19 @@ spec:
             port: 9091
     ingress:
       main:
-        enabled: false
-        ingressClassName: "" #"external"
-        integrations:
-          traefik:
-            enabled: false
-          certManager:
-            enabled: false
-            certificateIssuer: general-le-prod 
+        enabled: true
+        ingressClassName: "" #"external" 
         hosts:
           - host: auth.${DOMAIN_0}
             paths:
               - path: /
                 pathType: Prefix
+        integrations:
+          traefik:
+            enabled: true
+          certManager:
+            enabled: false
+            certificateIssuer: general-le-prod
     persistence:
       config:
         volsync:

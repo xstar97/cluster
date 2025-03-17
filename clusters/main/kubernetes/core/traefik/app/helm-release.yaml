@@ -64,11 +64,16 @@ spec:
               insecureMode: false
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: ""
+        hosts:
+          - host: traefik.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
         integrations:
           traefik:
-            enabled: false
+            enabled: true
             middlewares:
               - name: local
                 namespace: traefik
@@ -80,11 +85,6 @@ spec:
           homepage:
             enabled: true
             group: "Networking"
-        hosts:
-          - host: traefik.${DOMAIN_0}
-            paths:
-              - path: /
-                pathType: Prefix
 
     middlewares:
       ipWhiteList:

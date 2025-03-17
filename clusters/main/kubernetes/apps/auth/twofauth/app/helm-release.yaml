@@ -87,17 +87,17 @@ spec:
       main:
         enabled: false
         ingressClassName: "" # "external"
-        integrations:
-          traefik:
-            enabled: false
-          certManager:
-            enabled: true
-            certificateIssuer: general-le-prod
         hosts:
           - host: 2fauth.${DOMAIN_0}
             paths:
               - path: /
                 pathType: Prefix
+        integrations:
+          traefik:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
     persistence:
       config:
         volsync:
