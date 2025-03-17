@@ -85,8 +85,8 @@ spec:
                 APP_URL: https://2fauth.${DOMAIN_0}:443
     ingress:
       main:
-        enabled: true
-        ingressClassName: "external"
+        enabled: false
+        ingressClassName: "" # "external"
         integrations:
           traefik:
             enabled: false

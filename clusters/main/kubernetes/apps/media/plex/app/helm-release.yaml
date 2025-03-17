@@ -61,8 +61,8 @@ spec:
                   nvidia.com/gpu: 1
     ingress:
       main:
-        enabled: true
-        ingressClassName: "external"
+        enabled: false
+        ingressClassName: # "external"
         integrations:
           traefik:
             enabled: false

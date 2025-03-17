@@ -46,8 +46,8 @@ spec:
             port: 3001
     ingress:
       main:
-        enabled: true
-        ingressClassName: "external"
+        enabled: false
+        ingressClassName: "" # "external"
         integrations:
           traefik:
             enabled: false

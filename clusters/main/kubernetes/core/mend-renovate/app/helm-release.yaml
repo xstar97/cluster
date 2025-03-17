@@ -74,8 +74,8 @@ spec:
                 # MEND_RNV_ENQUEUE_JOBS_ON_STARTUP: disabled  # Options: 'enabled', 'disabled', 'discovered' (default)
     ingress:
       main:
-        enabled: true
-        ingressClassName: "external"
+        enabled: false
+        ingressClassName: "" # "external"
         integrations:
           traefik:
             enabled: false
