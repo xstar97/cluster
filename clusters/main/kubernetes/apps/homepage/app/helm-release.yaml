@@ -46,7 +46,7 @@ spec:
             port: 3000
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "" # "internal"
         integrations:
           traefik:
@@ -80,13 +80,13 @@ spec:
             codeserver:
               port: 36107
         ingress:
-          enabled: true
+          enabled: false
           ingressClassName: "" # "internal"
           integrations:
             traefik:
               enabled: false
             certManager:
-              enabled: true
+              enabled: false
               certificateIssuer: domain-0-le-prod 
           hosts:
             - host: editor.homepage.${DOMAIN_0}

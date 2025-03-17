@@ -58,13 +58,13 @@ spec:
                 YTDL_OPTIONS: "{}"
     ingress:
       main:
-        enabled: true
-        ingressClassName: "internal"
+        enabled: false
+        ingressClassName: "" # "internal"
         integrations:
           traefik:
             enabled: false
           certManager:
-            enabled: true
+            enabled: false
             certificateIssuer: domain-0-le-prod
         hosts:
           - host: metube.${DOMAIN_0}
