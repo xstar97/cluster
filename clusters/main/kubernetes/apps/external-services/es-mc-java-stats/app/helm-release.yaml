@@ -28,7 +28,6 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    defaultCertificate: domain-1-wildcard
     service:
       main:
         type: ExternalName

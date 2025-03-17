@@ -49,7 +49,6 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-    defaultCertificate: domain-0-wildcard
     service:
       main:
         type: ClusterIP
@@ -79,6 +78,7 @@ spec:
     ingress:
       main:
         enabled: true
+        ingressClassName: "internal"
         integrations:
           traefik:
             enabled: false
@@ -126,8 +126,6 @@ spec:
             routes = ["GET /v1/vpn/status","GET /v1/publicip/ip"]
 
             auth = "none"
-          
-
 
     persistence:
       config:

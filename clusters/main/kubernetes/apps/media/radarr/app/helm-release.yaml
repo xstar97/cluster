@@ -50,7 +50,6 @@ spec:
                 RADARR__AUTH__METHOD: External
                 RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
                 RADARR__APP__THEME: dark
-    defaultCertificate: domain-0-wildcard
     service:
       main:
         type: ClusterIP

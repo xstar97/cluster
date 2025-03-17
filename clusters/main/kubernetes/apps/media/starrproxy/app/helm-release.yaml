@@ -52,7 +52,6 @@ spec:
         runAsUser: 0
         runAsGroup: 0
 
-    defaultCertificate: domain-0-wildcard
     service:
       main:
         ports:

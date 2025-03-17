@@ -50,7 +50,6 @@ spec:
                 PROWLARR__AUTH__METHOD: External
                 PROWLARR__AUTH__REQUIRED: DisabledForLocalAddresses
                 PROWLARR__APP__THEME: dark
-    defaultCertificate: domain-0-wildcard
     service:
       main:
         type: ClusterIP

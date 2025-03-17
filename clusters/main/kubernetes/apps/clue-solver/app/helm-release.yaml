@@ -38,7 +38,6 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-    defaultCertificate: domain-0-wildcard
     service:
       main:
         type: ClusterIP
@@ -79,12 +78,10 @@ spec:
               port: 36107
         ingress:
           enabled: true
+          ingressClassName: "internal"
           integrations:
             traefik:
-              enabled: true
-              middlewares:
-                - name: local
-                  namespace: traefik
+              enabled: false
             certManager:
               enabled: true
               certificateIssuer: domain-0-le-prod

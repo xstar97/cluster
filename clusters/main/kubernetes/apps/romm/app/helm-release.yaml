@@ -38,7 +38,6 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-    defaultCertificate: xstar-wildcard
     service:
       main:
         type: ClusterIP

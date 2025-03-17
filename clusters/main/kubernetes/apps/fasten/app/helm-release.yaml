@@ -48,7 +48,6 @@ spec:
     securityContext:
       readOnlyRootFilesystem: false
 
-    defaultCertificate: domain-0-wildcard
     service:
       main:
         ports:

@@ -38,7 +38,6 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-    defaultCertificate: xstar-wildcard
     service:
       main:
         type: ClusterIP
@@ -48,18 +47,18 @@ spec:
     ingress:
       main:
         enabled: true
-      ingressClassName: "internal"
-      hosts:
-        - host: manyfold.${DOMAIN_0}
-          paths:
-            - path: /
-              pathType: Prefix
-      integrations:
-        traefik:
-          enabled: false
-        certManager:
-          enabled: true
-          certificateIssuer: domain-0-le-prod 
+        ingressClassName: "internal"
+        hosts:
+          - host: manyfold.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          traefik:
+            enabled: false
+          certManager:
+            enabled: true
+            certificateIssuer: domain-0-le-prod 
 
     persistence:
       libraries:

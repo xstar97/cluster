@@ -40,7 +40,6 @@ spec:
         encrKey: "${CF_S3_RESTIC_KEY}"
     securityContext:
       readOnlyRootFilesystem: false
-    defaultCertificate: domain-0-wildcard
     service:
       main:
         type: ClusterIP

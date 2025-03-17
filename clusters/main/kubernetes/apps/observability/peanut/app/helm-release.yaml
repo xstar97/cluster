@@ -30,7 +30,6 @@ spec:
   values:
     global:
       stopAll: false
-    defaultCertificate: xstar-wildcard
     service:
       main:
         type: ClusterIP
