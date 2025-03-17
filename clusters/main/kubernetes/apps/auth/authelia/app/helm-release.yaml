@@ -52,7 +52,7 @@ spec:
           traefik:
             enabled: false
           certManager:
-            enabled: true
+            enabled: false
             certificateIssuer: domain-0-le-prod 
         hosts:
           - host: auth.${DOMAIN_0}
