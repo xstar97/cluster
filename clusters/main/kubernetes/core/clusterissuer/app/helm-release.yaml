@@ -76,7 +76,7 @@ spec:
       replicationNamespaces: '.*'
       certificates:
         - name: general-wildcard
-          enabled: true
+          enabled: false
           certificateIssuer: general-le-prod
           hosts:
             - ${DOMAIN_0}
