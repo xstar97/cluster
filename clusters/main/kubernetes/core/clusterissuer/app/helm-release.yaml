@@ -83,8 +83,8 @@ spec:
             - '*.${DOMAIN_0}'
             - '${DOMAIN_1}'
             - '*.${DOMAIN_1}'
-            - '${DOMAIN_2}'
-            - '*.${DOMAIN_2}'
+            # - '${DOMAIN_2}'
+            # - '*.${DOMAIN_2}'
         - name: domain-0-wildcard
           enabled: true
           certificateIssuer: domain-0-le-prod
@@ -98,7 +98,7 @@ spec:
             - '${DOMAIN_1}'
             - '*.${DOMAIN_1}'
         - name: domain-2-wildcard
-          enabled: true
+          enabled: false
           certificateIssuer: general-le-prod
           hosts:
             - '${DOMAIN_2}'
