@@ -98,7 +98,7 @@ spec:
             - '${DOMAIN_1}'
             - '*.${DOMAIN_1}'
         - name: domain-2-wildcard
-          enabled: false
+          enabled: true
           certificateIssuer: general-le-prod
           hosts:
             - '${DOMAIN_2}'
