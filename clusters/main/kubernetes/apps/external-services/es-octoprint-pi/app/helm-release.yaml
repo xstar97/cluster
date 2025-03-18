@@ -42,10 +42,6 @@ spec:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: octoprint.${DOMAIN_0}
-            paths:
-              - path: /
-                pathType: Prefix
           - host: octoprint.${DOMAIN_2}
             paths:
               - path: /
@@ -58,5 +54,5 @@ spec:
           traefik:
             enabled: true
           certManager:
-            enabled: true
+            enabled: false
             certificateIssuer: general-le-prod
