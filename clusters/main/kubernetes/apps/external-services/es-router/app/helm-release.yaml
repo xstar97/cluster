@@ -31,7 +31,7 @@ spec:
     service:
       main:
         type: ExternalIP
-        externalIP: "${ROUTER_IP}"
+        externalIP: "10.0.0.1"
         useSlice: false
         ports:
           main:
