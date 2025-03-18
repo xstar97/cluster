@@ -46,9 +46,13 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
+          - host: octoprint.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
         tls:
           - hosts:
-              - octoprint.${DOMAIN_0}
+              - octoprint.${DOMAIN_2}
             clusterIssuer: domain-2-wildcard
         integrations:
           traefik:
