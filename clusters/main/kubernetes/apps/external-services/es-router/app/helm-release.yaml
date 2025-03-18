@@ -31,7 +31,7 @@ spec:
     service:
       main:
         type: ExternalIP
-        externalIP: "10.0.0.1"
+        externalIP: "${ROUTER_IP}"
         useSlice: false
         ports:
           main:
@@ -42,7 +42,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: router.${DOMAIN_0}
+          - host: router.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
