@@ -55,6 +55,11 @@ spec:
       main:
         enabled: true
         ingressClassName: # "internal"
+        hosts:
+          - host: deemix.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
         integrations:
           homepage:
             enabled: false
@@ -63,11 +68,6 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-        hosts:
-          - host: deemix.${DOMAIN_0}
-            paths:
-              - path: /
-                pathType: Prefix
     persistence:
       config:
         volsync:
@@ -77,13 +77,9 @@ spec:
             dest:
               enabled: true
               cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
             src:
               enabled: true
               cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
       data:
         enabled: true
         type: nfs

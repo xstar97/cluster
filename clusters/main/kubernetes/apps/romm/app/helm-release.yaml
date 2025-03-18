@@ -92,13 +92,9 @@ spec:
             dest:
               enabled: true
               cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
             src:
               enabled: true
               cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
       resources:
         volsync:
           - name: resources
@@ -107,13 +103,9 @@ spec:
             dest:
               enabled: true
               cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
             src:
               enabled: true
               cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
       assets:
         volsync:
           - name: assets
@@ -122,13 +114,9 @@ spec:
             dest:
               enabled: true
               cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
             src:
               enabled: true
               cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
       library:
         enabled: true
         type: nfs

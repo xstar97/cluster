@@ -63,6 +63,11 @@ spec:
       main:
         enabled: true
         ingressClassName: # "external"
+        hosts:
+          - host: plex.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
         integrations:
           traefik:
             enabled: true
@@ -75,11 +80,6 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-        hosts:
-          - host: plex.${DOMAIN_0}
-            paths:
-              - path: /
-                pathType: Prefix
     persistence:
       config:
         volsync:
@@ -89,13 +89,11 @@ spec:
             dest:
               cacheCapacity: 100Gi
               enabled: false
-              cleanupTempPVC: true
-              cleanupCachePVC: true
+              # cleanupTempPVC: true
+              # cleanupCachePVC: true
             src:
               enabled: false
               cacheCapacity: 100Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
       transcode:
         enabled: true
         type: emptyDir

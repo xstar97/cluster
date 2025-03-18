@@ -83,13 +83,9 @@ spec:
             dest:
               enabled: false
               cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
             src:
               enabled: false
               cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
       logs:
         enabled: true
         mountPath: /app/Logs

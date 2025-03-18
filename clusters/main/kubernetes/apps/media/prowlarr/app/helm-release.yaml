@@ -60,6 +60,11 @@ spec:
       main:
         enabled: true
         ingressClassName: "" # "internal"
+        hosts:
+          - host: prowlarr.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
         integrations:
           traefik:
             enabled: true
@@ -72,11 +77,6 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-        hosts:
-          - host: prowlarr.${DOMAIN_0}
-            paths:
-              - path: /
-                pathType: Prefix
     persistence:
       config:
         volsync:
@@ -86,10 +86,6 @@ spec:
             dest:
               enabled: true
               cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
             src:
               enabled: true
               cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true

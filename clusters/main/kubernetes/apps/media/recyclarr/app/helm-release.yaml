@@ -57,13 +57,9 @@ spec:
             dest:
               enabled: true
               cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
             src:
               enabled: true
               cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
     addons:
       codeserver:
         enabled: true
@@ -73,7 +69,7 @@ spec:
             codeserver:
               port: 36107
         ingress:
-          enabled: false
+          enabled: true
           ingressClassName: "" # "internal"
           hosts:
             - host: editor.recyclarr.${DOMAIN_0}
@@ -83,7 +79,7 @@ spec:
                   pathType: Prefix
           integrations:
             traefik:
-              enabled: false
+              enabled: true
             certManager:
               enabled: true
               certificateIssuer: general-le-prod 

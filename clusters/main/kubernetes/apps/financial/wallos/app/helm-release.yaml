@@ -48,17 +48,17 @@ spec:
       main:
         enabled: true
         ingressClassName: "" # "external"
+        hosts:
+          - host: wallos.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
         integrations:
           traefik:
             enabled: true
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-        hosts:
-          - host: wallos.${DOMAIN_0}
-            paths:
-              - path: /
-                pathType: Prefix
     persistence:
       database:
         volsync:
@@ -68,13 +68,9 @@ spec:
             dest:
               enabled: true
               cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
             src:
               enabled: true
               cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
       logos:
         volsync:
           - name: logos
@@ -83,10 +79,6 @@ spec:
             dest:
               enabled: true
               cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
             src:
               enabled: true
               cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true

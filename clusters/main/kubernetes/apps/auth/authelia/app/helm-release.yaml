@@ -67,12 +67,8 @@ spec:
             credentials: cf-restic
             dest:
               enabled: true
-              cleanupTempPVC: true
-              cleanupCachePVC: true
             src:
               enabled: true
-              cleanupTempPVC: true
-              cleanupCachePVC: true
               trigger:
                 schedule: 10 0 * * *
 

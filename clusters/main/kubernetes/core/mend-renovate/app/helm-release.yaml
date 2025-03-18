@@ -75,17 +75,17 @@ spec:
       main:
         enabled: true
         ingressClassName: "" # "external"
+        hosts:
+          - host: renovate.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
         integrations:
           traefik:
             enabled: true
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-        hosts:
-          - host: renovate.${DOMAIN_0}
-            paths:
-              - path: /
-                pathType: Prefix
     persistence:
       db:
         enabled: true
@@ -95,13 +95,11 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              cacheCapacity: 10Gi
               enabled: true
+              cacheCapacity: 10Gi
             src:
               enabled: true
               cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
       logs:
         enabled: true
         mountPath: /logs
@@ -110,10 +108,7 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
+              enabled: false
               cacheCapacity: 10Gi
-              enabled: true
             src:
-              enabled: true
-              cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
+              enabled: false

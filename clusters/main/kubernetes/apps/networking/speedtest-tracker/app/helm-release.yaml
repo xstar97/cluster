@@ -54,6 +54,11 @@ spec:
       main:
         enabled: true
         ingressClassName: "" # "internal"
+        hosts:
+          - host: speedtest.tracker.${DOMAIN_0}
+            paths:
+              - path: /
+                pathType: Prefix
         integrations:
           traefik:
             enabled: true
@@ -63,11 +68,6 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-        hosts:
-          - host: speedtest.tracker.${DOMAIN_0}
-            paths:
-              - path: /
-                pathType: Prefix
     workload:
       main:
         podSpec:
@@ -84,12 +84,8 @@ spec:
             dest:
               enabled: true
               cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
             src:
               enabled: true
               cacheCapacity: 10Gi
-              cleanupTempPVC: true
-              cleanupCachePVC: true
       varrun:
         enabled: false
