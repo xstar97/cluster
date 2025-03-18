@@ -2,8 +2,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: starrproxy
-  namespace: starrproxy
+  name: profilarr
+  namespace: profilarr
 spec:
   interval: 15m
   chart:
@@ -31,34 +31,34 @@ spec:
     global:
       stopAll: false
     image:
-      repository: ghcr.io/notifiarr/starrproxy
+      repository: santiagosayshey/profilarr
       pullPolicy: IfNotPresent
-      tag: main@sha256:a93424223e09a489cdfebb6c74d51660cd83ea89983ba01ebc218222355e0eef
+      tag: v1.0.0@sha256:5693b90b69c2b5e207b0f57a9b48b75df5ca818c2326ddef8099fb827f684931
     credentials:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-starrproxy"
+        bucket: "${CF_S3_RESTIC_BUCKET}-profilarr"
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
     securityContext:
       container:
-        runAsNonRoot: false
         readOnlyRootFilesystem: false
-        runAsUser: 0
-        runAsGroup: 0
+        # runAsNonRoot: false
+        # runAsUser: 0
+        # runAsGroup: 0
     service:
       main:
         ports:
           main:
-            port: 80
+            port: 6868
     ingress:
       main:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: starrproxy.${DOMAIN_0}
+          - host: profilarr.${DOMAIN_0}
             paths:
               - path: /
                 pathType: Prefix
