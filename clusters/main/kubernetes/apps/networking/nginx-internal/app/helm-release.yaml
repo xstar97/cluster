@@ -1,41 +1,36 @@
----
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: nginx-internal
-  namespace: nginx-internal
+    name: nginx-internal
+    namespace: nginx-internal
 spec:
-  interval: 15m
+  interval: 5m
   chart:
     spec:
-      chart: 'ingress-nginx'
+      # renovate: registryUrl=https://charts.truechartsoci.org
+      chart: ingress-nginx
       version: 4.12.0
       sourceRef:
-        kind: HelmRepository
-        name: 'ingress-nginx'
-        namespace: flux-system
-      interval: 15m
-  timeout: 20m
-  maxHistory: 3
+          kind: HelmRepository
+          name: ingress-nginx
+          namespace: flux-system
+      interval: 5m
   install:
     createNamespace: true
+    crds: CreateReplace
     remediation:
-      retries: 3
+        retries: 3
   upgrade:
-    cleanupOnFail: true
+    crds: CreateReplace
     remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
+        retries: 3
   values:
+    nameOverride: nginx-internal
     controller:
-      replicaCount: 2
+      replicaCount: 1
       service:
         externalTrafficPolicy: Local
         annotations:
-          # TODO: Maybe play with this
-          # internal-dns.alpha.kubernetes.io/hostname: internal.${DOMAIN_0}
           metallb.io/ip-allocated-from-pool: main
           metallb.io/loadBalancerIPs: ${NGINX_INTERNAL_IP}
           metallb.universe.tf/ip-allocated-from-pool: main
@@ -64,8 +59,10 @@ spec:
         use-forwarded-headers: "true"
       metrics:
         enabled: false
+        serviceMonitor:
+          enabled: false
       extraArgs:
-        default-ssl-certificate: "clusterissuer/certificate-issuer-general-wildcard"
+        default-ssl-certificate: "clusterissuer/certificate-issuer-domain-2-wildcard"
         publish-status-address: ${NGINX_INTERNAL_IP}
       terminationGracePeriodSeconds: 120
       publishService:
@@ -76,4 +73,4 @@ spec:
         limits:
           memory: 500Mi
     defaultBackend:
-      enabled: true
+      enabled: false
