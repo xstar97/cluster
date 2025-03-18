@@ -53,6 +53,6 @@ spec:
         integrations:
           traefik:
             enabled: true
-          certManager:
-            enabled: false
-            certificateIssuer: general-le-prod
+          # certManager:
+          #   enabled: true
+          #  certificateIssuer: general-le-prod
