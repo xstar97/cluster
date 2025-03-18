@@ -52,7 +52,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "internal"
+        ingressClassName: "" # "internal"
         hosts:
           - host: fasten.${DOMAIN_2}
             paths:
