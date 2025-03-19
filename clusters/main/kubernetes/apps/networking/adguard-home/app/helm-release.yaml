@@ -68,7 +68,7 @@ spec:
         enabled: true
         ingressClassName: # "internal"
         hosts:
-          - host: adguard.home.${DOMAIN_0}
+          - host: adguard.home.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

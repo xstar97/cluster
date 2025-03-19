@@ -12,7 +12,7 @@ metadata:
       traefik.ingress.kubernetes.io/router.tls: "true"
 spec:
   rules:
-  - host: longhorn.${DOMAIN_0}
+  - host: longhorn.${DOMAIN_2}
     http:
       paths:
       - pathType: Prefix
@@ -24,7 +24,7 @@ spec:
               number: 80
   tls:
     - hosts:
-      - longhorn.${DOMAIN_0}
+      - longhorn.${DOMAIN_2}
       secretName: longhorn-tls-0
 status:
     loadBalancer:
