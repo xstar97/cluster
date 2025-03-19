@@ -40,10 +40,10 @@ spec:
             port: 80
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "internal"
-        # annotations:
-        #  nginx.ingress.kubernetes.io/ingress.class: "interna"
+        annotations:
+          nginx.ingress.kubernetes.io/ingress.class: "internal"
         hosts:
           - host: dashboard.${DOMAIN_2}
             paths:
