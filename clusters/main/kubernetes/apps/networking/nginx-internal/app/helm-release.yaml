@@ -34,14 +34,13 @@ spec:
           metallb.io/ip-allocated-from-pool: main
           metallb.io/loadBalancerIPs: ${NGINX_INTERNAL_IP}
           metallb.universe.tf/ip-allocated-from-pool: main
+      ingressClass: internal
       ingressClassByName: true
       ingressClassResource:
         name: internal
         default: true
         controllerValue: k8s.io/internal
-      watchIngressWithoutClass: false
       config:
-        watch-ingress-without-class: false
         allow-snippet-annotations: true
         annotations-risk-level: Critical
         client-body-buffer-size: 100M
@@ -66,7 +65,7 @@ spec:
       extraArgs:
         default-ssl-certificate: "clusterissuer/certificate-issuer-domain-2-wildcard"
         publish-status-address: ${NGINX_INTERNAL_IP}
-        # watch-ingress-without-class: false
+        watch-ingress-without-class: false
       terminationGracePeriodSeconds: 120
       publishService:
         enabled: false
