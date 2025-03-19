@@ -39,7 +39,9 @@ spec:
         name: internal
         default: true
         controllerValue: k8s.io/internal
+      watchIngressWithoutClass: false
       config:
+        watch-ingress-without-class: false
         allow-snippet-annotations: true
         annotations-risk-level: Critical
         client-body-buffer-size: 100M
@@ -69,8 +71,8 @@ spec:
         enabled: false
       resources:
         requests:
-          cpu: 100m
+          cpu: 1000m
         limits:
-          memory: 500Mi
+          memory: 1Gi
     defaultBackend:
       enabled: false
