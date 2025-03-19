@@ -158,7 +158,7 @@ spec:
                 OVERRIDE_SERVER_PROPERTIES: true
                 VERSION: "LATEST"
                 TYPE: "PAPER"
-                PAPER_BUILD: "138"
+                # PAPER_BUILD: "138"
                 DIFFICULTY: easy
                 MAX_PLAYERS: 20
                 MAX_WORLD_SIZE: 10000
