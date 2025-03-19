@@ -226,14 +226,18 @@ spec:
           enabled: true
           ingressClassName: # "internal"
           hosts:
-            - host: editor.java.${DOMAIN_1}
+            - host: editor.survival.${DOMAIN_1}
               paths:
                 - path: /
                   # Ignored if not kubeVersion >= 1.14-0
                   pathType: Prefix
+          tls:
+            - hosts:
+                - editor.survival.${DOMAIN_1}
+              clusterIssuer: general-wildcard
           integrations:
             traefik:
               enabled: true
             certManager:
-              enabled: true
+              enabled: false
               certificateIssuer: general-le-prod
