@@ -1,40 +1,45 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-    name: nginx-internal
-    namespace: nginx-internal
+  name: nginx-internal
+  namespace: nginx-internal
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
-      # renovate: registryUrl=https://charts.truechartsoci.org
-      chart: ingress-nginx
+      chart: 'ingress-nginx'
       version: 4.12.0
       sourceRef:
-          kind: HelmRepository
-          name: ingress-nginx
-          namespace: flux-system
-      interval: 5m
+        kind: HelmRepository
+        name: 'ingress-nginx'
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
   install:
     createNamespace: true
-    crds: CreateReplace
     remediation:
-        retries: 3
+      retries: 3
   upgrade:
-    crds: CreateReplace
+    cleanupOnFail: true
     remediation:
-        retries: 3
+      retries: 3
+  uninstall:
+    keepHistory: false
   values:
-    nameOverride: nginx-internal
     controller:
       replicaCount: 1
       service:
         externalTrafficPolicy: Local
         annotations:
+          # TODO: Maybe play with this
+          # internal-dns.alpha.kubernetes.io/hostname: internal.${DOMAIN_0}
           metallb.io/ip-allocated-from-pool: main
           metallb.io/loadBalancerIPs: ${NGINX_INTERNAL_IP}
           metallb.universe.tf/ip-allocated-from-pool: main
-      ingressClass: internal
+      # ingressClass: internal
       ingressClassByName: true
       ingressClassResource:
         name: internal
@@ -60,25 +65,20 @@ spec:
         use-forwarded-headers: "true"
       metrics:
         enabled: false
-        serviceMonitor:
-          enabled: false
+        # serviceMonitor:
+        #   enabled: true
+        #   namespaceSelector:
+        #     any: true
       extraArgs:
-        default-ssl-certificate: "clusterissuer/certificate-issuer-domain-2-wildcard"
+        default-ssl-certificate: "clusterissuer/certificate-issuer-general-wildcard"
         publish-status-address: ${NGINX_INTERNAL_IP}
-        watch-ingress-without-class: false
-        healthz-host: "0.0.0.0"
-        # healthz-port: 10254
-        # http-port: 80
-        # https-port: 443
-        # validating-webhook: :8443
       terminationGracePeriodSeconds: 120
       publishService:
         enabled: false
       resources:
         requests:
-          cpu: 1000m
-          memory: 100Mi
+          cpu: 100m
         limits:
-          memory: 1Gi
+          memory: 500Mi
     defaultBackend:
       enabled: false
