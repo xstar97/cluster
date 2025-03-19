@@ -20,3 +20,4 @@ resources:
   - fasten/ks.yaml
   - linkwarden/ks.yaml
   - manyfold/ks.yaml
+  - home-assistant/ks.yaml
