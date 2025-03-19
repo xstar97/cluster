@@ -41,9 +41,9 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "internal"
-        annotations:
-          nginx.ingress.kubernetes.io/ingress.class: "internal"
+        ingressClassName: "" # "internal"
+        # annotations:
+        #   nginx.ingress.kubernetes.io/ingress.class: "internal"
         hosts:
           - host: dashboard.${DOMAIN_2}
             paths:
