@@ -72,7 +72,7 @@ spec:
         healthz-port: 10254
         http-port: 80
         https-port: 443
-        validating-webhook: 8443
+        validating-webhook: :443
       terminationGracePeriodSeconds: 120
       publishService:
         enabled: false
