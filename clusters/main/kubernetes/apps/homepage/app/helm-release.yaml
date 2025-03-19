@@ -80,17 +80,17 @@ spec:
             codeserver:
               port: 36107
         ingress:
-          enabled: false
+          enabled: true
           ingressClassName: "" # "internal" 
           hosts:
-            - host: editor.homepage.${DOMAIN_2}
+            - host: editor.homepage.${DOMAIN_0}
               paths:
                 - path: /
                   # Ignored if not kubeVersion >= 1.14-0
                   pathType: Prefix
           integrations:
             traefik:
-              enabled: false
+              enabled: true
             certManager:
-              enabled: false
+              enabled: true
               certificateIssuer: general-le-prod
