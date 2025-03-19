@@ -121,7 +121,7 @@ spec:
       # - chunky
       # - auraskills
       # - deathlocator
-      # - bluemap
+      - bluemap
     workload:
       main:
         podSpec:
@@ -190,7 +190,7 @@ spec:
                 DEBUG_AUTOPAUSE: true
                 SKIP_SUDO: true
                 REMOVE_OLD_MODS: true
-                # PLUGINS_FILE: "/data/plugins.txt"
+                PLUGINS_FILE: "/data/plugins.txt"
                 SPIGET_RESOURCES: '{{ join "," .Values.plugins }}'
                 MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
             mcbackup:
