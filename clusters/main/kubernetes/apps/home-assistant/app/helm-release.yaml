@@ -45,8 +45,7 @@ spec:
           main:
             port: 8123
     homeassistant:
-      trusted_proxies:
-        - 172.16.0.0/16
+      trusted_proxies: ["172.16.0.0/16"]
     ingress:
       main:
         enabled: true
