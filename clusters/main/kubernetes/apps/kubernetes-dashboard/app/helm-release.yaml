@@ -41,9 +41,9 @@ spec:
     ingress:
       main:
         enabled: false
-        ingressClassName: "" # "internal" 
+        ingressClassName: "internal" 
         hosts:
-          - host: dashboard.${DOMAIN_0}
+          - host: dashboard.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
