@@ -29,7 +29,7 @@ spec:
     keepHistory: false
   values:
     global:
-      stopAll: true
+      stopAll: false
     credentials:
       cf-restic:
         type: s3
@@ -116,7 +116,7 @@ spec:
       # - 68713
     modrinth:
       # - discordsrv
-      - hopperfilter
+      # - hopperfilter
       - luckperms
       # - chunky
       # - auraskills
