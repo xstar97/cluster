@@ -49,6 +49,9 @@ spec:
         integrations:
           traefik:
             enabled: true
+            middlewares:
+              - name: mc-java-stats
+                namespace: traefik
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
