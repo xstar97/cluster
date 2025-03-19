@@ -226,7 +226,7 @@ spec:
           enabled: true
           ingressClassName: # "internal"
           hosts:
-            - host: editor.java.${DOMAIN_2}
+            - host: editor.java.${DOMAIN_1}
               paths:
                 - path: /
                   # Ignored if not kubeVersion >= 1.14-0
