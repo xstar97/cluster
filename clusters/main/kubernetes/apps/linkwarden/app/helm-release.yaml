@@ -51,7 +51,7 @@ spec:
           main:
             port: 3000
     config:
-      nextauth_url: "https://linkwarden.${DOMAIN_0}"
+      nextauth_url: "https://linkwarden.${DOMAIN_2}"
       pagination_take_count: 20
       autoscroll_timeout: 30
       disable_registration: false
@@ -86,7 +86,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: linkwarden.${DOMAIN_0}
+          - host: linkwarden.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

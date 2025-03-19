@@ -49,7 +49,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal" 
         hosts:
-          - host: kavita.${DOMAIN_0}
+          - host: kavita.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

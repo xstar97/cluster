@@ -43,10 +43,10 @@ spec:
         traefik.ingress.kubernetes.io/router.middlewares: traefik-chain-basic@kubernetescrd,traefik-local@kubernetescrd
       tls:
         - hosts:
-            - gitops.${DOMAIN_0}
+            - gitops.${DOMAIN_2}
           secretName: gitops-tls-0
       hosts:
-        - host: gitops.${DOMAIN_0}
+        - host: gitops.${DOMAIN_2}
           paths:
             - path: /
               pathType: Prefix

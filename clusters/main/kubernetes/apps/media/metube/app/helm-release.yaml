@@ -61,7 +61,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: metube.${DOMAIN_0}
+          - host: metube.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

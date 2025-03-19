@@ -61,7 +61,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: fileflows.${DOMAIN_0}
+          - host: fileflows.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

@@ -49,7 +49,7 @@ spec:
         enabled: true
         ingressClassName: "" # "external"
         hosts:
-          - host: vaultwarden.${DOMAIN_0}
+          - host: vaultwarden.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
@@ -119,7 +119,7 @@ spec:
         # SMTP hostname, required if SMTP is enabled.
         host: "${SMTP_GMAIL_HOST}"
         # SMTP sender e-mail address, required if SMTP is enabled.
-        from: "vaultwarden@${DOMAIN_0}"
+        from: "vaultwarden@${DOMAIN_2}"
         ## SMTP sender name, defaults to 'Bitwarden_RS'.
         # fromName: ""
         ## Enable SSL connection.

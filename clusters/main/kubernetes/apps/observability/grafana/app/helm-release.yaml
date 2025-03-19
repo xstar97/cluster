@@ -42,7 +42,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: grafana.${DOMAIN_0}
+          - host: grafana.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

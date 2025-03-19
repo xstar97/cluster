@@ -41,7 +41,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal" 
         hosts:
-          - host: peanut.${DOMAIN_0}
+          - host: peanut.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

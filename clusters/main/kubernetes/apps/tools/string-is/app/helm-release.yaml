@@ -46,7 +46,7 @@ spec:
         enabled: true
         ingressClassName: # "internal" 
         hosts:
-          - host: string.is.${DOMAIN_0}
+          - host: string.is.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

@@ -56,7 +56,7 @@ spec:
     ollama:
       origins:
         - "*"
-        - "https://*.${DOMAIN_0}"
+        - "https://*.${DOMAIN_2}"
     workload:
       main:
         podSpec:
@@ -77,7 +77,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal" 
         hosts:
-          - host: ollama.${DOMAIN_0}
+          - host: ollama.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

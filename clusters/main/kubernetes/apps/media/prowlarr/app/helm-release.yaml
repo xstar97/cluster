@@ -61,7 +61,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: prowlarr.${DOMAIN_0}
+          - host: prowlarr.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

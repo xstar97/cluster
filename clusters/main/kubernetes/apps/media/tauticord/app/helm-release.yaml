@@ -65,7 +65,7 @@ spec:
         enabled: true
         ingressClassName: # "internal" 
         hosts:
-          - host: tauticord.${DOMAIN_0}
+          - host: tauticord.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
@@ -117,7 +117,7 @@ spec:
               enabled: true
               certificateIssuer: general-le-prod
           hosts:
-            - host: editor.tauticord.${DOMAIN_0}
+            - host: editor.tauticord.${DOMAIN_2}
               paths:
                 - path: /
                   # Ignored if not kubeVersion >= 1.14-0

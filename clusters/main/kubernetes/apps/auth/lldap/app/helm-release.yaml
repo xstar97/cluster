@@ -92,7 +92,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal" 
         hosts:
-          - host: lldap.${DOMAIN_0}
+          - host: lldap.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

@@ -61,7 +61,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: animes.sonarr.${DOMAIN_0}
+          - host: animes.sonarr.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

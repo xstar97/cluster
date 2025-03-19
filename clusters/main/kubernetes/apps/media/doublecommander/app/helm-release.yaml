@@ -47,7 +47,7 @@ spec:
             enabled: true
             certificateIssuer: general-le-prod
         hosts:
-          - host: files.${DOMAIN_0}
+          - host: dc.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

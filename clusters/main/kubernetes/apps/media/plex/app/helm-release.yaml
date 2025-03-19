@@ -64,7 +64,7 @@ spec:
         enabled: true
         ingressClassName: # "external"
         hosts:
-          - host: plex.${DOMAIN_0}
+          - host: plex.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

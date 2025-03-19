@@ -41,7 +41,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: theme.park.${DOMAIN_0}
+          - host: theme.park.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

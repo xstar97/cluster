@@ -80,7 +80,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal" 
         hosts:
-          - host: qbit.${DOMAIN_0}
+          - host: qbit.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

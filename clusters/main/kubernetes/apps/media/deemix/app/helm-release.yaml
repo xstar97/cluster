@@ -56,7 +56,7 @@ spec:
         enabled: true
         ingressClassName: # "internal"
         hosts:
-          - host: deemix.${DOMAIN_0}
+          - host: deemix.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

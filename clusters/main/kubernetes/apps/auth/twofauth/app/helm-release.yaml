@@ -71,7 +71,7 @@ spec:
         # proxy_logout_url: ""
       webauthn:
         name: 2FAuth
-        id: "2fauth.${DOMAIN_0}"
+        id: "2fauth.${DOMAIN_2}"
         icon: ""
         # required | preferred | discouraged
         user_verified: preferred
@@ -82,13 +82,13 @@ spec:
             main:
               env:
                 # APP
-                APP_URL: https://2fauth.${DOMAIN_0}:443
+                APP_URL: https://2fauth.${DOMAIN_2}:443
     ingress:
       main:
         enabled: true
         ingressClassName: "" # "external"
         hosts:
-          - host: 2fauth.${DOMAIN_0}
+          - host: 2fauth.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

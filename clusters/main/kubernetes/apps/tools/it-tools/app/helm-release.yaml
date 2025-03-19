@@ -41,7 +41,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: it.tools.${DOMAIN_0}
+          - host: it.tools.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

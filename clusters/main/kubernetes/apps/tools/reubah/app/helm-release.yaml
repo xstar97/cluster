@@ -41,7 +41,7 @@ spec:
         enabled: true
         ingressClassName: # "internal" 
         hosts:
-          - host: reubah.${DOMAIN_0}
+          - host: reubah.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

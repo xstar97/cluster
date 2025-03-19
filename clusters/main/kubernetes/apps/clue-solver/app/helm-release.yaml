@@ -49,7 +49,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: cluesolver.${DOMAIN_0}
+          - host: cluesolver.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
@@ -80,7 +80,7 @@ spec:
           enabled: false
           ingressClassName: "" # "internal"
           hosts:
-            - host: editor.cluesolver.${DOMAIN_0}
+            - host: editor.cluesolver.${DOMAIN_2}
               paths:
                 - path: /
                   # Ignored if not kubeVersion >= 1.14-0

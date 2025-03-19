@@ -41,7 +41,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: pasta.${DOMAIN_0}
+          - host: pasta.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

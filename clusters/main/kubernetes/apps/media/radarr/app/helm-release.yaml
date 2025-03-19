@@ -61,7 +61,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: radarr.${DOMAIN_0}
+          - host: radarr.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

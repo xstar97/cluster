@@ -49,7 +49,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: overseerr.${DOMAIN_0}
+          - host: overseerr.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

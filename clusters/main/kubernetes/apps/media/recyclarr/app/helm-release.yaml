@@ -72,7 +72,7 @@ spec:
           enabled: true
           ingressClassName: "" # "internal"
           hosts:
-            - host: editor.recyclarr.${DOMAIN_0}
+            - host: editor.recyclarr.${DOMAIN_2}
               paths:
                 - path: /
                   # Ignored if not kubeVersion >= 1.14-0

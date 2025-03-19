@@ -49,7 +49,7 @@ spec:
         enabled: true
         ingressClassName: "" #"external" 
         hosts:
-          - host: auth.${DOMAIN_0}
+          - host: auth.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
@@ -72,7 +72,7 @@ spec:
               trigger:
                 schedule: 10 0 * * *
 
-    domain: ${DOMAIN_0}
+    domain: ${DOMAIN_2}
     ##
     ## Server Configuration
     ##
@@ -107,10 +107,10 @@ spec:
     ##
     ## Note: this parameter is optional. If not provided, user won't be redirected upon successful authentication.
     ## Default is https://www.<domain> (value at the top of the values.yaml).
-    default_redirection_url: "https://auth.${DOMAIN_0}"
+    default_redirection_url: "https://auth.${DOMAIN_2}"
     theme: dark
     totp:
-      issuer: ${DOMAIN_0}
+      issuer: ${DOMAIN_2}
     ##
     ## Password Policy Config
     ##
@@ -137,8 +137,8 @@ spec:
         host: ${SMTP_GMAIL_HOST}
         plain_password: ${SMTP_GMAIL_PASS_AUTHELIA}
         port: 587
-        sender: auth@${DOMAIN_0}
-        startup_check_address: auth@${DOMAIN_0}
+        sender: auth@${DOMAIN_2}
+        startup_check_address: auth@${DOMAIN_2}
         username: ${SMTP_GMAIL_EMAIL}
     authentication_backend:
       file:
@@ -172,8 +172,8 @@ spec:
     access_control:
       rules:
       - domain:
-        - ${DOMAIN_0}
-        - '*.${DOMAIN_0}'
+        - ${DOMAIN_2}
+        - '*.${DOMAIN_2}'
         domain_regex: []
         networks: []
         policy: one_factor

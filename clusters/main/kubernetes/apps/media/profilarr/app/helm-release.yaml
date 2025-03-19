@@ -58,7 +58,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: profilarr.${DOMAIN_0}
+          - host: profilarr.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

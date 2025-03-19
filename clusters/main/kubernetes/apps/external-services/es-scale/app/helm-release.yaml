@@ -42,7 +42,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: scale.${DOMAIN_0}
+          - host: scale.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

@@ -89,7 +89,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: omada.controller.${DOMAIN_0}
+          - host: omada.controller.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

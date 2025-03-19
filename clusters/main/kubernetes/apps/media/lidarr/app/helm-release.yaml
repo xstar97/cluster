@@ -61,7 +61,7 @@ spec:
         enabled: true
         ingressClassName: # "internal" 
         hosts:
-          - host: lidarr.${DOMAIN_0}
+          - host: lidarr.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

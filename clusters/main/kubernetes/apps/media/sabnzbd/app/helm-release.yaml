@@ -50,14 +50,14 @@ spec:
           containers:
             main:
               env:
-                SABNZBD__HOST_WHITELIST_ENTRIES: "sabd.${DOMAIN_0}"
+                SABNZBD__HOST_WHITELIST_ENTRIES: "sabd.${DOMAIN_2}"
                 SABNZBD__PORT: "{{ .Values.service.main.ports.main.port }}"
     ingress:
       main:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: sabd.${DOMAIN_0}
+          - host: sabd.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix

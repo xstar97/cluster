@@ -55,7 +55,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: speedtest.tracker.${DOMAIN_0}
+          - host: speedtest.tracker.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
@@ -74,7 +74,7 @@ spec:
           containers:
             main:
               env:
-                APP_URL: "https://speedtest.tracker.${DOMAIN_0}"
+                APP_URL: "https://speedtest.tracker.${DOMAIN_2}"
     persistence:
       config:
         volsync:

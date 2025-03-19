@@ -58,7 +58,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: starrproxy.${DOMAIN_0}
+          - host: starrproxy.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
