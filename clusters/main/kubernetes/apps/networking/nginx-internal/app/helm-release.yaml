@@ -34,7 +34,8 @@ spec:
           metallb.io/ip-allocated-from-pool: main
           metallb.io/loadBalancerIPs: ${NGINX_INTERNAL_IP}
           metallb.universe.tf/ip-allocated-from-pool: main
-      ingressClass: internal
+      # ingressClass: internal
+      watchIngressWithoutClass: false
       ingressClassByName: true
       ingressClassResource:
         name: internal
@@ -67,12 +68,12 @@ spec:
       extraArgs:
         default-ssl-certificate: "clusterissuer/certificate-issuer-domain-2-wildcard"
         publish-status-address: ${NGINX_INTERNAL_IP}
-        watch-ingress-without-class: false
-        healthz-host: localhost
-        healthz-port: 10254
-        http-port: 80
-        https-port: 443
-        validating-webhook: :8443
+        #watch-ingress-without-class: false
+        healthz-host: "0.0.0.0"
+        # healthz-port: 10254
+        # http-port: 80
+        # https-port: 443
+        # validating-webhook: :8443
       terminationGracePeriodSeconds: 120
       publishService:
         enabled: false
