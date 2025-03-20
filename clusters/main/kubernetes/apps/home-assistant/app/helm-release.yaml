@@ -73,6 +73,30 @@ spec:
               enabled: true
               trigger:
                 schedule: 10 0 * * *
+    addons:
+      codeserver:
+        enabled: true
+        service:
+          type: "ClusterIP"
+          ports:
+            codeserver:
+              port: 36107
+        ingress:
+          enabled: true
+          ingressClassName: "" # "internal" 
+          hosts:
+            - host: editor.ha.${DOMAIN_0}
+              paths:
+                - path: /
+                  # Ignored if not kubeVersion >= 1.14-0
+                  pathType: Prefix
+          integrations:
+            traefik:
+              enabled: true
+            certManager:
+              enabled: true
+              certificateIssuer: general-le-prod
+
     cnpg:
       main:
         cluster:
