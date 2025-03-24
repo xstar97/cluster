@@ -39,11 +39,12 @@ spec:
           metallb.io/ip-allocated-from-pool: main
           metallb.io/loadBalancerIPs: ${NGINX_INTERNAL_IP}
           metallb.universe.tf/ip-allocated-from-pool: main
-      # ingressClass: internal
+      watchIngressWithoutClass: true
+      ingressClass: internal
       ingressClassByName: true
       ingressClassResource:
         name: internal
-        default: true
+        default: false
         controllerValue: k8s.io/internal
       config:
         allow-snippet-annotations: true
