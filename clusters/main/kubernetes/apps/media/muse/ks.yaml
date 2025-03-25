@@ -1,11 +1,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: home-assistant
+  name: muse
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/apps/home-assistant/app
+  path: clusters/main/kubernetes/apps/media/muse/app
   prune: true
   sourceRef:
     kind: GitRepository
