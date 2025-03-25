@@ -21,3 +21,4 @@ resources:
   - linkwarden/ks.yaml
   - manyfold/ks.yaml
   - home-assistant/ks.yaml
+  - changedetection-io/ks.yaml
