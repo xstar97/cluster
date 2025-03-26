@@ -74,97 +74,100 @@ spec:
                 - checkrr 
                 - -c 
                 - /config/checkrr.yaml
+    checkrr:
+      data:
+        lang: "en-us"
+        checkrr:
+          checkpath: 
+            - "/media/Animes"
+            - "/media/AnimesH"
+            - "/media/Cartoons"
+            - "/media/Movies"
+            - "/media/MoviesA"
+            - "/media/Comedies"
+            - "/media/MoviesC"
+            - "/media/Music"
+            - "/media/TVK"
+            - "/media/TV"
+            - "/media/YouTube"
+          database: /config/checkrr.db
+          debug: true
+          csvfile: "/config/badfiles.csv"
+          cron: "@daily"
+          ignorehidden: true
+          ignoreexts:
+            - .txt
+            - .nfo
+            - .nzb
+            - .url
+        logs:
+          stdout:
+            out: stdout
+            formatter: default
+          file:
+            out: file
+            path: "/config/log"
+            formatter: default
+        arr:
+          radarr:
+            process: true
+            service: radarr
+            address: http://radarr.radarr.svc.cluster.local
+            apikey: "${RADARR_KEY}"
+            baseurl: /
+            port: 7878
+            ssl: false
+            mappings: []
+          sonarr-series:
+            process: true
+            service: sonarr
+            address: http://sonarr.sonarr.svc.cluster.local
+            apikey: "${SONARR_SERIES_KEY}"
+            baseurl: /
+            port: 8989
+            ssl: false
+            mappings: []
+          sonarr-animes:
+            process: true
+            service: sonarr
+            address: http://sonarr-animes.sonarr-animes.svc.cluster.local
+            apikey: "${SONARR_ANIMES_KEY}"
+            baseurl: /
+            port: 8989
+            ssl: false
+            mappings: []
+          lidarr:
+            process: true
+            service: lidarr
+            address: http://lidarr.lidarr.svc.cluster.local
+            apikey: "${LIDARR_KEY}"
+            baseurl: /
+            port: 8686
+            ssl: false
+            mappings: []
+        notifications:
+          discord:
+            url: "${CHECKRR_DISCORD_URL}"
+            notificationtypes: 
+              - reacquire
+              - unknowndetected
+              - startrun
+              - endrun
+        webserver:
+          port: "{{ .Values.service.main.ports.main.port }}"
+          tls: false
+          baseurl: "/"
+          trustedproxies:
+            - 172.16.0.0/16
+            - 172.17.0.0/16
+            - 10.0.0.0/8
 
     configmap:
       checkrr-config:
         enabled: true
         data:
           checkrr.yaml: >-
-            lang: "en-us"
-            checkrr:
-              checkpath: 
-                - "/media/Animes"
-                - "/media/AnimesH"
-                - "/media/Cartoons"
-                - "/media/Movies"
-                - "/media/MoviesA"
-                - "/media/Comedies"
-                - "/media/MoviesC"
-                - "/media/Music"
-                - "/media/TVK"
-                - "/media/TV"
-                - "/media/YouTube"
-              database: /config/checkrr.db
-              debug: true
-              csvfile: "/config/badfiles.csv"
-              cron: "@daily"
-              ignorehidden: true
-              ignoreexts:
-                - .txt
-                - .nfo
-                - .nzb
-                - .url
-            logs:
-              stdout:
-                out: stdout
-                formatter: default
-              file:
-                out: file
-                path: "/config/log"
-                formatter: default
-            arr:
-              radarr:
-                process: true
-                service: radarr
-                address: http://radarr.radarr.svc.cluster.local
-                apikey: "${RADARR_KEY}"
-                baseurl: /
-                port: 7878
-                ssl: false
-                mappings: []
-              sonarr-series:
-                process: true
-                service: sonarr
-                address: http://sonarr.sonarr.svc.cluster.local
-                apikey: "${SONARR_SERIES_KEY}"
-                baseurl: /
-                port: 8989
-                ssl: false
-                mappings: []
-              sonarr-animes:
-                process: true
-                service: sonarr
-                address: http://sonarr-animes.sonarr-animes.svc.cluster.local
-                apikey: "${SONARR_ANIMES_KEY}"
-                baseurl: /
-                port: 8989
-                ssl: false
-                mappings: []
-              lidarr:
-                process: true
-                service: lidarr
-                address: http://lidarr.lidarr.svc.cluster.local
-                apikey: "${LIDARR_KEY}"
-                baseurl: /
-                port: 8686
-                ssl: false
-                mappings: []
-            notifications:
-              discord:
-                url: "${CHECKRR_DISCORD_URL}"
-                notificationtypes: 
-                  - reacquire
-                  - unknowndetected
-                  - startrun
-                  - endrun
-            webserver:
-              port: {{ .Values.service.main.ports.main.port }}
-              tls: false
-              baseurl: "/"
-              trustedproxies:
-                - 172.16.0.0/16
-                - 172.17.0.0/16
-                - 10.0.0.0/8
+            {{- $.Values.checkrr.data | toYaml | nindent 2 }}
             
     ingress:
       main:
