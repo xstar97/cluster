@@ -64,9 +64,9 @@ spec:
               args:
                 - |
                   if [ ! -f /config/checkrr.db ]; then
-                    echo "db file not found, create a blank file..."
-                    touch /config/checkrr.db
-                    echo "DB file created!"
+                      echo "db file not found, create a blank file..."
+                      touch /config/checkrr.db
+                      echo "DB file created!"
                   fi
           containers:
             main:
