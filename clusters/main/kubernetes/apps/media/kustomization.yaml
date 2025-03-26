@@ -27,3 +27,4 @@ resources:
   - starrproxy/ks.yaml
   - profilarr/ks.yaml
   - muse/ks.yaml
+  - checkrr/ks.yaml

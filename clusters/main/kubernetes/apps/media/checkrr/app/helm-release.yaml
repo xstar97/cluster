@@ -1,0 +1,209 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: checkrr
+  namespace: checkrr
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 14.5.3
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    image:
+      repository: ghcr.io/aetaric/checkrr
+      pullPolicy: IfNotPresent
+      tag: 3.5.4-amd64@sha256:7a06972cdefe9e989933201068e80d93e779748ec2881bc8f01313c3aed6e647
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-checkrr"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+    service:
+      main:
+        ports:
+          main:
+            port: 8585
+    workload:
+      main:
+        podSpec:
+          initContainers:
+            init-config:
+              enabled: true
+              type: init
+              imageSelector: "image"
+              command:
+                - /bin/sh
+                - -c
+              args:
+                - |
+                  if [ ! -f /config/checkrr.db ]; then
+                    echo "db file not found, create a blank file..."
+                    touch /config/checkrr.db
+                    echo "DB file created!"
+                  fi
+          containers:
+            main:
+              args:
+                - checkrr 
+                - -c 
+                - /config/checkrr.yaml
+
+    configmap:
+      checkrr-config:
+        enabled: true
+        data:
+          checkrr.yaml: >-
+            lang: "en-us"
+            checkrr:
+              checkpath: 
+                - "/media/Animes"
+                - "/media/AnimesH"
+                - "/media/Cartoons"
+                - "/media/Movies"
+                - "/media/MoviesA"
+                - "/media/Comedies"
+                - "/media/MoviesC"
+                - "/media/Music"
+                - "/media/TVK"
+                - "/media/TV"
+                - "/media/YouTube"
+              database: /config/checkrr.db
+              debug: true
+              csvfile: "/config/badfiles.csv"
+              cron: "@daily"
+              ignorehidden: true
+              ignoreexts:
+                - .txt
+                - .nfo
+                - .nzb
+                - .url
+            logs:
+              stdout:
+                out: stdout
+                formatter: default
+              file:
+                out: file
+                path: "/config/log"
+                formatter: default
+            arr:
+              radarr:
+                process: true
+                service: radarr
+                address: http://radarr.radarr.svc.cluster.local
+                apikey: "${RADARR_KEY}"
+                baseurl: /
+                port: 7878
+                ssl: false
+              sonarr-series:
+                process: true
+                service: sonarr
+                address: http://sonarr.sonarr.svc.cluster.local
+                apikey: "${SONARR_SERIES_KEY}"
+                baseurl: /
+                port: 8989
+                ssl: false
+              sonarr-animes:
+                process: true
+                service: sonarr
+                address: http://sonarr-animes.sonarr-animes.svc.cluster.local
+                apikey: "${SONARR_ANIMES_KEY}"
+                baseurl: /
+                port: 8989
+                ssl: false
+              lidarr:
+                process: true
+                service: lidarr
+                address: http://lidarr.lidarr.svc.cluster.local
+                apikey: "${LIDARR_KEY}"
+                baseurl: /
+                port: 8686
+                ssl: false
+            notifications:
+              discord:
+                url: "${CHECKRR_DISCORD_URL}"
+                notificationtypes: 
+                  - reacquire
+                  - unknowndetected
+                  - startrun
+                  - endrun
+            webserver:
+              port: {{ .Values.service.main.ports.main.port }}
+              tls: false
+              baseurl: "/"
+              trustedproxies:
+                - 172.16.0.0/16
+                - 172.17.0.0/16
+                - 10.0.0.0/8
+            
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "" # "internal"
+        hosts:
+          - host: checkrr.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          traefik:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      config:
+        enabled: true
+        mountPath: /config
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              cacheCapacity: 10Gi
+              enabled: true
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
+      checkrr-config:
+        enabled: true
+        type: configmap
+        mountPath: /config/checkrr.yaml
+        objectName: checkrr-config
+        readOnly: true
+        subPath: checkrr.yaml
+      media:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${MEDIA_NFS}
+        mountPath: ${MEDIA_LOCAL}
+    cnpg:
+      main:
+        enabled: false
