@@ -121,6 +121,7 @@ spec:
                 baseurl: /
                 port: 7878
                 ssl: false
+                mappings: []
               sonarr-series:
                 process: true
                 service: sonarr
@@ -129,6 +130,7 @@ spec:
                 baseurl: /
                 port: 8989
                 ssl: false
+                mappings: []
               sonarr-animes:
                 process: true
                 service: sonarr
@@ -137,6 +139,7 @@ spec:
                 baseurl: /
                 port: 8989
                 ssl: false
+                mappings: []
               lidarr:
                 process: true
                 service: lidarr
@@ -145,6 +148,7 @@ spec:
                 baseurl: /
                 port: 8686
                 ssl: false
+                mappings: []
             notifications:
               discord:
                 url: "${CHECKRR_DISCORD_URL}"
