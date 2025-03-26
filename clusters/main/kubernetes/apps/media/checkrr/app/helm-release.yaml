@@ -154,7 +154,7 @@ spec:
               - startrun
               - endrun
         webserver:
-          port: "{{ .Values.service.main.ports.main.port }}"
+          port: 8585
           tls: false
           baseurl: "/"
           trustedproxies:
