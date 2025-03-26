@@ -44,20 +44,25 @@ spec:
         encrKey: "${CF_S3_RESTIC_KEY}"
     securityContext:
       container:
-        # runAsNonRoot: false
         readOnlyRootFilesystem: false
-        # runAsUser: 0
-        # runAsGroup: 0
     service:
       main:
+        enabled: false
         ports:
           main:
-            port: 5006
+            enabled: false
     workload:
       main:
         podSpec:
           containers:
             main:
+              probes:
+                liveness:
+                  enabled: false
+                readiness:
+                  enabled: false
+                startup:
+                  enabled: false
               env:
                 ACTUAL_SERVER_URL: http://actual-actualserver.actual.svc.cluster.local:5006
                 ACTUAL_PASSWORD: ${ACTUAL_PASSWORD}
@@ -93,35 +98,6 @@ spec:
                 #        {{/if}}
                 #        ANSWER BY A CATEGORY ID - DO NOT CREATE ENTIRE SENTENCE - DO NOT WRITE CATEGORY NAME, JUST AN ID. Do not guess, if you don't know the answer, return "uncategorized".
  
-    ingress:
-      main:
-        enabled: true
-        ingressClassName: "" # "internal"
-        hosts:
-          - host: actual.ai.${DOMAIN_2}
-            paths:
-              - path: /
-                pathType: Prefix
-        integrations:
-          traefik:
-            enabled: true
-          certManager:
-            enabled: true
-            certificateIssuer: general-le-prod
-    persistence:
-      data:
-        enabled: true
-        mountPath: /data
-        volsync:
-          - name: data
-            type: restic
-            credentials: cf-restic
-            dest:
-              cacheCapacity: 10Gi
-              enabled: true
-            src:
-              enabled: true
-              cacheCapacity: 10Gi
     cnpg:
       main:
         enabled: false
