@@ -44,28 +44,20 @@ spec:
         encrKey: "${CF_S3_RESTIC_KEY}"
     securityContext:
       container:
-        runAsNonRoot: false
+        # runAsNonRoot: false
         readOnlyRootFilesystem: false
-        runAsUser: 0
-        runAsGroup: 0
+        # runAsUser: 0
+        # runAsGroup: 0
     service:
       main:
-        enabled: false
         ports:
           main:
-            enabled: false
+            port: 5006
     workload:
       main:
         podSpec:
           containers:
             main:
-              probes:
-                liveness:
-                  enabled: false
-                readiness:
-                  enabled: false
-                startup:
-                  enabled: false
               env:
                 ACTUAL_SERVER_URL: http://actual-actualserver.actual.svc.cluster.local:5006
                 ACTUAL_PASSWORD: ${ACTUAL_PASSWORD}
@@ -76,7 +68,8 @@ spec:
                 LLM_PROVIDER: ollama # Can be "openai", "anthropic", "google-generative-ai", "ollama" or "groq"
                 OLLAMA_MODEL: phi3.5 # llama3.1 optional. required if you want to use a Ollama specific model, default is "phi3.5"
                 OLLAMA_BASE_URL: http://ollama-app-template.ollama.svc.cluster.local:11434/api # optional. required for ollama provider
-                ACTUAL_E2E_PASSWORD:  # optional. required if you have E2E encryption
+                FEATURES: '["freeWebSearch", "suggestNewCategories", "rerunMissedTransactions", "classifyOnStartup", "syncAccountsBeforeClassify"]'
+                # ACTUAL_E2E_PASSWORD:  # optional. required if you have E2E encryption
                 # NODE_TLS_REJECT_UNAUTHORIZED: 0 # optional. required if you have trouble connecting to Actual server 
                 # NOT_GUESSED_TAG=#actual-ai-miss
                 # GUESSED_TAG=#actual-ai
@@ -100,6 +93,35 @@ spec:
                 #        {{/if}}
                 #        ANSWER BY A CATEGORY ID - DO NOT CREATE ENTIRE SENTENCE - DO NOT WRITE CATEGORY NAME, JUST AN ID. Do not guess, if you don't know the answer, return "uncategorized".
  
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "" # "internal"
+        hosts:
+          - host: actual.ai.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          traefik:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      data:
+        enabled: true
+        mountPath: /data
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              cacheCapacity: 10Gi
+              enabled: true
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
     cnpg:
       main:
         enabled: false
