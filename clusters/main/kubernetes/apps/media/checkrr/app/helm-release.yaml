@@ -167,7 +167,7 @@ spec:
         enabled: true
         data:
           checkrr.yaml: >-
-            {{ .Values.checkrr.data | nindent 2 }}
+            {{ .Values.checkrr.data | toYaml | nindent 2 }}
             
     ingress:
       main:
