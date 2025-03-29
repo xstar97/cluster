@@ -59,6 +59,13 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                HOMEPAGE_ALLOWED_HOSTS: "homepage.${DOMAIN_2}"
     persistence:
       config:
         volsync:
