@@ -72,7 +72,7 @@ spec:
                 DISCORD_WEBHOOK_URL: "${CALENDARR_DISCORD_URL}"
                 # SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL}
                 # type must be "tv" or "movie"
-                CALENDAR_URLS: "{{- $.Values.calendarr.urls | toYaml | nindent 2 }}"
+                CALENDAR_URLS: "{{- $.Values.calendarr.urls | toJson | nindent 2 }}"
                 CUSTOM_HEADER: TV Guide - Shows and Movies airing this week
                 SHOW_DATE_RANGE: true
                 START_WEEK_ON_MONDAY: true
