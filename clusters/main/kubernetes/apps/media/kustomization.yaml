@@ -28,3 +28,4 @@ resources:
   - profilarr/ks.yaml
   - muse/ks.yaml
   - checkrr/ks.yaml
+  - calendarr/ks.yaml

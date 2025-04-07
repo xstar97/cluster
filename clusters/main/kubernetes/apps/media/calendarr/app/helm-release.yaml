@@ -1,0 +1,104 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: calendarr
+  namespace: calendarr
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 14.5.3
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    image:
+      repository: jordyjordyjordy/calendarr
+      pullPolicy: IfNotPresent
+      tag: 1.1.0@sha256:73a5fa91fe30654e7ab8b798a3e2a3b18e3a276969fb86496e4accbe280a93ee
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-calendarr"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+    service:
+      main:
+        enabled: false
+        ports:
+          main:
+            enabled: false
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              probes:
+                liveness:
+                  enabled: false
+                readiness:
+                  enabled: false
+                startup:
+                  enabled: false
+              env:
+                USE_DISCORD: "true"
+                USE_SLACK: "false"
+                DISCORD_WEBHOOK_URL: "${CALENDARR_DISCORD_URL}"
+                # SLACK_WEBHOOK_URL: ${SLACK_WEBHOOK_URL}
+                # type must be "tv" or "movie"
+                CALENDAR_URLS: "{{- $.Values.calendarr.urls | toYaml | nindent 2 }}"
+                CUSTOM_HEADER: TV Guide - Shows and Movies airing this week
+                SHOW_DATE_RANGE: true
+                START_WEEK_ON_MONDAY: true
+                RUN_ON_STARTUP: true
+                CRON_SCHEDULE: 0 9 * * 1 # Run every Monday at 9 AM
+
+    calendarr:
+      urls: 
+        - url: "${CALENDARR_CAL_SONARR_SERIES}"
+          type: tv
+        - url: "${CALENDARR_CAL_SONARR_ANIMES}"
+          type: tv
+        - url: "${CALENDARR_CAL_RADARR}"
+          type: movie
+
+    persistence:
+      logs:
+        enabled: true
+        mountPath: /app/logs
+        volsync:
+          - name: logs
+            type: restic
+            credentials: cf-restic
+            dest:
+              cacheCapacity: 10Gi
+              enabled: false
+            src:
+              enabled: false
+              cacheCapacity: 10Gi
+    cnpg:
+      main:
+        enabled: false
