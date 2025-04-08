@@ -56,7 +56,7 @@ spec:
                 USE_INTERNAL_HTTPS: 0
                 USE_SECURE_SESSION_COOKIE: 0
                 SPARKY_USER: "${SPARKY_USER}"
-                SPARKY_PASS: "${SPARKY_PASSWORD}"
+                SPARKY_PASS: "${SPARKY_PASS}"
                 SIMPLEFIN_TOKEN: "${SPARKY_SIMPLEFIN_TOKEN}"
     ingress:
       main:
