@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
   - wallos/ks.yaml
   - actual/ks.yaml
-  - sparkybudget/ks.yaml
