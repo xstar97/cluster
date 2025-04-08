@@ -56,6 +56,21 @@ spec:
     workload:
       main:
         podSpec:
+          initContainers:
+            init-config:
+              enabled: true
+              type: init
+              imageSelector: "image"
+              command:
+                - /bin/sh
+                - -c
+              args:
+                - |
+                  if [ ! -f /SparkyBudget/SparkyBudget.db   ]; then
+                      echo "db file not found, create a blank file..."
+                      touch /SparkyBudget/SparkyBudget.db
+                      echo "DB file created!"
+                  fi
           containers:
             main:
               env:
