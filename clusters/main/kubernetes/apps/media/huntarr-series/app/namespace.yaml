@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-    name: huntarr-sonarr-series
+    name: huntarr-series
     labels:
         pod-security.kubernetes.io/enforce: privileged
         topolvm.io/webhook: ignore

@@ -2,8 +2,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: huntarr-sonarr-series
-  namespace: huntarr-sonarr-series
+  name: huntarr-series
+  namespace: huntarr-series
 spec:
   interval: 15m
   chart:
@@ -38,7 +38,7 @@ spec:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-huntarr-sonarr-series"
+        bucket: "${CF_S3_RESTIC_BUCKET}-huntarr-series"
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
@@ -79,7 +79,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: series.sonarr.huntarr.${DOMAIN_2}
+          - host: series.huntarr.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
@@ -99,9 +99,9 @@ spec:
             credentials: cf-restic
             dest:
               cacheCapacity: 10Gi
-              enabled: true
+              enabled: false
             src:
-              enabled: true
+              enabled: false
               cacheCapacity: 10Gi
     cnpg:
       main:

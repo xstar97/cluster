@@ -30,4 +30,4 @@ resources:
   - checkrr/ks.yaml
   - calendarr/ks.yaml
   - readarr/ks.yaml
-  - huntarr-sonarr-series/ks.yaml
+  - huntarr-series/ks.yaml
