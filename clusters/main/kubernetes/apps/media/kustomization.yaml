@@ -29,3 +29,4 @@ resources:
   - muse/ks.yaml
   - checkrr/ks.yaml
   - calendarr/ks.yaml
+  - readarr/ks.yaml
