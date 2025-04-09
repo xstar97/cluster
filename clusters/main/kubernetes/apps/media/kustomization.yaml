@@ -31,3 +31,4 @@ resources:
   - calendarr/ks.yaml
   - readarr/ks.yaml
   - huntarr-series/ks.yaml
+  - huntarr-animes/ks.yaml
