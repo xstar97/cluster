@@ -56,7 +56,7 @@ spec:
           containers:
             main:
               env:
-                API_KEY: "${SONARR_huntarr-SONARR_ANIMES_KEY}"
+                API_KEY: "${SONARR_ANIMES_KEY}"
                 API_URL: "http://sonarr-animes.sonarr-animes.svc.cluster.local:8989"
                 API_TIMEOUT: "60"
                 MONITORED_ONLY: "true"
