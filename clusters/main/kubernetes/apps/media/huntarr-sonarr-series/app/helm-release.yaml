@@ -1,0 +1,108 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: huntarr-sonarr-series
+  namespace: huntarr-sonarr-series
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 14.5.3
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    image:
+      repository: huntarr/4sonarr
+      pullPolicy: IfNotPresent
+      tag: 3.3.2@sha256:cba3a83a2793477c906c2511dd6a3df27a0ecefde781163d57809471a3535347
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-huntarr-sonarr-series"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+    service:
+      main:
+        ports:
+          main:
+            port: 8988
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                API_KEY: "${SONARR_SERIES_KEY}"
+                API_URL: "http://sonarr.sonarr.svc.cluster.local:8989"
+                API_TIMEOUT: "60"
+                MONITORED_ONLY: "true"
+                HUNT_MISSING_SHOWS: "1"
+                HUNT_UPGRADE_EPISODES: "0"
+                SLEEP_DURATION: "900"
+                STATE_RESET_INTERVAL_HOURS: "168"
+                DEBUG_MODE: "false"
+                ENABLE_WEB_UI: "true"
+                SKIP_FUTURE_EPISODES: "true"
+                SKIP_SERIES_REFRESH: "false"
+                COMMAND_WAIT_DELAY: "1"
+                COMMAND_WAIT_ATTEMPTS: "600"
+                MINIMUM_DOWNLOAD_QUEUE_SIZE: "-1"
+                RANDOM_MISSING: "true"
+                RANDOM_UPGRADES: "true"
+            
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "" # "internal"
+        hosts:
+          - host: series.sonarr.huntarr.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          traefik:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      config:
+        enabled: true
+        mountPath: /config
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              cacheCapacity: 10Gi
+              enabled: true
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
+    cnpg:
+      main:
+        enabled: false
