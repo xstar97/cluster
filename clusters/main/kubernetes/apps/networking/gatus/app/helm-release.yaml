@@ -99,8 +99,8 @@ spec:
             codeserver:
               port: 36107
         ingress:
-          enabled: false
-          ingressClassName: "" # "internal"
+          enabled: true
+          ingressClassName: "internal"
           hosts:
             - host: editor.gatus.${DOMAIN_0}
               paths:
