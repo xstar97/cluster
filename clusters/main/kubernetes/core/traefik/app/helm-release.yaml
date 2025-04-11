@@ -76,12 +76,12 @@ spec:
                 namespace: traefik
           certManager:
             enabled: true
-            certificateIssuer: domain-0-le-prod 
+            certificateIssuer: domain-general-le-prod 
           homepage:
             enabled: true
             group: "Networking"
         hosts:
-          - host: traefik.${DOMAIN_0}
+          - host: traefik.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
@@ -95,14 +95,14 @@ spec:
             - 10.0.0.0/8
       redirectRegex:
         - name: mc-java-stats
-          regex: https://stats\.${DOMAIN_2}/?$
-          replacement: https://stats.${DOMAIN_2}/stats
+          regex: https://stats\.${DOMAIN_1}/?$
+          replacement: https://stats.${DOMAIN_1}/stats
           permanent: true
         - name: mc-java-map
           regex: https://map\.${DOMAIN_2}/stats
-          replacement: https://stats.${DOMAIN_2}/
+          replacement: https://stats.${DOMAIN_1}/
           permanent: true
         - name: traefik-dash
-          regex: https://traefik\.${DOMAIN_1}/?$
-          replacement: https://traefik.${DOMAIN_1}/dashboard/#/
+          regex: https://traefik\.${DOMAIN_2}/?$
+          replacement: https://traefik.${DOMAIN_2}/dashboard/#/
           permanent: true
