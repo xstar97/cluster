@@ -32,4 +32,4 @@ resources:
 # more goes here!
   - weave-gitops.yaml
   - ingress-nginx.yaml
-
+  - home-ops-mirror.yaml
