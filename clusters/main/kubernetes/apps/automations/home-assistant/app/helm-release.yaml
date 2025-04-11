@@ -82,7 +82,7 @@ spec:
             codeserver:
               port: 36107
         ingress:
-          enabled: true
+          enabled: false
           ingressClassName: "" # "internal" 
           hosts:
             - host: editor.ha.${DOMAIN_0}
@@ -92,7 +92,7 @@ spec:
                   pathType: Prefix
           integrations:
             traefik:
-              enabled: true
+              enabled: false
             certManager:
               enabled: true
               certificateIssuer: general-le-prod
