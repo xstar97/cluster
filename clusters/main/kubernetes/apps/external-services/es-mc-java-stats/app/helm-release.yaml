@@ -39,7 +39,7 @@ spec:
             port: 8100
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "" # "external"
         hosts:
           - host: stats.${DOMAIN_1}
@@ -48,7 +48,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: true
+            enabled: false
             middlewares:
               - name: mc-java-stats
                 namespace: traefik

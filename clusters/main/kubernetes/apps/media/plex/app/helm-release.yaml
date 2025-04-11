@@ -61,7 +61,7 @@ spec:
                   nvidia.com/gpu: 1
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: # "external"
         hosts:
           - host: plex.${DOMAIN_2}
@@ -70,7 +70,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: true
+            enabled: false
           homepage:
             enabled: true
             group: Media Server

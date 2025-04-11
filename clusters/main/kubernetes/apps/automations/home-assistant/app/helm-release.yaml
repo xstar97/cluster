@@ -48,7 +48,7 @@ spec:
       trusted_proxies: ["172.16.0.0/16"]
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "" #"internal" 
         hosts:
           - host: home.assistant.${DOMAIN_0}
@@ -57,7 +57,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: true
+            enabled: false
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
@@ -96,7 +96,6 @@ spec:
             certManager:
               enabled: true
               certificateIssuer: general-le-prod
-
     cnpg:
       main:
         cluster:

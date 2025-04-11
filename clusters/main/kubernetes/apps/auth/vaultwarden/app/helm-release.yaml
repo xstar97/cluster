@@ -46,7 +46,7 @@ spec:
             port: 8080
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "" # "external"
         hosts:
           - host: vaultwarden.${DOMAIN_2}
@@ -55,7 +55,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: true
+            enabled: false
           certManager:
             enabled: true
             certificateIssuer: general-le-prod

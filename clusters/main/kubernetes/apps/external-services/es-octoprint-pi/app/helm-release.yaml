@@ -39,7 +39,7 @@ spec:
             port: 80
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "" # "internal"
         hosts:
           - host: octoprint.${DOMAIN_2}
@@ -52,7 +52,7 @@ spec:
         #     clusterIssuer: domain-2-wildcard
         integrations:
           traefik:
-            enabled: true
+            enabled: false
           certManager:
             enabled: true
             certificateIssuer: general-le-prod

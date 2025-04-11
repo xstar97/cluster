@@ -46,7 +46,7 @@ spec:
             port: 9091
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "" #"external" 
         hosts:
           - host: auth.${DOMAIN_2}
@@ -55,7 +55,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: true
+            enabled: false
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
@@ -71,7 +71,6 @@ spec:
               enabled: true
               trigger:
                 schedule: 10 0 * * *
-
     domain: ${DOMAIN_2}
     ##
     ## Server Configuration
@@ -171,15 +170,15 @@ spec:
         password: ${LLDAP_LDAP_PWDMANAGER_PASS}
     access_control:
       rules:
-      - domain:
-        - ${DOMAIN_2}
-        - '*.${DOMAIN_2}'
-        domain_regex: []
-        networks: []
-        policy: one_factor
-        resources: []
-        subject:
-        - group:lldap_admin
+        - domain:
+            - ${DOMAIN_2}
+            - '*.${DOMAIN_2}'
+          domain_regex: []
+          networks: []
+          policy: one_factor
+          resources: []
+          subject:
+            - group:lldap_admin
     cnpg:
       main:
         cluster:

@@ -43,7 +43,7 @@ spec:
             port: 3000
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: # "internal" 
         hosts:
           - host: string.is.${DOMAIN_2}
@@ -52,7 +52,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: true
+            enabled: false
           certManager:
             enabled: true
             certificateIssuer: general-le-prod

@@ -46,7 +46,7 @@ spec:
             port: 5000
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "" # "internal" 
         hosts:
           - host: kavita.${DOMAIN_2}
@@ -55,7 +55,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: true
+            enabled: false
           homepage:
             enabled: true
             group: "Media Server"

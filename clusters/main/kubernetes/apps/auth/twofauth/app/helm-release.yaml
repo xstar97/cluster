@@ -85,7 +85,7 @@ spec:
                 APP_URL: https://2fauth.${DOMAIN_2}:443
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "" # "external"
         hosts:
           - host: 2fauth.${DOMAIN_2}
@@ -94,7 +94,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: true
+            enabled: false
           certManager:
             enabled: true
             certificateIssuer: general-le-prod

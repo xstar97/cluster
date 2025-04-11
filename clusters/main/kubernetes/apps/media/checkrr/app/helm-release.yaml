@@ -71,14 +71,14 @@ spec:
           containers:
             main:
               args:
-                - checkrr 
-                - -c 
+                - checkrr
+                - -c
                 - /config/checkrr.yaml
     checkrr:
       data:
         lang: "en-us"
         checkrr:
-          checkpath: 
+          checkpath:
             - "/media/Animes"
             - "/media/AnimesH"
             - "/media/Cartoons"
@@ -148,7 +148,7 @@ spec:
         notifications:
           discord:
             url: "${CHECKRR_DISCORD_URL}"
-            notificationtypes: 
+            notificationtypes:
               - reacquire
               - unknowndetected
               - startrun
@@ -161,17 +161,15 @@ spec:
             - 172.16.0.0/16
             - 172.17.0.0/16
             - 10.0.0.0/8
-
     configmap:
       checkrr-config:
         enabled: true
         data:
           checkrr.yaml: |
             {{- $.Values.checkrr.data | toYaml | nindent 2 }}
-            
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "" # "internal"
         hosts:
           - host: checkrr.${DOMAIN_2}
@@ -180,7 +178,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: true
+            enabled: false
           certManager:
             enabled: true
             certificateIssuer: general-le-prod

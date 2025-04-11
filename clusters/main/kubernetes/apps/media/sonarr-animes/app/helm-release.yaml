@@ -58,7 +58,7 @@ spec:
             port: 8989
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "" # "internal"
         hosts:
           - host: animes.sonarr.${DOMAIN_2}
@@ -67,7 +67,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: true
+            enabled: false
           homepage:
             enabled: true
             name: Sonarr (Animes)

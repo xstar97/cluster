@@ -73,10 +73,9 @@ spec:
                 MINIMUM_DOWNLOAD_QUEUE_SIZE: "-1"
                 RANDOM_MISSING: "true"
                 RANDOM_UPGRADES: "false"
-            
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "" # "internal"
         hosts:
           - host: series.huntarr.${DOMAIN_2}
@@ -85,7 +84,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: true
+            enabled: false
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
