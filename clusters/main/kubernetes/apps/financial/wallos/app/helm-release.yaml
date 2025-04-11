@@ -46,7 +46,7 @@ spec:
             port: 80
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # "external"
         hosts:
           - host: wallos.${DOMAIN_2}
@@ -55,7 +55,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           certManager:
             enabled: true
             certificateIssuer: general-le-prod

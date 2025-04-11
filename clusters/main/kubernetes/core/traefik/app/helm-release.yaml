@@ -85,7 +85,6 @@ spec:
             paths:
               - path: /
                 pathType: Prefix
-
     middlewares:
       ipWhiteList:
         - name: local

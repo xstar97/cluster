@@ -46,7 +46,7 @@ spec:
             port: 3001
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # "external"
         hosts:
           - host: status.${DOMAIN_0}
@@ -59,7 +59,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           homepage:
             enabled: true
             group: "Monitoring"

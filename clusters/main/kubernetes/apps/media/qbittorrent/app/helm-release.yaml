@@ -77,7 +77,7 @@ spec:
             protocol: http
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # "internal" 
         hosts:
           - host: qbit.${DOMAIN_2}
@@ -86,7 +86,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           homepage:
             enabled: true
             group: "Media Downloads"

@@ -52,7 +52,7 @@ spec:
             port: 80
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # "internal"
         hosts:
           - host: speedtest.tracker.${DOMAIN_2}
@@ -61,7 +61,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           homepage:
             enabled: true
             group: "Monitoring"

@@ -62,7 +62,7 @@ spec:
               env: {}
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: # "internal" 
         hosts:
           - host: tauticord.${DOMAIN_2}
@@ -73,7 +73,7 @@ spec:
           homepage:
             enabled: false
           traefik:
-            enabled: false
+            enabled: true
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
@@ -108,11 +108,11 @@ spec:
             codeserver:
               port: 36107
         ingress:
-          enabled: false
+          enabled: true
           ingressClassName: # "internal"
           integrations:
             traefik:
-              enabled: false
+              enabled: true
             certManager:
               enabled: true
               certificateIssuer: general-le-prod

@@ -83,7 +83,7 @@ spec:
                 OLLAMA_MODEL: "{{ .Values.config.ollama.model }}"
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "" # "internal"
         hosts:
           - host: linkwarden.${DOMAIN_2}
@@ -92,7 +92,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           homepage:
             enabled: true
             group: "Monitoring"

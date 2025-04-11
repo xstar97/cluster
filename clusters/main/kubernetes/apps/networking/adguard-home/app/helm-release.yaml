@@ -65,7 +65,7 @@ spec:
             targetPort: 53
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: # "internal"
         hosts:
           - host: adguard.home.${DOMAIN_2}
@@ -74,7 +74,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           homepage:
             enabled: true
             group: "Networking"

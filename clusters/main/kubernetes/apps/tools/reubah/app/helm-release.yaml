@@ -38,7 +38,7 @@ spec:
             port: 8081
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: # "internal" 
         hosts:
           - host: reubah.${DOMAIN_2}
@@ -47,7 +47,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: false
+            enabled: true
           certManager:
             enabled: true
             certificateIssuer: general-le-prod

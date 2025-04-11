@@ -6,10 +6,10 @@ metadata:
   annotations:
       cert-manager.io/cluster-issuer: general-le-prod
       cert-manager.io/private-key-rotation-policy: Always
-      # traefik.frontend.passHostHeader: "false"
-      # traefik.ingress.kubernetes.io/router.entrypoints: websecure
-      # traefik.ingress.kubernetes.io/router.middlewares: traefik-chain-basic@kubernetescrd
-      # traefik.ingress.kubernetes.io/router.tls: "true"
+      traefik.frontend.passHostHeader: "false"
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/router.middlewares: traefik-chain-basic@kubernetescrd
+      traefik.ingress.kubernetes.io/router.tls: "true"
 spec:
   rules:
   - host: fluxwh.${DOMAIN_0}
