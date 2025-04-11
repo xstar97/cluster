@@ -47,7 +47,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "internal"
+        ingressClassName: ""
         hosts:
           - host: vaultwarden.${DOMAIN_2}
             paths:
