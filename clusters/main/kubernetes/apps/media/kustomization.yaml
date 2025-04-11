@@ -32,3 +32,4 @@ resources:
   - readarr/ks.yaml
   - huntarr-series/ks.yaml
   - huntarr-animes/ks.yaml
+  - yamtrack/ks.yaml
