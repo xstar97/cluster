@@ -47,7 +47,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "" #"external" 
+        ingressClassName: "internal"
         hosts:
           - host: auth.${DOMAIN_2}
             paths:
