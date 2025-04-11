@@ -65,10 +65,10 @@ spec:
               insecureMode: false
     ingress:
       main:
-        enabled: false
+        enabled: true
         integrations:
           traefik:
-            enabled: false
+            enabled: true
             middlewares:
               - name: local
                 namespace: traefik
