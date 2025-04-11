@@ -59,7 +59,7 @@ spec:
     ingress:
       main:
         enabled: false
-        ingressClassName: "" # external
+        ingressClassName: "external"
         hosts:
           - host: gatus.${DOMAIN_0}
             paths:
