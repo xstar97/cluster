@@ -33,7 +33,7 @@ spec:
     image:
       repository: jordyjordyjordy/calendarr
       pullPolicy: IfNotPresent
-      tag: 1.4.2@sha256:47eb1b9c618a3f4a639c70ccc4db1268f5cc159c16b36d784bc323073ab5c383
+      tag: 1.5.0@sha256:ac8e9992dc752190286ba35c5d045bade44fa2ea59158cf7a12b8c14fc5754ff
     credentials:
       cf-restic:
         type: s3
