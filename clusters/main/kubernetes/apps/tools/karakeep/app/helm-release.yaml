@@ -56,6 +56,10 @@ spec:
         readOnlyRootFilesystem: false
         runAsUser: 0
         runAsGroup: 0
+        capabilities:
+          # SYS_ADMIN is for chrome
+          add:
+            - SYS_ADMIN
     service:
       main:
         ports:
