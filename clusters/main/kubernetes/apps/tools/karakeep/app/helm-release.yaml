@@ -179,15 +179,14 @@ spec:
             src:
               enabled: false
               cacheCapacity: 10Gi
-      meili_data:
+      meili:
         enabled: true
         targetSelector:
           meili:
             meili:
               mountPath: /meili_data
-              readOnly: true
         volsync:
-          - name: meili_data
+          - name: meili
             type: restic
             credentials: cf-restic
             dest:
