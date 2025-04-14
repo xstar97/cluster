@@ -35,13 +35,13 @@ spec:
       pullPolicy: IfNotPresent
       tag: 0.23.2@sha256:04956fc529d4675cfa849313f270ae863094d1f2be4c922172f06a62ef9bd4ac
     chromeImage:
-      repository: ghcr.io/zenika/alpine-chrome:124
+      repository: ghcr.io/zenika/alpine-chrome
       pullPolicy: IfNotPresent
       tag: 124@sha256:1a0046448e0bb6c275c88f86e01faf0de62b02ec8572901256ada0a8c08be23f
     meiliImage:
       repository: getmeili/meilisearch
       pullPolicy: IfNotPresent
-      tag: v1.11.3@sha256:6f8f1fc29d1ff67b4d8d503bb4e0a69b55c8d42600decafde951344218193a27
+      tag: v1.11.1@sha256:2ab0c8bdf58b7305e48af7372c47d5638d51dc1bb3a59c8e2b07eca6fe7176e9
     credentials:
       cf-restic:
         type: s3
