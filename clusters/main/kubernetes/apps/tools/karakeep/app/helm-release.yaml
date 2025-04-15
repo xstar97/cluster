@@ -41,7 +41,7 @@ spec:
     meiliImage:
       repository: getmeili/meilisearch
       pullPolicy: IfNotPresent
-      tag: v1.11.3@sha256:6f8f1fc29d1ff67b4d8d503bb4e0a69b55c8d42600decafde951344218193a27
+      tag: v1.11.1@sha256:2ab0c8bdf58b7305e48af7372c47d5638d51dc1bb3a59c8e2b07eca6fe7176e9
     credentials:
       cf-restic:
         type: s3
@@ -56,10 +56,6 @@ spec:
         readOnlyRootFilesystem: false
         runAsUser: 0
         runAsGroup: 0
-        capabilities:
-          # SYS_ADMIN is for chrome
-          add:
-            - SYS_ADMIN
     service:
       main:
         ports:
@@ -102,6 +98,14 @@ spec:
               imageSelector: chromeImage
               resources:
                 excludeExtra: true
+              securityContext:
+                runAsUser: 568
+                runAsGroup: 568
+                readOnlyRootFilesystem: false
+                # allowPrivilegeEscalation: true
+                capabilities:
+                  add:
+                    - SYS_ADMIN
               probes:
                 liveness:
                   enabled: true
