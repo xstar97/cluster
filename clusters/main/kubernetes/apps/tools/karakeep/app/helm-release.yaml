@@ -99,23 +99,23 @@ spec:
               resources:
                 excludeExtra: true
               securityContext:
-                runAsUser: 568
-                runAsGroup: 568
                 readOnlyRootFilesystem: false
-                # allowPrivilegeEscalation: true
+                runAsNonRoot: false
+                allowPrivilegeEscalation: true
                 capabilities:
                   add:
                     - SYS_ADMIN
+                    - CAP_DAC_OVERRIDE
               probes:
                 liveness:
                   enabled: true
                   type: http
-                  path: /
+                  path: /json
                   port: "{{ .Values.service.chrome.ports.chrome.port }}"
                 readiness:
                   enabled: true
                   type: http
-                  path: /
+                  path: /json
                   port: "{{ .Values.service.chrome.ports.chrome.port }}"
                 startup:
                   enabled: true
@@ -173,6 +173,19 @@ spec:
       data:
         enabled: true
         mountPath: /data
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              cacheCapacity: 10Gi
+              enabled: false
+            src:
+              enabled: false
+              cacheCapacity: 10Gi
+      chrome:
+        enabled: true
+        mountPath: /home/chrome
         volsync:
           - name: config
             type: restic
