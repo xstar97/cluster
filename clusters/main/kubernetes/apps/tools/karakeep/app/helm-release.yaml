@@ -109,12 +109,12 @@ spec:
                 liveness:
                   enabled: true
                   type: http
-                  path: /
+                  path: /docs
                   port: "{{ .Values.service.chrome.ports.chrome.port }}"
                 readiness:
                   enabled: true
                   type: http
-                  path: /
+                  path: /docs
                   port: "{{ .Values.service.chrome.ports.chrome.port }}"
                 startup:
                   enabled: true
