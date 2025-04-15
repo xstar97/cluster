@@ -9,4 +9,3 @@ resources:
   - linkwarden/ks.yaml
   - manyfold/ks.yaml
   - mend-renovate/ks.yaml
-  - karakeep/ks.yaml
