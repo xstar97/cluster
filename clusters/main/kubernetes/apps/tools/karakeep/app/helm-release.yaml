@@ -121,14 +121,14 @@ spec:
                   enabled: true
                   type: tcp
                   port: "{{ .Values.service.chrome.ports.chrome.port }}"
-              args:
+              # args:
                 # - --disable-software-rasterizer
                 #- --no-sandbox
                 # - --disable-gpu
                 # - --disable-dev-shm-usage
-                - --remote-debugging-address=0.0.0.0
-                - --remote-debugging-port={{ .Values.service.chrome.ports.chrome.port }}
-                - --hide-scrollbars
+                # - --remote-debugging-address=0.0.0.0
+                # - --remote-debugging-port={{ .Values.service.chrome.ports.chrome.port }}
+                # - --hide-scrollbars
                 # - --enable-features=ConversionMeasurement,AttributionReportingCrossAppWeb
 
       meili:
