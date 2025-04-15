@@ -35,9 +35,9 @@ spec:
       pullPolicy: IfNotPresent
       tag: 0.23.2@sha256:04956fc529d4675cfa849313f270ae863094d1f2be4c922172f06a62ef9bd4ac
     chromeImage:
-      repository: ghcr.io/zenika/alpine-chrome
+      repository: ghcr.io/browserless/chromium
       pullPolicy: IfNotPresent
-      tag: 124@sha256:1a0046448e0bb6c275c88f86e01faf0de62b02ec8572901256ada0a8c08be23f
+      tag: v2.28.0@sha256:32e7d5b3c51274cc3f04b999fe31e5e457c8b28b178b1070567f75e50af7a286
     meiliImage:
       repository: getmeili/meilisearch
       pullPolicy: IfNotPresent
@@ -67,7 +67,7 @@ spec:
         ports:
           chrome:
             enabled: true
-            port: 9222
+            port: 3000
       meili:
         enabled: true
         type: ClusterIP
@@ -100,36 +100,26 @@ spec:
                 excludeExtra: true
               securityContext:
                 readOnlyRootFilesystem: false
-                runAsNonRoot: false
-                allowPrivilegeEscalation: true
-                capabilities:
-                  add:
-                    - SYS_ADMIN
-                    - CAP_DAC_OVERRIDE
+                # runAsNonRoot: false
+                # allowPrivilegeEscalation: true
+                # capabilities:
+                #   add:
+                #     - SYS_ADMIN
               probes:
                 liveness:
                   enabled: true
                   type: http
-                  path: /json
+                  path: /
                   port: "{{ .Values.service.chrome.ports.chrome.port }}"
                 readiness:
                   enabled: true
                   type: http
-                  path: /json
+                  path: /
                   port: "{{ .Values.service.chrome.ports.chrome.port }}"
                 startup:
                   enabled: true
                   type: tcp
                   port: "{{ .Values.service.chrome.ports.chrome.port }}"
-              args:
-                - --disable-software-rasterizer
-                - --no-sandbox
-                - --disable-gpu
-                - --disable-dev-shm-usage
-                - --remote-debugging-address=0.0.0.0
-                - --remote-debugging-port={{ .Values.service.chrome.ports.chrome.port }}
-                - --hide-scrollbars
-                - --enable-features=ConversionMeasurement,AttributionReportingCrossAppWeb
 
       meili:
         enabled: true
