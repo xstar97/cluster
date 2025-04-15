@@ -31,7 +31,7 @@ spec:
     image:
       repository: daveperrett/string-is
       pullPolicy: IfNotPresent
-      tag: v1.37.6@sha256:4c31b5fea407a57cc35c19561c561c036ae3d7d31bcf7ed18b219b38de7b1316
+      tag: v1.38.0@sha256:dfe8775071d37ab6182fdefa8f20ed14beaa4aa5b9e9658904742e57b87d54d9
     global:
       stopAll: false
     securityContext:
