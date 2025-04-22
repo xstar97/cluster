@@ -33,7 +33,7 @@ spec:
     image:
       repository: sakowicz/actual-ai
       pullPolicy: IfNotPresent
-      tag: 2.1.0@sha256:418267ae021e3074e4c1e4804a284415a726121dbcfbf8b8e49f764e5069362b
+      tag: 2.1.1@sha256:30a70cb24f40bb4430e09c6fbcba15e5e042dcd86161acdc43bfa97e70a7f4b9
     credentials:
       cf-restic:
         type: s3
