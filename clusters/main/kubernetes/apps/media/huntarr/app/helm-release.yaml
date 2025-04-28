@@ -2,8 +2,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: huntarr-animes
-  namespace: huntarr-animes
+  name: huntarr
+  namespace: huntarr
 spec:
   interval: 15m
   chart:
@@ -31,14 +31,14 @@ spec:
     global:
       stopAll: false
     image:
-      repository: huntarr/4sonarr
+      repository: huntarr/huntarr
       pullPolicy: IfNotPresent
-      tag: 3.3.3@sha256:4fad5d96a6200322fc77c2e23098d2d7d37766a4e7712a63d0149a442e7df5e2
+      tag: 6.0.0@sha256:8c67c1bb9c6a9b2797eb045e34f07972c153a583d731f8da10d7e8f4f779368e
     credentials:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-huntarr-animes"
+        bucket: "${CF_S3_RESTIC_BUCKET}-huntarr"
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
@@ -49,36 +49,13 @@ spec:
       main:
         ports:
           main:
-            port: 8988
-    workload:
-      main:
-        podSpec:
-          containers:
-            main:
-              env:
-                API_KEY: "${SONARR_ANIMES_KEY}"
-                API_URL: "http://sonarr-animes.sonarr-animes.svc.cluster.local:8989"
-                API_TIMEOUT: "60"
-                MONITORED_ONLY: "true"
-                HUNT_MISSING_SHOWS: "3"
-                HUNT_UPGRADE_EPISODES: "0"
-                SLEEP_DURATION: "900"
-                STATE_RESET_INTERVAL_HOURS: "168"
-                DEBUG_MODE: "false"
-                ENABLE_WEB_UI: "true"
-                SKIP_FUTURE_EPISODES: "true"
-                SKIP_huntarr-animes_REFRESH: "false"
-                COMMAND_WAIT_DELAY: "1"
-                COMMAND_WAIT_ATTEMPTS: "600"
-                MINIMUM_DOWNLOAD_QUEUE_SIZE: "-1"
-                RANDOM_MISSING: "true"
-                RANDOM_UPGRADES: "false"
+            port: 9705
     ingress:
       main:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: animes.huntarr.${DOMAIN_2}
+          - host: huntarr.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
