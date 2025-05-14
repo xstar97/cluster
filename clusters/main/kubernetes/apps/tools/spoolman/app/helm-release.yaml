@@ -27,13 +27,21 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  values:
+  values:    
+    global:
+      stopAll: false
     image:
       repository: ghcr.io/donkie/spoolman
       pullPolicy: IfNotPresent
       tag: 0.22.1@sha256:238ea5bfb2eeda4436c39f54e73df5fef4ee904fb7c291617588b856786fe0ef
-    global:
-      stopAll: false
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-spoolman"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
     securityContext:
       readOnlyRootFilesystem: false
     service:
