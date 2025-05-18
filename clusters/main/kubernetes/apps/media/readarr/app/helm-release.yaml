@@ -75,7 +75,7 @@ spec:
             siteMonitor: http://readarr.readarr.svc.cluster.local:8787
             widget:
               custom:
-                key: "${READARR_SERIES_KEY}"
+                key: "${READARR_KEY}"
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
