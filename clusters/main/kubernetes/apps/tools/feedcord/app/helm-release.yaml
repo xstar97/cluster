@@ -31,9 +31,9 @@ spec:
     global:
       stopAll: false
     image:
-      repository: ghcr.io/donkie/feedcord
+      repository: qolors/feedcord
       pullPolicy: IfNotPresent
-      tag: 0.22.1@sha256:238ea5bfb2eeda4436c39f54e73df5fef4ee904fb7c291617588b856786fe0ef
+      tag: latest@sha256:c7e0905d440d8bb66aa683de4ebb1ee53a4e7d56936fe37ad6f2cd02bb5c9840
     credentials:
       cf-restic:
         type: s3
