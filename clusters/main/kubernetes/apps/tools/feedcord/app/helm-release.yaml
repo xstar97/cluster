@@ -1,0 +1,102 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: feedcord
+  namespace: feedcord
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 14.5.3
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:    
+    global:
+      stopAll: false
+    image:
+      repository: ghcr.io/donkie/feedcord
+      pullPolicy: IfNotPresent
+      tag: 0.22.1@sha256:238ea5bfb2eeda4436c39f54e73df5fef4ee904fb7c291617588b856786fe0ef
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-feedcord"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        # runAsNonRoot: false
+        readOnlyRootFilesystem: false
+        # runAsUser: 0
+        # runAsGroup: 0
+    service:
+      main:
+        enabled: false
+        ports:
+          main:
+            enabled: false
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              probes:
+                liveness:
+                  enabled: false
+                readiness:
+                  enabled: false
+                startup:
+                  enabled: false
+    feedcord:
+      Instances:
+        - Id: Awesome SelfHosted News Feed
+          YoutubeUrls:
+            - ""
+          RssUrls:
+            - "https://www.trackawesomelist.com/awesome-selfhosted/awesome-selfhosted/rss.xml"
+          Forum: false
+          DiscordWebhookUrl: ${FEEDCORD_AWESOME_SELF_HOSTED_WEBHOOK_DISCORD}
+          RssCheckIntervalMinutes: 25
+          EnableAutoRemove: false
+          Color: 8411391
+          DescriptionLimit: 250
+          MarkdownFormat: false
+          PersistenceOnShutdown: true
+      ConcurrentRequests: 40
+
+    configmap:
+      feedcord-config:
+        enabled: true
+        data:
+          appsettings.json: |
+            {{- $.Values.feedcord | toJson | nindent 2 }}
+    persistence:
+      feedcord-config:
+        enabled: true
+        type: configmap
+        mountPath: /app/config/appsettings.json
+        objectName: feedcord-config
+        readOnly: true
+        subPath: appsettings.json
+    cnpg:
+      main:
+        enabled: false
