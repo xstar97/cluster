@@ -6,7 +6,7 @@ resources:
   - cloudflared/ks.yaml
   - omada-controller/ks.yaml
   - adguard-home/ks.yaml
-  - gatus/ks.yaml
+  # - gatus/ks.yaml
   - uptime-kuma/ks.yaml
   - myspeed/ks.yaml
   - speedtest-tracker/ks.yaml
