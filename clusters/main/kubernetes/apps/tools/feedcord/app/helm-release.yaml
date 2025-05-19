@@ -75,11 +75,11 @@ spec:
             - "https://www.trackawesomelist.com/awesome-selfhosted/awesome-selfhosted/rss.xml"
           Forum: false
           DiscordWebhookUrl: ${FEEDCORD_AWESOME_SELF_HOSTED_WEBHOOK_DISCORD}
-          RssCheckIntervalMinutes: 25
-          EnableAutoRemove: false
+          RssCheckIntervalMinutes: 10
+          EnableAutoRemove: true
           Color: 8411391
           DescriptionLimit: 250
-          MarkdownFormat: false
+          MarkdownFormat: true
           PersistenceOnShutdown: true
       ConcurrentRequests: 40
 
