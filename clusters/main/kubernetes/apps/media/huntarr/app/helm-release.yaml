@@ -33,7 +33,7 @@ spec:
     image:
       repository: huntarr/huntarr
       pullPolicy: IfNotPresent
-      tag: 7.1.1@sha256:55381097b38de17b4d32bb198ac421e4e933abae4a9ed2bbd6e1a799338fc478
+      tag: 7.1.2@sha256:0f75b3533877b7d32f71fe6cbd022bd64f2364b0aeaf34fc6324aea20c057972
     credentials:
       cf-restic:
         type: s3
