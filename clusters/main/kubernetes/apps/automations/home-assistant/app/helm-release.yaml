@@ -51,7 +51,7 @@ spec:
         enabled: true
         ingressClassName: "" #"internal" 
         hosts:
-          - host: home.assistant.${DOMAIN_0}
+          - host: ha.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
