@@ -61,3 +61,7 @@ You can clone my scripts easily through its own repo found [here](https://github
 <div align='center' style="text-align: center; margin-top: 20px;">
   A kubernetes cluster Powered by <a href='https://github.com/truecharts/public'>TrueCharts ClusterTool</a>
 </div>
+
+# Git Activity
+
+![Alt](https://repobeats.axiom.co/api/embed/e67ffedee1e6edf391015dec89b00741e3ecc8a9.svg "Repobeats analytics image")
