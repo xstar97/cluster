@@ -94,7 +94,7 @@ spec:
         ldap:
           address: ${LLDAP_URL_CLUSTER}
           tls:
-            server_name: lldap.${DOMAIN_1}
+            server_name: lldap.${DOMAIN_2}
           base_dn: ${LLDAP_LDAP_BASE_DN}
           attributes:
             username: uid
