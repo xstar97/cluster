@@ -90,7 +90,7 @@ spec:
           enabled: true
           # ingressClassName: "" # "internal" 
           hosts:
-            - host: editor.homepage.${DOMAIN_0}
+            - host: editor.homepage.${DOMAIN_2}
               paths:
                 - path: /
                   # Ignored if not kubeVersion >= 1.14-0

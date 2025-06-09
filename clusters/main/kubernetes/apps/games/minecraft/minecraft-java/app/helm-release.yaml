@@ -122,6 +122,7 @@ spec:
       # - auraskills
       # - deathlocator
       - bluemap
+      - plan
     workload:
       main:
         podSpec:
@@ -226,7 +227,7 @@ spec:
           enabled: true
           ingressClassName: # "internal"
           hosts:
-            - host: editor.survival.${DOMAIN_1}
+            - host: editor.survival.${DOMAIN_2}
               paths:
                 - path: /
                   # Ignored if not kubeVersion >= 1.14-0

@@ -42,7 +42,7 @@ spec:
         enabled: true
         ingressClassName: "" # "internal"
         hosts:
-          - host: plan.${DOMAIN_1}
+          - host: plan.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
