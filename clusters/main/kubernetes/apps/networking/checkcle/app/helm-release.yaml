@@ -78,3 +78,6 @@ spec:
             src:
               enabled: false
               cacheCapacity: 10Gi
+    cnpg:
+      main:
+        enabled: false
