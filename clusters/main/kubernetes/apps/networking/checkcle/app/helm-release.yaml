@@ -73,8 +73,8 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              enabled: true
+              enabled: false
               cacheCapacity: 10Gi
             src:
-              enabled: true
+              enabled: false
               cacheCapacity: 10Gi
