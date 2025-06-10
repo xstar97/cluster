@@ -74,7 +74,7 @@ spec:
     gatus:
       storage:
         type: postgres
-        path: "${PG_URL}"
+        path: ${PG_URL}
       endpoints:
         - name: back-end
           group: core
