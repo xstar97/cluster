@@ -47,15 +47,14 @@ spec:
         ports:
           main:
             port: 5000
+    
+    resources:
+      limits:
+        nvidia.com/gpu: 1
     workload:
       main:
         podSpec:
-          runtimeClassName: nvidia
-          containers:
-            main:
-              resources:
-                limits:
-                  nvidia.com/gpu: 0
+          runtimeClassName: "nvidia"
     ingress:
       main:
         enabled: true
