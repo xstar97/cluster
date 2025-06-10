@@ -10,3 +10,4 @@ resources:
   - uptime-kuma/ks.yaml
   - myspeed/ks.yaml
   - speedtest-tracker/ks.yaml
+  - checkcle/ks.yaml

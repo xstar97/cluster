@@ -1,0 +1,80 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: checkcle
+  namespace: checkcle
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 14.5.3
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    image:
+      repository: operacle/checkcle
+      pullPolicy: IfNotPresent
+      tag: v1.2.0@sha256:157b6420df0af2c1877506ab88a191a698f030da73fbf46741d214206749ce78
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-checkcle"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      readOnlyRootFilesystem: false
+    service:
+      main:
+        ports:
+          main:
+            port: 8090
+    ingress:
+      main:
+        enabled: true
+        # ingressClassName: "" # "external"
+        hosts:
+          - host: checkcle.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          traefik:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      data:
+        enabled: true
+        mountPath: /mnt/pb_data
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+              cacheCapacity: 10Gi
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
