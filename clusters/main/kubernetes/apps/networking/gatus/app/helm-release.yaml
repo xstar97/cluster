@@ -2,8 +2,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: checkcle
-  namespace: checkcle
+  name: gatus
+  namespace: gatus
 spec:
   interval: 15m
   chart:
@@ -31,14 +31,14 @@ spec:
     global:
       stopAll: false
     image:
-      repository: ghcr.io/twin/checkcle
+      repository: ghcr.io/twin/gatus
       pullPolicy: IfNotPresent
       tag: v5.18.1@sha256:97525568fdef34539b1b4d015aef2d1cf6f58f1bc087443387b349940544394d
     credentials:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-checkcle"
+        bucket: "${CF_S3_RESTIC_BUCKET}-gatus"
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
@@ -49,19 +49,12 @@ spec:
         ports:
           main:
             port: 8080
-    workload:
-      main:
-        podSpec:
-          containers:
-            main:
-              env:
-                PG_URL: '{{ printf "%s?sslmode=disable" .Values.cnpg.main.creds.std | trimAll "\"" }}'
     ingress:
       main:
         enabled: true
         ingressClassName: "" # "external"
         hosts:
-          - host: checkcle.${DOMAIN_0}
+          - host: gatus.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
@@ -71,57 +64,52 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
+    gatus:
+      storage:
+        type: postgres
+        path: '{{ printf "%s?sslmode=disable" .Values.cnpg.main.creds.std | trimAll "\"" }}'
+      endpoints:
+        - name: example
+          url: https://example.org
+          interval: 30s
+          conditions:
+            - "[STATUS] == 200"
+    configmap:
+      gatus-config:
+        enabled: true
+        data:
+          config.yaml: |
+            {{- $.Values.gatus | toYaml | nindent 2 }}
     persistence:
       config:
         enabled: true
-        targetSelector:
-          main:
-            main:
-              mountPath: /config
-            codeserver:
-              mountPath: /config
+        mountPath: /config
         volsync:
           - name: config
             type: restic
             credentials: cf-restic
             dest:
-              enabled: true
+              enabled: false
               cacheCapacity: 10Gi
             src:
-              enabled: true
+              enabled: false
               cacheCapacity: 10Gi
-    addons:
-      codeserver:
+      gatus-config:
         enabled: true
-        service:
-          type: "ClusterIP"
-          ports:
-            codeserver:
-              port: 36107
-        ingress:
-          enabled: true
-          ingressClassName: "" # "internal"
-          hosts:
-            - host: editor.checkcle.${DOMAIN_0}
-              paths:
-                - path: /
-                  # Ignored if not kubeVersion >= 1.14-0
-                  pathType: Prefix
-          integrations:
-            traefik:
-              enabled: true
-            certManager:
-              enabled: true
-              certificateIssuer: general-le-prod
+        type: configmap
+        mountPath: /config/config.yaml
+        objectName: gatus-config
+        readOnly: true
+        subPath: config.yaml
     cnpg:
       main:
         enabled: true
-        user: checkcle
-        database: checkcle
+        user: gatus
+        database: gatus
         cluster:
           singleNode: true
         backups:
-          enabled: true
+          enabled: false
           credentials: cf-restic
           scheduledBackups:
             - name: daily-backup
