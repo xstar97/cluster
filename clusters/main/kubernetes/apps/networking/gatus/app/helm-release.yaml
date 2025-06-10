@@ -49,6 +49,13 @@ spec:
         ports:
           main:
             port: 8080
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                PG_URL: '{{ printf "%s?sslmode=disable" .Values.cnpg.main.creds.std | trimAll "\"" }}'
     ingress:
       main:
         enabled: true
@@ -67,7 +74,7 @@ spec:
     gatus:
       storage:
         type: postgres
-        path: '{{ printf "%s?sslmode=disable" .Values.cnpg.main.creds.std | trimAll "\"" }}'
+        path: "${PG_URL}"
       endpoints:
         - name: back-end
           group: core
