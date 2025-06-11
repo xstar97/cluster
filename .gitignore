@@ -17,3 +17,4 @@ charts.md
 scripts/
 /configs/noob-renovate.2025-02-25.private-key.pem
 /configs/output/
+kubectl
