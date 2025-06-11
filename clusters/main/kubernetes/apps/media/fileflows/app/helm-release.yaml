@@ -27,10 +27,10 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    image:
-      repository: docker.io/revenz/fileflows
-      tag: modded-25.05@sha256:c6264e0bc9d071b4f28c8564f839eda02a6eb8511f96242a54e20c3c6d48b466
-      pullPolicy: IfNotPresent
+    # image:
+    #   repository: docker.io/revenz/fileflows
+    #   tag: modded-25.05@sha256:c6264e0bc9d071b4f28c8564f839eda02a6eb8511f96242a54e20c3c6d48b466
+    #   pullPolicy: IfNotPresent
     global:
       stopAll: false
     credentials:
@@ -47,14 +47,15 @@ spec:
         ports:
           main:
             port: 5000
-    
-    resources:
-      limits:
-        nvidia.com/gpu: 1
     workload:
       main:
         podSpec:
-          runtimeClassName: "nvidia"
+          runtimeClassName: nvidia
+          containers:
+            main:
+              resources:
+                limits:
+                  nvidia.com/gpu: 1
     ingress:
       main:
         enabled: true
