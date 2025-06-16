@@ -9,7 +9,7 @@ resources:
   - financial
   - games
   - homepage/ks.yaml
-  - kubernetes-dashboard/ks.yaml
+  # - kubernetes-dashboard/ks.yaml
   - media
   - medical
   - networking
