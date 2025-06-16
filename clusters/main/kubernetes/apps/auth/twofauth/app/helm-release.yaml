@@ -105,10 +105,10 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              enabled: true
+              enabled: false
               cacheCapacity: 10Gi
             src:
-              enabled: true
+              enabled: false
               cacheCapacity: 10Gi
       varrun:
         enabled: false
@@ -117,7 +117,7 @@ spec:
         cluster:
           singleNode: true
         backups:
-          enabled: true
+          enabled: false
           credentials: cf-restic
           scheduledBackups:
             - name: daily-backup
