@@ -47,7 +47,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "" # "external"
+        ingressClassName: "external"
         hosts:
           - host: overseerr.${DOMAIN_2}
             paths:

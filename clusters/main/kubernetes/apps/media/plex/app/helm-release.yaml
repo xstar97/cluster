@@ -62,7 +62,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: # "external"
+        ingressClassName: "external"
         hosts:
           - host: plex.${DOMAIN_2}
             paths:
