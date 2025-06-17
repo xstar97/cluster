@@ -40,19 +40,15 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "" # "internal"
+        ingressClassName: "internal"
         hosts:
           - host: octoprint.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
-        # tls:
-        #   - hosts:
-        #       - octoprint.${DOMAIN_2}
-        #     clusterIssuer: domain-2-wildcard
         integrations:
           traefik:
-            enabled: true
+            enabled: false
           certManager:
             enabled: true
             certificateIssuer: general-le-prod

@@ -48,7 +48,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: true
+            enabled: false
             middlewares:
               - name: mc-java-stats
                 namespace: traefik

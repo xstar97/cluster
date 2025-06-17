@@ -70,7 +70,7 @@ spec:
               port: 36107
         ingress:
           enabled: false
-          ingressClassName: "" # "internal"
+          ingressClassName: "internal"
           hosts:
             - host: editor.recyclarr.${DOMAIN_2}
               paths:

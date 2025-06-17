@@ -44,7 +44,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: # "internal" 
+        ingressClassName: "internal" 
         hosts:
           - host: string.is.${DOMAIN_2}
             paths:

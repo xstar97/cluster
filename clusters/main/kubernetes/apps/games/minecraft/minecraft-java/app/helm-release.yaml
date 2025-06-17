@@ -225,7 +225,7 @@ spec:
               port: 36107
         ingress:
           enabled: true
-          ingressClassName: # "internal"
+          ingressClassName: "internal"
           hosts:
             - host: editor.survival.${DOMAIN_2}
               paths:
@@ -234,7 +234,7 @@ spec:
                   pathType: Prefix
           integrations:
             traefik:
-              enabled: true
+              enabled: false
             certManager:
               enabled: true
               certificateIssuer: general-le-prod

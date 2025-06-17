@@ -59,7 +59,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "" # "internal"
+        ingressClassName: "internal"
         hosts:
           - host: animes.sonarr.${DOMAIN_2}
             paths:
@@ -67,7 +67,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: true
+            enabled: false
           homepage:
             enabled: true
             name: Sonarr (Animes)

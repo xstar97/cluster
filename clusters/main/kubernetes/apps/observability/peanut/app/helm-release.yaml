@@ -39,7 +39,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "" # "internal" 
+        ingressClassName: "internal" 
         hosts:
           - host: peanut.${DOMAIN_2}
             paths:
@@ -47,7 +47,7 @@ spec:
                 pathType: Prefix
         integrations:
           traefik:
-            enabled: true
+            enabled: false
           homepage:
             enabled: true
             group: "Monitoring"

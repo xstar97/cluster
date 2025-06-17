@@ -87,7 +87,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "" # "internal"
+        ingressClassName: "internal"
         hosts:
           - host: omada.controller.${DOMAIN_2}
             paths:
@@ -104,7 +104,7 @@ spec:
                 password: '${OMADA_PASS}'
                 site: '${OMADA_SITE}'
           traefik:
-            enabled: true
+            enabled: false
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
