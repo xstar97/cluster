@@ -1,12 +1,10 @@
----
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: nginx-external
-  namespace: nginx-external
+  namespace: nginx
 spec:
-  interval: 15m
+  interval: 5m
   chart:
     spec:
       chart: ingress-nginx
@@ -15,29 +13,26 @@ spec:
         kind: HelmRepository
         name: home-ops-mirror
         namespace: flux-system
-      interval: 15m
-  timeout: 20m
-  maxHistory: 3
+      interval: 5m
   install:
     createNamespace: true
+    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
-    cleanupOnFail: true
+    crds: CreateReplace
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
+    nameOverride: nginx-external
     controller:
       replicaCount: 1
       service:
         externalTrafficPolicy: Local
         annotations:
-          # TODO: Maybe play with this
-          # internal-dns.alpha.kubernetes.io/hostname: external.${DOMAIN_0}
           metallb.io/ip-allocated-from-pool: main
           metallb.io/loadBalancerIPs: ${NGINX_EXTERNAL_IP}
+          metallb.universe.tf/ip-allocated-from-pool: main
       ingressClassByName: true
       watchIngressWithoutClass: false
       ingressClassResource:
@@ -62,22 +57,22 @@ spec:
         proxy-buffer-size: 16k
         ssl-protocols: TLSv1.3 TLSv1.2
         use-forwarded-headers: "true"
+        forwarded-for-header: "CF-Connecting-IP"
+        proxy-real-ip-cidr: "${PODNET},${SVCNET}"
       metrics:
-        enabled: true
-        # serviceMonitor:
-        #   enabled: true
-        #   namespaceSelector:
-        #     any: true
+        enabled: false
+        serviceMonitor:
+          enabled: false
       extraArgs:
-        default-ssl-certificate: "clusterissuer/certificate-issuer-general-wildcard"
+        default-ssl-certificate: "clusterissuer/certificate-issuer-domain-0-wildcard"
         publish-status-address: ${NGINX_EXTERNAL_IP}
       terminationGracePeriodSeconds: 120
       publishService:
         enabled: false
       resources:
         requests:
-          cpu: 100m
+          cpu: 1000m
         limits:
-          memory: 500Mi
+          memory: 2048Mi
     defaultBackend:
       enabled: false
