@@ -10,3 +10,4 @@ aliases:
   genAlias: "gen_alias --config ./configs/aliases.yaml"
   genBadges: "gen_badges --config ./configs/badges.yaml --save ./configs/output/markdown/badges.md"
   getPods: "describe_pods --save ./configs/output/charts"
+  badPods: kubectl get pods -A --no-headers | awk '$4 != "Running"'
