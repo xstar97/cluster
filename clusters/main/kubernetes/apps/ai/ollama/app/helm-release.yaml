@@ -33,7 +33,7 @@ spec:
     image:
       repository: ollama/ollama
       pullPolicy: IfNotPresent
-      tag: 0.9.2@sha256:80773beb927cdfee164b3dc17eecc96942cd4404f7c4520573687f17489e1f95
+      tag: 0.9.2@sha256:52a3bc9e49cca68f59748d5dc63a3fb8ba6ad5ef7a7f5b7741d65936b96f22ee
     credentials:
       cf-restic:
         type: s3
