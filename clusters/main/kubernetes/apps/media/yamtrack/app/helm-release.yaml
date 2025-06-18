@@ -33,7 +33,7 @@ spec:
     image:
       repository: ghcr.io/fuzzygrim/yamtrack
       pullPolicy: IfNotPresent
-      tag: 0.24.2@sha256:ecf84609ff6ee255b0c68d994ae09c0d0acd7352935cdb772369beb92c8f1f02
+      tag: 0.24.3@sha256:e4a2549e734698a561756aa758a8eb91af8dfc226a9b65122fa89fe81e7d67e6
     credentials:
       cf-restic:
         type: s3
