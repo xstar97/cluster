@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: omada-controller
-      version: 16.7.19
+      version: 16.7.18
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -85,11 +85,10 @@ spec:
             port: 29810
             targetPort: 29810
     ingress:
-      main:
-        enabled: false
       comm:
+        enabled: false
+      main:
         enabled: true
-        primary: true
         ingressClassName: "internal"
         hosts:
           - host: omada.controller.${DOMAIN_2}
