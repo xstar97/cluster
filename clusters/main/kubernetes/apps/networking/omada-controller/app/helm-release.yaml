@@ -86,6 +86,8 @@ spec:
             targetPort: 29810
     ingress:
       main:
+        enabled: false
+      comm:
         enabled: true
         ingressClassName: "internal"
         hosts:
