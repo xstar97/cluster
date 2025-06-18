@@ -89,6 +89,7 @@ spec:
         enabled: false
       comm:
         enabled: true
+        primary: true
         ingressClassName: "internal"
         hosts:
           - host: omada.controller.${DOMAIN_2}
