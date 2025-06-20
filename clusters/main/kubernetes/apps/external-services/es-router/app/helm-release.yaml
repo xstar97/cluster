@@ -1,11 +1,10 @@
----
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: es-router
   namespace: es-router
 spec:
-  interval: 15m
+  interval: 5m
   chart:
     spec:
       chart: external-service
@@ -14,33 +13,36 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
-  timeout: 20m
-  maxHistory: 3
+      interval: 5m
   install:
     createNamespace: true
+    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
-    cleanupOnFail: true
+    crds: CreateReplace
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
   values:
+    portal:
+      open:
+        enabled: false
     service:
       main:
+        enabled: true
         type: ExternalIP
-        externalIP: "${ROUTER_IP}"
-        useSlice: false
+        externalIP: ${ROUTER_IP}
         ports:
           main:
+            enabled: true
+            port: 444
             protocol: https
-            port: 443
     ingress:
       main:
         enabled: true
         ingressClassName: "internal"
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         hosts:
           - host: router.${DOMAIN_2}
             paths:
@@ -50,5 +52,5 @@ spec:
           traefik:
             enabled: false
           certManager:
-            enabled: true
             certificateIssuer: general-le-prod
+            enabled: true
