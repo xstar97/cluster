@@ -180,8 +180,12 @@ spec:
             src:
               enabled: true
               cacheCapacity: 10Gi
+
     cnpg:
       main:
+        annotations:
+          cnpg.io/skipEmptyWalArchiveCheck: "enabled"
+        mode: recovery
         cluster:
           singleNode: true
         backups:

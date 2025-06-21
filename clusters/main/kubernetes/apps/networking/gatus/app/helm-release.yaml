@@ -134,15 +134,19 @@ spec:
         objectName: gatus-config
         readOnly: true
         subPath: config.yaml
+
     cnpg:
       main:
         enabled: true
         user: gatus
         database: gatus
+        annotations:
+          cnpg.io/skipEmptyWalArchiveCheck: "enabled"
+        mode: recovery
         cluster:
           singleNode: true
         backups:
-          enabled: false
+          enabled: true
           credentials: cf-restic
           scheduledBackups:
             - name: daily-backup

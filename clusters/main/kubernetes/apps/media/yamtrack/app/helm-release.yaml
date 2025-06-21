@@ -91,11 +91,15 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
+      
     cnpg:
       main:
         enabled: true
         user: yamtrack
         database: yamtrack
+        annotations:
+          cnpg.io/skipEmptyWalArchiveCheck: "enabled"
+        mode: recovery
         cluster:
           singleNode: true
         backups:
@@ -110,6 +114,7 @@ spec:
         recovery:
           method: object_store
           credentials: cf-restic
+
     redis:
       enabled: true
       includeCommon: true

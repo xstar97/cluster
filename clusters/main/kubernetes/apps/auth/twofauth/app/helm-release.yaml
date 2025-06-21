@@ -112,12 +112,16 @@ spec:
               cacheCapacity: 10Gi
       varrun:
         enabled: false
+
     cnpg:
       main:
+        annotations:
+          cnpg.io/skipEmptyWalArchiveCheck: "enabled"
+        mode: recovery
         cluster:
           singleNode: true
         backups:
-          enabled: false
+          enabled: true
           credentials: cf-restic
           scheduledBackups:
             - name: daily-backup
