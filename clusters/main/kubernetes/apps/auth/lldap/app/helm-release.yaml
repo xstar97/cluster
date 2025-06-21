@@ -89,7 +89,7 @@ spec:
                     key: std
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "internal" 
         hosts:
           - host: lldap.${DOMAIN_2}
