@@ -49,11 +49,10 @@ spec:
         ports:
           main:
             port: 8080
-
     ingress:
       main:
         enabled: true
-        ingressClassName: "" # "external"
+        ingressClassName: "external"
         hosts:
           - host: gatus.${DOMAIN_2}
             paths:
@@ -65,10 +64,8 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
+
     gatus:
-      storage:
-        type: postgres
-        path: '{{ printf "%s?sslmode=disable" .Values.cnpg.main.creds.std | trimAll "\"" }}'
       endpoints:
         - name: back-end
           group: core
@@ -107,12 +104,19 @@ spec:
           interval: 1m
           conditions:
             - "[CONNECTED] == true"
+
     configmap:
       gatus-config:
         enabled: true
         data:
           config.yaml: |
+            {{- if .Values.cnpg.main.enabled }}
+            storage:
+              type: postgres
+              path: {{ (printf "%s?client_encoding=utf8" (.Values.cnpg.main.creds.std | trimAll "\"")) | quote }}
+            {{- end }}
             {{- $.Values.gatus | toYaml | nindent 2 }}
+
     persistence:
       config:
         enabled: true
