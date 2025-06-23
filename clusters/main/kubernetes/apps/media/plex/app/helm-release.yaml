@@ -4,7 +4,7 @@ metadata:
   name: plex
   namespace: plex
 spec:
-  interval: 15m
+  interval: 5m
   chart:
     spec:
       chart: plex
@@ -13,19 +13,17 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
-  timeout: 20m
-  maxHistory: 3
+      interval: 5m
   install:
     createNamespace: true
+    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
-    cleanupOnFail: true
+    crds: CreateReplace
     remediation:
       retries: 3
-  uninstall:
-    keepHistory: false
+  timeout: 20m
   values:
     global:
       stopAll: false
@@ -89,8 +87,6 @@ spec:
             dest:
               cacheCapacity: 100Gi
               enabled: false
-              # cleanupTempPVC: true
-              # cleanupCachePVC: true
             src:
               enabled: false
               cacheCapacity: 100Gi
