@@ -45,6 +45,11 @@ spec:
         readOnlyRootFilesystem: false
         runAsUser: 0
         runAsGroup: 0
+    service:
+      main:
+        ports:
+          main:
+            port: 11434
     ollama:
       origins:
         - "*"
