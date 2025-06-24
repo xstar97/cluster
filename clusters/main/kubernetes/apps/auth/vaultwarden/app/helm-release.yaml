@@ -180,7 +180,6 @@ spec:
             src:
               enabled: true
               cacheCapacity: 10Gi
-
     cnpg:
       main:
         annotations:
