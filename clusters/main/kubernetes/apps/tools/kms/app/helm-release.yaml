@@ -69,6 +69,19 @@ spec:
             backend:
               enabled: true
               imageSelector: backendImage
+              probes:
+                liveness:
+                  enabled: true
+                  type: tcp
+                  port: "{{ .Values.service.backend.ports.backend.port }}"
+                readiness:
+                  enabled: true
+                  type: tcp
+                  port: "{{ .Values.service.backend.ports.backend.port }}"
+                startup:
+                  enabled: true
+                  type: tcp
+                  port: "{{ .Values.service.backend.ports.backend.port }}"
               env:
                 # DEBUG: ""
                 KMS_LOCALE: en-US
