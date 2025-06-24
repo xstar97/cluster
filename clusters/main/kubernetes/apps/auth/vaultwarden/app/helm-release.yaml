@@ -112,7 +112,7 @@ spec:
         # Disabling the admin token will make the admin portal accessible to anyone, use carefully: https://github.com/dani-garcia/bitwarden_rs/wiki/Disable-admin-token
         disableAdminToken: false
         ## Token for admin login, will be generated if not defined. https://github.com/dani-garcia/bitwarden_rs/wiki/Enabling-admin-page
-        # token:
+        token: "${VW_ADMIN_TOKEN}"
       # Enable SMTP. https://github.com/dani-garcia/bitwarden_rs/wiki/SMTP-configuration
       smtp:
         enabled: true
@@ -150,9 +150,9 @@ spec:
         # secretKey:
       ## Enable Mobile Push Notifications. You must obtain and ID and Key here: https://bitwarden.com/host
       push:
-        enabled: false
-        # installationId:
-        # installationKey:
+        enabled: true
+        installationId: "${VW_PUSH_ID}"
+        installationKey: "${VW_PUSH_KEY}"
       ## Logging options. https://github.com/dani-garcia/bitwarden_rs/wiki/Logging
       log:
         # Log to file.
