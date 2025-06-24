@@ -30,6 +30,8 @@ spec:
   values:    
     global:
       stopAll: false
+    securityContext:
+      readOnlyRootFilesystem: false
     image:
       repository: ghcr.io/11notes/kms-gui
       pullPolicy: IfNotPresent
