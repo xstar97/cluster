@@ -74,11 +74,11 @@ spec:
               probes:
                 liveness:
                   enabled: true
-                  type: tcp
+                  type: http
                   port: "{{ .Values.service.backend.ports.backend.port }}"
                 readiness:
                   enabled: true
-                  type: tcp
+                  type: http
                   port: "{{ .Values.service.backend.ports.backend.port }}"
                 startup:
                   enabled: true
