@@ -10,5 +10,5 @@ resources:
   - manyfold/ks.yaml
   - mend-renovate/ks.yaml
   - spoolman/ks.yaml
-  - feedcord/ks.yaml
-  - kms/ks.yaml
+  # - feedcord/ks.yaml
+  # - kms/ks.yaml
