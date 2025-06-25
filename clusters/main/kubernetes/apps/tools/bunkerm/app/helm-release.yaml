@@ -78,13 +78,13 @@ spec:
                 # MQTT Settings
                 MQTT_BROKER: localhost
                 MQTT_PORT: "{{ .Values.service.mqtt.ports.mqtt.port }}"
-                MQTT_USERNAME: bunker
-                MQTT_PASSWORD: bunker
+                # MQTT_USERNAME: bunker
+                # MQTT_PASSWORD: bunker
                 # Security Settings
                 JWT_SECRET: ${BUNKERM_JWT}
                 API_KEY: "${BUNKERM_API}"
                 VITE_API_KEY: "${BUNKERM_VITE}"
-                # FRONTEND_URL: http://localhost:2000 # https://bunkerm.${DOMAIN_2}
+                FRONTEND_URL: https://bunkerm.${DOMAIN_2}
                 # ALLOWED_ORIGINS: "https://localhost:2000,http://localhost:2000,https://bunkerm.${DOMAIN_2},*"
                 # ALLOWED_HOSTS: "localhost,127.0.0.1,https://bunkerm.${DOMAIN_2},*"
                 # Rate Limiting
