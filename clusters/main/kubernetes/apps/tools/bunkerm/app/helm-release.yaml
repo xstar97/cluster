@@ -69,17 +69,19 @@ spec:
           auth:
             enabled: true
             port: 3001
+
     bunkerm:
-      allowed_origins:
-        - https://localhost:2000
-        - https://bunkerm.${DOMAIN_2}
-        - "*"
-      allowed_hosts:
-        - '{{ printf "%s" (include "tc.v1.common.lib.chart.names.fullname" $) }}'
-        - localhost
-        - 127.0.0.1
-        - https://bunkerm.${DOMAIN_2}
-        - "*"
+      allowed:
+        origins:
+          - https://localhost:2000
+          - https://bunkerm.${DOMAIN_2}
+          - "*"
+        hosts:
+          - '{{ printf "%s" (include "tc.v1.common.lib.chart.names.fullname" $) }}'
+          - localhost
+          - 127.0.0.1
+          - https://bunkerm.${DOMAIN_2}
+          - "*"
 
     workload:
       main:
@@ -97,8 +99,8 @@ spec:
                 # API_KEY: "${BUNKERM_API}"
                 # VITE_API_KEY: "${BUNKERM_VITE}"
                 FRONTEND_URL: https://bunkerm.${DOMAIN_2}
-                ALLOWED_ORIGINS: '{{ join "," .Values.bunnkerm.allowed_origins }}'
-                ALLOWED_HOSTS: '{{ join "," .Values.bunnkerm.allowed_hosts }}'
+                ALLOWED_ORIGINS: '{{ join "," .Values.bunnkerm.allowed.origins }}'
+                ALLOWED_HOSTS: '{{ join "," .Values.bunnkerm.allowed.hosts }}'
                 # Rate Limiting
                 RATE_LIMIT_PER_MINUTE: 100
                 # SSL Configuration
