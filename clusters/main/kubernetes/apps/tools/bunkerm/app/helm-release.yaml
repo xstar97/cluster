@@ -69,6 +69,18 @@ spec:
           auth:
             enabled: true
             port: 3001
+    bunkerm:
+      allowed_origins:
+        - https://localhost:2000
+        - https://bunkerm.${DOMAIN_2}
+        - "*"
+      allowed_hosts:
+        - '{{ printf "%s" (include "tc.v1.common.lib.chart.names.fullname" $) }}'
+        - localhost
+        - 127.0.0.1
+        - https://bunkerm.${DOMAIN_2}
+        - "*"
+
     workload:
       main:
         podSpec:
@@ -76,17 +88,17 @@ spec:
             main:
               env:
                 # MQTT Settings
-                MQTT_BROKER: localhost
+                MQTT_BROKER: '{{ printf "%s" (include "tc.v1.common.lib.chart.names.fullname" $) }}' # localhost
                 MQTT_PORT: "{{ .Values.service.mqtt.ports.mqtt.port }}"
                 # MQTT_USERNAME: bunker
                 # MQTT_PASSWORD: bunker
                 # Security Settings
                 JWT_SECRET: ${BUNKERM_JWT}
-                API_KEY: "${BUNKERM_API}"
-                VITE_API_KEY: "${BUNKERM_VITE}"
+                # API_KEY: "${BUNKERM_API}"
+                # VITE_API_KEY: "${BUNKERM_VITE}"
                 FRONTEND_URL: https://bunkerm.${DOMAIN_2}
-                # ALLOWED_ORIGINS: "https://localhost:2000,http://localhost:2000,https://bunkerm.${DOMAIN_2},*"
-                # ALLOWED_HOSTS: "localhost,127.0.0.1,https://bunkerm.${DOMAIN_2},*"
+                ALLOWED_ORIGINS: '{{ join "," .Values.bunnkerm.allowed_origins }}'
+                ALLOWED_HOSTS: '{{ join "," .Values.bunnkerm.allowed_hosts }}'
                 # Rate Limiting
                 RATE_LIMIT_PER_MINUTE: 100
                 # SSL Configuration
