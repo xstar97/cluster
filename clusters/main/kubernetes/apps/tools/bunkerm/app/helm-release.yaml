@@ -76,7 +76,7 @@ spec:
             main:
               env:
                 # MQTT Settings
-                MQTT_BROKER: '{{ printf "%s" (include "tc.v1.common.lib.chart.names.fullname" $) }}' # localhost
+                MQTT_BROKER: localhost
                 MQTT_PORT: "{{ .Values.service.mqtt.ports.mqtt.port }}"
                 MQTT_USERNAME: bunker
                 MQTT_PASSWORD: bunker
