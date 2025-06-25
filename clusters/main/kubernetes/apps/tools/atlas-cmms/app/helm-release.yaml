@@ -157,10 +157,11 @@ spec:
               imageSelector: minioImage
               args:
                 - server
-                - --address 
-                - ":{{ .Values.service.minio.ports.server.port }}"
-                - --console-address ":{{ .Values.service.minio.ports.console.port }}"
                 - /data
+                # - --address 
+                # - ":{{ .Values.service.minio.ports.server.port }}"
+                - --console-address ":{{ .Values.service.minio.ports.console.port }}"
+                
               probes:
                 liveness:
                   enabled: true
