@@ -1,0 +1,230 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: atlas-cmms
+  namespace: atlas-cmms
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 14.5.3
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:    
+    global:
+      stopAll: false
+    securityContext:
+      readOnlyRootFilesystem: false
+    image:
+      repository: intelloop/atlas-cmms-frontend
+      pullPolicy: IfNotPresent
+      tag: 1.2.0@sha256:1b69345d0ddff4ac5adff760717cd0f48fd07af46e3c756f2e8684c0367c4c8c
+    apiImage:
+      repository: intelloop/atlas-cmms-backend
+      pullPolicy: IfNotPresent
+      tag: 1.2.0@sha256:067888c405e6dc258a116aee2d4f0bb87a37a345ca7654eb8e40417138aa454e
+    minioImage:
+      repository: minio/minio
+      pullPolicy: IfNotPresent
+      tag: RELEASE.2025-04-22T22-12-26Z@sha256:a1ea29fa28355559ef137d71fc570e508a214ec84ff8083e39bc5428980b015e
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-atlas-cmms"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    service:
+      main:
+        enabled: true
+        type: ClusterIP
+        ports:
+          main:
+            port: 3000
+      api:
+        enabled: true
+        type: ClusterIP
+        ports:
+          api:
+            enabled: true
+            port: 8080
+      minio:
+        enabled: true
+        type: ClusterIP
+        ports:
+          server:
+            enabled: true
+            port: 9000
+          console:
+            enabled: true
+            port: 9001
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                API_URL: '{{ printf "http://%v-api:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.api.ports.api.port }}'
+                # GOOGLE_KEY: ${GOOGLE_KEY:- }
+                #  GOOGLE_TRACKING_ID: ${GOOGLE_TRACKING_ID:- }
+                # MUI_X_LICENSE: ${MUI_X_LICENSE:- }
+                # INVITATION_VIA_EMAIL: ${INVITATION_VIA_EMAIL:-false}
+                # CLOUD_VERSION: ${CLOUD_VERSION:-false}
+                NODE_ENV: production
+                # ENABLE_SSO: ${ENABLE_SSO:-false}
+                # OAUTH2_PROVIDER: ${OAUTH2_PROVIDER:- }
+                # LOGO_PATHS: ${LOGO_PATHS:- }
+                # CUSTOM_COLORS: ${CUSTOM_COLORS:- }
+                # BRAND_CONFIG: ${BRAND_CONFIG:- }
+            api:
+              enabled: true
+              imageSelector: apiImage
+              probes:
+                liveness:
+                  enabled: true
+                  type: http
+                  port: "{{ .Values.service.api.ports.api.port }}"
+                readiness:
+                  enabled: true
+                  type: http
+                  port: "{{ .Values.service.api.ports.api.port }}"
+                startup:
+                  enabled: true
+                  type: tcp
+                  port: "{{ .Values.service.api.ports.api.port }}"
+              env:
+                DB_URL: postgres/atlas
+                DB_USER: ${POSTGRES_USER}
+                DB_PWD: ${POSTGRES_PWD}
+                # PUBLIC_API_URL: '{{ printf "http://%v-api:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.api.ports.api.port }}'
+                # FASTSPRING_PWD: ${FASTSPRING_PWD}
+                # FASTSPRING_USER: ${FASTSPRING_USER}
+                PUBLIC_FRONT_URL: https://cmms.${DOMAIN_2}
+                # GCP_BUCKET_NAME: ${GCP_BUCKET_NAME}
+                # GCP_JSON: ${GCP_JSON}
+                # GCP_PROJECT_ID: ${GCP_PROJECT_ID}
+                # MAIL_RECIPIENTS: ${MAIL_RECIPIENTS}
+                # SMTP_PWD: ${SMTP_PWD}
+                # SMTP_USER: ${SMTP_USER}
+                # SMTP_HOST: ${SMTP_HOST}
+                # SMTP_PORT: ${SMTP_PORT}
+                # SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+                JWT_SECRET_KEY: ${CMMS_JWT_SECRET_KEY}
+                MINIO_ENDPOINT: '{{ printf "http://%v-minio:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.minio.ports.server.port }}'
+                MINIO_BUCKET: atlas-bucket
+                MINIO_ACCESS_KEY: ${CMMS_MINIO_USER}
+                MINIO_SECRET_KEY: ${CMMS_MINIO_PASSWORD}
+                STORAGE_TYPE: minio #gpc|minio
+                # PUBLIC_MINIO_ENDPOINT: 
+                # INVITATION_VIA_EMAIL: ${INVITATION_VIA_EMAIL:-false}
+                # ENABLE_EMAIL_NOTIFICATIONS: ${ENABLE_EMAIL_NOTIFICATIONS:-false}
+                # ENABLE_SSO: ${ENABLE_SSO:-false}
+                # OAUTH2_PROVIDER: ${OAUTH2_PROVIDER}
+                # OAUTH2_CLIENT_ID: ${OAUTH2_CLIENT_ID}
+                # OAUTH2_CLIENT_SECRET: ${OAUTH2_CLIENT_SECRET}
+                # LICENSE_KEY: ${LICENSE_KEY:-}
+                # LICENSE_FINGERPRINT_REQUIRED: ${LICENSE_FINGERPRINT_REQUIRED:-true}
+                # ALLOWED_ORGANIZATION_ADMINS: ${ALLOWED_ORGANIZATION_ADMINS:-}
+                # LOGO_PATHS: ${LOGO_PATHS}
+                # CUSTOM_COLORS: ${CUSTOM_COLORS}
+                # BRAND_CONFIG: ${BRAND_CONFIG}
+            minio:
+              enabled: true
+              imageSelector: minioImage
+              args:
+                - server
+                - --address 
+                - ":{{ .Values.service.minio.ports.server.port }}"
+                - --console-address ":{{ .Values.service.minio.ports.console.port }}"
+                - /data
+              probes:
+                liveness:
+                  enabled: true
+                  type: http
+                  port: "{{ .Values.service.minio.ports.server.port }}"
+                readiness:
+                  enabled: true
+                  type: http
+                  port: "{{ .Values.service.minio.ports.server.port }}"
+                startup:
+                  enabled: true
+                  type: tcp
+                  port: "{{ .Values.service.minio.ports.server.port }}"
+              env:
+                MINIO_ROOT_USER: ${CMMS_MINIO_USER}
+                MINIO_ROOT_PASSWORD: ${CMMS_MINIO_PASSWORD}
+    
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: cmms.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          traefik:
+            enabled: false
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+
+    persistence:
+      data:
+        enabled: true
+        targetSelector:
+          main:
+            minio:
+              mountPath: /data
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              cacheCapacity: 10Gi
+              enabled: false
+            src:
+              enabled: false
+              cacheCapacity: 10Gi
+
+    cnpg:
+      main:
+        enabled: true
+        user: atlas-cmms
+        database: atlas-cmms
+        annotations:
+          cnpg.io/skipEmptyWalArchiveCheck: "enabled"
+        mode: recovery
+        cluster:
+          singleNode: true
+        backups:
+          enabled: true
+          credentials: cf-restic
+          scheduledBackups:
+            - name: daily-backup
+              schedule: "0 5 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic

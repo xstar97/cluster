@@ -13,3 +13,4 @@ resources:
   # - feedcord/ks.yaml
   # - kms/ks.yaml
   - bunkerm/ks.yaml
+  - atlas-cmms/ks.yaml
