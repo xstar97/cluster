@@ -31,7 +31,11 @@ spec:
     global:
       stopAll: false
     securityContext:
-      readOnlyRootFilesystem: false
+      container:
+        runAsNonRoot: false
+        readOnlyRootFilesystem: false
+        runAsUser: 0
+        runAsGroup: 0
     image:
       repository: bunkeriot/bunkerm
       pullPolicy: IfNotPresent
