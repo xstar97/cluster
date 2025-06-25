@@ -182,12 +182,18 @@ spec:
               cacheCapacity: 10Gi
       dbusmid:
         enabled: true
-        type: hostPath
-        mountPath: /var/lib/dbus/machine-id
+        # type: hostPath
+        targetSelector:
+          main:
+            codeserver:
+              mountPath: /var/lib/dbus/machine-id
       etcmid:
         enabled: true
-        type: hostPath
-        mountPath: /etc/machine-id
+        # type: hostPath
+        targetSelector:
+          main:
+            codeserver:
+              mountPath: /etc/machine-id
       connector:
         enabled: true
         targetSelector:
