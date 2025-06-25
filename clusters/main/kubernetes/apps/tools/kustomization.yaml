@@ -12,5 +12,5 @@ resources:
   - spoolman/ks.yaml
   # - feedcord/ks.yaml
   # - kms/ks.yaml
-  - bunkerm/ks.yaml
-  - atlas-cmms/ks.yaml
+  # - bunkerm/ks.yaml
+  # - atlas-cmms/ks.yaml
