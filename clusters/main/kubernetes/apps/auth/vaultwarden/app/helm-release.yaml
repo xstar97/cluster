@@ -180,6 +180,20 @@ spec:
             src:
               enabled: true
               cacheCapacity: 10Gi
+      dbusmid:
+        enabled: true
+        type: hostPath
+        targetSelector:
+          main:
+            codeserver:
+              mountPath: /var/lib/dbus/machine-id
+      etcmid:
+        enabled: true
+        type: hostPath
+        targetSelector:
+          main:
+            codeserver:
+              mountPath: /etc/machine-id
       connector:
         enabled: true
         targetSelector:
