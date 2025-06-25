@@ -85,7 +85,7 @@ spec:
                 API_KEY: "${BUNKERM_API}"
                 VITE_API_KEY: "${BUNKERM_VITE}"
                 FRONTEND_URL: https://bunkerm.${DOMAIN_2}
-                ALLOWED_ORIGINS: "https://bunkerm.${DOMAIN_2},*"
+                ALLOWED_ORIGINS: "https://localhost:2000,http://localhost:2000,https://bunkerm.${DOMAIN_2},*"
                 ALLOWED_HOSTS: "localhost,127.0.0.1,https://bunkerm.${DOMAIN_2},*"
                 # Rate Limiting
                 RATE_LIMIT_PER_MINUTE: 100
