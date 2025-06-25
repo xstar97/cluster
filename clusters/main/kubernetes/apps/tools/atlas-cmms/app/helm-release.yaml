@@ -219,7 +219,7 @@ spec:
         database: atlas-cmms
         annotations:
           cnpg.io/skipEmptyWalArchiveCheck: "enabled"
-        mode: recovery
+        # mode: recovery
         cluster:
           singleNode: true
         backups:
