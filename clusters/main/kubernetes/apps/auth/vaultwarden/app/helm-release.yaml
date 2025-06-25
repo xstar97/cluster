@@ -183,17 +183,11 @@ spec:
       dbusmid:
         enabled: true
         type: hostPath
-        targetSelector:
-          main:
-            codeserver:
-              mountPath: /var/lib/dbus/machine-id
+        mountPath: /var/lib/dbus/machine-id
       etcmid:
         enabled: true
         type: hostPath
-        targetSelector:
-          main:
-            codeserver:
-              mountPath: /etc/machine-id
+        mountPath: /etc/machine-id
       connector:
         enabled: true
         targetSelector:
