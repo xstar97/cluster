@@ -180,6 +180,29 @@ spec:
             src:
               enabled: true
               cacheCapacity: 10Gi
+      connector:
+        targetSelector:
+          main:
+            codeserver:
+              mountPath: /connector
+
+    addons:
+      codeserver:
+        enabled: true
+        service:
+          type: "ClusterIP"
+          ports:
+            codeserver:
+              port: 36107
+        ingress:
+          enabled: false
+          ingressClassName: "internal"
+          hosts:
+            - host: editor.vaultwarden.${DOMAIN_2}
+              paths:
+                - path: /
+                  # Ignored if not kubeVersion >= 1.14-0
+                  pathType: Prefix
     cnpg:
       main:
         annotations:
