@@ -111,9 +111,15 @@ spec:
                   type: tcp
                   port: "{{ .Values.service.api.ports.api.port }}"
               env:
-                DB_URL: postgres/atlas
-                DB_USER: ${POSTGRES_USER}
-                DB_PWD: ${POSTGRES_PWD}
+                DB_URL:
+                  secretKeyRef:
+                    name: cnpg-main-urls
+                    key: host
+                DB_USER: "{{ .Values.cnpg.main.user }}"
+                DB_PWD:
+                  secretKeyRef:
+                    name: cnpg-main-user
+                    key: password
                 # PUBLIC_API_URL: '{{ printf "http://%v-api:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.api.ports.api.port }}'
                 # FASTSPRING_PWD: ${FASTSPRING_PWD}
                 # FASTSPRING_USER: ${FASTSPRING_USER}
