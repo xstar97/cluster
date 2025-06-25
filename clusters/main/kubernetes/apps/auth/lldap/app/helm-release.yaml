@@ -45,7 +45,8 @@ spec:
           main:
             port: 3000
       ldap:
-        type: ClusterIP
+        type: LoadBalancer
+        loadBalancerIP: ${LLDAP_IP}
         ports:
           ldap:
             port: 3890
