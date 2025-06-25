@@ -99,8 +99,8 @@ spec:
                 # API_KEY: "${BUNKERM_API}"
                 # VITE_API_KEY: "${BUNKERM_VITE}"
                 FRONTEND_URL: https://bunkerm.${DOMAIN_2}
-                ALLOWED_ORIGINS: '{{ join "," .Values.bunnkerm.allowed.origins }}'
-                ALLOWED_HOSTS: '{{ join "," .Values.bunnkerm.allowed.hosts }}'
+                ALLOWED_ORIGINS: '{{ join "," .Values.bunkerm.allowed.origins }}'
+                ALLOWED_HOSTS: '{{ join "," .Values.bunkerm.allowed.hosts }}'
                 # Rate Limiting
                 RATE_LIMIT_PER_MINUTE: 100
                 # SSL Configuration
