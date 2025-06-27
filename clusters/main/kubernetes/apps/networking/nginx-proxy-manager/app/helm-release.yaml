@@ -56,13 +56,6 @@ spec:
                   enabled: false
                 startup:
                   enabled: false
-              args:
-                - poetry 
-                - install
-                - "*&&"
-                - poetry
-                - run
-                - npmsync
               env:
                 NPM_URL: '{{ printf "http://%v:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.main.targetPort }}'
                 NPM_USERNAME: "admin@local.domain.com"
