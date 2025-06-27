@@ -9,4 +9,5 @@ resources:
   - gatus/ks.yaml
   - uptime-kuma/ks.yaml
   - myspeed/ks.yaml
-  - speedtest-tracker/ks.yaml  - nginx-proxy-manager/ks.yaml
+  - speedtest-tracker/ks.yaml
+  - nginx-proxy-manager/ks.yaml
