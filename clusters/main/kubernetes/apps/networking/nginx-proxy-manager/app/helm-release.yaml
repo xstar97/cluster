@@ -57,6 +57,9 @@ spec:
                 startup:
                   enabled: false
               args:
+                - poetry 
+                - install
+                - "*&&"
                 - poetry
                 - run
                 - npmsync
