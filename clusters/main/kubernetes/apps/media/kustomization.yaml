@@ -29,6 +29,5 @@ resources:
   - muse/ks.yaml
   - checkrr/ks.yaml
   - calendarr/ks.yaml
-  - readarr/ks.yaml
   - yamtrack/ks.yaml
   - huntarr/ks.yaml

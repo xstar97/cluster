@@ -15,4 +15,4 @@ resources:
   - generic-device-plugin/ks.yaml
   - nvidia-device-plugin/ks.yaml
   - kube-prometheus-stack/ks.yaml
-  # - traefik-crds/ks.yaml
+  
