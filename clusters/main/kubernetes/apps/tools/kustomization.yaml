@@ -14,3 +14,4 @@ resources:
   # - kms/ks.yaml
   # - bunkerm/ks.yaml
   # - atlas-cmms/ks.yaml
+  - steam-idler/ks.yaml
