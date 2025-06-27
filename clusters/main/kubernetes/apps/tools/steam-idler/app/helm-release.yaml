@@ -5,7 +5,7 @@ metadata:
   name: steam-idler
   namespace: steam-idler
 spec:
-  interval: 15m
+  interval: 5m
   chart:
     spec:
       chart: app-template
@@ -15,7 +15,7 @@ spec:
         name: truecharts
         namespace: flux-system
       interval: 15m
-  timeout: 20m
+  timeout: 120m # mongodb takes a while to start
   maxHistory: 3
   install:
     createNamespace: true
