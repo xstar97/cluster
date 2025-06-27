@@ -47,7 +47,7 @@ spec:
         podSpec:
           containers:
             api:
-              enabled: false
+              enabled: true
               imageSelector: apiImage
               probes:
                 liveness:
@@ -62,8 +62,8 @@ spec:
                 - npmsync
               env:
                 NPM_URL: '{{ printf "http://%v:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.main.targetPort }}'
-                NPM_USERNAME: admin
-                NPM_PASSWORD: admin_pass
+                NPM_USERNAME: "admin@local.domain.com"
+                NPM_PASSWORD: "8!ApgFjM"
     npmsync:
       - domain_names:
           - subdomain1.domain.com
