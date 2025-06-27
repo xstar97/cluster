@@ -122,6 +122,13 @@ spec:
         data:
           proxy_hosts.yaml: |
             {{- $.Values.npmsync | toYaml | nindent 2 }}
+      npmsync-env:
+        enabled: true
+        data:
+          .env: |
+            NPM_URL='{{ printf "http://%v:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.main.targetPort }}'
+            NPM_USERNAME="admin@local.domain.com"
+            NPM_PASSWORD="8!ApgFjM"
 
 
     persistence:
@@ -132,3 +139,10 @@ spec:
         objectName: npmsync-config
         readOnly: true
         subPath: proxy_hosts.yaml
+      npmsync-env:
+        enabled: true
+        type: configmap
+        mountPath: /app/config/.env
+        objectName: npmsync-env
+        readOnly: true
+        subPath: .env
