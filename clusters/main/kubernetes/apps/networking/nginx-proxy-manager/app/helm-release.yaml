@@ -47,7 +47,7 @@ spec:
         podSpec:
           containers:
             api:
-              enabled: true
+              enabled: false
               imageSelector: apiImage
               probes:
                 liveness:
