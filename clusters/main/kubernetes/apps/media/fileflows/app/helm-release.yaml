@@ -96,10 +96,9 @@ spec:
         medium: ""
       temp:
         enabled: true
-        type: nfs
-        server: ${SCALE_IP}
-        path: ${DOWNLOADS_NFS}/cache
+        type: emptyDir
         mountPath: /temp
+        medium: "" # Memory
       media:
         enabled: true
         type: nfs
