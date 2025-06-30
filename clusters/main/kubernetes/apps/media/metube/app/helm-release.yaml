@@ -60,6 +60,11 @@ spec:
       main:
         enabled: true
         ingressClassName: "internal"
+        annotations:
+          nginx.ingress.kubernetes.io/auth-method: 'GET'
+          nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/verify'
+          nginx.ingress.kubernetes.io/auth-signin: 'https://auth.${DOMAIN_2}?rm=$request_method'
+          nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
         hosts:
           - host: metube.${DOMAIN_2}
             paths:
@@ -87,5 +92,5 @@ spec:
         enabled: true
         type: nfs
         server: ${SCALE_IP}
-        path: ${DOWNLOADS_NFS}/complete/tv
+        path: ${DOWNLOADS_NFS}/complete/metube
         mountPath: "${DOWNLOADS_LOCAL}"

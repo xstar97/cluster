@@ -91,17 +91,10 @@ spec:
     persistence:
       logs:
         enabled: true
+        type: emptyDir
         mountPath: /app/logs
-        volsync:
-          - name: logs
-            type: restic
-            credentials: cf-restic
-            dest:
-              cacheCapacity: 10Gi
-              enabled: false
-            src:
-              enabled: false
-              cacheCapacity: 10Gi
+        medium: "" # Memory
+
     cnpg:
       main:
         enabled: false

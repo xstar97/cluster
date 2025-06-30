@@ -54,9 +54,6 @@ spec:
           containers:
             main:
               env:
-                # URL is set here so it wont be able to get overwritten by the user
-                # as this will break the probes, if the need arises we can expose it.
-                ROMM_HOST: "localhost"
                 IGDB_CLIENT_ID: "${ROMM_CLIENT_ID}"
                 IGDB_CLIENT_SECRET: "${ROMM_CLIENT_SECRET}"
                 DISABLE_EMULATOR_JS: false
@@ -64,7 +61,12 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "internal" 
+        ingressClassName: "internal"
+        annotations:
+          nginx.ingress.kubernetes.io/auth-method: 'GET'
+          nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/verify'
+          nginx.ingress.kubernetes.io/auth-signin: 'https://auth.${DOMAIN_2}?rm=$request_method'
+          nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
         hosts:
           - host: romm.${DOMAIN_2}
             paths:
