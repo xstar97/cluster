@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: nginx-proxy-manager
-      version: 11.14.1
+      version: 11.15.0
       sourceRef:
         kind: HelmRepository
         name: truecharts
