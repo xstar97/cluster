@@ -47,6 +47,19 @@ spec:
           nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/verify'
           nginx.ingress.kubernetes.io/auth-signin: 'https://auth.${DOMAIN_2}?rm=$request_method'
           nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
+        homepage:
+          enabled: true
+          name: "TrueNas Scale"
+          description: "Noob's homelab"
+          group: "Servers"
+          icon: "truenas.svg"
+          widget:
+            type: "truenas"
+            url: "https://${SCALE_IP}:444"
+            custom:
+              key: "${SCALE_HP_KEY}"
+              enablePools: true # optional, defaults to false
+              nasType: scale
         hosts:
           - host: scale.${DOMAIN_2}
             paths:
