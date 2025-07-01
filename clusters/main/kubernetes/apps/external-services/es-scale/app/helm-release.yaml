@@ -56,7 +56,7 @@ spec:
           traefik:
             enabled: false
           homepage:
-            enabled: false
+            enabled: true
             name: "TrueNas Scale"
             description: "Noob homelab"
             group: "Servers"
@@ -66,7 +66,7 @@ spec:
             siteMonitor: "https://${SCALE_IP}:444"
             widget:
               type: "truenas"
-              url: "https://${SCALE_IP}:444"
+              # url: "https://${SCALE_IP}:444"
               custom:
                 key: "${SCALE_HP_KEY}"
                 enablePools: "true"
