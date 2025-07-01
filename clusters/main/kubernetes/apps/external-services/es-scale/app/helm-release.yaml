@@ -56,18 +56,18 @@ spec:
           traefik:
             enabled: false
           homepage:
-            enabled: "true"
-            # name: "TrueNas Scale"
-            # description: "Noob homelab"
+            enabled: true
+            name: "TrueNas Scale"
+            description: "Noob homelab"
             # group: "Servers"
             # icon: "truenas.svg"
-            widget:
-              type: "truenas"
-              url: "https://${SCALE_IP}:444"
-              custom:
-                key: "${SCALE_HP_KEY}"
-                enablePools: true # optional, defaults to false
-                nasType: "scale"
+            # widget:
+            #   type: "truenas"
+            #   url: "https://${SCALE_IP}:444"
+            #   custom:
+            #     key: "${SCALE_HP_KEY}"
+            #     enablePools: true # optional, defaults to false
+            #     nasType: "scale"
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
