@@ -55,9 +55,6 @@ spec:
         integrations:
           traefik:
             enabled: false
-          certManager:
-            certificateIssuer: general-le-prod
-            enabled: true
           homepage:
             enabled: true
             name: "TrueNas Scale"
@@ -71,3 +68,6 @@ spec:
                 key: "${SCALE_HP_KEY}"
                 enablePools: true # optional, defaults to false
                 nasType: "scale"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
