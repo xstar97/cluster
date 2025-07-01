@@ -58,7 +58,7 @@ spec:
           homepage:
             enabled: false
             name: "TrueNas Scale"
-            description: 'Noob homelab'
+            description: "Noob homelab"
             group: "Servers"
             icon: "truenas.svg"
             widget:
