@@ -32,9 +32,6 @@ spec:
       main:
         type: ExternalName
         externalName: "minecraft-java-web.minecraft-java.svc.cluster.local"
-        annotations:
-          nginx.ingress.kubernetes.io/preserve-trailing-slash: "true"
-        # useSlice: false
         ports:
           main:
             protocol: http
@@ -43,10 +40,14 @@ spec:
       main:
         enabled: true
         ingressClassName: "external"
+        annotations:
+          nginx.ingress.kubernetes.io/preserve-trailing-slash: "true"
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            rewrite ^/$ /stats permanent;
         hosts:
           - host: stats.${DOMAIN_1}
             paths:
-              - path: /stats/
+              - path: /stats
                 pathType: Prefix
         integrations:
           traefik:
