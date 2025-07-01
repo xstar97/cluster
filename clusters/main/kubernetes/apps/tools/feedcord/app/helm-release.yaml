@@ -33,7 +33,7 @@ spec:
     image:
       repository: qolors/feedcord
       pullPolicy: IfNotPresent
-      tag: latest@sha256:a706d021cd5aa971c108449ee24dcf7107eb730c9e644df3d73cd1166d555871
+      tag: latest@sha256:909b3b25943add888fb46d958484fe0126846ca4ec6163fa81632dfcaf87e67d
     credentials:
       cf-restic:
         type: s3
