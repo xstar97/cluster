@@ -59,8 +59,8 @@ spec:
             enabled: true
             name: "TrueNas Scale"
             description: "Noob homelab"
-            # group: "Servers"
-            # icon: "truenas.svg"
+            group: "Servers"
+            icon: "truenas.svg"
             # widget:
             #   type: "truenas"
             #   url: "https://${SCALE_IP}:444"
