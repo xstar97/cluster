@@ -48,7 +48,7 @@ spec:
         hosts:
           - host: stats.${DOMAIN_1}
             paths:
-              - path: /
+              - path: /stats
                 pathType: Prefix
         integrations:
           traefik:
