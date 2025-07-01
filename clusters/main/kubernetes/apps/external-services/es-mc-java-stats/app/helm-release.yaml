@@ -33,11 +33,8 @@ spec:
         type: ExternalName
         externalName: "minecraft-java-web.minecraft-java.svc.cluster.local"
         annotations:
-          nginx.ingress.kubernetes.io/x-forwarded-prefix: "/stats/"
-          nginx.ingress.kubernetes.io/configuration-snippet: |
-            rewrite ^/$ /stats/ permanent;
-            rewrite ^/stats$ /stats/ permanent;
-        useSlice: false
+          nginx.ingress.kubernetes.io/preserve-trailing-slash: "true"
+        # useSlice: false
         ports:
           main:
             protocol: http
