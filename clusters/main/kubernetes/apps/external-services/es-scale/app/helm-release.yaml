@@ -57,10 +57,10 @@ spec:
             enabled: false
           homepage:
             enabled: "true"
-            name: "TrueNas Scale"
-            description: "Noob homelab"
-            group: "Servers"
-            icon: "truenas.svg"
+            # name: "TrueNas Scale"
+            # description: "Noob homelab"
+            # group: "Servers"
+            # icon: "truenas.svg"
             widget:
               type: "truenas"
               url: "https://${SCALE_IP}:444"
