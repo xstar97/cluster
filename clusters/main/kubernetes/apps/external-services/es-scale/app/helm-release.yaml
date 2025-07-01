@@ -56,7 +56,7 @@ spec:
           traefik:
             enabled: false
           homepage:
-            enabled: false
+            enabled: true
             name: "TrueNas Scale"
             description: "Noob homelab"
             group: "Servers"
