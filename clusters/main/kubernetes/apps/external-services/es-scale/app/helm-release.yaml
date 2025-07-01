@@ -61,6 +61,9 @@ spec:
             description: "Noob homelab"
             group: "Servers"
             icon: "truenas.svg"
+            weight: 0
+            podSelector: []
+            siteMonitor: "https://${SCALE_IP}:444"
             widget:
               type: "truenas"
               url: "https://${SCALE_IP}:444"
