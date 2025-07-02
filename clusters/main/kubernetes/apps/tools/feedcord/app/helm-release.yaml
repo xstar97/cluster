@@ -77,7 +77,7 @@ spec:
           Forum: false
           DiscordWebhookUrl: ${FEEDCORD_AWESOME_SELF_HOSTED_WEBHOOK_DISCORD}
           RssCheckIntervalMinutes: 10
-          EnableAutoRemove: true
+          EnableAutoRemove: false
           Color: 8411391
           DescriptionLimit: 250
           MarkdownFormat: true
