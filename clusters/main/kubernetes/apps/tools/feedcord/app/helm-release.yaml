@@ -73,6 +73,7 @@ spec:
             - ""
           RssUrls:
             - "https://www.trackawesomelist.com/awesome-selfhosted/awesome-selfhosted/rss.xml"
+            - "https://selfh.st/rss/"
           Forum: false
           DiscordWebhookUrl: ${FEEDCORD_AWESOME_SELF_HOSTED_WEBHOOK_DISCORD}
           RssCheckIntervalMinutes: 10
