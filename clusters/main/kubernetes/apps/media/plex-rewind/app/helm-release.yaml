@@ -1,0 +1,102 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: plex-rewind
+  namespace: plex-rewind
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 14.5.3
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:    
+    global:
+      stopAll: false
+    image:
+      repository: ghcr.io/raunot/plex-rewind
+      pullPolicy: IfNotPresent
+      tag: 4.8.2@sha256:4763d34212e16ac636e4fcc34226d56fce5eb488725291bd8a14174c90d91e14
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-plex-rewind"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        # runAsNonRoot: false
+        readOnlyRootFilesystem: false
+        # runAsUser: 0
+        # runAsGroup: 0
+    service:
+      main:
+        ports:
+          main:
+            port: 8383
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                NEXTAUTH_SECRET: "${PLEX_REWIND_NEXTAUTH_SECRET}"
+                NEXTAUTH_URL: https://rewind.plex.${DOMAIN_2}
+                NEXT_PUBLIC_SITE_URL: https://rewind.plex.${DOMAIN_2}
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        annotations:
+          nginx.ingress.kubernetes.io/auth-method: 'GET'
+          nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/verify'
+          nginx.ingress.kubernetes.io/auth-signin: 'https://auth.${DOMAIN_2}?rm=$request_method'
+          nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
+        hosts:
+          - host: rewind.plex.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          traefik:
+            enabled: false
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      config:
+        enabled: true
+        mountPath: /app/config
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              # cacheCapacity: 10Gi
+              enabled: true
+            src:
+              enabled: true
+              # cacheCapacity: 10Gi
+    cnpg:
+      main:
+        enabled: false
