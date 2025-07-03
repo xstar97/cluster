@@ -60,8 +60,8 @@ spec:
             main:
               env:
                 NEXTAUTH_SECRET: "${PLEX_REWIND_NEXTAUTH_SECRET}"
-                NEXTAUTH_URL: http://localhost:8383
-                NEXT_PUBLIC_SITE_URL: http://localhost:8383
+                # NEXTAUTH_URL: http://localhost:8383
+                # NEXT_PUBLIC_SITE_URL: https://rewind.plex.${DOMAIN_2}
 
     ingress:
       main:
