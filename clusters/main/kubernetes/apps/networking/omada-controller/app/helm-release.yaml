@@ -61,23 +61,23 @@ spec:
         type: LoadBalancer
         loadBalancerIP: "${OMADA_IP}"
         ports:
-          manager-v1:
+          managerv1:
             enabled: true
             protocol: tcp
             port: 29811
-          adopt-v1:
+          adoptv1:
             enabled: true
             protocol: tcp
             port: 29812
-          upgrade-v1:
+          upgradev1:
             enabled: true
             protocol: tcp
             port: 29813
-          manager-v2:
+          managerv2:
             enabled: true
             protocol: tcp
             port: 29814
-          transfer-v2:
+          transferv2:
             enabled: true
             protocol: tcp
             port: 29815
@@ -89,7 +89,7 @@ spec:
             enabled: true
             protocol: udp
             port: 29810
-          app-discovery:
+          app:
             enabled: true
             protocol: udp
             port: 27001
@@ -144,14 +144,14 @@ spec:
               env:
                 MANAGE_HTTPS_PORT: "{{ .Values.service.main.ports.main.port }}"
                 PORTAL_HTTPS_PORT: "{{ .Values.service.main.ports.comm.port }}"
-                PORT_ADOPT_V1: "{{ .Values.service.omada.ports.adopt-v1.port }}"
-                PORT_APP_DISCOVERY: "{{ .Values.service.omada.ports.app-discovery.port }}"
+                PORT_ADOPT_V1: "{{ .Values.service.omada.ports.adoptv1.port }}"
+                PORT_APP_DISCOVERY: "{{ .Values.service.omada.ports.app.port }}"
                 PORT_DISCOVERY: "{{ .Values.service.omada.ports.discovery.port }}"
-                PORT_MANAGER_V1: "{{ .Values.service.omada.ports.manager-v1.port }}"
-                PORT_MANAGER_V2: "{{ .Values.service.omada.ports.manager-v2.port }}"
-                PORT_TRANSFER_V2: "{{ .Values.service.omada.ports.transfer-v2.port }}"
+                PORT_MANAGER_V1: "{{ .Values.service.omada.ports.managerv1.port }}"
+                PORT_MANAGER_V2: "{{ .Values.service.omada.ports.managerv2.port }}"
+                PORT_TRANSFER_V2: "{{ .Values.service.omada.ports.transferv2.port }}"
                 PORT_RTTY: "{{ .Values.service.omada.ports.rtty.port }}"
-                PORT_UPGRADE_V1: "{{ .Values.service.omada.ports.upgrade-v1.port }}"
+                PORT_UPGRADE_V1: "{{ .Values.service.omada.ports.upgradev1.port }}"
                 ROOTLESS: "true"
                 PUSERNAME: 568
                 PGROUP: 568
