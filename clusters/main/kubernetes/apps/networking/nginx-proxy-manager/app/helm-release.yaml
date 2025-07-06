@@ -108,8 +108,8 @@ spec:
               - path: /
                 pathType: Prefix
         integrations:
-          traefik:
-            enabled: false
+          nginx:
+            enabled: true
           homepage:
             enabled: false
           certManager:

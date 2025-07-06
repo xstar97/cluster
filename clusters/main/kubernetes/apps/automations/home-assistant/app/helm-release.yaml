@@ -56,8 +56,8 @@ spec:
               - path: /
                 pathType: Prefix
         integrations:
-          traefik:
-            enabled: false
+          nginx:
+            enabled: true
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
@@ -88,11 +88,10 @@ spec:
             - host: editor.ha.${DOMAIN_2}
               paths:
                 - path: /
-                  # Ignored if not kubeVersion >= 1.14-0
                   pathType: Prefix
           integrations:
-            traefik:
-              enabled: false
+            nginx:
+              enabled: true
             certManager:
               enabled: true
               certificateIssuer: general-le-prod

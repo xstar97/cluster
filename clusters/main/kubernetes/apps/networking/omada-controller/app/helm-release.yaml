@@ -98,6 +98,8 @@ spec:
               - path: /
                 pathType: Prefix
         integrations:
+          nginx:
+            enabled: true
           homepage:
             enabled: true
             group: "Networking"
@@ -107,8 +109,6 @@ spec:
                 username: "${OMADA_USER}"
                 password: '${OMADA_PASS}'
                 site: '${OMADA_SITE}'
-          traefik:
-            enabled: false
           certManager:
             enabled: true
             certificateIssuer: general-le-prod

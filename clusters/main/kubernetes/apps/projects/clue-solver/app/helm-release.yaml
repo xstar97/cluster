@@ -48,19 +48,18 @@ spec:
       main:
         enabled: false
         ingressClassName: "internal"
-        annotations:
-          nginx.ingress.kubernetes.io/auth-method: 'GET'
-          nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/verify'
-          nginx.ingress.kubernetes.io/auth-signin: 'https://auth.${DOMAIN_2}?rm=$request_method'
-          nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
         hosts:
           - host: cluesolver.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
         integrations:
-          traefik:
-            enabled: false
+          nginx:
+            enabled: true
+            auth:
+              type: "authelia"
+              internalHost: "authelia.authelia.svc.cluster.local:9091"
+              externalHost: "auth.${DOMAIN_2}"
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
@@ -84,20 +83,18 @@ spec:
         ingress:
           enabled: false
           ingressClassName: "internal"
-          annotations:
-            nginx.ingress.kubernetes.io/auth-method: 'GET'
-            nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/verify'
-            nginx.ingress.kubernetes.io/auth-signin: 'https://auth.${DOMAIN_2}?rm=$request_method'
-            nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
           hosts:
             - host: editor.cluesolver.${DOMAIN_2}
               paths:
                 - path: /
-                  # Ignored if not kubeVersion >= 1.14-0
                   pathType: Prefix
           integrations:
-            traefik:
-              enabled: false
+            nginx:
+              enabled: true
+              auth:
+                type: "authelia"
+                internalHost: "authelia.authelia.svc.cluster.local:9091"
+                externalHost: "auth.${DOMAIN_2}"
             certManager:
               enabled: true
               certificateIssuer: general-le-prod
