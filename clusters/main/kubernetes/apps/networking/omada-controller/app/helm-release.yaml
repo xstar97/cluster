@@ -30,6 +30,11 @@ spec:
   values:
     global:
       stopAll: false
+    resources:
+      requests:
+        cpu: 2000m
+        limits:
+          memory: 4096Mi
     credentials:
       cf-restic:
         type: s3
