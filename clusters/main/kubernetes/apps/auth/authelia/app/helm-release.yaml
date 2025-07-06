@@ -64,8 +64,8 @@ spec:
               - path: /
                 pathType: Prefix
         integrations:
-          nginx:
-            enabled: true
+          # nginx:
+          #  enabled: true
           certManager:
             enabled: true
             certificateIssuer: general-le-prod

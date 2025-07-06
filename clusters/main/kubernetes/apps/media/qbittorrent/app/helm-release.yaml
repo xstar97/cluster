@@ -73,7 +73,7 @@ spec:
             enabled: true
             certificateIssuer: general-le-prod
     addons:
-      vpn:
+      gluetun:
         type: gluetun
         killSwitch: true
         excludedNetworks_IPv4:
