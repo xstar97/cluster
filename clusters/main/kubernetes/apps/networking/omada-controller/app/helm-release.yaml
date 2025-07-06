@@ -45,8 +45,8 @@ spec:
 
     service:
       main:
-        loadBalancerIP: ${OMADA_IP}
         type: LoadBalancer
+        loadBalancerIP: ${OMADA_IP}
         ports:
           main:
             protocol: https
