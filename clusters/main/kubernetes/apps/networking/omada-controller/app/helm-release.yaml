@@ -182,3 +182,8 @@ spec:
             src:
               enabled: true
               cacheCapacity: 10Gi
+      logs:
+        enabled: true
+        type: emptyDir
+        mountPath: /opt/tplink/EAPController/logs
+        medium: "" # Memory
