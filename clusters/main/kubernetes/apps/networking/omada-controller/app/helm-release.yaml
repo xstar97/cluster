@@ -182,6 +182,19 @@ spec:
             src:
               enabled: true
               cacheCapacity: 10Gi
+      properties:
+        enabled: true
+        mountPath: /opt/tplink/EAPController/properties
+        volsync:
+          - name: properties
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+              cacheCapacity: 10Gi
+            src:
+              enabled: true
+              cacheCapacity: 10Gi
       logs:
         enabled: true
         type: emptyDir
