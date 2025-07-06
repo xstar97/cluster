@@ -101,8 +101,6 @@ spec:
         enabled: true
         user: yamtrack
         database: yamtrack
-        annotations:
-          cnpg.io/skipEmptyWalArchiveCheck: "enabled"
         mode: recovery
         cluster:
           singleNode: true

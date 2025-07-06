@@ -183,8 +183,6 @@ spec:
 
     cnpg:
       main:
-        annotations:
-          cnpg.io/skipEmptyWalArchiveCheck: "enabled"
         mode: recovery
         cluster:
           singleNode: true
