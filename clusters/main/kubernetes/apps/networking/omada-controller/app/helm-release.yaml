@@ -44,16 +44,12 @@ spec:
         encrKey: "${CF_S3_RESTIC_KEY}"
     service:
       main:
-        # type: LoadBalancer
-        # loadBalancerIP: ${OMADA_IP}
         ports:
           main:
             protocol: https
             port: 8043
       comm:
         enabled: true
-        type: LoadBalancer
-        loadBalancerIP: ${OMADA_IP}
         ports:
           comm:
             protocol: https
