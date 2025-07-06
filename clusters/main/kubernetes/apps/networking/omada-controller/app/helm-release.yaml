@@ -8,8 +8,8 @@ spec:
   interval: 15m
   chart:
     spec:
-      chart: app-template
-      version: 15.1.2
+      chart: omada-controller
+      version: 17.0.4
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -42,21 +42,10 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-    image:
-      repository: docker.io/mbentley/omada-controller
-      tag: 5.15@sha256:40a970c65c3d74069c15eb07ec209fae5dec0be6b1ca698fbadfabdcce6a26da
-      pullPolicy: IfNotPresent
-    securityContext:
-      container:
-        readOnlyRootFilesystem: false
-        runAsNonRoot: false
-        runAsUser: 0
-        runAsGroup: 0
     service:
       main:
         ports:
           main:
-            protocol: https
             port: 8043
           comm:
             protocol: https
@@ -103,6 +92,27 @@ spec:
             enabled: true
             protocol: udp
             port: 19810
+      comm:
+        enabled: false
+        ports:
+          comm:
+            enabled: false
+      omada-tcp:
+        enabled: false
+        ports:
+          omada-tcp1:
+            enabled: false
+          omada-tcp2:
+            enabled: false
+          omada-tcp3:
+            enabled: false
+          omada-tcp4:
+            enabled: false
+      omada-udp:
+        enabled: false
+        ports:
+          omada-udp1:
+            enabled: false
     ingress:
       main:
         enabled: true
@@ -134,19 +144,6 @@ spec:
         podSpec:
           containers:
             main:
-              probes:
-                startup:
-                  path: /api/info
-                  httpHeaders:
-                    Host: kube.internal.health
-                liveness:
-                  path: /api/info
-                  httpHeaders:
-                    Host: kube.internal.health
-                readiness:
-                  path: /api/info
-                  httpHeaders:
-                    Host: kube.internal.health
               env:
                 MANAGE_HTTPS_PORT: "{{ .Values.service.main.ports.main.port }}"
                 PORTAL_HTTPS_PORT: "{{ .Values.service.main.ports.comm.port }}"
@@ -163,8 +160,6 @@ spec:
                 # PGROUP: 568
     persistence:
       data:
-        enabled: true
-        mountPath: /opt/tplink/EAPController/data
         volsync:
           - name: data
             type: restic
@@ -176,8 +171,6 @@ spec:
               enabled: true
               cacheCapacity: 10Gi
       work:
-        enabled: true
-        mountPath: /opt/tplink/EAPController/work
         volsync:
           - name: work
             type: restic
@@ -188,21 +181,3 @@ spec:
             src:
               enabled: true
               cacheCapacity: 10Gi
-      properties:
-        enabled: true
-        mountPath: /opt/tplink/EAPController/properties
-        volsync:
-          - name: properties
-            type: restic
-            credentials: cf-restic
-            dest:
-              enabled: true
-              cacheCapacity: 10Gi
-            src:
-              enabled: true
-              cacheCapacity: 10Gi
-      logs:
-        enabled: true
-        type: emptyDir
-        mountPath: /opt/tplink/EAPController/logs
-        medium: "" # Memory
