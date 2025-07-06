@@ -45,8 +45,8 @@ spec:
           main:
             port: 3000
       ldap:
-        type: LoadBalancer
-        loadBalancerIP: ${LLDAP_IP}
+        # type: LoadBalancer
+        # loadBalancerIP: ${LLDAP_IP}
         ports:
           ldap:
             port: 3890
