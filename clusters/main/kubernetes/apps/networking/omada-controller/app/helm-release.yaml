@@ -56,7 +56,7 @@ spec:
             enabled: true
             port: 8843
       omada-tcp:
-        enabled: false
+        enabled: true
         type: LoadBalancer
         loadBalancerIP: "10.0.0.225"
         ports:
