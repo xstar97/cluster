@@ -46,6 +46,12 @@ spec:
       repository: docker.io/mbentley/omada-controller
       tag: 5.15@sha256:40a970c65c3d74069c15eb07ec209fae5dec0be6b1ca698fbadfabdcce6a26da
       pullPolicy: IfNotPresent
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
     service:
       main:
         ports:
@@ -152,9 +158,9 @@ spec:
                 PORT_TRANSFER_V2: "{{ .Values.service.omada.ports.transferv2.port }}"
                 PORT_RTTY: "{{ .Values.service.omada.ports.rtty.port }}"
                 PORT_UPGRADE_V1: "{{ .Values.service.omada.ports.upgradev1.port }}"
-                ROOTLESS: "true"
-                PUSERNAME: 568
-                PGROUP: 568
+                # ROOTLESS: "true"
+                # PUSERNAME: 568
+                # PGROUP: 568
     persistence:
       data:
         enabled: true
