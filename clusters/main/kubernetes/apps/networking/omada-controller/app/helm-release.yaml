@@ -8,8 +8,8 @@ spec:
   interval: 15m
   chart:
     spec:
-      chart: omada-controller
-      version: 17.0.4
+      chart: app-template
+      version: 15.1.2
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -42,53 +42,62 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
+    image:
+      repository: docker.io/mbentley/omada-controller
+      tag: 5.15@sha256:40a970c65c3d74069c15eb07ec209fae5dec0be6b1ca698fbadfabdcce6a26da
+      pullPolicy: IfNotPresent
     service:
       main:
         ports:
           main:
             protocol: https
             port: 8043
-      comm:
-        enabled: true
-        ports:
           comm:
             protocol: https
             enabled: true
             port: 8843
-      omada-tcp:
+      omada:
         enabled: true
         type: LoadBalancer
         loadBalancerIP: "${OMADA_IP}"
         ports:
-          omada-tcp1:
+          manager-v1:
             enabled: true
+            protocol: tcp
             port: 29811
-            targetPort: 29811
-          omada-tcp2:
+          adopt-v1:
             enabled: true
+            protocol: tcp
             port: 29812
-            targetPort: 29812
-          omada-tcp3:
+          upgrade-v1:
             enabled: true
+            protocol: tcp
             port: 29813
-            targetPort: 29813
-          omada-tcp4:
+          manager-v2:
             enabled: true
+            protocol: tcp
             port: 29814
-            targetPort: 29814
-      omada-udp:
-        enabled: true
-        type: LoadBalancer
-        loadBalancerIP: "${OMADA_IP}"
-        ports:
-          omada-udp1:
+          transfer-v2:
+            enabled: true
+            protocol: tcp
+            port: 29815
+          rtty:
+            enabled: true
+            protocol: tcp
+            port: 29816
+          discovery:
             enabled: true
             protocol: udp
             port: 29810
-            targetPort: 29810
+          app-discovery:
+            enabled: true
+            protocol: udp
+            port: 27001
+          management:
+            enabled: true
+            protocol: udp
+            port: 19810
     ingress:
-      comm:
-        enabled: false
       main:
         enabled: true
         ingressClassName: "internal"
@@ -114,8 +123,41 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              probes:
+                startup:
+                  path: /api/info
+                  httpHeaders:
+                    Host: kube.internal.health
+                liveness:
+                  path: /api/info
+                  httpHeaders:
+                    Host: kube.internal.health
+                readiness:
+                  path: /api/info
+                  httpHeaders:
+                    Host: kube.internal.health
+              env:
+                MANAGE_HTTPS_PORT: "{{ .Values.service.main.ports.main.port }}"
+                PORTAL_HTTPS_PORT: "{{ .Values.service.main.ports.comm.port }}"
+                PORT_ADOPT_V1: "{{ .Values.service.omada.ports.adopt-v1.port }}"
+                PORT_APP_DISCOVERY: "{{ .Values.service.omada.ports.app-discovery.port }}"
+                PORT_DISCOVERY: "{{ .Values.service.omada.ports.discovery.port }}"
+                PORT_MANAGER_V1: "{{ .Values.service.omada.ports.manager-v1.port }}"
+                PORT_MANAGER_V2: "{{ .Values.service.omada.ports.manager-v2.port }}"
+                PORT_TRANSFER_V2: "{{ .Values.service.omada.ports.transfer-v2.port }}"
+                PORT_RTTY: "{{ .Values.service.omada.ports.rtty.port }}"
+                PORT_UPGRADE_V1: "{{ .Values.service.omada.ports.upgrade-v1.port }}"
+                ROOTLESS: "true"
+                PUSERNAME: 568
+                PGROUP: 568
     persistence:
       data:
+        mountPath: /opt/tplink/EAPController/data
         volsync:
           - name: data
             type: restic
@@ -127,6 +169,7 @@ spec:
               enabled: true
               cacheCapacity: 10Gi
       work:
+        mountPath: /opt/tplink/EAPController/work
         volsync:
           - name: work
             type: restic
