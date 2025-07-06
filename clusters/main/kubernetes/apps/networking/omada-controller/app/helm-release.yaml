@@ -58,7 +58,7 @@ spec:
       omada-tcp:
         enabled: true
         type: LoadBalancer
-        loadBalancerIP: "10.0.0.225"
+        loadBalancerIP: "${OMADA_IP}"
         ports:
           omada-tcp1:
             enabled: true
@@ -79,7 +79,7 @@ spec:
       omada-udp:
         enabled: false
         type: LoadBalancer
-        loadBalancerIP: "10.0.0.225"
+        loadBalancerIP: "${OMADA_IP}"
         ports:
           omada-udp1:
             enabled: true
