@@ -52,18 +52,18 @@ spec:
             protocol: https
             port: 8043
       comm:
-        enabled: false
-        loadBalancerIP: ${OMADA_IP}
+        enabled: true
         type: LoadBalancer
+        loadBalancerIP: ${OMADA_IP}
         ports:
           comm:
             protocol: https
             enabled: true
             port: 8843
       omada-tcp:
-        enabled: false
-        loadBalancerIP: ${OMADA_IP}
+        enabled: true
         type: LoadBalancer
+        loadBalancerIP: ${OMADA_IP}
         ports:
           omada-tcp1:
             enabled: true
@@ -82,9 +82,9 @@ spec:
             port: 29814
             targetPort: 29814
       omada-udp:
-        enabled: false
-        loadBalancerIP: ${OMADA_IP}
+        enabled: true
         type: LoadBalancer
+        loadBalancerIP: ${OMADA_IP}
         ports:
           omada-udp1:
             enabled: true
