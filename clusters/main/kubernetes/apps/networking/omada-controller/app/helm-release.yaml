@@ -77,7 +77,7 @@ spec:
             port: 29814
             targetPort: 29814
       omada-udp:
-        enabled: false
+        enabled: true
         type: LoadBalancer
         loadBalancerIP: "${OMADA_IP}"
         ports:
