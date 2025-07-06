@@ -157,6 +157,7 @@ spec:
                 PGROUP: 568
     persistence:
       data:
+        enabled: true
         mountPath: /opt/tplink/EAPController/data
         volsync:
           - name: data
@@ -169,6 +170,7 @@ spec:
               enabled: true
               cacheCapacity: 10Gi
       work:
+        enabled: true
         mountPath: /opt/tplink/EAPController/work
         volsync:
           - name: work
