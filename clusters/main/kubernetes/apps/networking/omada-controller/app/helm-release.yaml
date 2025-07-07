@@ -120,7 +120,7 @@ spec:
         annotations:
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         hosts:
-          - host: omada.controller.${DOMAIN_2}
+          - host: omada.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
