@@ -57,7 +57,11 @@ spec:
           query:
             enabled: true
             protocol: udp
-            port: 25566
+            port: 25565
+          bedrock:
+            enabled: true
+            port: 19132
+            protocol: udp
       rcon:
         enabled: true
         type: ClusterIP
@@ -65,15 +69,6 @@ spec:
           rcon:
             enabled: true
             port: 25575
-      bedrock:
-        enabled: true
-        type: LoadBalancer
-        loadBalancerIP: ${MC_JAVA_IP}
-        ports:
-          bedrock:
-            enabled: true
-            port: 19132
-            protocol: udp
       web:
         enabled: true
         type: ClusterIP
@@ -122,7 +117,7 @@ spec:
       # - auraskills
       # - deathlocator
       - bluemap
-      - plan
+      # - plan
     workload:
       main:
         podSpec:
