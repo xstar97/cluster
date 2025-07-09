@@ -30,6 +30,10 @@ spec:
   values:
     global:
       stopAll: false
+    image:
+      repository: ghcr.io/museofficial/muse
+      pullPolicy: IfNotPresent
+      tag: pr-1276
     credentials:
       cf-restic:
         type: s3
