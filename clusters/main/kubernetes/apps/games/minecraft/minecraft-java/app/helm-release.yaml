@@ -142,7 +142,7 @@ spec:
                     - mc-health
               env:
                 SERVER_PORT: "{{ .Values.service.main.ports.main.port }}"
-                QUERY_PORT: "{{ .Values.service.main.ports.u.port }}"
+                QUERY_PORT: "{{ .Values.service.main.ports.query.port }}"
                 RCON_PORT: "{{ .Values.service.rcon.ports.rcon.port }}"
                 DISABLE_HEALTHCHECK: true
                 SERVER_HOST: '{{ printf "%s" (include "tc.v1.common.lib.chart.names.fullname" $) }}'
