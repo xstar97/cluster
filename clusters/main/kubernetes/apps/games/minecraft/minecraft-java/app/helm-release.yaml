@@ -49,6 +49,9 @@ spec:
         enabled: true
         type: LoadBalancer
         loadBalancerIP: ${MC_JAVA_IP}
+        integrations:
+          metallb:
+            enabled: true
         ports:
           main:
             enabled: true

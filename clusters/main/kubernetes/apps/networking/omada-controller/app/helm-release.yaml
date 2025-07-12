@@ -55,6 +55,9 @@ spec:
         enabled: true
         type: LoadBalancer
         loadBalancerIP: "${OMADA_IP}"
+        integrations:
+          metallb:
+            enabled: true
         ports:
           managerv1:
             enabled: true

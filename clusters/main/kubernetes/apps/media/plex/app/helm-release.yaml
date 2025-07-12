@@ -43,6 +43,9 @@ spec:
       main:
         type: LoadBalancer
         loadBalancerIP: ${PLEX_IP}
+        integrations:
+          metallb:
+            enabled: true
         ports:
           main:
             port: 32400
