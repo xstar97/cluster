@@ -69,8 +69,8 @@ spec:
             limits:
               truecharts.org/tun: 1
           env:
-            # Needs common fixing
-            FIREWALL: "off"
+            FIREWALL: "on"
+            FIREWALL_OUTBOUND_SUBNETS: "10.0.0.0/24"
             HTTPPROXY: "on"
             VPN_TYPE: "wireguard"
             VPN_SERVICE_PROVIDER: "custom"
@@ -86,7 +86,6 @@ spec:
             VPN_PORT_FORWARDING_LISTENING_PORT: "{{ .Values.service.torrent.ports.torrent.port }}"
             FIREWALL_INPUT_PORTS: '{{ printf "%v,%v" .Values.service.main.ports.main.port .Values.service.glue.ports.control.port }}'
             HTTP_CONTROL_SERVER_ADDRESS: '{{ printf "0.0.0.0:%v" .Values.service.glue.ports.control.port }}'
-            FIREWALL_OUTBOUND_SUBNETS: 10.0.0.0/24,172.16.0.0/16,172.17.0.0/16
     configmap:
       gluetun-auth-config:
         enabled: true
