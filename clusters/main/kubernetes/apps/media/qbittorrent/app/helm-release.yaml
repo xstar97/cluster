@@ -84,7 +84,7 @@ spec:
             PUBLICIP_API: cloudflare
             FIREWALL_VPN_INPUT_PORTS: "{{ .Values.service.torrent.ports.torrent.port }}"
             VPN_PORT_FORWARDING_LISTENING_PORT: "{{ .Values.service.torrent.ports.torrent.port }}"
-            # FIREWALL_INPUT_PORTS: '{{ printf "%v,%v" .Values.service.main.ports.main.port .Values.service.glue.ports.control.port }}'
+            FIREWALL_INPUT_PORTS: '{{ .Values.service.glue.ports.control.port }}'
             HTTP_CONTROL_SERVER_ADDRESS: '{{ printf "0.0.0.0:%v" .Values.service.glue.ports.control.port }}'
     configmap:
       gluetun-auth-config:
