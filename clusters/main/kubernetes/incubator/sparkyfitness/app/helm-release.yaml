@@ -140,7 +140,7 @@ spec:
                   port: "{{ .Values.service.main.ports.main.port }}"
               env:                
                 SPARKY_FITNESS_SERVER_PORT: "{{ .Values.service.api.ports.api.port }}"
-                SPARKY_FITNESS_SERVER_HOST: '{{ printf "%s" (include "tc.v1.common.lib.chart.names.fullname" $) }}'
+                SPARKY_FITNESS_SERVER_HOST: "localhost"
     ingress:
       main:
         enabled: true
