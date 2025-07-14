@@ -29,7 +29,7 @@ spec:
     keepHistory: false
   values:
     global:
-      stopAll: true
+      stopAll: false
     image:
       repository: ghcr.io/impre-visible/invoicerr
       pullPolicy: IfNotPresent
