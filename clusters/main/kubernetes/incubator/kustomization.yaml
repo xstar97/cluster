@@ -5,3 +5,4 @@ resources:
   # - bunkerm/ks.yaml
   # - steam-idler/ks.yaml
   - yamtrack/ks.yaml
+  - invoicerr/ks.yaml

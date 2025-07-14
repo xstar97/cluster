@@ -1,0 +1,111 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: invoicerr
+  namespace: invoicerr
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.2.3
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: true
+    image:
+      repository: ghcr.io/impre-visible/invoicerr
+      pullPolicy: IfNotPresent
+      tag: v1.1.0@sha256:011c233d4c102acc78c0466db55639edcc0182d10f2c4d58d1d398a7be41826d
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-invoicerr"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        runAsNonRoot: false
+        readOnlyRootFilesystem: false
+        runAsUser: 0
+        runAsGroup: 0
+    service:
+      main:
+        ports:
+          main:
+            port: 80
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                DATABASE_URL:
+                  secretKeyRef:
+                    name: cnpg-main-urls
+                    key: std
+                APP_URL: https://invoicerr.${DOMAIN_2}
+                SMTP_HOST: "${SMTP_GMAIL_HOST}"
+                SMTP_USER: "${SMTP_GMAIL_EMAIL}"
+                SMTP_FROM: "invoicerr@${DOMAIN_2}"
+                SMTP_PASSWORD: "${SMTP_GMAIL_PASS_INVOICERR}"
+                JWT_SECRET: "${INVOICERR_JWT_TOKEN}"
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: invoicerr.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            auth:
+              type: "authelia"
+              internalHost: "authelia.authelia.svc.cluster.local:9091"
+              externalHost: "auth.${DOMAIN_2}"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+      
+    cnpg:
+      main:
+        enabled: true
+        user: invoicerr
+        database: invoicerr
+        mode: recovery
+        cluster:
+          singleNode: true
+        backups:
+          enabled: true
+          credentials: cf-restic
+          scheduledBackups:
+            - name: daily-backup
+              schedule: "0 5 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic
