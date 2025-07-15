@@ -141,9 +141,9 @@ spec:
         targetSelector:
           main:
             main:
-              mountPath: /data
+              mountPath: /config
             codeserver:
-              mountPath: /data
+              mountPath: /config
         volsync:
           - name: config
             type: restic
