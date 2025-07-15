@@ -69,16 +69,24 @@ spec:
       endpoints:
         - name: nginx-external
           group: core
-          url: "icmp://nginx-external-controller-admission.nginx.svc.cluster.local:443"
+          url: "https://nginx-external-controller-admission.nginx.svc.cluster.local:443"
           interval: 1m
+          client:
+            insecure: false
+            ignore-redirect: false
+            timeout: 10s
           conditions:
-            - "[CONNECTED] == true"
+            - "[STATUS] == 200"
         - name: nginx-internal
           group: core
-          url: "icmp://nginx-internal-controller-admission.nginx.svc.cluster.local:443"
+          url: "https://://nginx-internal-controller-admission.nginx.svc.cluster.local:443"
           interval: 1m
+          client:
+            insecure: false
+            ignore-redirect: false
+            timeout: 10s
           conditions:
-            - "[CONNECTED] == true"
+            - "[STATUS] == 200"
 
     configmap:
       gatus-config:
