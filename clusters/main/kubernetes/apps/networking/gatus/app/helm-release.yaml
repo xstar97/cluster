@@ -71,13 +71,16 @@ spec:
           containers:
             main:
               env:
-                GATUS_CONFIG_PATH: "/config/*.yaml"
+                GATUS_CONFIG_PATH: "{{ .Values.persistence.config.targetSelector.main.main.mountPath }}"
     gatus:
       endpoints:
         - name: opnsense
           group: network
           url: "https://${NUT_ROUTER_IP}"
           interval: 1m
+          ui:
+            hide-url: true
+            hide-hostname: true
           client:
             insecure: true
             ignore-redirect: false
@@ -88,18 +91,27 @@ spec:
           group: network
           url: "http://${AP_OMADA_IP_0}"
           interval: 1m
+          ui:
+            hide-url: true
+            hide-hostname: true
           conditions:
             - "[CONNECTED] == true"
         - name: nw-0
           group: network
           url: "http://${NW_SWITCH_IP_0}"
           interval: 1m
+          ui:
+            hide-url: true
+            hide-hostname: true
           conditions:
             - "[CONNECTED] == true"
         - name: nginx-external
           group: core
           url: "https://nginx-external-controller-admission.nginx.svc.cluster.local:443"
           interval: 1m
+          ui:
+            hide-url: true
+            hide-hostname: true
           client:
             insecure: true
             ignore-redirect: false
@@ -110,6 +122,9 @@ spec:
           group: core
           url: "https://nginx-internal-controller-admission.nginx.svc.cluster.local:443"
           interval: 1m
+          ui:
+            hide-url: true
+            hide-hostname: true
           client:
             insecure: true
             ignore-redirect: false
@@ -120,6 +135,9 @@ spec:
           group: core
           url: "http://blocky.blocky.svc.cluster.local:4000"
           interval: 1m
+          ui:
+            hide-url: true
+            hide-hostname: true
           conditions:
             - "[CONNECTED] == true"
 
@@ -209,3 +227,27 @@ spec:
             certManager:
               enabled: true
               certificateIssuer: general-le-prod
+
+    # -- Whether Role Based Access Control objects like roles and rolebindings should be created
+    rbac:
+      main:
+        enabled: true
+        primary: true
+        clusterWide: true
+        rules:
+          - apiGroups: [""]
+            resources:
+              - "configmaps"
+              - "secrets"
+            verbs:
+              - "get"
+              - "list"
+              - "watch"
+    # -- The service account the pods will use to interact with the Kubernetes API
+    serviceAccount:
+      main:
+        enabled: true
+        primary: true
+
+    podOptions:
+      automountServiceAccountToken: true
