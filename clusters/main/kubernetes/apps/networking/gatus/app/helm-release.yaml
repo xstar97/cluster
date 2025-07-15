@@ -111,37 +111,6 @@ spec:
                 GATUS_CONFIG_PATH: "{{ .Values.persistence.config.mountPath }}"
     gatus:
       endpoints:
-        - name: opnsense
-          group: network
-          url: "https://${NUT_ROUTER_IP}"
-          interval: 1m
-          ui:
-            hide-url: true
-            hide-hostname: true
-          client:
-            insecure: true
-            ignore-redirect: false
-            timeout: 10s
-          conditions:
-            - "[CONNECTED] == true"
-        - name: ap-omada-0
-          group: network
-          url: "http://${AP_OMADA_IP_0}"
-          interval: 1m
-          ui:
-            hide-url: true
-            hide-hostname: true
-          conditions:
-            - "[CONNECTED] == true"
-        - name: nw-0
-          group: network
-          url: "http://${NW_SWITCH_IP_0}"
-          interval: 1m
-          ui:
-            hide-url: true
-            hide-hostname: true
-          conditions:
-            - "[CONNECTED] == true"
         - name: nginx-external
           group: core
           url: "https://nginx-external-controller-admission.nginx.svc.cluster.local:443"
@@ -246,7 +215,7 @@ spec:
           enabled: true
           ingressClassName: "internal"
           hosts:
-            - host: editor.gatus.${DOMAIN_2}
+            - host: gatus.editor.${DOMAIN_2}
               paths:
                 - path: /
                   pathType: Prefix
