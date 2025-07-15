@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gatus-config
+  namespace: gatus
+  # labels:
+  #  gatus.io/enabled: "true"
+data:
+  config.yaml: |
+    {{- if .Values.cnpg.main.enabled }}
+    storage:
+      type: postgres
+      path: {{ (printf "%s?client_encoding=utf8" (.Values.cnpg.main.creds.std | trimAll "\"")) | quote }}
+    {{- end }}
+    ui:
+      title: Status | Gatus
+      header: Status
+    connectivity:
+      checker:
+        target: 1.1.1.1:53
+        interval: 1m
+    endpoints:
+      - name: flux-webhook
+        group: external
+        url: https://fluxwh.${DOMAIN_2}
+        interval: 1m
+        client:
+          dns-resolver: tcp://1.1.1.1:53
+        conditions:
+          - "[STATUS] == 404"
+      - name: mend-renovate
+        group: external
+        url: https://renovate.${DOMAIN_2}
+        interval: 1m
+        client:
+          dns-resolver: tcp://1.1.1.1:53
+        conditions:
+          - "[STATUS] == 404"

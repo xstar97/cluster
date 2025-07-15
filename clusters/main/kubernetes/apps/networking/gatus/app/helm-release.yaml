@@ -96,56 +96,7 @@ spec:
                 RESOURCE: both
                 UNIQUE_FILENAMES: true
                 METHOD: WATCH
-    gatus:
-      endpoints:
-        - name: nginx-external
-          group: core
-          url: "https://nginx-external-controller-admission.nginx.svc.cluster.local:443"
-          interval: 1m
-          ui:
-            hide-url: true
-            hide-hostname: true
-          client:
-            insecure: true
-            ignore-redirect: false
-            timeout: 10s
-          conditions:
-            - "[CONNECTED] == true"
-        - name: nginx-internal
-          group: core
-          url: "https://nginx-internal-controller-admission.nginx.svc.cluster.local:443"
-          interval: 1m
-          ui:
-            hide-url: true
-            hide-hostname: true
-          client:
-            insecure: true
-            ignore-redirect: false
-            timeout: 10s
-          conditions:
-            - "[CONNECTED] == true"
-        - name: blocky (dns)
-          group: core
-          url: "http://blocky.blocky.svc.cluster.local:4000"
-          interval: 1m
-          ui:
-            hide-url: true
-            hide-hostname: true
-          conditions:
-            - "[CONNECTED] == true"
-
-    configmap:
-      gatus-config:
-        enabled: true
-        data:
-          config.yaml: |
-            {{- if .Values.cnpg.main.enabled }}
-            storage:
-              type: postgres
-              path: {{ (printf "%s?client_encoding=utf8" (.Values.cnpg.main.creds.std | trimAll "\"")) | quote }}
-            {{- end }}
-            {{- $.Values.gatus | toYaml | nindent 2 }}
-
+    
     persistence:
       config:
         enabled: true
@@ -164,11 +115,11 @@ spec:
       gatus-config:
         enabled: true
         type: configmap
-        mountPath: /config/config.yaml
-        objectName: gatus-config
-        readOnly: true
+        objectName: gatus-config 
+        expandObjectName: false
+        mountPath: /connfig/config.yaml
         subPath: config.yaml
-
+        readOnly: true
     cnpg:
       main:
         enabled: true
