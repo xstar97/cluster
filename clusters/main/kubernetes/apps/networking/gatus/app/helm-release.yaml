@@ -97,34 +97,34 @@ spec:
             interval: 1m
             conditions:
               - "[CONNECTED] == true"
-        core:
-          endpoints:
-            - name: nginx-external
-              group: core
-              url: "https://nginx-external-controller-admission.nginx.svc.cluster.local:443"
-              interval: 1m
-              client:
-                insecure: true
-                ignore-redirect: false
-                timeout: 10s
-              conditions:
-                - "[CONNECTED] == true"
-            - name: nginx-internal
-              group: core
-              url: "https://nginx-internal-controller-admission.nginx.svc.cluster.local:443"
-              interval: 1m
-              client:
-                insecure: true
-                ignore-redirect: false
-                timeout: 10s
-              conditions:
-                - "[CONNECTED] == true"
-            - name: blocky (dns)
-              group: core
-              url: "http://blocky.blocky.svc.cluster.local:4000"
-              interval: 1m
-              conditions:
-                - "[CONNECTED] == true"
+      core:
+        endpoints:
+          - name: nginx-external
+            group: core
+            url: "https://nginx-external-controller-admission.nginx.svc.cluster.local:443"
+            interval: 1m
+            client:
+              insecure: true
+              ignore-redirect: false
+              timeout: 10s
+            conditions:
+              - "[CONNECTED] == true"
+          - name: nginx-internal
+            group: core
+            url: "https://nginx-internal-controller-admission.nginx.svc.cluster.local:443"
+            interval: 1m
+            client:
+              insecure: true
+              ignore-redirect: false
+              timeout: 10s
+            conditions:
+              - "[CONNECTED] == true"
+          - name: blocky (dns)
+            group: core
+            url: "http://blocky.blocky.svc.cluster.local:4000"
+            interval: 1m
+            conditions:
+              - "[CONNECTED] == true"
 
     configmap:
       gatus-config:
@@ -145,7 +145,7 @@ spec:
         enabled: true
         data:
           network.yaml: |
-            {{- $.Values.gatus.core | toYaml | nindent 2 }}
+            {{- $.Values.gatus.network | toYaml | nindent 2 }}
 
     persistence:
       config:
