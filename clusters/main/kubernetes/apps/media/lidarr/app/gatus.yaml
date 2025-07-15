@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lidarr-gatus-ep
+  namespace: lidarr
+  labels:
+    gatus.io/enabled: "true"
+data:
+  config.yaml: |
+    endpoints:
+      - name: lidarr
+        group: media
+        url: http://lidarr.lidarr.svc.cluster.local:8686
+        interval: 1m
+        ui:
+          hide-url: true
+          hide-hostname: true
+        conditions:
+          - "[CONNECTED] == true"
+        alerts:
+          - type: discord
+            description: "healthcheck failed"
+            send-on-resolved: true

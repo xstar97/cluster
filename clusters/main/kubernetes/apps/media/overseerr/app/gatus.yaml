@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: overseerr-gatus-ep
+  namespace: overseerr
+  labels:
+    gatus.io/enabled: "true"
+data:
+  config.yaml: |
+    endpoints:
+      - name: overseerr
+        group: media
+        url: http://overseerr.overseerr.svc.cluster.local:5055
+        interval: 1m
+        ui:
+          hide-url: true
+          hide-hostname: true
+        conditions:
+          - "[CONNECTED] == true"
+        alerts:
+          - type: discord
+            description: "healthcheck failed"
+            send-on-resolved: true
