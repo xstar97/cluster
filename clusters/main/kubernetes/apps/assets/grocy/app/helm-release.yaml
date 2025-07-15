@@ -67,7 +67,7 @@ spec:
       endpoints:
         - name: grocy
           group: assets
-          url: '{{ printf "http://%s:%v" grocy.grocy.svc.cluster.local .Values.service.main.ports.main.port }}'
+          url: "http://grocy.grocy.svc.cluster.local:10013"
           interval: 1m
           ui:
             hide-url: true
