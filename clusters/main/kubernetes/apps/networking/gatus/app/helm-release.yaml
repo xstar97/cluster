@@ -162,7 +162,7 @@ spec:
         enabled: true
         user: gatus
         database: gatus
-        mode: recovery
+        # mode: recovery
         cluster:
           singleNode: true
         backups:
