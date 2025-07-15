@@ -77,6 +77,24 @@ spec:
               enabled: true
               type: init
               imageSelector: "sideCarImage"
+              command:
+                - /bin/sh
+                - -c
+              args:
+                - |
+                  echo "Checking for config YAML files..."
+
+                  # Count number of .yml and .yaml files in /config
+                  YAML_COUNT=$(find /config -maxdepth 1 -type f \( -iname "*.yml" -o -iname "*.yaml" \) | wc -l)
+
+                  if [ "$YAML_COUNT" -gt 0 ]; then
+                    echo "Found $YAML_COUNT YAML config file(s). Skipping download..."
+                  else
+                    echo "No YAML config file found. Exiting after 30 seconds..."
+                    sleep 30
+                    exit 1
+                  fi
+
               env:
                 FOLDER: "{{ .Values.persistence.config.mountPath }}"
                 LABEL: gatus.io/enabled
