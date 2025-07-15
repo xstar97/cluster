@@ -76,7 +76,7 @@ spec:
             ignore-redirect: false
             timeout: 10s
           conditions:
-            - "[STATUS] == 200"
+            - "[CONNECTED] == true"
         - name: nginx-internal
           group: core
           url: "https://nginx-internal-controller-admission.nginx.svc.cluster.local:443"
@@ -86,7 +86,7 @@ spec:
             ignore-redirect: false
             timeout: 10s
           conditions:
-            - "[STATUS] == 200"
+            - "[CONNECTED] == true"
 
     configmap:
       gatus-config:
