@@ -133,10 +133,6 @@ spec:
               type: postgres
               path: {{ (printf "%s?client_encoding=utf8" (.Values.cnpg.main.creds.std | trimAll "\"")) | quote }}
             {{- end }}
-            connectivity:
-              checker:
-                target: 1.1.1.1:53
-                interval: 60s
             {{- $.Values.gatus | toYaml | nindent 2 }}
 
     persistence:
