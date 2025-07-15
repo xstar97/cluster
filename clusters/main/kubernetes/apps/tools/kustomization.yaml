@@ -11,3 +11,4 @@ resources:
   - mend-renovate/ks.yaml
   - spoolman/ks.yaml
   - feedcord/ks.yaml
+  - omni-tools/ks.yaml
