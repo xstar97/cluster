@@ -64,7 +64,14 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-
+    
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                GATUS_CONFIG_PATH: "/config/*.yaml"
     gatus:
       endpoints:
         - name: opnsense
@@ -130,8 +137,7 @@ spec:
               checker:
                 target: 1.1.1.1:53
                 interval: 60s
-            {{- $.Values.gatus | toYaml | nindent 2 }}
-
+    
     persistence:
       config:
         enabled: true
@@ -174,3 +180,30 @@ spec:
         recovery:
           method: object_store
           credentials: cf-restic
+
+    addons:
+      codeserver:
+        enabled: true
+        service:
+          type: "ClusterIP"
+          ports:
+            codeserver:
+              port: 36107
+        ingress:
+          enabled: false
+          ingressClassName: "internal"
+          hosts:
+            - host: editor.gatus.${DOMAIN_2}
+              paths:
+                - path: /
+                  pathType: Prefix
+          integrations:
+            nginx:
+              enabled: true
+              auth:
+                type: "authelia"
+                internalHost: "authelia.authelia.svc.cluster.local:9091"
+                externalHost: "auth.${DOMAIN_2}"
+            certManager:
+              enabled: true
+              certificateIssuer: general-le-prod
