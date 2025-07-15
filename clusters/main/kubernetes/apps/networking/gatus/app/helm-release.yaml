@@ -72,17 +72,17 @@ spec:
           url: "https://nginx-external-controller-admission.nginx.svc.cluster.local:443"
           interval: 1m
           client:
-            insecure: false
+            insecure: true
             ignore-redirect: false
             timeout: 10s
           conditions:
             - "[STATUS] == 200"
         - name: nginx-internal
           group: core
-          url: "https://://nginx-internal-controller-admission.nginx.svc.cluster.local:443"
+          url: "https://nginx-internal-controller-admission.nginx.svc.cluster.local:443"
           interval: 1m
           client:
-            insecure: false
+            insecure: true
             ignore-redirect: false
             timeout: 10s
           conditions:
