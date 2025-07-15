@@ -61,7 +61,7 @@ spec:
       endpoints:
         - name: homebox
           group: assets
-          url: http://homebox.homebox.svc.cluster.local:{{ .Values.service.main.ports.main.port }}
+          url: '{{ printf "http://%s:%v" homebox.homebox.svc.cluster.local .Values.service.main.ports.main.port }}'
           interval: 1m
           ui:
             hide-url: true

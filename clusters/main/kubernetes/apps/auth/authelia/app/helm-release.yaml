@@ -86,7 +86,7 @@ spec:
       endpoints:
         - name: authelia
           group: auth
-          url: "http://authelia.authelia.svc.cluster.local:{{ .Values.service.main.ports.main.port }}"
+          url: '{{ printf "http://%s:%v" authelia.authelia.svc.cluster.local .Values.service.main.ports.main.port }}'
           interval: 1m
           ui:
             hide-url: true
