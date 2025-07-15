@@ -9,7 +9,7 @@ metadata:
 spec:
   ingressClassName: "external"
   rules:
-  - host: fluxwh.${DOMAIN_0}
+  - host: fluxwh.${DOMAIN_2}
     http:
       paths:
       - pathType: Prefix
@@ -21,5 +21,5 @@ spec:
               number: 80
   tls:
     - hosts:
-      - fluxwh.${DOMAIN_0}
+      - fluxwh.${DOMAIN_2}
       secretName: flux-webhook-tls-0
