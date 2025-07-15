@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: mosquitto-gatus-ep
+  name: profilarr-gatus-ep
   labels:
     gatus.io/enabled: "true"
 data:
