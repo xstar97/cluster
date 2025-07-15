@@ -76,7 +76,7 @@ spec:
         enabled: true
         ingressClassName: "external"
         hosts:
-          - host: renovate.${DOMAIN_0}
+          - host: renovate.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
