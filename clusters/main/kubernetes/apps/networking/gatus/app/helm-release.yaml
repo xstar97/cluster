@@ -69,16 +69,16 @@ spec:
       endpoints:
         - name: nginx-external
           group: core
-          url: "https://nginx-external-controller-admission.nginx.svc.cluster.local:443"
-          interval: 5m
+          url: "icmp://nginx-external-controller-admission.nginx.svc.cluster.local:443"
+          interval: 1m
           conditions:
-            - "[STATUS] == 200"
+            - "[CONNECTED] == true"
         - name: nginx-internal
           group: core
-          url: "https://nginx-internal-controller-admission.nginx.svc.cluster.local:443"
-          interval: 5m
+          url: "icmp://nginx-internal-controller-admission.nginx.svc.cluster.local:443"
+          interval: 1m
           conditions:
-            - "[STATUS] == 200"
+            - "[CONNECTED] == true"
 
     configmap:
       gatus-config:
