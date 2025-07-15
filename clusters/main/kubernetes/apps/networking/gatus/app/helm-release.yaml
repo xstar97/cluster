@@ -73,37 +73,7 @@ spec:
               env:
                 GATUS_CONFIG_PATH: "/config/*.yaml"
     gatus:
-      core:
-        endpoints:
-          - name: nginx-external
-            group: core
-            url: "https://nginx-external-controller-admission.nginx.svc.cluster.local:443"
-            interval: 1m
-            client:
-              insecure: true
-              ignore-redirect: false
-              timeout: 10s
-            conditions:
-              - "[CONNECTED] == true"
-          - name: nginx-internal
-            group: core
-            url: "https://nginx-internal-controller-admission.nginx.svc.cluster.local:443"
-            interval: 1m
-            client:
-              insecure: true
-              ignore-redirect: false
-              timeout: 10s
-            conditions:
-              - "[CONNECTED] == true"
-          - name: blocky (dns)
-            group: core
-            url: "http://blocky.blocky.svc.cluster.local:4000"
-            interval: 1m
-            conditions:
-              - "[CONNECTED] == true"
-
-      network:
-        endpoints:
+      endpoints:
         - name: opnsense
           group: network
           url: "https://${NUT_ROUTER_IP}"
@@ -126,7 +96,32 @@ spec:
           interval: 1m
           conditions:
             - "[CONNECTED] == true"
-        
+        - name: nginx-external
+          group: core
+          url: "https://nginx-external-controller-admission.nginx.svc.cluster.local:443"
+          interval: 1m
+          client:
+            insecure: true
+            ignore-redirect: false
+            timeout: 10s
+          conditions:
+            - "[CONNECTED] == true"
+        - name: nginx-internal
+          group: core
+          url: "https://nginx-internal-controller-admission.nginx.svc.cluster.local:443"
+          interval: 1m
+          client:
+            insecure: true
+            ignore-redirect: false
+            timeout: 10s
+          conditions:
+            - "[CONNECTED] == true"
+        - name: blocky (dns)
+          group: core
+          url: "http://blocky.blocky.svc.cluster.local:4000"
+          interval: 1m
+          conditions:
+            - "[CONNECTED] == true"
 
     configmap:
       gatus-config:
@@ -142,8 +137,8 @@ spec:
               checker:
                 target: 1.1.1.1:53
                 interval: 60s
-            {{- $.Values.gatus.core | toYaml | nindent 2 }}
-    
+            {{- $.Values.gatus | toYaml | nindent 2 }}
+
     persistence:
       config:
         enabled: true
