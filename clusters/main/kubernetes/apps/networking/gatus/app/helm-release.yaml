@@ -70,8 +70,8 @@ spec:
         podSpec:
           containers:
             main:
-              env:
-                GATUS_CONFIG_PATH: "/config/*.yaml"
+              env: {}
+                # GATUS_CONFIG_PATH: "/config/*.yaml"
     gatus:
       endpoints:
         - name: opnsense
