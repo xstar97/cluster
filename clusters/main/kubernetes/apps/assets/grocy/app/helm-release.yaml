@@ -80,7 +80,7 @@ spec:
               send-on-resolved: true
     configmap:
       gatus:
-        enabled: false
+        enabled: true
         labels:
           gatus.io/enabled: "true"
         data:
