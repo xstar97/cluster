@@ -82,6 +82,30 @@ spec:
               trigger:
                 schedule: 10 0 * * *
 
+    gatus:
+      endpoints:
+        - name: authelia
+          group: auth
+          url: http://authelia.authelia.svc.cluster.local:{{ .Values.service.main.ports.main.port }}
+          interval: 1m
+          ui:
+            hide-url: true
+            hide-hostname: true
+          conditions:
+            - "[CONNECTED] == true"
+          alerts:
+            - type: discord
+              description: "healthcheck failed"
+              send-on-resolved: true
+    configmap:
+      gatus:
+        enabled: true
+        labels:
+          gatus.io/enabled: "true"
+        data:
+          config.yaml: |
+            {{- $.Values.gatus | toYaml | nindent 2 }}
+
     authelia:
       server:
         buffers:
