@@ -117,7 +117,7 @@ spec:
         type: configmap
         objectName: gatus-config 
         expandObjectName: false
-        mountPath: /connfig/config.yaml
+        mountPath: /config/config.yaml
         subPath: config.yaml
         readOnly: true
     cnpg:
