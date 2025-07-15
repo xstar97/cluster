@@ -136,6 +136,7 @@ spec:
             alerting:
               discord:
                 webhook-url: "${GATUS_DISCORD_WEBHOOK_GLOBAL}"
+            skip-invalid-config-update: true
             {{- $.Values.gatus | toYaml | nindent 2 }}
 
     persistence:
