@@ -166,7 +166,7 @@ spec:
         cluster:
           singleNode: true
         backups:
-          enabled: true
+          enabled: false
           credentials: cf-restic
           scheduledBackups:
             - name: daily-backup
