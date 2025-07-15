@@ -68,7 +68,7 @@ spec:
     gatus:
       endpoints:
         - name: opnsense
-          group: core
+          group: network
           url: "https://${NUT_ROUTER_IP}"
           interval: 1m
           client:
@@ -78,8 +78,14 @@ spec:
           conditions:
             - "[CONNECTED] == true"
         - name: ap-omada-0
-          group: core
+          group: network
           url: "http://${AP_OMADA_IP_0}"
+          interval: 1m
+          conditions:
+            - "[CONNECTED] == true"
+        - name: nw-0
+          group: network
+          url: "http://${NW_SWITCH_IP_0}"
           interval: 1m
           conditions:
             - "[CONNECTED] == true"
