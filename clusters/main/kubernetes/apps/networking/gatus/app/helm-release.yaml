@@ -51,7 +51,7 @@ spec:
             port: 8080
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "external"
         hosts:
           - host: gatus.${DOMAIN_2}
@@ -180,7 +180,7 @@ spec:
 
     addons:
       codeserver:
-        enabled: true
+        enabled: false
         service:
           type: "ClusterIP"
           ports:
