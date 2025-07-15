@@ -73,7 +73,6 @@ spec:
               env:
                 GATUS_CONFIG_PATH: "/config/*.yaml"
     gatus:
-      network:
         endpoints:
           - name: opnsense
             group: network
@@ -97,8 +96,7 @@ spec:
             interval: 1m
             conditions:
               - "[CONNECTED] == true"
-      core:
-        endpoints:
+
           - name: nginx-external
             group: core
             url: "https://nginx-external-controller-admission.nginx.svc.cluster.local:443"
@@ -140,12 +138,7 @@ spec:
               checker:
                 target: 1.1.1.1:53
                 interval: 60s
-            {{- $.Values.gatus.core | toYaml | nindent 2 }}
-      gatus-network:
-        enabled: true
-        data:
-          network.yaml: |
-            {{- $.Values.gatus.network | toYaml | nindent 2 }}
+            {{- $.Values.gatus | toYaml | nindent 2 }}
 
     persistence:
       config:
@@ -168,13 +161,6 @@ spec:
         objectName: gatus-config
         readOnly: true
         subPath: config.yaml
-      gatus-network:
-        enabled: true
-        type: configmap
-        mountPath: /config/network.yaml
-        objectName: gatus-network
-        readOnly: true
-        subPath: network.yaml
 
     cnpg:
       main:
