@@ -106,6 +106,10 @@ spec:
             dns-resolver: tcp://1.1.1.1:53
           conditions:
             - "[STATUS] == 404"
+          alerts:
+            - type: discord
+              description: "healthcheck failed"
+              send-on-resolved: true
         - name: mend-renovate
           group: external
           url: https://renovate.${DOMAIN_2}
@@ -114,6 +118,10 @@ spec:
             dns-resolver: tcp://1.1.1.1:53
           conditions:
             - "[STATUS] == 404"
+          alerts:
+            - type: discord
+              description: "healthcheck failed"
+              send-on-resolved: true
 
     configmap:
       gatus-config:
@@ -125,6 +133,9 @@ spec:
               type: postgres
               path: {{ (printf "%s?client_encoding=utf8" (.Values.cnpg.main.creds.std | trimAll "\"")) | quote }}
             {{- end }}
+            alerting:
+              discord:
+                webhook-url: "${GATUS_DISCORD_WEBHOOK_GLOBAL}"
             {{- $.Values.gatus | toYaml | nindent 2 }}
 
     persistence:

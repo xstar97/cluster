@@ -17,3 +17,7 @@ data:
           hide-hostname: true
         conditions:
           - "[CONNECTED] == true"
+        alerts:
+          - type: discord
+            description: "healthcheck failed"
+            send-on-resolved: true
