@@ -79,12 +79,8 @@ spec:
             - "[CONNECTED] == true"
         - name: ap-omada-0
           group: core
-          url: "https://${AP_OMADA_IP_0}:443"
+          url: "http://${AP_OMADA_IP_0}"
           interval: 1m
-          client:
-            insecure: true
-            ignore-redirect: false
-            timeout: 10s
           conditions:
             - "[CONNECTED] == true"
         - name: nginx-external
@@ -124,6 +120,10 @@ spec:
               type: postgres
               path: {{ (printf "%s?client_encoding=utf8" (.Values.cnpg.main.creds.std | trimAll "\"")) | quote }}
             {{- end }}
+            connectivity:
+              checker:
+                target: 1.1.1.1:53
+                interval: 60s
             {{- $.Values.gatus | toYaml | nindent 2 }}
 
     persistence:
