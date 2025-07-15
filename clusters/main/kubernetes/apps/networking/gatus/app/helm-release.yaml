@@ -70,58 +70,61 @@ spec:
         podSpec:
           containers:
             main:
-              env: {}
-                # GATUS_CONFIG_PATH: "/config/*.yaml"
+              env:
+                GATUS_CONFIG_PATH: "/config/*.yaml"
     gatus:
-      endpoints:
-        - name: opnsense
-          group: network
-          url: "https://${NUT_ROUTER_IP}"
-          interval: 1m
-          client:
-            insecure: true
-            ignore-redirect: false
-            timeout: 10s
-          conditions:
-            - "[CONNECTED] == true"
-        - name: ap-omada-0
-          group: network
-          url: "http://${AP_OMADA_IP_0}"
-          interval: 1m
-          conditions:
-            - "[CONNECTED] == true"
-        - name: nw-0
-          group: network
-          url: "http://${NW_SWITCH_IP_0}"
-          interval: 1m
-          conditions:
-            - "[CONNECTED] == true"
-        - name: nginx-external
-          group: core
-          url: "https://nginx-external-controller-admission.nginx.svc.cluster.local:443"
-          interval: 1m
-          client:
-            insecure: true
-            ignore-redirect: false
-            timeout: 10s
-          conditions:
-            - "[CONNECTED] == true"
-        - name: nginx-internal
-          group: core
-          url: "https://nginx-internal-controller-admission.nginx.svc.cluster.local:443"
-          interval: 1m
-          client:
-            insecure: true
-            ignore-redirect: false
-            timeout: 10s
-          conditions:
-            - "[CONNECTED] == true"
-        - name: blocky (dns)
-          group: core
-          url: "http://blocky.blocky.svc.cluster.local:4000"
-          interval: 1m
-          conditions:
-            - "[CONNECTED] == true"
+      network:
+        endpoints:
+          - name: opnsense
+            group: network
+            url: "https://${NUT_ROUTER_IP}"
+            interval: 1m
+            client:
+              insecure: true
+              ignore-redirect: false
+              timeout: 10s
+            conditions:
+              - "[CONNECTED] == true"
+          - name: ap-omada-0
+            group: network
+            url: "http://${AP_OMADA_IP_0}"
+            interval: 1m
+            conditions:
+              - "[CONNECTED] == true"
+          - name: nw-0
+            group: network
+            url: "http://${NW_SWITCH_IP_0}"
+            interval: 1m
+            conditions:
+              - "[CONNECTED] == true"
+        core:
+          endpoints:
+            - name: nginx-external
+              group: core
+              url: "https://nginx-external-controller-admission.nginx.svc.cluster.local:443"
+              interval: 1m
+              client:
+                insecure: true
+                ignore-redirect: false
+                timeout: 10s
+              conditions:
+                - "[CONNECTED] == true"
+            - name: nginx-internal
+              group: core
+              url: "https://nginx-internal-controller-admission.nginx.svc.cluster.local:443"
+              interval: 1m
+              client:
+                insecure: true
+                ignore-redirect: false
+                timeout: 10s
+              conditions:
+                - "[CONNECTED] == true"
+            - name: blocky (dns)
+              group: core
+              url: "http://blocky.blocky.svc.cluster.local:4000"
+              interval: 1m
+              conditions:
+                - "[CONNECTED] == true"
 
     configmap:
       gatus-config:
@@ -137,7 +140,16 @@ spec:
               checker:
                 target: 1.1.1.1:53
                 interval: 60s
-            {{- $.Values.gatus | toYaml | nindent 2 }}
+      gatus-core:
+        enabled: true
+        data:
+          core.yaml: |
+            {{- $.Values.gatus.core | toYaml | nindent 2 }}
+      gatus-network:
+        enabled: true
+        data:
+          network.yaml: |
+            {{- $.Values.gatus.core | toYaml | nindent 2 }}
 
     persistence:
       config:
@@ -160,6 +172,20 @@ spec:
         objectName: gatus-config
         readOnly: true
         subPath: config.yaml
+      gatus-core:
+        enabled: true
+        type: configmap
+        mountPath: /config/core.yaml
+        objectName: gatus-core
+        readOnly: true
+        subPath: core.yaml
+      gatus-network:
+        enabled: true
+        type: configmap
+        mountPath: /config/network.yaml
+        objectName: gatus-network
+        readOnly: true
+        subPath: network.yaml
 
     cnpg:
       main:
