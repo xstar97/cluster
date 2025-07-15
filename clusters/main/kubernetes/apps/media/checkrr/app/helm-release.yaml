@@ -161,12 +161,35 @@ spec:
             - 172.16.0.0/16
             - 172.17.0.0/16
             - 10.0.0.0/8
+    
+    gatus:
+      endpoints:
+        - name: authelia
+          group: auth
+          url: '{{ printf "http://%s:%v" checkrr-app-template.checkrr.svc.cluster.local .Values.service.main.ports.main.port }}'
+          interval: 1m
+          ui:
+            hide-url: true
+            hide-hostname: true
+          conditions:
+            - "[CONNECTED] == true"
+          alerts:
+            - type: discord
+              description: "healthcheck failed"
+              send-on-resolved: true
     configmap:
       checkrr-config:
         enabled: true
         data:
           checkrr.yaml: |
             {{- $.Values.checkrr.data | toYaml | nindent 2 }}
+      gatus:
+        enabled: false
+        labels:
+          gatus.io/enabled: "true"
+        data:
+          config.yaml: |
+            {{- $.Values.gatus | toYaml | nindent 2 }}
     ingress:
       main:
         enabled: true
