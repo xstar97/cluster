@@ -96,7 +96,6 @@ spec:
           interval: 1m
           conditions:
             - "[CONNECTED] == true"
-
         - name: nginx-external
           group: core
           url: "https://nginx-external-controller-admission.nginx.svc.cluster.local:443"
