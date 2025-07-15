@@ -140,10 +140,6 @@ spec:
               checker:
                 target: 1.1.1.1:53
                 interval: 60s
-      gatus-core:
-        enabled: true
-        data:
-          core.yaml: |
             {{- $.Values.gatus.core | toYaml | nindent 2 }}
       gatus-network:
         enabled: true
@@ -172,13 +168,6 @@ spec:
         objectName: gatus-config
         readOnly: true
         subPath: config.yaml
-      gatus-core:
-        enabled: true
-        type: configmap
-        mountPath: /config/core.yaml
-        objectName: gatus-core
-        readOnly: true
-        subPath: core.yaml
       gatus-network:
         enabled: true
         type: configmap
