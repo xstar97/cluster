@@ -164,8 +164,8 @@ spec:
     
     gatus:
       endpoints:
-        - name: authelia
-          group: auth
+        - name: checkrr
+          group: media
           url: "http://checkrr-app-template.checkrr.svc.cluster.local:8585"
           interval: 1m
           ui:
