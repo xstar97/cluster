@@ -79,7 +79,7 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            urls: '{{ join "," .Values.chartContext.internalUrls }}'
+            urls: '{{ join "," .Values.chartContext.internalUrls | default list }}'
             endpoints:
               - name: {{ .Release.Namespace }}
                 group: assets
