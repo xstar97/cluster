@@ -79,7 +79,22 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            {{- $.Values.gatus | toYaml | nindent 2 }}
+            {{- printf "name: %s" $.Release.Name | toYaml | nindent 2 -}}
+            {{- printf "url: %s" $.Values.chartContext.appUrl | toYaml | nindent 2 -}}
+            endpoints:
+              - name: homebox
+                group: assets
+                url: "http://homebox.homebox.svc.cluster.local:10603"
+                interval: 1m
+                ui:
+                  hide-url: true
+                  hide-hostname: true
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "healthcheck failed"
+                    send-on-resolved: true
     persistence:
       data:
         volsync:
