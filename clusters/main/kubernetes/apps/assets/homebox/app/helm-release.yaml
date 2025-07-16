@@ -81,9 +81,10 @@ spec:
           config.yaml: |
             {{- if .Values.chartContext.internalUrls }}
               {{- range $url := .Values.chartContext.internalUrls -}}
-                 {{ printf "urls: %s" $url }}
+                - {{ printf "url: %s" $url }}
               {{- end }}
             {{- end }}
+
 
             endpoints:
               - name: homebox
