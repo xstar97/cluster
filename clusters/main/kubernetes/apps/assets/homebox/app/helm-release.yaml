@@ -79,6 +79,11 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
+            {{- if .Values.chartContext.internalUrls }}
+              {{- range $url := .Values.chartContext.internalUrls -}}
+              - {{ $url }}
+              {{- end }}
+            {{- end }}
             endpoints:
               - name: homebox
                 group: assets
