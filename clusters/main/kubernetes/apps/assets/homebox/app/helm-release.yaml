@@ -79,11 +79,11 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            {{- if .Values.chartContext.internalUrls }}
-              {{- range $url := .Values.chartContext.internalUrls -}}
-                - {{ printf "url: %s" $url }}
-              {{- end }}
-            {{- end }}
+            {{- $svc := $.objectData.selectedService.name -}}
+            {{- $port := $.Values.service.main.ports.main.port -}}
+            {{- $prot := $.objectData.selectedService.protocol -}}
+            {{- $ns := $.Release.Namespace -}}
+            {{- printf "url: %s://%s.%s.svc:%s" $prot $svc $ns $port | toYaml | nindent 2 -}}
 
 
             endpoints:
