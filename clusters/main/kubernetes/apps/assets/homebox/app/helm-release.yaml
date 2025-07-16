@@ -85,7 +85,7 @@ spec:
             {{- $ns := $.Release.Namespace -}}
             {{- printf "url: %s://%s.%s.svc:%s" $.Release.Namespace $.Release.Namespace $.Release.Namespace $.Release.Namespace | toYaml | nindent 2 -}}
             
-            ns: "{{- printf "%s" $ns -}}
+            ns: "$ns"
 
             endpoints:
               - name: homebox
