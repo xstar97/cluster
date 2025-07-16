@@ -79,8 +79,7 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            urls: "{{ .Values.chartContext.internalUrls }}"
-
+            url: '{{ printf "%s://%s.%s.svc.cluster.local:%s" http .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
             endpoints:
               - name: {{ .Release.Namespace }}
                 group: assets
