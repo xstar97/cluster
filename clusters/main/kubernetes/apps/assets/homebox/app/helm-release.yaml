@@ -80,11 +80,11 @@ spec:
         data:
           config.yaml: |
             {{- if .Values.chartContext.internalUrls }}
-            {{- range $url := .Values.chartContext.internalUrls -}}
-              - {{ $url }}
+              {{- range $index, $url := Values.chartContext.internalUrls }}
+                  {{- printf "url%s: %s" $index $url -}}
+              {{- end }}
             {{- end }}
-            {{- end }}
-            
+
             endpoints:
               - name: {{ .Release.Namespace }}
                 group: assets
