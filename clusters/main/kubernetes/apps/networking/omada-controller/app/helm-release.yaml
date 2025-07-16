@@ -161,6 +161,33 @@ spec:
                 # ROOTLESS: "true"
                 # PUSERNAME: 568
                 # PGROUP: 568
+    gatus:
+      endpoints:
+        - name: myspeed
+          group: networking
+          url: "https://omada-controller.omada-controller.svc.cluster.local:8043"
+          interval: 1m
+          ui:
+            hide-url: true
+            hide-hostname: true
+          client:
+            insecure: true
+            ignore-redirect: false
+            timeout: 10s
+          conditions:
+            - "[CONNECTED] == true"
+          alerts:
+            - type: discord
+              description: "healthcheck failed"
+              send-on-resolved: true
+    configmap:
+      gatus:
+        enabled: true
+        labels:
+          gatus.io/enabled: "true"
+        data:
+          config.yaml: |
+            {{- $.Values.gatus | toYaml | nindent 2 }}
     persistence:
       data:
         volsync:

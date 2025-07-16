@@ -79,12 +79,33 @@ spec:
       # optional one of: mysql, postgresql, csv, csv-client. If empty, log to console only
       type: ""
 
+    gatus:
+      endpoints:
+        - name: blocky
+          group: networking
+          url: "http://blocky.blocky.svc.cluster.local:4000"
+          interval: 1m
+          ui:
+            hide-url: true
+            hide-hostname: true
+          conditions:
+            - "[CONNECTED] == true"
+          alerts:
+            - type: discord
+              description: "healthcheck failed"
+              send-on-resolved: true
     configmap:
       dashboard:
         enabled: false
       datasource:
         enabled: false
-
+      gatus:
+        enabled: true
+        labels:
+          gatus.io/enabled: "true"
+        data:
+          config.yaml: |
+            {{- $.Values.gatus | toYaml | nindent 2 }}
     cnpg:
       main:
         enabled: false
