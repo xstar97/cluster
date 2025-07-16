@@ -83,7 +83,7 @@ spec:
             {{- $port := $.Values.service.main.ports.main.port -}}
             {{- $prot := $.objectData.selectedService.protocol -}}
             {{- $ns := $.Release.Namespace -}}
-            {{- printf "url: %s://%s.%s.svc:%s" $prot $svc $ns $port | toYaml | nindent 2 -}}
+            {{- printf "url: %s://%s.%s.svc:%s" $.Release.Namespace $.Release.Namespace $.Release.Namespace $.Release.Namespace | toYaml | nindent 2 -}}
 
 
             endpoints:
