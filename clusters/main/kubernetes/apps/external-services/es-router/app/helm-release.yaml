@@ -58,3 +58,29 @@ spec:
           certManager:
             certificateIssuer: general-le-prod
             enabled: true
+
+    configmap:
+      gatus:
+        enabled: true
+        labels:
+          gatus.io/enabled: "true"
+        data:
+          config.yaml: |
+            endpoints:
+              - name: OpnSense
+                group: networking
+                url: "https://${ROUTER_IP}"
+                interval: 1m
+                ui:
+                  hide-url: true
+                  hide-hostname: true
+                client:
+                  insecure: true
+                  ignore-redirect: false
+                  timeout: 10s
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "healthcheck failed"
+                    send-on-resolved: true
