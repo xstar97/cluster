@@ -78,9 +78,11 @@ spec:
         ports:
           map:
             enabled: true
+            protocol: http
             port: 8100
           plan:
             enabled: true
+            protocol: http
             port: 8804
     resources:
       limits:
