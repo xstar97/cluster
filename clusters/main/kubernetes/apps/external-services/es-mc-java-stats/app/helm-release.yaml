@@ -55,3 +55,24 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
+
+    configmap:
+      gatus:
+        enabled: true
+        labels:
+          gatus.io/enabled: "true"
+        data:
+          config.yaml: |
+            endpoints:
+              - name: minecraft-java-stats
+                group: games
+                url: https://stats.${DOMAIN_2}/
+                interval: 1m
+                client:
+                  dns-resolver: tcp://1.1.1.1:53
+                conditions:
+                  - "[STATUS] == 200"
+                alerts:
+                  - type: discord
+                    description: "healthcheck failed"
+                    send-on-resolved: true
