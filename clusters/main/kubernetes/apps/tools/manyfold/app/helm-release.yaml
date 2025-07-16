@@ -67,7 +67,7 @@ spec:
       endpoints:
         - name: manyfold
           group: tools
-          url: "http://manyfold.manyfold.svc.cluster.local:3214"
+          url: "http://manyfold.manyfold.svc.cluster.local:3214/api/index.html"
           interval: 1m
           ui:
             hide-url: true
