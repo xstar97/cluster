@@ -80,6 +80,7 @@ spec:
         data:
           config.yaml: |
             name: {{ (include "tc.v1.common.lib.chart.names.fullname" .)}}
+            type: {{ .Values.service.main.ports.main.protocol }}
             url: '{{ printf "http://%s.%s.svc.cluster.local:%v" .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
             endpoints:
               - name: {{ .Release.Namespace }}
