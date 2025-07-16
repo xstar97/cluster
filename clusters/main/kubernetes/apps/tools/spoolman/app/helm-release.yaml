@@ -53,6 +53,24 @@ spec:
         ports:
           main:
             port: 8000
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                # Host and port to listen on
+                SPOOLMAN_HOST: 0.0.0.0
+                SPOOLMAN_PORT: "{{ .Values.service.main.ports.main.port }}"
+                SPOOLMAN_DIR_DATA: "{{ .Values.persistence.data.mountPath }}"
+                SPOOLMAN_DIR_LOGS: "{{ .Values.persistence.logs.mountPath }}"
+                # DB Type: sqlite, mysql, postgres, cockroachdb
+                SPOOLMAN_DB_TYPE: postgres
+                SPOOLMAN_DB_HOST: '{{ .Values.cnpg.main.creds.host | trimAll "\"" }}'
+                SPOOLMAN_DB_PORT: 5432
+                SPOOLMAN_DB_NAME: "{{ .Values.cnpg.main.database }}"
+                SPOOLMAN_DB_USERNAME: "{{ .Values.cnpg.main.user }}"
+                SPOOLMAN_DB_PASSWORD: '{{ .Values.cnpg.main.creds.password | trimAll "\"" }}'
     ingress:
       main:
         enabled: true
@@ -68,21 +86,6 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-    gatus:
-      endpoints:
-        - name: spoolman
-          group: tools
-          url: "http://spoolman-app-template.spoolman.svc.cluster.local:8000"
-          interval: 1m
-          ui:
-            hide-url: true
-            hide-hostname: true
-          conditions:
-            - "[CONNECTED] == true"
-          alerts:
-            - type: discord
-              description: "healthcheck failed"
-              send-on-resolved: true
     configmap:
       gatus:
         enabled: true
@@ -90,7 +93,20 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            {{- $.Values.gatus | toYaml | nindent 2 }}
+            endpoints:
+              - name: {{ .Release.Namespace }}
+                group: tools
+                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" .Values.service.main.ports.main.protocol .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
+                interval: 1m
+                ui:
+                  hide-url: true
+                  hide-hostname: true
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "healthcheck failed"
+                    send-on-resolved: true
     persistence:
       config:
         enabled: true
@@ -105,6 +121,24 @@ spec:
             src:
               enabled: false
               cacheCapacity: 10Gi
+
     cnpg:
       main:
-        enabled: false
+        enabled: true
+        user: spoolman
+        database: spoolman
+        # mode: recovery
+        cluster:
+          singleNode: true
+        backups:
+          enabled: false
+          credentials: cf-restic
+          scheduledBackups:
+            - name: daily-backup
+              schedule: "0 5 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic
