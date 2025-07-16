@@ -66,6 +66,7 @@ spec:
           ui:
             hide-url: true
             hide-hostname: true
+            logo: "https://truecharts.org/img/hotlink-ok/chart-icons/homebox.webp"
           conditions:
             - "[CONNECTED] == true"
           alerts:
