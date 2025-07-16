@@ -230,22 +230,9 @@ spec:
                   - type: discord
                     description: "healthcheck failed"
                     send-on-resolved: true
-              - name: {{ .Release.Namespace }}-bluemap
+              - name: {{ .Release.Namespace }}-web
                 group: games
-                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v/#" .Values.service.web.ports.map.protocol .Release.Name .Release.Namespace .Values.service.web.ports.map.port }}'
-                interval: 1m
-                ui:
-                  hide-url: true
-                  hide-hostname: true
-                conditions:
-                  - "[CONNECTED] == true"
-                alerts:
-                  - type: discord
-                    description: "healthcheck failed"
-                    send-on-resolved: true
-              - name: {{ .Release.Namespace }}-stats
-                group: games
-                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v/stats/" .Values.service.web.ports.map.protocol .Release.Name .Release.Namespace .Values.service.web.ports.map.port }}'
+                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" .Values.service.web.ports.map.protocol .Release.Name .Release.Namespace .Values.service.web.ports.map.port }}'
                 interval: 1m
                 ui:
                   hide-url: true
