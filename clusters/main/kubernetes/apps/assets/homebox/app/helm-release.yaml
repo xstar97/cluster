@@ -79,10 +79,8 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            {{- if .Values.chartContext.internalUrls }}
-              {{- range $index, $url := .Values.chartContext.internalUrls }}
-                  {{- printf "url%s: %s" $index $url -}}
-              {{- end }}
+            {{- range $index, $url := .Values.chartContext.internalUrls | default list }}
+                {{- printf "url%s: %s" $index $url -}}
             {{- end }}
 
             endpoints:
