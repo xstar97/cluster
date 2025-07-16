@@ -62,7 +62,7 @@ spec:
                 # Host and port to listen on
                 SPOOLMAN_HOST: 0.0.0.0
                 SPOOLMAN_PORT: "{{ .Values.service.main.ports.main.port }}"
-                SPOOLMAN_DIR_DATA: "{{ .Values.persistence.data.mountPath }}"
+                SPOOLMAN_DIR_DATA: "{{ .Values.persistence.config.mountPath }}"
                 SPOOLMAN_DIR_LOGS: "{{ .Values.persistence.logs.mountPath }}"
                 # DB Type: sqlite, mysql, postgres, cockroachdb
                 SPOOLMAN_DB_TYPE: postgres
@@ -110,7 +110,7 @@ spec:
     persistence:
       config:
         enabled: true
-        mountPath: /home/app/.local/share/spoolman
+        mountPath: /config
         volsync:
           - name: config
             type: restic
@@ -121,6 +121,9 @@ spec:
             src:
               enabled: false
               cacheCapacity: 10Gi
+      logs:
+        enabled: true
+        mountPath: /logs
 
     cnpg:
       main:
