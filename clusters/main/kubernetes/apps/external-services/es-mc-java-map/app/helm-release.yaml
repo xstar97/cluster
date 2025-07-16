@@ -68,10 +68,8 @@ spec:
                 group: games
                 url: https://map.${DOMAIN_2}
                 interval: 1m
-                client:
-                  dns-resolver: tcp://1.1.1.1:53
                 conditions:
-                  - "[STATUS] == 200"
+                  - "[CONNECTED] == true"
                 alerts:
                   - type: discord
                     description: "healthcheck failed"
