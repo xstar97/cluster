@@ -79,7 +79,7 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            ns: "{{ .Release.Namespace }}"
+            urls: "{{ .Values.chartContext.internalUrls }}"
             endpoints:
               - name: homebox
                 group: assets
