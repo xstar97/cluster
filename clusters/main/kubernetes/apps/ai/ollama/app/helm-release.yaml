@@ -84,6 +84,29 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
+    gatus:
+      endpoints:
+        - name: ollama
+          group: ai
+          url: "http://ollama-app-template.ollama.svc.cluster.local:11434"
+          interval: 1m
+          ui:
+            hide-url: true
+            hide-hostname: true
+          conditions:
+            - "[CONNECTED] == true"
+          alerts:
+            - type: discord
+              description: "healthcheck failed"
+              send-on-resolved: true
+    configmap:
+      gatus:
+        enabled: false
+        labels:
+          gatus.io/enabled: "true"
+        data:
+          config.yaml: |
+            {{- $.Values.gatus | toYaml | nindent 2 }}
     persistence:
       config:
         enabled: true

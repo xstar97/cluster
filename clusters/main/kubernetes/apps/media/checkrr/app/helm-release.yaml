@@ -166,7 +166,7 @@ spec:
       endpoints:
         - name: authelia
           group: auth
-          url: '{{ printf "http://%s:%v" checkrr-app-template.checkrr.svc.cluster.local .Values.service.main.ports.main.port }}'
+          url: '{{ printf "http://%s:%v" checkrr-app-template.checkrr.svc.cluster.local 8585 }}'
           interval: 1m
           ui:
             hide-url: true

@@ -76,6 +76,29 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
+    gatus:
+      endpoints:
+        - name: fileflows
+          group: media
+          url: "http://fileflows.fileflows.svc.cluster.local:10242"
+          interval: 1m
+          ui:
+            hide-url: true
+            hide-hostname: true
+          conditions:
+            - "[CONNECTED] == true"
+          alerts:
+            - type: discord
+              description: "healthcheck failed"
+              send-on-resolved: true
+    configmap:
+      gatus:
+        enabled: true
+        labels:
+          gatus.io/enabled: "true"
+        data:
+          config.yaml: |
+            {{- $.Values.gatus | toYaml | nindent 2 }}
     persistence:
       data:
         volsync:
