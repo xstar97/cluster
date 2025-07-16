@@ -79,10 +79,8 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            {{- $objectData := .objectData -}}
-            {{- $prot := $objectData.selectedService.protocol -}}
             url: "{{ .Values.chartContext.appUrl }}"
-            protocol: {{ $prot }}
+            protocol: "{{ $.objectData.selectedService.protocol }}"
             endpoints:
               - name: {{ .Release.Namespace }}
                 group: assets
