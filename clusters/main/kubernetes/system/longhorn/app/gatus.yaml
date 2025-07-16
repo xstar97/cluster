@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: longhorn-system-gatus
+  namespace: flux-system
+  labels:
+    gatus.io/enabled: "true"
+data:
+  config.yaml: |
+    endpoints:
+      - name: longhorn-system
+        group: core
+        url: 'http://longhorn-frontend.longhorn-system.svc.cluster.local:80'
+        interval: 1m
+        ui:
+          hide-url: true
+          hide-hostname: true
+        conditions:
+          - "[CONNECTED] == true"
+        alerts:
+          - type: discord
+            description: "healthcheck failed"
+            send-on-resolved: true
