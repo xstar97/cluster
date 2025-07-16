@@ -81,12 +81,11 @@ spec:
               enabled: false
               trigger:
                 schedule: 10 0 * * *
-
     gatus:
       endpoints:
         - name: authelia
           group: auth
-          url: '{{ printf "http://%s:%v" authelia.authelia.svc.cluster.local .Values.service.main.ports.main.port }}'
+          url: "http://authelia.authelia.svc.cluster.local:9091"
           interval: 1m
           ui:
             hide-url: true
@@ -97,15 +96,6 @@ spec:
             - type: discord
               description: "healthcheck failed"
               send-on-resolved: true
-    configmap:
-      gatus:
-        enabled: false
-        labels:
-          gatus.io/enabled: "true"
-        data:
-          config.yaml: |
-            {{- $.Values.gatus | toYaml | nindent 2 }}
-
     authelia:
       server:
         buffers:
@@ -154,7 +144,14 @@ spec:
           disable_html_emails: true
           tls:
             server_name: ${SMTP_GMAIL_HOST}
-
+    configmap:
+      gatus:
+        enabled: true
+        labels:
+          gatus.io/enabled: "true"
+        data:
+          config.yaml: |
+            {{- $.Values.gatus | toYaml | nindent 2 }}
     cnpg:
       main:
         mode: recovery

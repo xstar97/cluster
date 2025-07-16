@@ -61,7 +61,7 @@ spec:
       endpoints:
         - name: homebox
           group: assets
-          url: '{{ printf "http://%s:%v" homebox.homebox.svc.cluster.local .Values.service.main.ports.main.port }}'
+          url: "http://homebox.homebox.svc.cluster.local:10603"
           interval: 1m
           ui:
             hide-url: true
@@ -74,13 +74,12 @@ spec:
               send-on-resolved: true
     configmap:
       gatus:
-        enabled: false
+        enabled: true
         labels:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
             {{- $.Values.gatus | toYaml | nindent 2 }}
-
     persistence:
       data:
         volsync:
