@@ -79,8 +79,6 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            {{- printf "name: %s" $.Release.Name | toYaml | nindent 2 -}}
-            {{- printf "url: %s" $.Values.chartContext.appUrl | toYaml | nindent 2 -}}
             endpoints:
               - name: homebox
                 group: assets
