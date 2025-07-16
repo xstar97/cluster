@@ -52,3 +52,25 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
+
+    configmap:
+      gatus:
+        enabled: true
+        labels:
+          gatus.io/enabled: "true"
+        data:
+          config.yaml: |
+            endpoints:
+              - name: OctoPrint
+                group: tools
+                url: '{{ printf "http://%s:80" ${OCTOPRINT_IP} }}'
+                interval: 1m
+                ui:
+                  hide-url: true
+                  hide-hostname: true
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "healthcheck failed"
+                    send-on-resolved: true
