@@ -163,7 +163,7 @@ spec:
                 # PGROUP: 568
     gatus:
       endpoints:
-        - name: myspeed
+        - name: omada-controller
           group: networking
           url: "https://omada-controller.omada-controller.svc.cluster.local:8043"
           interval: 1m
