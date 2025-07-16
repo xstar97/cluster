@@ -63,7 +63,7 @@ spec:
             endpoints:
               - name: OctoPrint
                 group: tools
-                url: '{{ printf "http://%s:80" ${OCTOPRINT_IP} }}'
+                url: "http://${OCTOPRINT_IP}"
                 interval: 1m
                 ui:
                   hide-url: true
