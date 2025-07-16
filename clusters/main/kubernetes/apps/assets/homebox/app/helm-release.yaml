@@ -79,8 +79,9 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            url: "{{ .Values.chartContext.appUrl }}"
-            protocol: "{{ $.objectData.selectedService.protocol }}"
+            {{- $allUrls := $.Values.chartContext.internalUrls | default list -}}
+            urls1: "{{ join "," $allUrls }}"
+            urls2: "{{ join "," $.Values.chartContext.internalUrls | default list -}}"
             endpoints:
               - name: {{ .Release.Namespace }}
                 group: assets
