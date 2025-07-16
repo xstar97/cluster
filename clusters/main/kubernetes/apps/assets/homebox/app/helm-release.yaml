@@ -79,7 +79,8 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            url:'{{ printf "http://%s.%s.svc.cluster.local:%s" .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
+            name: {{ (include "tc.v1.common.lib.chart.names.fullname" .)}}
+            url: '{{ printf "http://%s.%s.svc.cluster.local:%v" .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
             endpoints:
               - name: {{ .Release.Namespace }}
                 group: assets
