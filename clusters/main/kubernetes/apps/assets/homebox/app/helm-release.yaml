@@ -79,7 +79,7 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            nodeIP: "{{ .Values.config.nodeIP }}"
+            urls: "{{ .Values.chartContext.internalUrls }}"
 
             endpoints:
               - name: {{ .Release.Namespace }}
