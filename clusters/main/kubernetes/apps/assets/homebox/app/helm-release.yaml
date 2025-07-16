@@ -79,8 +79,11 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            {{- printf "urls: %s" $.Values.chartContext.internalUrls | toYaml | nindent 2 -}}
-
+            {{- if .Values.chartContext.internalUrls }}
+              {{- range $url := .Values.chartContext.internalUrls -}}
+                 {{ printf "urls: %s" $url }}
+              {{- end }}
+            {{- end }}
 
             endpoints:
               - name: homebox
