@@ -79,12 +79,7 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            {{- $svc := $.objectData.selectedService.name -}}
-            {{- $port := $.Values.service.main.ports.main.port -}}
-            {{- $prot := $.objectData.selectedService.protocol -}}
-            {{- $ns := $.Release.Namespace -}}
-            ns: "$.Release.Namespace"
-            ns2: "{{- $.Release.Namespace -}}"
+            ns: "{{ .Release.Namespace }}"
             endpoints:
               - name: homebox
                 group: assets
