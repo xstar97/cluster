@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: longhorn-system-gatus
-  namespace: flux-system
+  name: longhorn-gatus
+  namespace: longhorn-system
   labels:
     gatus.io/enabled: "true"
 data:
