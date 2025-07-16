@@ -57,7 +57,7 @@ spec:
             port: 8080
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "external"
         hosts:
           - host: gatus.${DOMAIN_2}
