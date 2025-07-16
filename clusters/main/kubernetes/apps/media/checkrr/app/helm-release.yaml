@@ -184,7 +184,7 @@ spec:
           checkrr.yaml: |
             {{- $.Values.checkrr.data | toYaml | nindent 2 }}
       gatus:
-        enabled: false
+        enabled: true
         labels:
           gatus.io/enabled: "true"
         data:
