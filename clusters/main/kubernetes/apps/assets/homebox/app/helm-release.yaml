@@ -79,9 +79,9 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            urls: "{{ .Values.chartContext.internalUrls }}"
+            url: "{{ .Values.chartContext.appUrl }}"
             endpoints:
-              - name: homebox
+              - name: {{ .Release.Namespace }}
                 group: assets
                 url: "http://homebox.homebox.svc.cluster.local:10603"
                 interval: 1m
