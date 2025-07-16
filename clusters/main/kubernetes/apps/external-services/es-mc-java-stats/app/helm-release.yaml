@@ -66,12 +66,12 @@ spec:
             endpoints:
               - name: minecraft-java-stats
                 group: games
-                url: https://stats.${DOMAIN_2}/
+                url: https://stats.${DOMAIN_1}/
                 interval: 1m
                 client:
                   dns-resolver: tcp://1.1.1.1:53
                 conditions:
-                  - "[CONNECTED] == true"
+                  - "[STATUS] == 200"
                 alerts:
                   - type: discord
                     description: "healthcheck failed"

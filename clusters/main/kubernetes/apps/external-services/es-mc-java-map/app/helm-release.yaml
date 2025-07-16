@@ -66,10 +66,12 @@ spec:
             endpoints:
               - name: minecraft-java-map
                 group: games
-                url: https://map.${DOMAIN_2}
+                url: https://map.${DOMAIN_1}
                 interval: 1m
+                client:
+                  dns-resolver: tcp://1.1.1.1:53
                 conditions:
-                  - "[CONNECTED] == true"
+                  - "[STATUS] == 200"
                 alerts:
                   - type: discord
                     description: "healthcheck failed"
