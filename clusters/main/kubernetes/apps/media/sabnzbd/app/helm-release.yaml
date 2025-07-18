@@ -52,6 +52,9 @@ spec:
               env:
                 SABNZBD__HOST_WHITELIST_ENTRIES: "sabd.${DOMAIN_2}"
                 SABNZBD__PORT: "{{ .Values.service.main.ports.main.port }}"
+            exportarr:
+              env:
+                URL: http://sabnzbd.sabnzbd.svc.cluster.local:10097
     ingress:
       main:
         enabled: true
