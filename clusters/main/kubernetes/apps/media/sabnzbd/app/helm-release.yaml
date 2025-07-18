@@ -115,3 +115,14 @@ spec:
         server: ${SCALE_IP}
         path: ${DOWNLOADS_NFS}
         mountPath: "${DOWNLOADS_LOCAL}"
+
+    metrics:
+      main:
+        enabled: true
+        type: "servicemonitor"
+        endpoints:
+          - port: metrics
+            path: /metrics
+        targetSelector: metrics
+        # Required for exportarr
+        apiKey: "${SAB_KEY}"
