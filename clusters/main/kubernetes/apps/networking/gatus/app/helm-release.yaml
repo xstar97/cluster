@@ -137,6 +137,7 @@ spec:
               discord:
                 webhook-url: "${GATUS_DISCORD_WEBHOOK_GLOBAL}"
             skip-invalid-config-update: true
+            metrics: true
             {{- $.Values.gatus | toYaml | nindent 2 }}
 
     persistence:
@@ -233,3 +234,11 @@ spec:
 
     podOptions:
       automountServiceAccountToken: true
+
+    metrics:
+      main:
+        enabled: true
+        type: "servicemonitor"
+        endpoints:
+          - port: main
+            path: /metrics
