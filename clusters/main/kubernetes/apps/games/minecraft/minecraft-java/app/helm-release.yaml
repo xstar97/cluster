@@ -157,7 +157,7 @@ spec:
                 EULA: "TRUE"
                 GUI: "FALSE"
                 OVERRIDE_SERVER_PROPERTIES: true
-                VERSION: "LATEST"
+                VERSION: "1.27"
                 TYPE: "PAPER"
                 # PAPER_BUILD: "138"
                 DIFFICULTY: easy
