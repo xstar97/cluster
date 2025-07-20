@@ -35,7 +35,7 @@ spec:
     image:
       repository: ghcr.io/11notes/kms-gui
       pullPolicy: IfNotPresent
-      tag: 1.0.3@sha256:9c60035d074b36ea9f786ab6fb2078867764842bb1e622673dbf2a0c4c2394ac
+      tag: 1.0.3@sha256:f3d9365e634fb3f505b6b759c380ce09a6790e615e42a1587c37686fdf7ca1f7
     backendImage:
       repository: ghcr.io/11notes/kms
       pullPolicy: IfNotPresent
