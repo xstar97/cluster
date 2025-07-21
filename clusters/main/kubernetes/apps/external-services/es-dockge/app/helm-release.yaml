@@ -39,7 +39,7 @@ spec:
             protocol: http
     ingress:
       main:
-        enabled: true
+        enabled: false
         ingressClassName: "internal"
         # annotations:
         #   nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
