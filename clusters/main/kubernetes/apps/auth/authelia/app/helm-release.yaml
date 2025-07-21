@@ -155,7 +155,7 @@ spec:
             {{- $.Values.gatus | toYaml | nindent 2 }}
     cnpg:
       main:
-        mode: recovery
+        # mode: recovery
         cluster:
           singleNode: true
         backups:
