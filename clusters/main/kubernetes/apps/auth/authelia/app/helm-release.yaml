@@ -157,7 +157,6 @@ spec:
       main:
         mode: recovery
         cluster:
-          instances: 1
           singleNode: true
         backups:
           enabled: true
