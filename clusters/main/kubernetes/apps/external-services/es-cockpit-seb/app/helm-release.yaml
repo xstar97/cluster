@@ -44,7 +44,7 @@ spec:
         annotations:
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         hosts:
-          - host: seb.cockpit.${DOMAIN_2}
+          - host: cockpit.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
