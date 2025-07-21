@@ -37,10 +37,10 @@ spec:
       enabled: true
       ingressClassName: "internal"
       annotations:
-        nginx.ingress.kubernetes.io/auth-method: 'GET'
-        nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/verify'
-        nginx.ingress.kubernetes.io/auth-signin: 'https://auth.${DOMAIN_2}?rm=$request_method'
-        nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
+        # nginx.ingress.kubernetes.io/auth-method: 'GET'
+        # nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/verify'
+        # nginx.ingress.kubernetes.io/auth-signin: 'https://auth.${DOMAIN_2}?rm=$request_method'
+        # nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
         cert-manager.io/cluster-issuer: general-le-prod
         cert-manager.io/private-key-rotation-policy: Always
       tls:
