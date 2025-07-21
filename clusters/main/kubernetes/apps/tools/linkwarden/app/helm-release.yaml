@@ -149,6 +149,7 @@ spec:
         backups:
           enabled: true
           credentials: cf-restic
+          retentionPolicy: "7d"
           scheduledBackups:
             - name: daily-backup
               schedule: "0 5 0 * * *"

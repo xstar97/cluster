@@ -3,3 +3,7 @@ kind: Kustomization
 resources:
   - grafana/ks.yaml
   - peanut/ks.yaml
+  - gatus/ks.yaml
+  - myspeed/ks.yaml
+  - speedtest-tracker/ks.yaml
+  - uptime-kuma/ks.yaml
