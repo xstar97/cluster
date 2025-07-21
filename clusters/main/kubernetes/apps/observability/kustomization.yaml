@@ -6,4 +6,4 @@ resources:
   - gatus/ks.yaml
   - myspeed/ks.yaml
   - speedtest-tracker/ks.yaml
-  - uptime-kuma/ks.yaml
+  # - uptime-kuma/ks.yaml
