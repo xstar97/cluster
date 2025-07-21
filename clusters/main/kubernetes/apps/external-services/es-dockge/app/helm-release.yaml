@@ -1,0 +1,86 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: es-dockge
+  namespace: es-dockge
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: external-service
+      version: 16.1.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 5m
+  install:
+    createNamespace: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  values:
+    portal:
+      open:
+        enabled: false
+    service:
+      main:
+        enabled: true
+        type: ExternalIP
+        externalIP: ${COCKPIT_IP}
+        ports:
+          main:
+            enabled: true
+            port: 5001
+            protocol: http
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        # annotations:
+        #   nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        hosts:
+          - host: dockge.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            # auth:
+            #   type: "authelia"
+            #   internalHost: "authelia.authelia.svc.cluster.local:9091"
+            #   externalHost: "auth.${DOMAIN_2}"
+          certManager:
+            certificateIssuer: general-le-prod
+            enabled: true
+
+    configmap:
+      gatus:
+        enabled: true
+        labels:
+          gatus.io/enabled: "true"
+        data:
+          config.yaml: |
+            endpoints:
+              - name: dockge
+                group: networking
+                url: "http://${COCKPIT_IP}:5001"
+                interval: 1m
+                ui:
+                  hide-url: true
+                  hide-hostname: true
+                client:
+                  insecure: true
+                  ignore-redirect: false
+                  timeout: 10s
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "healthcheck failed"
+                    send-on-resolved: true
