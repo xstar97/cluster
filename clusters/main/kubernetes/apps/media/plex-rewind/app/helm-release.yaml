@@ -44,10 +44,10 @@ spec:
         encrKey: "${CF_S3_RESTIC_KEY}"
     securityContext:
       container:
-        # runAsNonRoot: false
+        runAsNonRoot: false
         readOnlyRootFilesystem: false
-        # runAsUser: 0
-        # runAsGroup: 0
+        runAsUser: 0
+        runAsGroup: 0
     service:
       main:
         ports:
