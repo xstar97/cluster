@@ -63,6 +63,9 @@ spec:
                 PAPERLESS_ADMIN_MAIL: "${PAPERLESS_ADMIN_MAIL}"
                 PAPERLESS_OCR_LANGUAGE: "eng"
                 PAPERLESS_OCR_LANGUAGES: "eng fra deu spa ita"
+                PAPERLESS_CONSUMER_POLLING: 60
+                PAPERLESS_CONSUMER_POLLING_RETRY_COUNT: 3
+                PAPERLESS_CONSUMER_POLLING_DELAY: 5
     gatus:
       endpoints:
         - name: paperless-ngx
