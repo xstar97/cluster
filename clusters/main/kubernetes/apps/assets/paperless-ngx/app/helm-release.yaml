@@ -1,0 +1,118 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: paperless-ngx
+  namespace: paperless-ngx
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: paperless-ngx
+      version: 11.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 5m
+  install:
+    createNamespace: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  timeout: 20m
+  values:
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-paperless-ngx"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal" 
+        hosts:
+          - host: paperless.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                PAPERLESS_URL: "{{ .Values.chartContext.appUrl }}"
+                # PAPERLESS_WEBSERVER_WORKERS: 2
+                PAPERLESS_ADMIN_USER: "admin"
+                PAPERLESS_ADMIN_PASSWORD: "admin"
+                PAPERLESS_ADMIN_MAIL: "admin@admin.com"
+                PAPERLESS_OCR_LANGUAGE: "eng"
+                PAPERLESS_OCR_LANGUAGES: "eng fra deu spa ita"
+    gatus:
+      endpoints:
+        - name: paperless-ngx
+          group: assets
+          url: "http://paperless-ngx.paperless-ngx.svc.cluster.local:10140"
+          interval: 1m
+          ui:
+            hide-url: true
+            hide-hostname: true
+          conditions:
+            - "[CONNECTED] == true"
+          alerts:
+            - type: discord
+              description: "healthcheck failed"
+              send-on-resolved: true
+    configmap:
+      gatus:
+        enabled: true
+        labels:
+          gatus.io/enabled: "true"
+        data:
+          config.yaml: |
+            {{- $.Values.gatus | toYaml | nindent 2 }}
+
+    persistence:
+      data:
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      consume:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: "${DOCS_NFS}/import"
+      media:
+        type: nfs
+        server: ${SCALE_IP}
+        path: "${DOCS_NFS}/data"
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      varrun:
+        enabled: false
