@@ -58,9 +58,9 @@ spec:
               env:
                 PAPERLESS_URL: "{{ .Values.chartContext.appUrl }}"
                 # PAPERLESS_WEBSERVER_WORKERS: 2
-                PAPERLESS_ADMIN_USER: "admin"
-                PAPERLESS_ADMIN_PASSWORD: "admin"
-                PAPERLESS_ADMIN_MAIL: "admin@admin.com"
+                PAPERLESS_ADMIN_USER: "${PAPERLESS_ADMIN_USER}"
+                PAPERLESS_ADMIN_PASSWORD: "${PAPERLESS_ADMIN_PASS}"
+                PAPERLESS_ADMIN_MAIL: "${PAPERLESS_ADMIN_MAIL}"
                 PAPERLESS_OCR_LANGUAGE: "eng"
                 PAPERLESS_OCR_LANGUAGES: "eng fra deu spa ita"
     gatus:
