@@ -30,4 +30,4 @@ resources:
   - checkrr/ks.yaml
   - calendarr/ks.yaml
   - huntarr/ks.yaml
-  - plex-rewind/ks.yaml
+  
