@@ -197,7 +197,7 @@ spec:
           enabled: true
           ingressClassName: "internal"
           hosts:
-            - host: gatus.editor.${DOMAIN_2}
+            - host: editor.gatus.${DOMAIN_2}
               paths:
                 - path: /
                   pathType: Prefix
