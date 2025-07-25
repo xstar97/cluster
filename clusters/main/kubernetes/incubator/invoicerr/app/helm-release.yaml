@@ -33,7 +33,7 @@ spec:
     image:
       repository: ghcr.io/impre-visible/invoicerr
       pullPolicy: IfNotPresent
-      tag: v1.2.2@sha256:db5fbbe7a2fd145086ad8467c6a19a64a236743cee99cbf4d8b5863123a1349a
+      tag: v1.2.3@sha256:d7ed31c7b244934e62325bfd8e1332518802dd41184c892754774162e87a4613
     credentials:
       cf-restic:
         type: s3
