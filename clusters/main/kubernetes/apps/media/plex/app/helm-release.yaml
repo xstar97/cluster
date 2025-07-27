@@ -116,9 +116,9 @@ spec:
             credentials: cf-restic
             dest:
               cacheCapacity: 100Gi
-              enabled: false
+              enabled: true
             src:
-              enabled: false
+              enabled: true
               cacheCapacity: 100Gi
       transcode:
         enabled: true
