@@ -27,8 +27,8 @@ nodes:
       ipAddress: ${MASTER1IP_IP}
       controlPlane: true
       nameservers:
-        - 10.0.0.102
-        - 9.9.9.9
+        - 1.1.1.1
+        - 1.0.0.1
       installDiskSelector:
         size: <= 1600GB
       networkInterfaces:
