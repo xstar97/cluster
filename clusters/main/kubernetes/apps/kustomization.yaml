@@ -12,7 +12,6 @@ resources:
   - kubernetes-dashboard/ks.yaml
   - media
   - medical
-  - networking
   - observability
   - projects
   - tools
