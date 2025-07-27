@@ -27,8 +27,8 @@ nodes:
       ipAddress: ${MASTER1IP_IP}
       controlPlane: true
       nameservers:
-        - 1.1.1.1
-        - 8.8.8.8
+        - 10.0.0.102
+        - 9.9.9.9
       installDiskSelector:
         size: <= 1600GB
       networkInterfaces:
@@ -51,6 +51,7 @@ nodes:
               - siderolabs/nvidia-container-toolkit-lts
       patches:
         - "@./patches/nvidia.yaml"
+        - '@./patches/gc.yaml'
 controlPlane:
     patches:
         - '@./patches/controlplane.yaml'
