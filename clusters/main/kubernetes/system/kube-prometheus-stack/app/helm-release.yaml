@@ -83,7 +83,7 @@ spec:
         # secrets:
         #   - etcd-client-cert
       ingress:
-        enabled: false
+        enabled: true
         ingressClassName: internal
         annotations:
           cert-manager.io/cluster-issuer: general-le-prod
