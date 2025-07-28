@@ -75,6 +75,7 @@ spec:
                 LLDAP_SMTP_OPTIONS__PASSWORD: "${SMTP_GMAIL_PASS_LLDAP}"
                 LLDAP_SMTP_OPTIONS__FROM: "${LLDAP_SMTP_OPTIONS__FROM}"
                 LLDAP_SMTP_OPTIONS__REPLY_TO: "${LLDAP_SMTP_OPTIONS__REPLY_TO}"
+                LLDAP_FORCE_UPDATE_PRIVATE_KEY: true
                 LLDAP_JWT_SECRET:
                   - secretRef:
                       name: secrets
@@ -133,10 +134,10 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              enabled: false
+              enabled: true
               cacheCapacity: 10Gi
             src:
-              enabled: false
+              enabled: true
               cacheCapacity: 10Gi
       
     cnpg:
