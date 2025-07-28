@@ -239,7 +239,7 @@ spec:
           nginx.ingress.kubernetes.io/configuration-snippet: |
             rewrite ^/stats$ / permanent;
         targetSelector:
-          web: web
+          web: map
         hosts:
           - host: map.${DOMAIN_1}
         integrations:
@@ -256,7 +256,7 @@ spec:
           nginx.ingress.kubernetes.io/configuration-snippet: |
             rewrite ^/$ /stats permanent;
         targetSelector:
-          web: web
+          web: map
         hosts:
           - host: stats.${DOMAIN_1}
             paths:
