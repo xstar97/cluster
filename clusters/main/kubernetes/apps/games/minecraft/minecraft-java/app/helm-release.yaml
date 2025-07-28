@@ -250,7 +250,6 @@ spec:
             certificateIssuer: general-le-prod
       stats:
         enabled: true
-        primary: true
         ingressClassName: external
         annotations:
           nginx.ingress.kubernetes.io/preserve-trailing-slash: "true"
