@@ -8,4 +8,4 @@ resources:
   - es-router/ks.yaml
   - es-octoprint-pi/ks.yaml
   - es-cockpit-seb/ks.yaml
-  - es-dockge/ks.yaml
+  # - es-dockge/ks.yaml
