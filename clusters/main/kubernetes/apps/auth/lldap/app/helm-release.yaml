@@ -76,11 +76,10 @@ spec:
                 LLDAP_SMTP_OPTIONS__FROM: "${LLDAP_SMTP_OPTIONS__FROM}"
                 LLDAP_SMTP_OPTIONS__REPLY_TO: "${LLDAP_SMTP_OPTIONS__REPLY_TO}"
                 LLDAP_FORCE_UPDATE_PRIVATE_KEY: false
-                LLDAP_JWT_SECRET:
-                  - secretRef:
-                      name: secrets
-                      key: LLDAP_JWT_SECRET
-                LLDAP_key_file: "/data/private_key"
+                LLDAP_FORCE_LDAP_USER_PASS_RESET: true
+                LLDAP_KEY_SEED: "${LLDAP_KEY_SEED}"
+                LLDAP_JWT_SECRET: "${LLDAP_JWT_SECRET}"
+                LLDAP_key_file: "" # "/data/private_key"
                 LLDAP_database_url:
                   secretKeyRef:
                     name: cnpg-main-urls
