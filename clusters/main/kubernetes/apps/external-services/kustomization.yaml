@@ -6,6 +6,6 @@ resources:
   # - es-mc-java-plan/ks.yaml
   - es-scale/ks.yaml
   - es-router/ks.yaml
-  # - es-octoprint-pi/ks.yaml
+  - es-octoprint-pi/ks.yaml
   - es-cockpit-seb/ks.yaml
-  # - es-dockge/ks.yaml
+  - es-dockge/ks.yaml
