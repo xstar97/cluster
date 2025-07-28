@@ -116,11 +116,9 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              cacheCapacity: 10Gi
-              enabled: false
+              enabled: true
             src:
-              enabled: false
-              cacheCapacity: 10Gi
+              enabled: true
       logs:
         enabled: true
         mountPath: /logs
@@ -134,7 +132,7 @@ spec:
         cluster:
           singleNode: true
         backups:
-          enabled: false
+          enabled: true
           credentials: cf-restic
           retentionPolicy: "7d"
           scheduledBackups:

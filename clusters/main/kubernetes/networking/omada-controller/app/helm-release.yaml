@@ -195,11 +195,9 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              cacheCapacity: 10Gi
               enabled: true
             src:
               enabled: true
-              cacheCapacity: 10Gi
       work:
         volsync:
           - name: work
@@ -207,7 +205,5 @@ spec:
             credentials: cf-restic
             dest:
               enabled: true
-              cacheCapacity: 10Gi
             src:
               enabled: true
-              cacheCapacity: 10Gi

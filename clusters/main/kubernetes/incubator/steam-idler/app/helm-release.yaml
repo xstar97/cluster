@@ -94,11 +94,9 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              cacheCapacity: 10Gi
               enabled: false
             src:
               enabled: false
-              cacheCapacity: 10Gi
       logs:
         enabled: true
         type: emptyDir

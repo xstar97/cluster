@@ -115,10 +115,8 @@ spec:
             credentials: cf-restic
             dest:
               enabled: true
-              cacheCapacity: 10Gi
             src:
               enabled: true
-              cacheCapacity: 10Gi
       resources:
         volsync:
           - name: resources
@@ -126,10 +124,8 @@ spec:
             credentials: cf-restic
             dest:
               enabled: true
-              cacheCapacity: 10Gi
             src:
               enabled: true
-              cacheCapacity: 10Gi
       assets:
         volsync:
           - name: assets
@@ -137,10 +133,8 @@ spec:
             credentials: cf-restic
             dest:
               enabled: true
-              cacheCapacity: 10Gi
             src:
               enabled: true
-              cacheCapacity: 10Gi
       library:
         enabled: true
         type: nfs

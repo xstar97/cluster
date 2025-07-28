@@ -143,11 +143,9 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              cacheCapacity: 10Gi
-              enabled: false
+              enabled: true
             src:
-              enabled: false
-              cacheCapacity: 10Gi
+              enabled: true
       mqtt-data:
         enabled: true
         mountPath: /var/lib/mosquitto
@@ -156,11 +154,9 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              cacheCapacity: 10Gi
-              enabled: false
+              enabled: true
             src:
-              enabled: false
-              cacheCapacity: 10Gi
+              enabled: true
       auth-data:
         enabled: true
         mountPath: /data
@@ -169,11 +165,9 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              cacheCapacity: 10Gi
-              enabled: false
+              enabled: true
             src:
-              enabled: false
-              cacheCapacity: 10Gi
+              enabled: true
     cnpg:
       main:
         enabled: false

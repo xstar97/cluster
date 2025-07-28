@@ -90,18 +90,14 @@ spec:
             credentials: cf-restic
             dest:
               enabled: true
-              cacheCapacity: 10Gi
             src:
               enabled: true
-              cacheCapacity: 10Gi
       custom:
         volsync:
           - name: custom
             type: restic
             credentials: cf-restic
             dest:
-              cacheCapacity: 10Gi
               enabled: true
             src:
               enabled: true
-              cacheCapacity: 10Gi

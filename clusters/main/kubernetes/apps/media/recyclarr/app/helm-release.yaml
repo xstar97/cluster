@@ -55,11 +55,9 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              enabled: false
-              cacheCapacity: 10Gi
+              enabled: true
             src:
-              enabled: false
-              cacheCapacity: 10Gi
+              enabled: true
     addons:
       codeserver:
         enabled: false

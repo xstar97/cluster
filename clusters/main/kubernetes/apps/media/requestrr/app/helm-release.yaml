@@ -94,9 +94,7 @@ spec:
             credentials: cf-restic
             dest:
               enabled: true
-              cacheCapacity: 10Gi
             src:
               enabled: true
-              cacheCapacity: 10Gi
       varrun:
         enabled: true

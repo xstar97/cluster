@@ -218,11 +218,9 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              cacheCapacity: 10Gi
               enabled: true
             src:
               enabled: true
-              cacheCapacity: 10Gi
       checkrr-config:
         enabled: true
         type: configmap

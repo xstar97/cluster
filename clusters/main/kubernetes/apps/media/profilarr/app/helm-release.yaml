@@ -104,11 +104,9 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              cacheCapacity: 10Gi
               enabled: true
             src:
               enabled: true
-              cacheCapacity: 10Gi
     cnpg:
       main:
         enabled: false

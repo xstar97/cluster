@@ -150,11 +150,9 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              enabled: false
-              cacheCapacity: 10Gi
+              enabled: true
             src:
-              enabled: false
-              cacheCapacity: 10Gi
+              enabled: true
       gatus-config:
         enabled: true
         type: configmap
@@ -168,11 +166,11 @@ spec:
         enabled: true
         user: gatus
         database: gatus
-        # mode: recovery
+        mode: recovery
         cluster:
           singleNode: true
         backups:
-          enabled: false
+          enabled: true
           credentials: cf-restic
           retentionPolicy: "7d"
           scheduledBackups:
@@ -204,10 +202,6 @@ spec:
           integrations:
             nginx:
               enabled: true
-              auth:
-                type: "authelia"
-                internalHost: "authelia.authelia.svc.cluster.local:9091"
-                externalHost: "auth.${DOMAIN_2}"
             certManager:
               enabled: true
               certificateIssuer: general-le-prod

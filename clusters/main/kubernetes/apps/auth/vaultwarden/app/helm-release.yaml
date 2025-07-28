@@ -199,18 +199,16 @@ spec:
             credentials: cf-restic
             dest:
               enabled: true
-              cacheCapacity: 10Gi
             src:
               enabled: true
-              cacheCapacity: 10Gi
 
     cnpg:
       main:
-        # mode: recovery
+        mode: recovery
         cluster:
           singleNode: true
         backups:
-          enabled: false
+          enabled: true
           credentials: cf-restic
           retentionPolicy: "7d"
           scheduledBackups:
