@@ -109,10 +109,10 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              enabled: false
+              enabled: true
               cacheCapacity: 10Gi
             src:
-              enabled: false
+              enabled: true
               cacheCapacity: 10Gi
       media:
         enabled: true
