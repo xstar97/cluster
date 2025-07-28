@@ -141,11 +141,11 @@ spec:
       
     cnpg:
       main:
-        mode: recovery
+        # mode: recovery
         cluster:
           singleNode: true
         backups:
-          enabled: true
+          enabled: false
           credentials: cf-restic
           retentionPolicy: "7d"
           scheduledBackups:
