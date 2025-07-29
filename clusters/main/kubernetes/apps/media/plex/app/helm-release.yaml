@@ -35,6 +35,13 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
+      tn-restic:
+        type: s3
+        url: "${TN_S3_RESTIC_URL}"
+        bucket: "${TN_S3_RESTIC_BUCKET}-plex"
+        accessKey: "${TN_S3_RESTIC_ID}"
+        secretKey: "${TN_S3_RESTIC_KEY}"
+        encrKey: "${TN_S3_RESTIC_KEY}"
     plex:
       serverIP: ${PLEX_IP}
       disableGDM: true
@@ -114,6 +121,15 @@ spec:
           - name: config
             type: restic
             credentials: cf-restic
+            dest:
+              cacheCapacity: 100Gi
+              enabled: true
+            src:
+              enabled: true
+              cacheCapacity: 100Gi
+          - name: tn-config
+            type: restic
+            credentials: tn-restic
             dest:
               cacheCapacity: 100Gi
               enabled: true
