@@ -127,7 +127,7 @@ spec:
             src:
               enabled: true
               cacheCapacity: 100Gi
-          - name: tn-config
+          - name: config2
             type: restic
             credentials: tn-restic
             dest:
