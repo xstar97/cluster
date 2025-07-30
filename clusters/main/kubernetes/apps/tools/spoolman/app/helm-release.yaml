@@ -8,8 +8,8 @@ spec:
   interval: 15m
   chart:
     spec:
-      chart: app-template
-      version: 15.3.1
+      chart: spoolman
+      version: 0.0.1
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -30,10 +30,6 @@ spec:
   values:    
     global:
       stopAll: false
-    image:
-      repository: ghcr.io/donkie/spoolman
-      pullPolicy: IfNotPresent
-      tag: 0.22.1@sha256:238ea5bfb2eeda4436c39f54e73df5fef4ee904fb7c291617588b856786fe0ef
     credentials:
       cf-restic:
         type: s3
@@ -46,31 +42,13 @@ spec:
       container:
         runAsNonRoot: false
         readOnlyRootFilesystem: false
-        runAsUser: 0
-        runAsGroup: 0
+        # runAsUser: 0
+        # runAsGroup: 0
     service:
       main:
         ports:
           main:
             port: 8000
-    workload:
-      main:
-        podSpec:
-          containers:
-            main:
-              env:
-                # Host and port to listen on
-                SPOOLMAN_HOST: 0.0.0.0
-                SPOOLMAN_PORT: "{{ .Values.service.main.ports.main.port }}"
-                SPOOLMAN_DIR_DATA: "{{ .Values.persistence.config.mountPath }}"
-                SPOOLMAN_DIR_LOGS: "{{ .Values.persistence.logs.mountPath }}"
-                # DB Type: sqlite, mysql, postgres, cockroachdb
-                SPOOLMAN_DB_TYPE: postgres
-                SPOOLMAN_DB_HOST: '{{ .Values.cnpg.main.creds.host | trimAll "\"" }}'
-                SPOOLMAN_DB_PORT: 5432
-                SPOOLMAN_DB_NAME: "{{ .Values.cnpg.main.database }}"
-                SPOOLMAN_DB_USERNAME: "{{ .Values.cnpg.main.user }}"
-                SPOOLMAN_DB_PASSWORD: '{{ .Values.cnpg.main.creds.password | trimAll "\"" }}'
     ingress:
       main:
         enabled: true
@@ -108,11 +86,9 @@ spec:
                     description: "healthcheck failed"
                     send-on-resolved: true
     persistence:
-      config:
-        enabled: true
-        mountPath: /config
+      data:
         volsync:
-          - name: config
+          - name: data
             type: restic
             credentials: cf-restic
             dest:
@@ -120,15 +96,12 @@ spec:
             src:
               enabled: true
       logs:
-        enabled: true
-        mountPath: /logs
+        type: emptyDir
 
     cnpg:
       main:
         enabled: true
-        user: spoolman
-        database: spoolman
-        # mode: recovery
+        mode: recovery
         cluster:
           singleNode: true
         backups:
