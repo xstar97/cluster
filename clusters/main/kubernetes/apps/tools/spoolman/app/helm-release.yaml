@@ -42,8 +42,8 @@ spec:
       container:
         runAsNonRoot: false
         readOnlyRootFilesystem: false
-        # runAsUser: 0
-        # runAsGroup: 0
+        runAsUser: 0
+        runAsGroup: 0
     service:
       main:
         ports:
@@ -105,7 +105,7 @@ spec:
         cluster:
           singleNode: true
         backups:
-          enabled: true
+          enabled: false
           credentials: cf-restic
           retentionPolicy: "7d"
           scheduledBackups:
