@@ -33,7 +33,7 @@ spec:
     image:
       repository: ghcr.io/notifiarr/starrproxy
       pullPolicy: IfNotPresent
-      tag: main@sha256:798ca800e54516959ea52ccc4204952ba56ad470576c285c4a0e5c42d52753eb
+      tag: main@sha256:85a9ae7d548a37f25552b6a5344c11b5632af4e160a5b76649a17bfc9252c698
     credentials:
       cf-restic:
         type: s3
