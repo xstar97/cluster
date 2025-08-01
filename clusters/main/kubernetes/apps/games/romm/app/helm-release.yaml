@@ -141,3 +141,6 @@ spec:
         server: ${SCALE_IP}
         path: ${ROMS_NFS}
         mountPath: /romm/library
+
+    redis:
+      enabled: false
