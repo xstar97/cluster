@@ -49,7 +49,7 @@ spec:
                 GF_AUTH_GENERIC_OAUTH_ENABLED: true
                 GF_AUTH_GENERIC_OAUTH_NAME: Authelia
                 GF_AUTH_GENERIC_OAUTH_ICON: signin
-                GF_AUTH_GENERIC_OAUTH_CLIENT_ID: grafana
+                GF_AUTH_GENERIC_OAUTH_CLIENT_ID: qMl5rm0Wij7UjCwzBa56MF5OTpRa_Uduajv5Y1rfnCeWR5g3sdKFWNQFeFGxa1ZtW5ncvV_n
                 GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET:
                   secretKeyRef:
                     name: grafana-oidc-secret
