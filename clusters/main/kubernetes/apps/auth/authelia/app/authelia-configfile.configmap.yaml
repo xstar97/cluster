@@ -67,9 +67,9 @@ data:
       oidc:
         claims_policies:
           all:
-            id_token: ['groups', 'email', 'email_verified', 'alt_emails', 'preferred_username', 'name']
-          stirlingpdf:
-            id_token: ['preferred_username']
+            id_token: ['groups', 'email', 'email_verified', 'alt_emails', 'preferred_username', 'name']          
+          grafana:
+            id_token: ['email, name, groups, preferred_username']
         hmac_secret: {{ secret "/config/secret/hmac_secret" }}
         jwks:
           - key: |
@@ -134,26 +134,4 @@ data:
             access_token_signed_response_alg: 'none'
             userinfo_signed_response_alg: 'none'
             token_endpoint_auth_method: 'client_secret_basic'
-            claims_policy: "all"
-          - client_id: 'stirlingpdf'
-            client_name: 'Stirling-PDF'
-            client_secret: {{ secret "/config/secret/clients_stirlingpdf_client_secret" }}
-            public: false
-            authorization_policy: 'stirlingpdf'
-            require_pkce: false
-            pkce_challenge_method: ''
-            redirect_uris:
-              - 'https://stirlingpdf.example.com/login/oauth2/code/oidc'
-            scopes:
-              - 'openid'
-              - 'profile'
-              - 'groups'
-              - 'email'
-            response_types:
-              - 'code'
-            grant_types:
-              - 'authorization_code'
-            access_token_signed_response_alg: 'none'
-            userinfo_signed_response_alg: 'none'
-            token_endpoint_auth_method: 'client_secret_basic'
-            claims_policy: 'stirlingpdf'
+            claims_policy: "grafana"
