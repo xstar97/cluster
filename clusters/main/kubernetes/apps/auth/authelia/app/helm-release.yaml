@@ -154,6 +154,8 @@ spec:
               use: 'sig'
               key: |
                   {{ secret "/config/secret/jwks_key.pem" | mindent 10 "|" | msquote }}
+              certificate_chain: |
+                  {{ secret "/config/secret/certificate_chain.pem" | mindent 10 "|" | msquote }}
           authorization_policies:
             admin:
               default_policy: 'deny'
