@@ -69,7 +69,7 @@ data:
           all:
             id_token: ['groups', 'email', 'email_verified', 'alt_emails', 'preferred_username', 'name']          
           grafana:
-            id_token: ['email, name, groups, preferred_username']
+            id_token: ['email', 'name', 'groups', 'preferred_username']
         hmac_secret: {{ secret "/config/secret/hmac_secret" }}
         jwks:
           - key: |
