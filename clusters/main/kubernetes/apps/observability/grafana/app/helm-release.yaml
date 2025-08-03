@@ -65,6 +65,7 @@ spec:
                 GF_AUTH_GENERIC_OAUTH_NAME_ATTRIBUTE_PATH: name
                 GF_AUTH_GENERIC_OAUTH_USE_PKCE: true
                 GF_AUTH_GENERIC_OAUTH_ROLE_ATTRIBUTE_PATH: ''
+                GF_AUTH_GENERIC_OAUTH_CLIENT_AUTH_METHOD: client_secret_basic
     ingress:
       main:
         enabled: true
