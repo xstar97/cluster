@@ -147,7 +147,7 @@ spec:
                       "preferred_username",
                       "name",
                   ]
-          hmac_secret: {{ secret "/config/secret/hmac_secret" }}
+          hmac_secret: '{{ secret "/config/secret/hmac_secret" }}'
           jwks:
             - key: |
                 {{ secret "/config/secret/jwks_key.pem" | mindent 10 "|" | msquote }}
