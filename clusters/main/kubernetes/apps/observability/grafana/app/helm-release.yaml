@@ -50,11 +50,7 @@ spec:
                 GF_AUTH_GENERIC_OAUTH_NAME: Authelia
                 GF_AUTH_GENERIC_OAUTH_ICON: signin
                 GF_AUTH_GENERIC_OAUTH_CLIENT_ID: qMl5rm0Wij7UjCwzBa56MF5OTpRa_Uduajv5Y1rfnCeWR5g3sdKFWNQFeFGxa1ZtW5ncvV_n
-                GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET:
-                  secretKeyRef:
-                    name: grafana-oidc-secret
-                    key: clients_grafana_client_secret
-                    expandObjectName: false
+                GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET: $pbkdf2-sha512$310000$B859EakunCQ3/7mDRWZcSQ$JW4UlP.htxNgmZcMet/teVtjXWIFftwVY/XCS8CNl8MataEz3gUFTtJ.ldMgtOBCLR9E8HkRM/EmRAVG0whqTA
                 GF_AUTH_GENERIC_OAUTH_SCOPES: openid profile email groups
                 GF_AUTH_GENERIC_OAUTH_EMPTY_SCOPES: false
                 GF_AUTH_GENERIC_OAUTH_AUTH_URL: https://auth.${DOMAIN_2}/api/oidc/authorization
