@@ -84,7 +84,6 @@ data:
                 - authorization_code
             redirect_uris:
                 - "https://romm.${DOMAIN_2}/api/oauth/openid"
-                - "https://romm.${DOMAIN_2}/api/login/openid"
             scopes:
                 - "openid"
                 - "email"
