@@ -44,6 +44,24 @@ spec:
         ports:
           main:
             port: 8080
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                DOCKER_ENABLE_SECURITY: 'true'
+                SECURITY_ENABLE_LOGIN: 'true'
+                SECURITY_LOGINMETHOD: 'oauth2'
+                SECURITY_OAUTH2_ENABLED: 'true'
+                SECURITY_OAUTH2_AUTOCREATEUSER: 'true'
+                SECURITY_OAUTH2_ISSUER: 'https://auth.${DOMAIN_2}'
+                SECURITY_OAUTH2_CLIENTID: 'stirlingpdf'
+                SECURITY_OAUTH2_CLIENTSECRET: '${AUTHELIA_CLIENT_STIRLING_PDF_SECRET}'
+                SECURITY_OAUTH2_BLOCKREGISTRATION: 'false'
+                SECURITY_OAUTH2_SCOPES: 'openid, profile, email'
+                SECURITY_OAUTH2_USEASUSERNAME: 'preferred_username'
+                SECURITY_OAUTH2_PROVIDER: 'Authelia'
     ingress:
       main:
         enabled: true
