@@ -63,7 +63,7 @@ spec:
                 OIDC_CLIENT_ID: romm
                 OIDC_CLIENT_SECRET: "${AUTHELIA_CLIENT_ROMM_SECRET}"
                 OIDC_REDIRECT_URI: "{{ .Values.chartContext.appUrl }}/api/oauth/openid"
-                OIDC_SERVER_APPLICATION_URL: http://authelia.authelia.svc.cluster.local:9091
+                OIDC_SERVER_APPLICATION_URL: https://romm.${DOMAIN_2}:443
     ingress:
       main:
         enabled: true
