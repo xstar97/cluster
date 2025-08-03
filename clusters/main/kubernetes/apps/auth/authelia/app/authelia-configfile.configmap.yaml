@@ -9,6 +9,10 @@ data:
       buffers:
         read: 16384
         write: 16384
+      endpoints:
+        authz:
+          auth-request:
+            implementation: 'AuthRequest'
     theme: dark
     totp:
       issuer: ${DOMAIN_2}
