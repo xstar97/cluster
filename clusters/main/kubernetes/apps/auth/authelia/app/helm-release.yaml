@@ -31,6 +31,9 @@ spec:
     global:
       stopAll: false
       skipEmptyWalArchiveCheck: true
+    resources:
+      requests:
+        cpu: 10m
     credentials:
       cf-restic:
         type: s3
@@ -83,6 +86,14 @@ spec:
               enabled: false
               trigger:
                 schedule: 10 0 * * *
+      configfile:
+        enabled: true
+        type: configmap
+        objectName: authelia-configfile  
+        expandObjectName: false
+        mountPath: /configuration.yaml
+        subPath: configuration.yaml
+        readOnly: true
       secrets:
         enabled: true
         type: secret
@@ -105,54 +116,11 @@ spec:
             - type: discord
               description: "healthcheck failed"
               send-on-resolved: true
-    authelia:
-      server:
-        buffers:
-          read: 16384
-          write: 16384
-      theme: auto
-      totp:
-        issuer: ${DOMAIN_2}
-      authentication_backend:
-        ldap:
-          address: ${LLDAP_URL_CLUSTER}
-          tls:
-            server_name: lldap.${DOMAIN_2}
-          base_dn: ${LLDAP_LDAP_BASE_DN}
-          attributes:
-            username: uid
-          additional_users_dn: ou=people
-          users_filter: (&(|({username_attribute}={input})({mail_attribute}={input}))(objectClass=person))
-          additional_groups_dn: ou=groups
-          groups_filter: (member={dn})
-          user: ${LLDAP_LDAP_PWDMANAGER_USER}
-          password: ${LLDAP_LDAP_PWDMANAGER_PASS}
-      access_control:
-        rules:
-          - domain:
-              - ${DOMAIN_2}
-              - '*.${DOMAIN_2}'
-            policy: one_factor
-            subject:
-              - 'group:lldap_admin'
-      session:
-        cookies:
-          - domain: '${DOMAIN_2}'
-            authelia_url: 'https://auth.${DOMAIN_2}'
-            default_redirection_url: 'https://homepage.${DOMAIN_2}'
-      regulation:
-        find_time: 10m
-        ban_time: 12h
-      notifier:
-        smtp:
-          address: 'smtp://${SMTP_GMAIL_HOST}:${SMTP_GMAIL_PORT}'
-          username: ${SMTP_GMAIL_EMAIL}
-          password: ${SMTP_GMAIL_PASS_AUTHELIA}
-          sender: auth@${DOMAIN_2}
-          startup_check_address: auth@${DOMAIN_2}
-          disable_html_emails: true
-          tls:
-            server_name: ${SMTP_GMAIL_HOST}
+  
+    secret:
+      authelia-configfile:
+        enabled: false
+  
     configmap:
       gatus:
         enabled: true

@@ -30,6 +30,7 @@ spec:
   values:
     global:
       stopAll: false
+      skipEmptyWalArchiveCheck: true
     credentials:
       cf-restic:
         type: s3
