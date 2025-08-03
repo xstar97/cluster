@@ -64,6 +64,8 @@ data:
         claims_policies:
           all:
             id_token: ['groups', 'email', 'email_verified', 'alt_emails', 'preferred_username', 'name']
+          grafana:
+            id_token: ['email, name, groups, preferred_username']
         hmac_secret: {{ secret "/config/secret/hmac_secret" }}
         jwks:
           - key: |
@@ -117,4 +119,4 @@ data:
             access_token_signed_response_alg: 'none'
             userinfo_signed_response_alg: 'none'
             token_endpoint_auth_method: 'client_secret_basic'
-            claims_policy: "all"
+            claims_policy: "grafana"
