@@ -149,7 +149,7 @@ spec:
                   ]
           hmac_secret: '{{ secret "/config/secret/hmac_secret" }}'
           jwks:
-            - key_id: 'authelia'
+            - key_id: '1F:69:D1:E0:73:DC:AB:2C:2A:6E:FC:92:B7:8E:83:08:5C:C7:3E:31:1C:A0:4E:D4:1C:84:E7:81:D7:B0:5C:2A'
               algorithm: 'RS256'
               use: 'sig'
               key: |
