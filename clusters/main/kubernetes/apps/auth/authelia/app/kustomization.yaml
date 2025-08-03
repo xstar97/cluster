@@ -4,4 +4,4 @@ resources:
   - namespace.yaml
   - helm-release.yaml
   - authelia-oidc.secret.yaml
-  - .decrypted~authelia-oidc.secret.yaml
+  
