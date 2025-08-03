@@ -14,8 +14,8 @@ data:
       issuer: ${DOMAIN_2}
     session:
       cookies:
-        - domain: ${DOMAIN2}
-          authelia_url: https://auth.${DOMAIN2}
+        - domain: ${DOMAIN_2}
+          authelia_url: https://auth.${DOMAIN_2}
     authentication_backend:
       # lldap setup
       # https://github.com/lldap/lldap/blob/main/example_configs/authelia_config.yml
