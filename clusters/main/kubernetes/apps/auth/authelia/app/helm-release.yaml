@@ -149,8 +149,11 @@ spec:
                   ]
           hmac_secret: '{{ secret "/config/secret/hmac_secret" }}'
           jwks:
-            - key: |
-                {{ secret "/config/secret/jwks_key.pem" | mindent 10 "|" | msquote }}
+            - key_id: 'authelia'
+              algorithm: 'RS256'
+              use: 'sig'
+              key: |
+                  {{ secret "/config/secret/jwks_key.pem" | mindent 10 "|" | msquote }}
           authorization_policies:
             admin:
               default_policy: 'deny'
