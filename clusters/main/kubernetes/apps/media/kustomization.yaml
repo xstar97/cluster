@@ -29,4 +29,5 @@ resources:
   - checkrr/ks.yaml
   - calendarr/ks.yaml
   - huntarr/ks.yaml
+  - cloudcmd/ks.yaml
   
