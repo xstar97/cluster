@@ -129,12 +129,12 @@ spec:
           password: ${LLDAP_LDAP_PWDMANAGER_PASS}
       access_control:
         rules:
-        - domain:
-            - ${DOMAIN_2}
-            - '*.${DOMAIN_2}'
-          policy: one_factor
-          subject:
-            - 'group:lldap_admin'
+          - domain:
+              - ${DOMAIN_2}
+              - '*.${DOMAIN_2}'
+            policy: one_factor
+            subject:
+              - 'group:lldap_admin'
       identity_providers:
         oidc:
           claims_policies:
@@ -165,9 +165,9 @@ spec:
           clients:
             - client_id: "romm" # read above for how generate
               client_name: "RomM" # will be displayed in Authelia to users
-              client_secret:  '{{ secret "/config/secret/clients_grafana_client_secret" }}'
+              client_secret:  '{{ secret "/config/secret/clients_romm_client_secret" }}'
               public: false
-              authorization_policy: "romm" # or one_factor, depending on your needs
+              authorization_policy: "one_factor" # or one_factor, depending on your needs
               grant_types:
                   - authorization_code
               redirect_uris:
