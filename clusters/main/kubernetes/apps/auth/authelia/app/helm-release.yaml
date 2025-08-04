@@ -98,29 +98,29 @@ spec:
               - '*.${DOMAIN_2}'
             policy: one_factor
             subject:
-              - 'group:lldap_admin'
+              - 'group:lldap_admin'            
       identity_providers:
         oidc:
           hmac_secret: '{{ secret "/config/secret/hmac_secret" }}'
           jwks:
             - key: |
-                '{{ secret "/config/secret/jwks_key.pem" | mindent 10 "|" | msquote }}'
+                {{ secret "/config/secret/jwks_key.pem" | mindent 10 "|" | msquote }}
           authorization_policies:
             admin:
               default_policy: 'deny'
               rules:
                 - policy: 'one_factor'
-                  subject: 'group:admin'
+                  subject: 'group:lldap_admin'
           clients:
             - client_id: 'guacamole'
               client_name: 'Apache Guacamole'
               public: true
-              authorization_policy: 'admin'
+              authorization_policy: 'lldap_admin'
               consent_mode: 'implicit'
               require_pkce: false
               pkce_challenge_method: ''
               redirect_uris:
-                - 'https://guacamole.${DOMAIN_2}'
+                - 'https://guacamole.${BASE_DOMAIN}'
               scopes:
                 - 'openid'
                 - 'profile'
