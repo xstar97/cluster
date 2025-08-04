@@ -11,3 +11,4 @@ resources:
   - spoolman/ks.yaml
   - feedcord/ks.yaml
   - omni-tools/ks.yaml
+  - guacamole/ks.yaml

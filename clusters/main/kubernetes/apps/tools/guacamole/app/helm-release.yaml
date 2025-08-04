@@ -1,0 +1,57 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: guacamole
+  namespace: guacamole
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: guacamole
+      version: 16.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 5m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    guacamole:
+      general:
+        EXTENSION_PRIORITY: "openid"
+      openid:
+        OPENID_AUTHORIZATION_ENDPOINT: "https://auth.${DOMAIN_2}/api/oidc/authorization?state=1234abcedfdhf"
+        OPENID_JWKS_ENDPOINT: "https://auth.${DOMAIN_2}/jwks.json"
+        OPENID_ISSUER: "https://auth.${DOMAIN_2}"
+        OPENID_CLIENT_ID: "guacamole"
+        OPENID_REDIRECT_URI: "https://guacamole.${DOMAIN_2}"
+        OPENID_USERNAME_CLAIM_TYPE: preferred_username
+        OPENID_GROUPS_CLAIM_TYPE: groups
+        OPENID_SCOPE: openid profile groups email
+        OPENID_ALLOWED_CLOCK_SKEW: 30
+        OPENID_MAX_TOKEN_VALIDITY: 300
+        OPENID_MAX_NONCE_VALIDITY: 300
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: internal
+        hosts:
+          - host: guacamole.${DOMAIN_2}
+        integrations:
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
