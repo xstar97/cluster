@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: authelia-configfile
+  namespace: authelia
+data:
+  configuration.yaml: |
+    session:
+      cookies:
+        - domain: ${DOMAIN_2}
+          authelia_url: https://auth.${DOMAIN_2}
+    access_control:
+      rules:
+        - domain:
+            - ${DOMAIN_2}
+            - '*.${DOMAIN_2}'
+          policy: one_factor
+          subject:
+            - 'group:lldap_admin'            
+    identity_providers:
+      oidc:
+        hmac_secret: {{ secret "/config/secret/hmac_secret" }}
+        jwks:
+          - key: |
+              {{ secret "/config/secret/jwks_key.pem" | mindent 10 "|" | msquote }}
+        authorization_policies:
+          admin:
+            default_policy: 'deny'
+            rules:
+              - policy: 'one_factor'
+                subject: 'group:lldap_admin'
+        clients:
+          - client_id: 'guacamole'
+            client_name: 'Apache Guacamole'
+            public: true
+            authorization_policy: 'lldap_admin'
+            consent_mode: 'implicit'
+            require_pkce: false
+            pkce_challenge_method: ''
+            redirect_uris:
+              - 'https://guacamole.${DOMAIN_2}'
+            scopes:
+              - 'openid'
+              - 'profile'
+              - 'groups'
+              - 'email'
+            response_types:
+              - 'id_token'
+            grant_types:
+              - 'implicit'
+            access_token_signed_response_alg: 'none'
+            userinfo_signed_response_alg: 'none'
+            token_endpoint_auth_method: 'none'

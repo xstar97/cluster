@@ -79,61 +79,10 @@ spec:
                 AUTHELIA_NOTIFIER_SMTP_DISABLE_HTML_EMAILS: true
                 AUTHELIA_NOTIFIER_SMTP_TLS_SERVER_NAME: ${SMTP_GMAIL_HOST}
 
+    secret:
+      authelia-configfile:
+        enabled: false
     
-    authelia:
-      session:
-        cookies:
-          - domain: ${DOMAIN_2}
-            authelia_url: https://auth.${DOMAIN_2}
-      # authentication_backend:
-      #   ldap:
-      #     password: ${LLDAP_LDAP_PWDMANAGER_PASS}
-      # notifier:
-      #   smtp:
-      #     password: ${SMTP_GMAIL_PASS_AUTHELIA}
-      access_control:
-        rules:
-          - domain:
-              - ${DOMAIN_2}
-              - '*.${DOMAIN_2}'
-            policy: one_factor
-            subject:
-              - 'group:lldap_admin'            
-      identity_providers:
-        oidc:
-          hmac_secret: '{{ secret "/config/secret/hmac_secret" }}'
-          jwks:
-            - key: |
-                {{ secret "/config/secret/jwks_key.pem" | mindent 10 "|" | msquote }}
-          authorization_policies:
-            admin:
-              default_policy: 'deny'
-              rules:
-                - policy: 'one_factor'
-                  subject: 'group:lldap_admin'
-          clients:
-            - client_id: 'guacamole'
-              client_name: 'Apache Guacamole'
-              public: true
-              authorization_policy: 'lldap_admin'
-              consent_mode: 'implicit'
-              require_pkce: false
-              pkce_challenge_method: ''
-              redirect_uris:
-                - 'https://guacamole.${BASE_DOMAIN}'
-              scopes:
-                - 'openid'
-                - 'profile'
-                - 'groups'
-                - 'email'
-              response_types:
-                - 'id_token'
-              grant_types:
-                - 'implicit'
-              access_token_signed_response_alg: 'none'
-              userinfo_signed_response_alg: 'none'
-              token_endpoint_auth_method: 'none'
-
     ingress:
       main:
         enabled: true
@@ -161,6 +110,14 @@ spec:
               enabled: false
               trigger:
                 schedule: 10 0 * * *
+      configfile:
+        enabled: true
+        type: configmap
+        objectName: authelia-configfile  
+        expandObjectName: false
+        mountPath: /configuration.yaml
+        subPath: configuration.yaml
+        readOnly: true
       secrets:
         enabled: true
         type: secret
