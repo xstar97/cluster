@@ -44,6 +44,17 @@ spec:
         ports:
           main:
             port: 5006
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                ACTUAL_OPENID_DISCOVERY_URL: https://auth.${DOMAIN_2}
+                ACTUAL_OPENID_CLIENT_ID: actual-budget
+                ACTUAL_OPENID_CLIENT_SECRET: ${AUTHELIA_CLIENT_ACTUAL_BUDGET_SECRET}
+                ACTUAL_OPENID_SERVER_HOSTNAME: https://actual.${DOMAIN_2}
+                ACTUAL_OPENID_AUTH_METHOD: oauth2
     ingress:
       main:
         enabled: true

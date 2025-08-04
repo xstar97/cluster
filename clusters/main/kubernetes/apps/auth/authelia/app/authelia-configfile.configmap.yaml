@@ -50,6 +50,27 @@ data:
                 subject: 'group:lldap_admin'
               - policy: 'one_factor'
                 subject: 'group:lldap_grafana'
+          paperless:
+            default_policy: 'deny'
+            rules:
+              - policy: 'one_factor'
+                subject: 'group:lldap_admin'
+              - policy: 'one_factor'
+                subject: 'group:lldap_paperless'
+          actual:
+            default_policy: 'deny'
+            rules:
+              - policy: 'one_factor'
+                subject: 'group:lldap_admin'
+              - policy: 'one_factor'
+                subject: 'group:lldap_actual'
+          jellyseerr:
+            default_policy: 'deny'
+            rules:
+              - policy: 'one_factor'
+                subject: 'group:lldap_admin'
+              - policy: 'one_factor'
+                subject: 'group:lldap_jellyseerr'
         clients:
           - client_id: 'guacamole'
             client_name: 'Apache Guacamole'
@@ -110,3 +131,58 @@ data:
             userinfo_signed_response_alg: 'none'
             token_endpoint_auth_method: 'client_secret_basic'
             claims_policy: "grafana"
+          - client_id: 'paperless'
+            client_name: 'Paperless'
+            client_secret: {{ secret "/config/secret/clients_paperless_client_secret" }}
+            public: false
+            authorization_policy: 'paperless'
+            require_pkce: true
+            pkce_challenge_method: 'S256'
+            redirect_uris:
+              - 'https://paperless.${DOMAIN_2}/accounts/oidc/authelia/login/callback/'
+            scopes:
+              - 'openid'
+              - 'profile'
+              - 'email'
+              - 'groups'
+            response_types:
+              - 'code'
+            grant_types:
+              - 'authorization_code'
+            access_token_signed_response_alg: 'none'
+            userinfo_signed_response_alg: 'none'
+            token_endpoint_auth_method: 'client_secret_basic'
+          - client_id: 'actual-budget'
+            client_name: 'Actual Budget'
+            client_secret: {{ secret "/config/secret/clients_actual_budget_client_secret" }}
+            public: false
+            authorization_policy: 'actual'
+            require_pkce: false
+            pkce_challenge_method: ''
+            redirect_uris:
+              - 'https://actual.${DOMAIN_2}/openid/callback'
+            scopes:
+              - 'openid'
+              - 'profile'
+              - 'groups'
+              - 'email'
+            response_types:
+              - 'code'
+            grant_types:
+              - 'authorization_code'
+            access_token_signed_response_alg: 'none'
+            userinfo_signed_response_alg: 'none'
+            token_endpoint_auth_method: 'client_secret_basic'
+          - client_id: 'jellyseerr'
+            client_name: 'Jellyseerr'
+            client_secret: {{ secret "/config/secret/clients_jellyseerr_client_secret" }}
+            public: false
+            authorization_policy: 'jellyseerr'
+            redirect_uris:
+              - 'https://jellyseerr.${DOMAIN_2}/login/oidc/callback/authelia'
+            scopes:
+              - 'openid'
+              - 'email'
+              - 'profile'
+              - 'groups'
+            token_endpoint_auth_method: 'client_secret_post'
