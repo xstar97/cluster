@@ -44,26 +44,26 @@ spec:
         ports:
           main:
             port: 10241
-workload:
-  main:
-    podSpec:
-      containers:
-        main:
-          env:
-            # JELLYFIN_TYPE: ""
-            DB_TYPE: postgre
-            DB_HOST:
-              secretKeyRef:
-                name: cnpg-main-urls
-                key: host
-            DB_PORT: "5432" 
-            DB_USER: "{{ .Values.cnpg.main.user }}"
-            DB_PASS:
-              secretKeyRef:
-                name: cnpg-main-user
-                key: password
-            DB_NAME: "{{ .Values.cnpg.main.database }}"
-            DB_LOG_QUERIES: "false" 
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                # JELLYFIN_TYPE: ""
+                DB_TYPE: postgre
+                DB_HOST:
+                  secretKeyRef:
+                    name: cnpg-main-urls
+                    key: host
+                DB_PORT: "5432" 
+                DB_USER: "{{ .Values.cnpg.main.user }}"
+                DB_PASS:
+                  secretKeyRef:
+                    name: cnpg-main-user
+                    key: password
+                DB_NAME: "{{ .Values.cnpg.main.database }}"
+                DB_LOG_QUERIES: "false" 
     ingress:
       main:
         enabled: true
