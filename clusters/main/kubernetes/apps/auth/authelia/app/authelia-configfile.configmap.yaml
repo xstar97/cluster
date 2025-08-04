@@ -72,7 +72,7 @@ data:
                 - authorization_code
             redirect_uris:
                 - "https://romm.${DOMAIN_2}/api/oauth/openid"
-            # claims_policy: "romm"
+            claims_policy: "romm"
             scopes:
                 - "openid"
                 - "email"
