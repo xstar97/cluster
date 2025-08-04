@@ -65,7 +65,7 @@ data:
             token_endpoint_auth_method: 'none'
           - client_id: "romm" # read above for how generate
             client_name: "RomM" # will be displayed in Authelia to users
-            client_secret: "${AUTHELIA_CLIENT_ROMM_SECRET}" # read above for how generate
+            client_secret:  {{ secret "/config/secret/clients_romm_client_secret" }}
             public: false
             authorization_policy: "romm" # or one_factor, depending on your needs
             grant_types:
