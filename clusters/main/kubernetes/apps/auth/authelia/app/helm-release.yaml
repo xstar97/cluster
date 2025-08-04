@@ -83,13 +83,6 @@ spec:
               enabled: false
               trigger:
                 schedule: 10 0 * * *
-      secrets:
-        enabled: true
-        type: secret
-        objectName: authelia-oidc-secret
-        expandObjectName: false
-        mountPath: /config/secret
-        readOnly: true
     gatus:
       endpoints:
         - name: authelia
