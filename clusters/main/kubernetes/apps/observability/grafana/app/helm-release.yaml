@@ -47,6 +47,7 @@ spec:
               env:
                 GF_SERVER_ROOT_URL: https://grafana.${DOMAIN_2}
                 GF_AUTH_GENERIC_OAUTH_ENABLED: false
+                GF_AUTH_LDAP_ENABLED: true
     ingress:
       main:
         enabled: true
