@@ -22,8 +22,8 @@ data:
         claims_policies:
           default:
             id_token: ['rat', 'groups', 'email', 'email_verified', 'alt_emails', 'preferred_username', 'name']
-        with_email:
-            id_token: ["email", "email_verified","alt_emails","preferred_username","name"]
+          romm:
+            id_token: ['email', 'email_verified', 'alt_emails', 'preferred_username', 'name']
         hmac_secret: {{ secret "/config/secret/hmac_secret" }}
         jwks:
           - key: |
@@ -72,7 +72,7 @@ data:
                 - authorization_code
             redirect_uris:
                 - "https://romm.${DOMAIN_2}/api/oauth/openid"
-            claims_policy: "with_email"
+            # claims_policy: "romm"
             scopes:
                 - "openid"
                 - "email"
