@@ -68,6 +68,9 @@ spec:
                 PAPERLESS_CONSUMER_POLLING_DELAY: 5
                 PAPERLESS_APPS: 'allauth.socialaccount.providers.openid_connect'
                 PAPERLESS_SOCIALACCOUNT_PROVIDERS: "{{ .Values.paperless | toJson }}"
+                PAPERLESS_DISABLE_REGULAR_LOGIN: true
+                PAPERLESS_REDIRECT_LOGIN_TO_SSO: true
+                PAPERLESS_ACCOUNT_SESSION_REMEMBER: true
     gatus:
       endpoints:
         - name: paperless-ngx
