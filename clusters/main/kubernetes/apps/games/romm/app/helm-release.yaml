@@ -62,7 +62,13 @@ spec:
                 IGDB_CLIENT_SECRET: "${ROMM_CLIENT_SECRET}"
                 DISABLE_EMULATOR_JS: false
                 DISABLE_RUFFLE_RS: false
-                OIDC_ENABLED: false
+                OIDC_ENABLED: true
+                OIDC_PROVIDER: authelia
+                OIDC_CLIENT_ID: romm
+                OIDC_CLIENT_SECRET: "${AUTHELIA_CLIENT_ROMM_SECRET}"
+                OIDC_REDIRECT_URI: https://romm.${DOMAIN_2}/api/oauth/openid.
+                OIDC_SERVER_APPLICATION_URL: authelia.authelia.svc.cluster.local:9091
+
     ingress:
       main:
         enabled: true

@@ -19,6 +19,11 @@ data:
             - 'group:lldap_admin'            
     identity_providers:
       oidc:
+        claims_policies:
+          default:
+            id_token: ['rat', 'groups', 'email', 'email_verified', 'alt_emails', 'preferred_username', 'name']
+        with_email:
+            id_token: ["email", "email_verified","alt_emails","preferred_username","name"]
         hmac_secret: {{ secret "/config/secret/hmac_secret" }}
         jwks:
           - key: |
@@ -29,6 +34,13 @@ data:
             rules:
               - policy: 'one_factor'
                 subject: 'group:lldap_admin'
+          romm:
+            default_policy: 'deny'
+            rules:
+              - policy: 'one_factor'
+                subject: 'group:lldap_admin'
+              - policy: 'one_factor'
+                subject: 'group:lldap_romm'
         clients:
           - client_id: 'guacamole'
             client_name: 'Apache Guacamole'
@@ -51,3 +63,19 @@ data:
             access_token_signed_response_alg: 'none'
             userinfo_signed_response_alg: 'none'
             token_endpoint_auth_method: 'none'
+          - client_id: "romm" # read above for how generate
+            client_name: "RomM" # will be displayed in Authelia to users
+            client_secret: "${AUTHELIA_CLIENT_ROMM_SECRET}" # read above for how generate
+            public: false
+            authorization_policy: "romm" # or one_factor, depending on your needs
+            grant_types:
+                - authorization_code
+            redirect_uris:
+                - "https://romm.${DOMAIN_2}/api/oauth/openid"
+            claims_policy: "with_email"
+            scopes:
+                - "openid"
+                - "email"
+                - "profile"
+            userinfo_signed_response_alg: "none"
+            token_endpoint_auth_method: "client_secret_basic"
