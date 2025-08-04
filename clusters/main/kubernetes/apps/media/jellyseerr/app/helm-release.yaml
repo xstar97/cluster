@@ -89,7 +89,7 @@ spec:
       endpoints:
         - name: jellyseerr
           group: media
-          url: "http://jellyseerr.jellyseerr.svc.cluster.local:10241"
+          url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" .Values.service.main.ports.main.protocol .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
           interval: 1m
           ui:
             hide-url: true
