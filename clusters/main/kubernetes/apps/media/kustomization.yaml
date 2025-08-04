@@ -30,4 +30,4 @@ resources:
   - calendarr/ks.yaml
   - huntarr/ks.yaml
   - cloudcmd/ks.yaml
-    - jellyseerr/ks.yaml
+  - jellyseerr/ks.yaml
