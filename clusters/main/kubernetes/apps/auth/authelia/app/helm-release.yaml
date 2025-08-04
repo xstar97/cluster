@@ -56,36 +56,43 @@ spec:
                 AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET: ${AUTHELIA_JWT_KEY}
                 AUTHELIA_STORAGE_ENCRYPTION_KEY: ${AUTHELIA_ENCRYPTION_KEY}
                 X_AUTHELIA_CONFIG_FILTERS: template
-                AUTHELIA_IDENTITY_PROVIDERS_OIDC_HMAC_SECRET_FILE: /config/secret/hmac_secret
-                AUTHELIA_LOG_LEVEL: info
-                AUTHELIA_SERVER_BUFFERS_READ: 16384
-                AUTHELIA_SERVER_BUFFERS_WRITE: 16384
-                AUTHELIA_THEME: dark
-                AUTHELIA_TOTP_ISSUER: ${DOMAIN_2}
-                AUTHELIA_AUTHENTICATION_BACKEND_LDAP_ADDRESS: ${LLDAP_URL_CLUSTER}
-                AUTHELIA_AUTHENTICATION_BACKEND_LDAP_TLS_SERVER_NAME: lldap.${DOMAIN_2}
-                AUTHELIA_AUTHENTICATION_BACKEND_LDAP_BASE_DN: ${LLDAP_LDAP_BASE_DN}
-                AUTHELIA_AUTHENTICATION_BACKEND_LDAP_ATTRIBUTES_USERNAME: uid
-                AUTHELIA_AUTHENTICATION_BACKEND_LDAP_ADDITIONAL_USERS_DN: ou=people
-                AUTHELIA_AUTHENTICATION_BACKEND_LDAP_USERS_FILTER: (&(|({username_attribute}={input})({mail_attribute}={input}))(objectClass=person))
-                AUTHELIA_AUTHENTICATION_BACKEND_LDAP_ADDITIONAL_GROUPS_DN: ou=groups
-                AUTHELIA_AUTHENTICATION_BACKEND_LDAP_GROUPS_FILTER: (member={dn})
-                AUTHELIA_AUTHENTICATION_BACKEND_LDAP_USER: ${LLDAP_LDAP_PWDMANAGER_USER}
-                AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD: ${LLDAP_LDAP_PWDMANAGER_PASS}
-                AUTHELIA_NOTIFIER_SMTP_ADDRESS: 'smtp://${SMTP_GMAIL_HOST}:${SMTP_GMAIL_PORT}'
-                AUTHELIA_NOTIFIER_SMTP_USERNAME: ${SMTP_GMAIL_EMAIL}
-                AUTHELIA_NOTIFIER_SMTP_PASSWORD: ${SMTP_GMAIL_PASS_AUTHELIA}
-                AUTHELIA_NOTIFIER_SMTP_SENDER: auth@${DOMAIN_2}
-                AUTHELIA_NOTIFIER_SMTP_STARTUP_CHECK_ADDRESS: auth@${DOMAIN_2}
-                AUTHELIA_NOTIFIER_SMTP_DISABLE_HTML_EMAILS: true
-                AUTHELIA_NOTIFIER_SMTP_TLS_SERVER_NAME: ${SMTP_GMAIL_HOST}
-                # AUTHELIA_ACCESS_CONTROL_DEFAULT_POLICY: deny
     
-    authelia:
+    authelia:      
+      server:
+        buffers:
+          read: 16384
+          write: 16384
+      theme: dark
+      totp:
+        issuer: ${DOMAIN_2}
       session:
         cookies:
           - domain: ${DOMAIN_2}
             authelia_url: https://auth.${DOMAIN_2}
+      authentication_backend:
+        ldap:
+          address: ${LLDAP_URL_CLUSTER}
+          tls:
+            server_name: lldap.${DOMAIN_2}
+          base_dn: ${LLDAP_LDAP_BASE_DN}
+          attributes:
+            username: uid
+          additional_users_dn: ou=people
+          users_filter: (&(|({username_attribute}={input})({mail_attribute}={input}))(objectClass=person))
+          additional_groups_dn: ou=groups
+          groups_filter: (member={dn})
+          user: ${LLDAP_LDAP_PWDMANAGER_USER}
+          password: ${LLDAP_LDAP_PWDMANAGER_PASS}
+      notifier:
+        smtp:
+          address: 'smtp://${SMTP_GMAIL_HOST}:${SMTP_GMAIL_PORT}'
+          username: ${SMTP_GMAIL_EMAIL}
+          password: ${SMTP_GMAIL_PASS_AUTHELIA}
+          sender: auth@${DOMAIN_2}
+          startup_check_address: auth@${DOMAIN_2}
+          disable_html_emails: true
+          tls:
+            server_name: ${SMTP_GMAIL_HOST}
       access_control:
         rules:
           - domain:
@@ -96,11 +103,9 @@ spec:
               - 'group:lldap_admin'
       identity_providers:
         oidc:
+          hmac_secret: '{{ secret "/config/secret/hmac_secret" }}'
           jwks:
-            - key_id: 'example'
-              algorithm: 'RS256'
-              use: 'sig'
-              key: |
+            - key: |
                 '{{ secret "/config/secret/jwks_key.pem" | mindent 10 "|" | msquote }}'
               certificate_chain: |
                 '{{ secret "/config/secret/certificate_chain" | mindent 10 "|" | msquote }}'
