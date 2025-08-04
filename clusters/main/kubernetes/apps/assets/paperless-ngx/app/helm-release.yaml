@@ -35,21 +35,21 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-    ingress:
-      main:
-        enabled: true
-        ingressClassName: "internal" 
-        hosts:
-          - host: paperless.${DOMAIN_2}
-            paths:
-              - path: /
-                pathType: Prefix
-        integrations:
-          nginx:
-            enabled: true
-          certManager:
-            enabled: true
-            certificateIssuer: general-le-prod
+    paperless:
+      openid_connect:
+        SCOPE:
+          - openid
+          - profile
+          - email
+        OAUTH_PKCE_ENABLED: true
+        APPS:
+          - provider_id: authelia
+            name: Authelia
+            client_id: paperless
+            secret: ${AUTHELIA_CLIENT_PAPERLESS_SECRET}
+            settings:
+              server_url: https://auth.${DOMAIN_2}
+              token_auth_method: client_secret_basic
     workload:
       main:
         podSpec:
@@ -66,6 +66,8 @@ spec:
                 PAPERLESS_CONSUMER_POLLING: 60
                 PAPERLESS_CONSUMER_POLLING_RETRY_COUNT: 3
                 PAPERLESS_CONSUMER_POLLING_DELAY: 5
+                PAPERLESS_APPS: 'allauth.socialaccount.providers.openid_connect'
+                PAPERLESS_SOCIALACCOUNT_PROVIDERS: "{{ .Values.paperless | toJson }}"
     gatus:
       endpoints:
         - name: paperless-ngx
@@ -89,7 +91,21 @@ spec:
         data:
           config.yaml: |
             {{- $.Values.gatus | toYaml | nindent 2 }}
-
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal" 
+        hosts:
+          - host: paperless.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
     persistence:
       data:
         volsync:
