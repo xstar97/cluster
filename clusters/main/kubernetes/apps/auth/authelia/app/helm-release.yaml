@@ -79,7 +79,7 @@ spec:
                 AUTHELIA_NOTIFIER_SMTP_STARTUP_CHECK_ADDRESS: auth@${DOMAIN_2}
                 AUTHELIA_NOTIFIER_SMTP_DISABLE_HTML_EMAILS: true
                 AUTHELIA_NOTIFIER_SMTP_TLS_SERVER_NAME: ${SMTP_GMAIL_HOST}
-                AUTHELIA_ACCESS_CONTROL_DEFAULT_POLICY: deny
+                # AUTHELIA_ACCESS_CONTROL_DEFAULT_POLICY: deny
     
     authelia:
       session:
@@ -103,7 +103,7 @@ spec:
               key: |
                 '{{ secret "/config/secret/jwks_key.pem" | mindent 10 "|" | msquote }}'
               certificate_chain: |
-                '{{ secret "/config/secret/certificate_chain.pem" | mindent 10 "|" | msquote }}'
+                '{{ secret "/config/secret/certificate_chain" | mindent 10 "|" | msquote }}'
           authorization_policies:
             admin:
               default_policy: 'deny'
