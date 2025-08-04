@@ -124,7 +124,7 @@ spec:
         enabled: true
         user: jellyseerr
         database: jellyseerr
-        mode: recovery
+        # mode: recovery
         cluster:
           singleNode: true
         backups:
