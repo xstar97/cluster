@@ -111,37 +111,6 @@ spec:
         buffers:
           read: 16384
           write: 16384
-        endpoints:
-          authz:
-            forward-auth:
-              implementation: 'ForwardAuth'
-              authn_strategies:
-                - name: 'HeaderAuthorization'
-                  schemes:
-                    - 'Basic'
-                    - 'Bearer'
-                - name: 'CookieSession'
-            ext-authz:
-              implementation: 'ExtAuthz'
-              authn_strategies:
-                - name: 'HeaderAuthorization'
-                  schemes:
-                    - 'Basic'
-                    - 'Bearer'
-                - name: 'CookieSession'
-            auth-request:
-              implementation: 'AuthRequest'
-              authn_strategies:
-                - name: 'HeaderAuthRequestProxyAuthorization'
-                  schemes:
-                    - 'Basic'
-                    - 'Bearer'
-                - name: 'CookieSession'
-            legacy:
-              implementation: 'Legacy'
-              authn_strategies:
-                - name: 'HeaderLegacy'
-                - name: 'CookieSession'
       theme: dark
       totp:
         issuer: ${DOMAIN_2}
@@ -150,8 +119,6 @@ spec:
           - domain: ${DOMAIN_2}
             authelia_url: https://auth.${DOMAIN_2}
       authentication_backend:
-        # lldap setup
-        # https://github.com/lldap/lldap/blob/main/example_configs/authelia_config.yml
         ldap:
           address: ${LLDAP_URL_CLUSTER}
           tls:
