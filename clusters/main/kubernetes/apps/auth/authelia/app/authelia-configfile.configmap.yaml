@@ -33,7 +33,7 @@ data:
           - client_id: 'guacamole'
             client_name: 'Apache Guacamole'
             public: true
-            authorization_policy: 'lldap_admin'
+            authorization_policy: 'admin'
             consent_mode: 'implicit'
             require_pkce: false
             pkce_challenge_method: ''
