@@ -104,7 +104,7 @@ spec:
                 EULA: "TRUE"
                 GUI: "FALSE"
                 TYPE: "LIMBO"
-                LIMBO_BUILD: 1.21.7
+                LIMBO_BUILD: LATEST
             mcbackup:
               enabled: false
 
