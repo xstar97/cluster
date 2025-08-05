@@ -57,6 +57,7 @@ spec:
           api:
             enabled: true
             port: 25564
+
     workload:
       main:
         podSpec:
@@ -93,8 +94,8 @@ spec:
                 # METRICS_BACKEND_CONFIG_INFLUXDB_RETENTION_POLICY
                 # METRICS_BACKEND_CONFIG_INFLUXDB_TAGS
                 # METRICS_BACKEND_CONFIG_INFLUXDB_USERNAME
-                # DEFAULT: "lobby.mc.local"
-                # MAPPING: '{{ join "," .Values.mcrouter.mappings }}'
+                DEFAULT: ""
+                MAPPING: ''
 
     # -- Whether Role Based Access Control objects like roles and rolebindings should be created
     rbac:
