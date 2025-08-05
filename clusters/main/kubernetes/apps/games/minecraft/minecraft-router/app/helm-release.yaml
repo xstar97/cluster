@@ -97,6 +97,22 @@ spec:
                 DEFAULT: ""
                 MAPPING: ''
 
+    ingress:
+      main:
+        enabled: true
+        primary: true
+        ingressClassName: external
+        targetSelector:
+          main: main
+        hosts:
+          - host: java.${DOMAIN_1}
+          - host: lobby.${DOMAIN_1}
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
     # -- Whether Role Based Access Control objects like roles and rolebindings should be created
     rbac:
       main:
