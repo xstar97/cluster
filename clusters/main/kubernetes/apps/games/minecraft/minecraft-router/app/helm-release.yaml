@@ -38,8 +38,6 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-    securityContext:
-
     service:
       main:
         enabled: true
@@ -59,7 +57,6 @@ spec:
           api:
             enabled: true
             port: 25564
-
     workload:
       main:
         podSpec:
