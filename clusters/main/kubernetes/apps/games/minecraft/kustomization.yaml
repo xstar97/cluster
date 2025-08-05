@@ -2,4 +2,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - minecraft-java/ks.yaml
-  
+  - minecraft-router/ks.yaml
+  - minecraft-lobby/ks.yaml

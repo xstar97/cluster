@@ -1,0 +1,120 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: minecraft-lobby
+  namespace: minecraft-lobby
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: minecraft-java
+      version: 23.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-minecraft-lobby"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        capabilities:
+          add:
+            - CAP_NET_RAW
+    service:
+      main:
+        enabled: true
+        annotations: 
+          mc-router.itzg.me/defaultServer: "true"
+          mc-router.itzg.me/externalServerName: "lobby.mc.local"
+        ports:
+          main:
+            enabled: true
+            protocol: tcp
+            port: 25565
+          query:
+            enabled: true
+            protocol: udp
+            port: 25566
+      rcon:
+        enabled: true
+        type: ClusterIP
+        ports:
+          rcon:
+            enabled: true
+            port: 25575
+    resources:
+      limits:
+        memory: 2Gi
+   
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              imageSelector: image
+              probes:
+                liveness:
+                  enabled: true
+                  type: exec
+                  command:
+                    - mc-health
+                readiness:
+                  enabled: true
+                  type: exec
+                  command:
+                    - mc-health
+                startup:
+                  enabled: true
+                  type: exec
+                  command:
+                    - mc-health
+              env:
+                SERVER_PORT: "{{ .Values.service.main.ports.main.port }}"
+                QUERY_PORT: "{{ .Values.service.main.ports.query.port }}"
+                RCON_PORT: "{{ .Values.service.rcon.ports.rcon.port }}"
+                DISABLE_HEALTHCHECK: true
+                SERVER_HOST: '{{ printf "%s" (include "tc.v1.common.lib.chart.names.fullname" $) }}'
+                ENABLE_RCON: true
+                EXEC_DIRECTLY: "true"
+                ENABLE_QUERY: "true"
+                EULA: "TRUE"
+                GUI: "FALSE"
+                TYPE: "LIMBO"
+                LIMBO_BUILD: 1.21.7
+            mcbackup:
+              enabled: false
+
+    persistence:
+      data:
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true

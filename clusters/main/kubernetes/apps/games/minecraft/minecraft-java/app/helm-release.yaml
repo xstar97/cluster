@@ -52,6 +52,8 @@ spec:
         integrations:
           metallb:
             enabled: true
+        annotations: 
+          mc-router.itzg.me/externalServerName: "java.mc.local"
         ports:
           main:
             enabled: true
