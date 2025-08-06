@@ -83,6 +83,9 @@ spec:
                 API_BINDING: ":{{ .Values.service.api.ports.api.port }}"
                 PORT: "{{ .Values.service.main.ports.main.port }}"
                 IN_KUBE_CLUSTER: true
+                AUTO_SCALE_UP: true
+                AUTO_SCALE_DOWN: true
+                AUTO_SCALE_DOWN_AFTER: 6h
                 # discard,expvar,influxdb,prometheus
                 METRICS_BACKEND: prometheus
                 RECORD_LOGINS: true
@@ -108,6 +111,15 @@ spec:
             verbs:
               - "list"
               - "watch"
+          - apiGroups: [""]
+            resources:
+              - "statefulsets"
+              - "statefulsets/scale"
+            verbs:
+              - "list"
+              - "watch"
+              - "get"
+              - "update"
     # -- The service account the pods will use to interact with the Kubernetes API
     serviceAccount:
       main:
