@@ -111,7 +111,7 @@ spec:
             verbs:
               - "list"
               - "watch"
-          - apiGroups: [""]
+          - apiGroups: ["apps"]
             resources:
               - "statefulsets"
               - "statefulsets/scale"
