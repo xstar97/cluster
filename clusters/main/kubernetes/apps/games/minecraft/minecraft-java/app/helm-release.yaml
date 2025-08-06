@@ -127,6 +127,7 @@ spec:
       # - plan
     workload:
       main:
+        type: StatefulSet
         podSpec:
           containers:
             main:
