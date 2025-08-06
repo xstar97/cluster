@@ -79,14 +79,13 @@ spec:
                   path: /routes
                   httpHeaders:
                     Accept: application/json
-              args:
-                - --in-kube-cluster
-                - -record-logins
               env:
                 API_BINDING: ":{{ .Values.service.api.ports.api.port }}"
                 PORT: "{{ .Values.service.main.ports.main.port }}"
+                IN_KUBE_CLUSTER: true
                 # discard,expvar,influxdb,prometheus
                 METRICS_BACKEND: prometheus
+                RECORD_LOGINS: true
                 # METRICS_BACKEND_CONFIG_INFLUXDB_ADDR
                 # METRICS_BACKEND_CONFIG_INFLUXDB_DATABASE
                 # METRICS_BACKEND_CONFIG_INFLUXDB_INTERVAL
