@@ -34,7 +34,7 @@ spec:
     testingImage:
       repository: quay.io/vaultwarden/server
       pullPolicy: IfNotPresent
-      tag: testing-alpine@sha256:66897123009ee74b7e63601c74d68f8d211660043154f7536ee6c689e270a78e
+      tag: testing-alpine@sha256:11dadc13329c92c4e9ba6c2712bcfe30593a88a7924537c305b4fe8f8e4438a6
     credentials:
       cf-restic:
         type: s3
