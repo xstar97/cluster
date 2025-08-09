@@ -81,7 +81,7 @@ spec:
                 MUMBLE_CHOWN_DATA: true
                 MUMBLE_SUPERUSER_PASSWORD: "${MUMBLE_SUPERUSER_PASSWORD}"
                 # MUMBLE_CONFIG_SERVER_PASSWORD: 
-                MUMBLE_CONFIG_DB_DRIVER: postgresql
+                MUMBLE_CONFIG_DB_DRIVER: QPSQL
                 MUMBLE_CONFIG_DATABASE: "{{ .Values.cnpg.main.database }}"
                 MUMBLE_CONFIG_DB_USERNAME: "{{ .Values.cnpg.main.user }}"
                 MUMBLE_CONFIG_DB_PASSWORD:
