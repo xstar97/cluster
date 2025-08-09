@@ -63,7 +63,7 @@ spec:
                 SSO_AUTHORITY: https://auth.${DOMAIN_2}
                 SSO_SCOPES: "email profile offline_access"
                 # SSO_AUTHORIZE_EXTRA_PARAMS: ""
-                # SSO_PKCE: true
+                SSO_PKCE: true
                 # SSO_AUDIENCE_TRUSTED: Optional, Regex to trust additional audience for the IdToken (client_id is always trusted). Use single quote when writing the regex: '^$'.
                 SSO_CLIENT_ID: vaultwarden
                 SSO_CLIENT_SECRET: "${AUTHELIA_CLIENT_SECRET_VAULTWARDEN}"
