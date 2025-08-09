@@ -53,6 +53,8 @@ spec:
             main:
               resources:
                 limits:
+                  cpu: 4000m
+                  memory: 8000Mi
                   nvidia.com/gpu: 1
     ingress:
       main:
