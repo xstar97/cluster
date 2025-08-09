@@ -1,0 +1,206 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: mumble
+  namespace: mumble
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.3.4
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:    
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-mumble"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    image:
+      repository: ghcr.io/mumble-voip/mumble-server
+      pullPolicy: IfNotPresent
+      tag: v1.5.735-3@sha256:9ddc5f9f8c396c9f2ca3af22330609fee9c5607b2275539758f19e707f1ce6e4
+    securityContext:
+      container:
+        # runAsNonRoot: false
+        readOnlyRootFilesystem: false
+        # runAsUser: 0
+        # runAsGroup: 0
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            protocol: tcp
+            port: 64738
+          udp:
+            protocol: udp
+            port: 64738
+      ice:
+        enabled: true
+        type: ClusterIP
+        ports:
+          ice:
+            enabled: true
+            port: 6502
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                MUMBLE_CONFIG_PORT: "{{ .Values.service.main.ports.main.port }}"
+                MUMBLE_CONFIG_ICE: "tcp -h 0.0.0.0 -p {{ .Values.service.ice.ports.ice.port }}"
+                MUMBLE_CONFIG_HOST: 0.0.0.0
+                MUMBLE_CHOWN_DATA: true
+                MUMBLE_SUPERUSER_PASSWORD: "${MUMBLE_SUPERUSER_PASSWORD}"
+                # MUMBLE_CONFIG_SERVER_PASSWORD: 
+                MUMBLE_CONFIG_DB_DRIVER: postgresql
+                MUMBLE_CONFIG_DATABASE: "{{ .Values.cnpg.main.database }}"
+                MUMBLE_CONFIG_DB_USERNAME: "{{ .Values.cnpg.main.user }}"
+                MUMBLE_CONFIG_DB_PASSWORD:
+                  secretKeyRef:
+                    name: cnpg-main-user
+                    key: password
+                MUMBLE_CONFIG_DB_HOST:
+                  secretKeyRef:
+                    name: cnpg-main-urls
+                    key: host
+                MUMBLE_CONFIG_DB_PORT: 5432
+                # MUMBLE_CONFIG_SQLITE_WAL
+                # MUMBLE_CONFIG_ICE_SECRET_READ
+                # MUMBLE_CONFIG_ICE_SECRET_WRITE
+                # MUMBLE_CONFIG_LOG_FILE
+                # MUMBLE_CONFIG_PID_FILE
+                # MUMBLE_CONFIG_WELCOME_TEXT: <br />Welcome to this server running <b>Mumble</b>.<br />Enjoy your stay!<br />
+                # MUMBLE_CONFIG_WELCOME_TEXT_FILE: path/to/welcome
+                # MUMBLE_CONFIG_BANDWIDTH
+                # MUMBLE_CONFIG_TIMEOUT
+                # Maximum number of concurrent clients allowed.
+                # MUMBLE_CONFIG_USERS
+                # MUMBLE_CONFIG_USERS_PER_CHANNEL
+                # MUMBLE_CONFIG_MESSAGE_BURST
+                # MUMBLE_CONFIG_MESSAGE_LIMIT
+                # MUMBLE_CONFIG_PLUGIN_MESSAGE_LIMIT
+                # MUMBLE_CONFIG_PLUGIN_MESSAGE_BURST
+                MUMBLE_CONFIG_ALLOW_PING: true
+                # MUMBLE_CONFIG_OPUS_THRESHOLD
+                # MUMBLE_CONFIG_CHANNEL_NESTING_LIMIT
+                # MUMBLE_CONFIG_CHANNEL_COUNT_LIMIT
+                # Regular expression used to validate channel names.
+                # MUMBLE_CONFIG_CHANNEL_NAME
+                # Regular expression used to validate user names
+                # MUMBLE_CONFIG_USER_NAME
+                # MUMBLE_CONFIG_DEFAULT_CHANNEL
+                # MUMBLE_CONFIG_REMEMBER_CHANNEL
+                # MUMBLE_CONFIG_REMEMBER_CHANNEL_DURATION
+                # MUMBLE_CONFIG_TEXT_MESSAGE_LENGTH
+                # MUMBLE_CONFIG_IMAGE_MESSAGE_LENGTH
+                # MUMBLE_CONFIG_ALLOW_HTML
+                # MUMBLE_CONFIG_LOG_DAYS
+                # MUMBLE_CONFIG_REGISTER_NAME
+                # MUMBLE_CONFIG_REGISTER_PASSWORD
+                # MUMBLE_CONFIG_REGISTER_URL
+                # MUMBLE_CONFIG_REGISTER_HOSTNAME
+                # MUMBLE_CONFIG_REGISTER_LOCATION
+                # MUMBLE_CONFIG_BONJOUR
+                # MUMBLE_CONFIG_SSL_CERT
+                # MUMBLE_CONFIG_SSL_KEY
+                # MUMBLE_CONFIG_SSL_PASS_PHRASE
+                # MUMBLE_CONFIG_SSL_CA
+                # MUMBLE_CONFIG_SSL_DH_PARAMS
+                # MUMBLE_CONFIG_SSL_CIPHERS
+                # MUMBLE_CONFIG_UNAME
+                # MUMBLE_CONFIG_OBFUSCATE
+                # MUMBLE_CONFIG_CERT_REQUIRED
+                # MUMBLE_CONFIG_SEND_VERSION
+                # MUMBLE_CONFIG_SUGGEST_VERSION
+                # MUMBLE_CONFIG_SUGGEST_POSITIONAL
+                # MUMBLE_CONFIG_SUGGEST_PUSH_TO_TALK
+                # MUMBLE_CONFIG_LEGACY_PASSWORD_HASH
+                # MUMBLE_CONFIG_KDF_ITERATIONS
+                # MUMBLE_CONFIG_AUTOBAN_ATTEMPTS
+                # MUMBLE_CONFIG_AUTOBAN_TIMEFRAME
+                # MUMBLE_CONFIG_AUTOBAN_TIME
+                # MUMBLE_CONFIG_AUTOBAN_SUCCESSFUL_CONNECTIONS
+                # MUMBLE_CONFIG_LOG_GROUP_CHANGES
+                # MUMBLE_CONFIG_LOG_ACL_CHANGES
+                # MUMBLE_CONFIG_ALLOW_RECORDING
+                # MUMBLE_CONFIG_ROLLING_STATS_WINDOW
+                # MUMBLE_CONFIG_LISTENERS_PER_CHANNEL
+                # MUMBLE_CONFIG_LISTENERS_PER_USER
+                # MUMBLE_CONFIG_FORCE_EXTERNAL_AUTH
+                # MUMBLE_CONFIG_ICE_WARN_UNKNOWN_PROPERTIES
+                # MUMBLE_CONFIG_ICE_MESSAGE_SIZE_MAX
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: mumble.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+
+    persistence:
+      data:
+        enabled: true
+        mountPath: /data
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+    cnpg:
+      main:
+        enabled: true
+        user: mumble
+        database: mumble
+        # mode: recovery
+        cluster:
+          singleNode: true
+        backups:
+          enabled: true
+          credentials: cf-restic
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              schedule: "0 5 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic
