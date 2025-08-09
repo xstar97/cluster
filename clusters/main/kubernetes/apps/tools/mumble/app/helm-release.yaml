@@ -51,8 +51,10 @@ spec:
     service:
       main:
         type: ClusterIP
+        enabled: true
         ports:
           main:
+            enabled: true
             protocol: tcp
             port: 64738
           udp:
