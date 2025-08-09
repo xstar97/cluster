@@ -31,6 +31,10 @@ spec:
     global:
       stopAll: false
       skipEmptyWalArchiveCheck: true
+    testingImage:
+      repository: quay.io/vaultwarden/server
+      pullPolicy: IfNotPresent
+      tag: testing-alpine@sha256:8b051b530f46cd91187dd219b6c070acf0f6721869ea6c611ac42214712786a9
     credentials:
       cf-restic:
         type: s3
@@ -45,6 +49,28 @@ spec:
         ports:
           main:
             port: 8080
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              imageSelector: testingImage
+              env:
+                SSO_ENABLED: true
+                SSO_ONLY: false
+                SSO_SIGNUPS_MATCH_EMAIL: true
+                # SSO_ALLOW_UNKNOWN_EMAIL_VERIFICATION: Allow unknown email verification status (default false). Allowing this with SSO_SIGNUPS_MATCH_EMAIL open potential account takeover.
+                SSO_AUTHORITY: https://auth.${DOMAIN_2}
+                SSO_SCOPES: "email profile"
+                # SSO_AUTHORIZE_EXTRA_PARAMS: ""
+                # SSO_PKCE: true
+                # SSO_AUDIENCE_TRUSTED: Optional, Regex to trust additional audience for the IdToken (client_id is always trusted). Use single quote when writing the regex: '^$'.
+                SSO_CLIENT_ID: vaultwarden
+                SSO_CLIENT_SECRET: "${AUTHELIA_CLIENT_VAULTWARDEN_SECRET}"
+                # SSO_MASTER_PASSWORD_POLICY: Optional Master password policy (enforceOnLogin is not supported).
+                # SSO_AUTH_ONLY_NOT_SESSION: Enable to use SSO only for authentication not session lifecycle
+                # SSO_CLIENT_CACHE_EXPIRATION: Cache calls to the discovery endpoint, duration in seconds, 0 to disable (default 0);
+                # SSO_DEBUG_TOKENS: Log all tokens for easier debugging (default false, LOG_LEVEL=debug or LOG_LEVEL=info,vaultwarden::sso=debug
     ingress:
       main:
         enabled: true

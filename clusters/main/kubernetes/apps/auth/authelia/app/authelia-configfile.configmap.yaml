@@ -25,7 +25,9 @@ data:
           romm:
             id_token: ['email', 'email_verified', 'alt_emails', 'preferred_username', 'name']            
           grafana:
-            id_token: ['email', 'name', 'groups', 'preferred_username']
+            id_token: ['email', 'name', 'groups', 'preferred_username']            
+          vaultwarden:
+            id_token: ['email', 'profile']
         hmac_secret: {{ secret "/config/secret/hmac_secret" }}
         jwks:
           - key: |
@@ -71,6 +73,13 @@ data:
                 subject: 'group:lldap_admin'
               - policy: 'one_factor'
                 subject: 'group:lldap_jellyseerr'
+          vaultwarden:
+            default_policy: 'deny'
+            rules:
+              - policy: 'one_factor'
+                subject: 'group:lldap_admin'
+              - policy: 'one_factor'
+                subject: 'group:lldap_vaultwarden'
         clients:
           - client_id: 'guacamole'
             client_name: 'Apache Guacamole'
@@ -186,3 +195,15 @@ data:
               - 'profile'
               - 'groups'
             token_endpoint_auth_method: 'client_secret_post'
+          - client_id: 'vaultwarden'
+            client_name: 'vaultwarden'
+            client_secret: {{ secret "/config/secret/clients_vaultwarden_client_secret" }}
+            public: false
+            authorization_policy: 'vaultwarden'
+            redirect_uris:
+              - 'https://vaultwarden.${DOMAIN_2}/identity/connect/oidc-signin'
+            scopes:
+              - 'email'
+              - 'profile'
+            token_endpoint_auth_method: 'client_secret_post'
+            claims_policy: "default"
