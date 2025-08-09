@@ -54,7 +54,7 @@ spec:
           main:
             protocol: tcp
             port: 64738
-          udp:
+          main-udp:
             enabled: true
             protocol: udp
             port: 6502
