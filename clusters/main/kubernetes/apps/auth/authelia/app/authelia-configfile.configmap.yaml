@@ -203,6 +203,7 @@ data:
             redirect_uris:
               - 'https://vaultwarden.${DOMAIN_2}/identity/connect/oidc-signin'
             scopes:
+              - 'openid'
               - 'email'
               - 'profile'
             token_endpoint_auth_method: 'client_secret_post'
