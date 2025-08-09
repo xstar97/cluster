@@ -66,7 +66,7 @@ spec:
                 # SSO_PKCE: true
                 # SSO_AUDIENCE_TRUSTED: Optional, Regex to trust additional audience for the IdToken (client_id is always trusted). Use single quote when writing the regex: '^$'.
                 SSO_CLIENT_ID: vaultwarden
-                SSO_CLIENT_SECRET: "${AUTHELIA_CLIENT_VAULTWARDEN_SECRET}"
+                SSO_CLIENT_SECRET: "${AUTHELIA_CLIENT_SECRET_VAULTWARDEN}"
                 # SSO_MASTER_PASSWORD_POLICY: Optional Master password policy (enforceOnLogin is not supported).
                 # SSO_AUTH_ONLY_NOT_SESSION: Enable to use SSO only for authentication not session lifecycle
                 # SSO_CLIENT_CACHE_EXPIRATION: Cache calls to the discovery endpoint, duration in seconds, 0 to disable (default 0);
