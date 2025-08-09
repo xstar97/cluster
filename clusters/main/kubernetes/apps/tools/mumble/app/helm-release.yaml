@@ -54,10 +54,14 @@ spec:
           main:
             protocol: tcp
             port: 64738
-          main-udp:
+      udp:
+        enabled: true
+        type: ClusterIP
+        ports:
+          udp:
             enabled: true
             protocol: udp
-            port: 6502
+            port: 64738
       ice:
         enabled: true
         type: ClusterIP
