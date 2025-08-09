@@ -54,7 +54,7 @@ spec:
         podSpec:
           containers:
             main:
-              imageSelector: testingImage
+              # imageSelector: testingImage
               env:
                 SSO_ENABLED: true
                 SSO_ONLY: false
