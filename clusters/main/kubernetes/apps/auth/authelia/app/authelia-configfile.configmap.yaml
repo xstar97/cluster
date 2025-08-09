@@ -206,4 +206,5 @@ data:
             scopes:
               - 'email'
               - 'profile'
+              - 'openid'
             claims_policy: "default"
