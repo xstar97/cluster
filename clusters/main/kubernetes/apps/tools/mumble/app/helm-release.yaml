@@ -192,7 +192,7 @@ spec:
         enabled: true
         user: mumble
         database: mumble
-        # mode: recovery
+        mode: recovery
         cluster:
           singleNode: true
         backups:
