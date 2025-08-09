@@ -50,16 +50,14 @@ spec:
         # runAsGroup: 0
     service:
       main:
-        type: ClusterIP
-        enabled: true
         ports:
           main:
-            enabled: true
             protocol: tcp
             port: 64738
           udp:
+            enabled: true
             protocol: udp
-            port: 64738
+            port: 6502
       ice:
         enabled: true
         type: ClusterIP
