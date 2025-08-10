@@ -32,6 +32,7 @@ spec:
   values:
     global:
       stopAll: false
+      skipEmptyWalArchiveCheck: true
     image:
       repository: ghcr.io/twin/gatus
       pullPolicy: IfNotPresent
