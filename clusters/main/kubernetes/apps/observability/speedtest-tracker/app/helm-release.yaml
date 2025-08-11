@@ -78,7 +78,11 @@ spec:
           containers:
             main:
               env:
-                APP_URL: "https://speedtest.tracker.${DOMAIN_2}"
+                APP_URL: "{{ .Values.chartContext.appUrl }}"
+                ASSET_URL: "{{ .Values.chartContext.appUrl }}"
+                APP_TIMEZONE: "America/New_York"
+                DISPLAY_TIMEZONE: "America/New_York"
+                SPEEDTEST_SCHEDULE: "0 */3 * * *"
     gatus:
       endpoints:
         - name: speedtest-tracker
