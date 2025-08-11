@@ -57,7 +57,13 @@ spec:
           api:
             enabled: true
             port: 25564
-
+    mcrouter:
+      # vanilla:25565
+      default: "minecraft-lobby-minecraft-java.minecraft-lobby.svc.cluster.local:25565"
+      mappings: []
+        # - vanilla:25565
+        # - forge:25565
+        
     workload:
       main:
         podSpec:
@@ -96,38 +102,8 @@ spec:
                 # METRICS_BACKEND_CONFIG_INFLUXDB_RETENTION_POLICY
                 # METRICS_BACKEND_CONFIG_INFLUXDB_TAGS
                 # METRICS_BACKEND_CONFIG_INFLUXDB_USERNAME
-                DEFAULT: ""
-                MAPPING: ''
-    # -- Whether Role Based Access Control objects like roles and rolebindings should be created
-    rbac:
-      main:
-        enabled: true
-        primary: true
-        clusterWide: true
-        rules:
-          - apiGroups: [""]
-            resources:
-              - "services"
-            verbs:
-              - "list"
-              - "watch"
-          - apiGroups: ["apps"]
-            resources:
-              - "statefulsets"
-              - "statefulsets/scale"
-            verbs:
-              - "list"
-              - "watch"
-              - "get"
-              - "update"
-    # -- The service account the pods will use to interact with the Kubernetes API
-    serviceAccount:
-      main:
-        enabled: true
-        primary: true
-
-    podOptions:
-      automountServiceAccountToken: true
+                DEFAULT: "{{ .Values.mcrouter.default }}"
+                MAPPING: '{{ join "," .Values.mcrouter.mappings }}'
 
     metrics:
       main:
