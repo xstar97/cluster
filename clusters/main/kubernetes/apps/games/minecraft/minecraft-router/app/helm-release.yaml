@@ -59,7 +59,7 @@ spec:
             port: 25564
     mcrouter:
       # vanilla:25565
-      default: "minecraft-lobby-minecraft-java.minecraft-lobby.svc.cluster.local:25565"
+      default: "" # "minecraft-lobby-minecraft-java.minecraft-lobby.svc.cluster.local:25565"
       mappings: []
         # - vanilla:25565
         # - forge:25565

@@ -53,6 +53,7 @@ spec:
           metallb:
             enabled: true
         annotations: 
+          mc-router.itzg.me/defaultServer: true
           mc-router.itzg.me/externalServerName: "java.${DOMAIN_1}"
         ports:
           main:
