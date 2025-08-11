@@ -26,7 +26,7 @@ spec:
   timeout: 20m
   values:
     global:
-      stopAll: true
+      stopAll: false
     image:
       repository: sakowicz/actual-ai
       pullPolicy: IfNotPresent
@@ -70,7 +70,7 @@ spec:
                 LLM_PROVIDER: ollama # Can be "openai", "anthropic", "google-generative-ai", "ollama" or "groq"
                 OLLAMA_MODEL: phi3.5 # llama3.1 optional. required if you want to use a Ollama specific model, default is "phi3.5"
                 OLLAMA_BASE_URL: http://ollama-app-template.ollama.svc.cluster.local:11434/api # optional. required for ollama provider
-                FEATURES: '["freeWebSearch", "suggestNewCategories", "rerunMissedTransactions", "classifyOnStartup", "syncAccountsBeforeClassify"]'
+                FEATURES: '["classifyOnStartup", "syncAccountsBeforeClassify", "freeWebSearch", "suggestNewCategories"]'
                 # ACTUAL_E2E_PASSWORD:  # optional. required if you have E2E encryption
                 # NODE_TLS_REJECT_UNAUTHORIZED: 0 # optional. required if you have trouble connecting to Actual server 
                 # NOT_GUESSED_TAG=#actual-ai-miss
