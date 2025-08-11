@@ -89,9 +89,9 @@ spec:
                 API_BINDING: ":{{ .Values.service.api.ports.api.port }}"
                 PORT: "{{ .Values.service.main.ports.main.port }}"
                 IN_KUBE_CLUSTER: true
-                AUTO_SCALE_UP: true
-                AUTO_SCALE_DOWN: true
-                AUTO_SCALE_DOWN_AFTER: 6h
+                # AUTO_SCALE_UP: true
+                # AUTO_SCALE_DOWN: true
+                # AUTO_SCALE_DOWN_AFTER: 6h
                 # discard,expvar,influxdb,prometheus
                 METRICS_BACKEND: prometheus
                 RECORD_LOGINS: true
