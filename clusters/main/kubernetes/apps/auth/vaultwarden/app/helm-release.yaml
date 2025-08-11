@@ -31,10 +31,10 @@ spec:
     global:
       stopAll: false
       skipEmptyWalArchiveCheck: true
-    testingImage:
-      repository: quay.io/vaultwarden/server
-      pullPolicy: IfNotPresent
-      tag: testing-alpine@sha256:e1f277ca35763092448b1aad961e18ce4d0f78eeebe38a294beb8ed0890d7500
+    # testingImage:
+    #   repository: quay.io/vaultwarden/server
+    #   pullPolicy: IfNotPresent
+    #   tag: testing-alpine@sha256:e1f277ca35763092448b1aad961e18ce4d0f78eeebe38a294beb8ed0890d7500
     credentials:
       cf-restic:
         type: s3
