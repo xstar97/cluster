@@ -26,7 +26,7 @@ spec:
   timeout: 20m
   values:
     global:
-      stopAll: false
+      stopAll: true
     image:
       repository: sakowicz/actual-ai
       pullPolicy: IfNotPresent
