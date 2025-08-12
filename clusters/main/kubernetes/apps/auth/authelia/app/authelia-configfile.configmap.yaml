@@ -223,7 +223,7 @@ data:
             authorization_policy: 'wallos'
             pre_configured_consent_duration: "1y"
             redirect_uris:
-              - 'https://wallos.${DOMAIN_2}/api/oidc/authorization'
+              - 'https://wallos.${DOMAIN_2}/login.php'
             grant_types:
               - "refresh_token"
               - "authorization_code"
