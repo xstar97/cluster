@@ -12,4 +12,4 @@ resources:
   - feedcord/ks.yaml
   - omni-tools/ks.yaml
   - guacamole/ks.yaml
-  - mumble/ks.yaml
+  
