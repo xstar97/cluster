@@ -60,6 +60,7 @@ spec:
               env:
                 IGDB_CLIENT_ID: "${ROMM_CLIENT_ID}"
                 IGDB_CLIENT_SECRET: "${ROMM_CLIENT_SECRET}"
+                ROMM_AUTH_SECRET_KEY: "${ROMM_AUTH_SECRET_KEY}"
                 DISABLE_EMULATOR_JS: false
                 DISABLE_RUFFLE_RS: false
                 OIDC_ENABLED: true
