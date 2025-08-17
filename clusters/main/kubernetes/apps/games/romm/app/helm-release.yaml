@@ -41,7 +41,7 @@ spec:
     image:
       repository: ghcr.io/rommapp/romm
       pullPolicy: IfNotPresent
-      tag: 4.1.1@sha256:b5717777223d08f1c9a75a6f6d7ca4f8334d4018bb663aaa8979a385bda29258
+      tag: 4.1.2@sha256:14ddc5abbfda99fcf60db9fa124b52727518b82deae8ece63f1e1b70873f471a
     service:
       main:
         type: ClusterIP
