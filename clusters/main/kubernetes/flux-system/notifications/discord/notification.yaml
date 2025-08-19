@@ -38,3 +38,20 @@ spec:
   eventSources:
     - kind: Kustomization
       name: "*"
+---
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Alert
+metadata:
+  name: discord
+  namespace: flux-system
+spec:
+  providerRef:
+    name: discord
+  eventSeverity: error
+  eventSources:
+    - kind: HelmRepository
+      name: '*'
+    - kind: OCIRepository
+      name: '*'
+    - kind: Kustomization
+      name: '*'
