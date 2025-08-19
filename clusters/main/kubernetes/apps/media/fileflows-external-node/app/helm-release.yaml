@@ -7,7 +7,7 @@ spec:
   interval: 15m
   chart:
     spec:
-      chart: fileflows-external-node
+      chart: fileflows
       version: 14.4.3
       sourceRef:
         kind: HelmRepository
