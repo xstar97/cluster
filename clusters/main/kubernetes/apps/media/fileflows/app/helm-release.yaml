@@ -45,6 +45,7 @@ spec:
         runAsGroup: 0
     workload:
       external-node:
+        enabled: true
         podSpec:
           runtimeClassName: nvidia
           hostname: fileflows-external-node
