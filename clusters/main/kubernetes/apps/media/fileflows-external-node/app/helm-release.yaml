@@ -49,8 +49,16 @@ spec:
       main:
         podSpec:
           runtimeClassName: nvidia
+          hostname: fileflows-external-node
           containers:
             main:
+              probes:
+                liveness:
+                  enabled: false
+                readiness:
+                  enabled: false
+                startup:
+                  enabled: false
               env:
                 ServerUrl: "http://fileflows.fileflows.svc.cluster.local:10242"
                 FFNODE: 1
