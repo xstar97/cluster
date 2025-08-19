@@ -13,3 +13,4 @@ aliases:
   badPods: kubectl get pods -A --no-headers | awk '$4 != "Running"'
   badFlux: flux get hr -A | grep failed
   genAutheliaClientSecret: kubectl run authelia-gen --restart=Never -ti --rm --image=authelia/authelia:latest -- authelia crypto hash generate pbkdf2 --variant sha512 --random --random.length 72 --random.charset rfc3986 2>/dev/null | grep -E "^(Random Password|Digest):"
+  delNvidiaDevPods: kubectl delete pods --all -n nvidia-device-plugin
