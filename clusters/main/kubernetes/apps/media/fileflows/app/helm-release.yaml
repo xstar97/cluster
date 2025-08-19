@@ -46,6 +46,7 @@ spec:
     workload:
       external-node:
         enabled: true
+        type: Deployment
         podSpec:
           runtimeClassName: nvidia
           hostname: fileflows-external-node
