@@ -31,3 +31,4 @@ resources:
   - huntarr/ks.yaml
   - cloudcmd/ks.yaml
   - jellyseerr/ks.yaml
+  - fileflows-external-node/ks.yaml

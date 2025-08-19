@@ -45,17 +45,6 @@ spec:
         runAsGroup: 0
         # allowPrivilegeEscalation: true
         # privileged: true
-    workload:
-      main:
-        podSpec:
-          runtimeClassName: nvidia
-          containers:
-            main:
-              resources:
-                limits:
-                  cpu: 4000m
-                  memory: 8000Mi
-                  nvidia.com/gpu: 1
     ingress:
       main:
         enabled: true
