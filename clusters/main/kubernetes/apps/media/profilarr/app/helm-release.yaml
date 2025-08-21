@@ -33,7 +33,7 @@ spec:
     image:
       repository: santiagosayshey/profilarr
       pullPolicy: IfNotPresent
-      tag: v1.0.1@sha256:16ea5790e612889e02e297094ae0b0d605c5770511a7564d6a43e663cafebf26
+      tag: v1.1.1@sha256:c8197c9e50e5e84203738aff7b78c11bd4ecdb56c0195aaa807a71ac7ba40cdf
     credentials:
       cf-restic:
         type: s3
