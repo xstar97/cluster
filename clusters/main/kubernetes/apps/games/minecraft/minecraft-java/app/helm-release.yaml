@@ -94,7 +94,7 @@ spec:
       # vault
       - 34315
       # shopkeeper
-      - 80756
+      # - 80756
       # placeholderapi
       - 6245
       # luckyperms
