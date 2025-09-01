@@ -57,6 +57,8 @@ spec:
         hosts:
           - host: auth2.${DOMAIN_2}
             paths:
+              - path: /
+                pathType: Prefix
               - path: /outpost.goauthentik.io
                 pathType: ImplementationSpecific
         integrations:
