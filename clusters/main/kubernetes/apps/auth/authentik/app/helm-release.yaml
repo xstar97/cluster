@@ -43,8 +43,8 @@ spec:
 
     authentik:
       credentials:
-        email: ${AUTHENTIK_EMAIL}
-        password: ${AUTHENTIK_PASSWORD}
+        email: ${AUTHENTIK_ADMIN_EMAIL}
+        password: ${AUTHENTIK_ADMIN_PASSWORD}
 
     ingress:
       main:
