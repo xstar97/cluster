@@ -44,6 +44,12 @@ spec:
         encrKey: "${CF_S3_RESTIC_KEY}"
     securityContext:
       readOnlyRootFilesystem: false
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 9696
     workload:
       main:
         podSpec:
