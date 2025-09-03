@@ -63,26 +63,7 @@ spec:
                 LIDARR__AUTH__REQUIRED: DisabledForLocalAddresses
                 LIDARR__APP__THEME: dark
             exportarr:
-              enabled: false
-            scraparr:
-              enabled: "{{ .Values.metrics.main.enabled }}"
               imageSelector: scraparrImage
-              probes:
-                liveness:
-                  enabled: true
-                  type: http
-                  path: /
-                  port: "{{ .Values.service.metrics.ports.metrics.port }}"
-                readiness:
-                  enabled: true
-                  type: http
-                  path: /
-                  port: "{{ .Values.service.metrics.ports.metrics.port }}"
-                startup:
-                  enabled: true
-                  type: http
-                  path: /
-                  port: "{{ .Values.service.metrics.ports.metrics.port }}"
               env:
                 LIDARR_URL: '{{ printf "http://%v:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.main.port }}'
                 LIDARR_API_KEY: "${LIDARR_KEY}"
