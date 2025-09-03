@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: radarr
-      version: 24.4.4
+      version: 24.4.6
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -50,12 +50,6 @@ spec:
                 RADARR__AUTH__METHOD: External
                 RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
                 RADARR__APP__THEME: dark
-    service:
-      main:
-        type: ClusterIP
-        ports:
-          main:
-            port: 7878
     ingress:
       main:
         enabled: true
@@ -77,21 +71,6 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-    gatus:
-      endpoints:
-        - name: radarr
-          group: media
-          url: "http://radarr.radarr.svc.cluster.local:7878"
-          interval: 1m
-          ui:
-            hide-url: true
-            hide-hostname: true
-          conditions:
-            - "[CONNECTED] == true"
-          alerts:
-            - type: discord
-              description: "healthcheck failed"
-              send-on-resolved: true
     configmap:
       gatus:
         enabled: true
@@ -99,7 +78,20 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            {{- $.Values.gatus | toYaml | nindent 2 }}
+            endpoints:
+              - name: {{ .Release.Namespace }}
+                group: media
+                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" "http" .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
+                interval: 1m
+                ui:
+                  hide-url: true
+                  hide-hostname: true
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "healthcheck failed"
+                    send-on-resolved: true
     persistence:
       config:
         volsync:
