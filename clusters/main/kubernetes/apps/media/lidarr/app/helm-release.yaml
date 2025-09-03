@@ -38,20 +38,8 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-    exportarrImage:
-      repository: ghcr.io/thecfu/scraparr
-      pullPolicy: IfNotPresent
-      tag: 2.2.4@sha256:4aa7e22f7a632082dbfe6e4be694068b08e5764b83c95339220ff2b33bf43be2
     securityContext:
       readOnlyRootFilesystem: false
-    service:
-      metrics:
-        enabled: "{{ .Values.metrics.main.enabled }}"
-        type: ClusterIP
-        ports:
-          metrics:
-            enabled: true
-            port: 7100
     workload:
       main:
         podSpec:
@@ -62,30 +50,6 @@ spec:
                 LIDARR__AUTH__METHOD: External
                 LIDARR__AUTH__REQUIRED: DisabledForLocalAddresses
                 LIDARR__APP__THEME: dark
-            exportarr:
-              enabled: false
-            scraparr:
-              enabled: "{{ .Values.metrics.main.enabled }}"
-              imageSelector: exportarrImage
-              probes:
-                liveness:
-                  enabled: true
-                  type: http
-                  path: /metrics
-                  port: "{{ .Values.service.metrics.ports.metrics.port }}"
-                readiness:
-                  enabled: true
-                  type: http
-                  path: /metrics
-                  port: "{{ .Values.service.metrics.ports.metrics.port }}"
-                startup:
-                  enabled: true
-                  type: http
-                  path: /metrics
-                  port: "{{ .Values.service.metrics.ports.metrics.port }}"
-              env:
-                LIDARR_URL: '{{ printf "http://%v:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.main.port }}'
-                LIDARR_API_KEY: "${LIDARR_KEY}"
     ingress:
       main:
         enabled: true
