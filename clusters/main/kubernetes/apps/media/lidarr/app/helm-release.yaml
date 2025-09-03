@@ -46,7 +46,6 @@ spec:
       readOnlyRootFilesystem: false
     service:
       metrics:
-        enabled: "{{ .Values.metrics.main.enabled }}"
         type: ClusterIP
         ports:
           metrics:
