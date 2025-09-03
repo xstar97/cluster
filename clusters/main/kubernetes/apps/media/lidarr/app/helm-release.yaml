@@ -38,8 +38,20 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
+    scraparrImage:
+      repository: ghcr.io/thecfu/scraparr
+      pullPolicy: IfNotPresent
+      tag: 2.2.4@sha256:4aa7e22f7a632082dbfe6e4be694068b08e5764b83c95339220ff2b33bf43be2
     securityContext:
       readOnlyRootFilesystem: false
+    service:
+      metrics:
+        enabled: "{{ .Values.metrics.main.enabled }}"
+        type: ClusterIP
+        ports:
+          metrics:
+            enabled: true
+            port: 7100
     workload:
       main:
         podSpec:
@@ -50,12 +62,30 @@ spec:
                 LIDARR__AUTH__METHOD: External
                 LIDARR__AUTH__REQUIRED: DisabledForLocalAddresses
                 LIDARR__APP__THEME: dark
-    service:
-      main:
-        type: ClusterIP
-        ports:
-          main:
-            port: 8686
+            exportarr:
+              enabled: false
+            scraparr:
+              enabled: "{{ .Values.metrics.main.enabled }}"
+              imageSelector: scraparrImage
+              probes:
+                liveness:
+                  enabled: true
+                  type: http
+                  path: /
+                  port: "{{ .Values.service.metrics.ports.metrics.port }}"
+                readiness:
+                  enabled: true
+                  type: http
+                  path: /
+                  port: "{{ .Values.service.metrics.ports.metrics.port }}"
+                startup:
+                  enabled: true
+                  type: http
+                  path: /
+                  port: "{{ .Values.service.metrics.ports.metrics.port }}"
+              env:
+                LIDARR_URL: '{{ printf "http://%v:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.main.port }}'
+                LIDARR_API_KEY: "${LIDARR_KEY}"
     ingress:
       main:
         enabled: true
@@ -81,21 +111,6 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-    gatus:
-      endpoints:
-        - name: lidarr
-          group: media
-          url: "http://lidarr.lidarr.svc.cluster.local:8686"
-          interval: 1m
-          ui:
-            hide-url: true
-            hide-hostname: true
-          conditions:
-            - "[CONNECTED] == true"
-          alerts:
-            - type: discord
-              description: "healthcheck failed"
-              send-on-resolved: true
     configmap:
       gatus:
         enabled: true
@@ -103,7 +118,20 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            {{- $.Values.gatus | toYaml | nindent 2 }}
+            endpoints:
+              - name: {{ .Release.Namespace }}
+                group: media
+                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" "http" .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
+                interval: 1m
+                ui:
+                  hide-url: true
+                  hide-hostname: true
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "healthcheck failed"
+                    send-on-resolved: true
     persistence:
       config:
         volsync:
@@ -126,3 +154,14 @@ spec:
         server: ${SCALE_IP}
         path: ${DOWNLOADS_NFS}
         mountPath: "${DOWNLOADS_LOCAL}"
+
+metrics:
+  main:
+    enabled: true
+    type: "servicemonitor"
+    endpoints:
+      - port: metrics
+        path: /metrics
+    targetSelector: metrics
+    prometheusRule:
+      enabled: false
