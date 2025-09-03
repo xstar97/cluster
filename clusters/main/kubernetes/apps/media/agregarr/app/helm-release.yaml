@@ -92,7 +92,7 @@ spec:
     persistence:
       config:
         enabled: true
-        mountPath: /config
+        mountPath: /app/config
         volsync:
           - name: config
             type: restic
