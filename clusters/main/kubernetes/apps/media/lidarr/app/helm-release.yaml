@@ -63,8 +63,10 @@ spec:
                 LIDARR__AUTH__REQUIRED: DisabledForLocalAddresses
                 LIDARR__APP__THEME: dark
             exportarr:
+              enabled: false
+            scraparr:
               enabled: "{{ .Values.metrics.main.enabled }}"
-              args: []
+              imageSelector: exportarrImage
               probes:
                 liveness:
                   enabled: true
