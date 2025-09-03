@@ -84,7 +84,7 @@ spec:
                 GENERAL_ADDRESS: "0.0.0.0"
                 GENERAL_PORT: "{{ .Values.service.metrics.ports.metrics.port }}"
                 GENERAL_PATH: /metrics
-                PROWLARR_URL: '{{ printf "http://%v:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.main.port }}'
+                PROWLARR_URL: '{{ printf "http://%v:%v" localhost .Values.service.main.ports.main.port }}'
                 PROWLARR_API_KEY: ${PROWLARR_KEY}
                 PROWLARR_ALIAS: prowlarr
                 # PROWLARR_API_VERSION=v1
