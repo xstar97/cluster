@@ -30,6 +30,10 @@ spec:
   values:
     global:
       stopAll: false
+    exportarrImage:
+      repository: ghcr.io/thecfu/scraparr
+      pullPolicy: IfNotPresent
+      tag: 2.2.4@sha256:4aa7e22f7a632082dbfe6e4be694068b08e5764b83c95339220ff2b33bf43be2
     credentials:
       cf-restic:
         type: s3
@@ -50,12 +54,36 @@ spec:
                 PROWLARR__AUTH__METHOD: External
                 PROWLARR__AUTH__REQUIRED: DisabledForLocalAddresses
                 PROWLARR__APP__THEME: dark
-    service:
-      main:
-        type: ClusterIP
-        ports:
-          main:
-            port: 9696
+            exportarr:
+              enabled: "{{ .Values.metrics.main.enabled }}"
+              imageSelector: exportarrImage
+              args: []
+              probes:
+                liveness:
+                  enabled: true
+                  type: http
+                  path: /
+                  port: "{{ .Values.service.metrics.ports.metrics.port }}"
+                readiness:
+                  enabled: true
+                  type: http
+                  path: /
+                  port: "{{ .Values.service.metrics.ports.metrics.port }}"
+                startup:
+                  enabled: true
+                  type: http
+                  path: /
+                  port: "{{ .Values.service.metrics.ports.metrics.port }}"
+              env:
+                GENERAL_ADDRESS: "0.0.0.0"
+                GENERAL_PORT: "{{ .Values.service.metrics.ports.metrics.port }}"
+                GENERAL_PATH: /metrics
+                PROWLARR_URL: '{{ printf "http://%v:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.main.port }}'
+                PROWLARR_API_KEY: ${PROWLARR_KEY}
+                PROWLARR_ALIAS: prowlarr
+                # PROWLARR_API_VERSION=v1
+                # PROWLARR_INTERVAL=30
+                # PROWLARR_DETAILED=true
     ingress:
       main:
         enabled: true
@@ -77,21 +105,6 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-    gatus:
-      endpoints:
-        - name: prowlarr
-          group: media
-          url: "http://prowlarr.prowlarr.svc.cluster.local:9696"
-          interval: 1m
-          ui:
-            hide-url: true
-            hide-hostname: true
-          conditions:
-            - "[CONNECTED] == true"
-          alerts:
-            - type: discord
-              description: "healthcheck failed"
-              send-on-resolved: true
     configmap:
       gatus:
         enabled: true
@@ -99,7 +112,20 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            {{- $.Values.gatus | toYaml | nindent 2 }}
+            endpoints:
+              - name: {{ .Release.Namespace }}
+                group: media
+                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" "http" .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
+                interval: 1m
+                ui:
+                  hide-url: true
+                  hide-hostname: true
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "healthcheck failed"
+                    send-on-resolved: true
     persistence:
       config:
         volsync:

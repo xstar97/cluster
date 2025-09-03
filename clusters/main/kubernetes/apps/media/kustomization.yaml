@@ -33,5 +33,3 @@ resources:
   - jellyseerr/ks.yaml
   - fileflows-external-node/ks.yaml
   - agregarr/ks.yaml
-  - scraparr/ks.yaml
-  
