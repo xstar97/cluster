@@ -88,9 +88,9 @@ spec:
 
     configmap:
       gatus:
-        enabled: "{{.Values.global.gatus }}"
+        enabled: "{{ .Values.global.gatus }}"
         labels:
-          gatus.io/enabled: "{{.Values.global.gatus }}"
+          gatus.io/enabled: "{{ .Values.global.gatus }}"
         data:
           config.yaml: |
             endpoints:
