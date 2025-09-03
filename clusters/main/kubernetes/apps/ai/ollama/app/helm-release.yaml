@@ -27,6 +27,7 @@ spec:
   values:
     global:
       stopAll: true
+      gatus: false
     image:
       repository: ollama/ollama
       pullPolicy: IfNotPresent
@@ -87,9 +88,9 @@ spec:
 
     configmap:
       gatus:
-        enabled: true
+        enabled: "{{.Values.global.gatus }}"
         labels:
-          gatus.io/enabled: "true"
+          gatus.io/enabled: "{{.Values.global.gatus }}"
         data:
           config.yaml: |
             endpoints:
