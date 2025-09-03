@@ -64,7 +64,7 @@ spec:
                 GENERAL_PATH: /metrics
                 SONARR_URL: http://sonarr.sonarr.svc.cluster.local:8989
                 SONARR_API_KEY: ${SONARR_SERIES_KEY}
-                SONARR_ALIAS: sonarr-series
+                SONARR_ALIAS: sonarr
     cnpg:
       main:
         enabled: false
