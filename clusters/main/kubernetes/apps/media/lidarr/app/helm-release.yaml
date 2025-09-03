@@ -69,17 +69,17 @@ spec:
                 liveness:
                   enabled: true
                   type: http
-                  path: /
+                  path: /metrics
                   port: "{{ .Values.service.metrics.ports.metrics.port }}"
                 readiness:
                   enabled: true
                   type: http
-                  path: /
+                  path: /metrics
                   port: "{{ .Values.service.metrics.ports.metrics.port }}"
                 startup:
                   enabled: true
                   type: http
-                  path: /
+                  path: /metrics
                   port: "{{ .Values.service.metrics.ports.metrics.port }}"
               env:
                 LIDARR_URL: '{{ printf "http://%v:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.main.ports.main.port }}'
