@@ -77,7 +77,7 @@ spec:
           config.yaml: |
             endpoints:
               - name: {{ .Release.Namespace }}
-                group: tools
+                group: media
                 url: '{{ printf "%s://%s-app-template.%s.svc.cluster.local:%v" "http" .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
                 interval: 1m
                 ui:
