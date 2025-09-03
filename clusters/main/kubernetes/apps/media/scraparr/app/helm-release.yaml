@@ -44,10 +44,10 @@ spec:
         encrKey: "${CF_S3_RESTIC_KEY}"
     securityContext:
       container:
-        # runAsNonRoot: false
+        runAsNonRoot: false
         readOnlyRootFilesystem: false
-        # runAsUser: 0
-        # runAsGroup: 0
+        runAsUser: 0
+        runAsGroup: 0
     service:
       main:
         ports:
@@ -62,9 +62,34 @@ spec:
                 GENERAL_ADDRESS: "0.0.0.0"
                 GENERAL_PORT: "{{ .Values.service.main.ports.main.port }}"
                 GENERAL_PATH: /metrics
-                SONARR_URL: http://sonarr.sonarr.svc.cluster.local:8989
-                SONARR_API_KEY: ${SONARR_SERIES_KEY}
-                SONARR_ALIAS: sonarr-series
+    configmap:
+      scraparr-config:
+        enabled: true
+        labels:
+        data:
+          config.yaml: |
+            sonarr:
+              url: http://sonarr.sonarr.svc.cluster.local:8989
+              api_key: ${SONARR_SERIES_KEY}
+              alias: sonarr-series # Optional to Differentiate between multiple Services
+              # api_version: v3 # Optional to use a different API Version
+              # interval: 30 # Optional to set a different Interval in Seconds
+              # detailed: true  # Get Data per Series
+            sonarr:
+              url: http://sonarr-animes.sonarr-animes.svc.cluster.local:8989
+              api_key: ${SONARR_ANIMES_KEY}
+              alias: sonarr-animes # Optional to Differentiate between multiple Services
+              # api_version: v3 # Optional to use a different API Version
+              # interval: 30 # Optional to set a different Interval in Seconds
+              # detailed: true  # Get Data per Series
+    persistence:
+      scraparr-config:
+        enabled: true
+        type: configmap
+        mountPath: /scraparr/config/config.yaml
+        objectName: scraparr-config
+        readOnly: true
+        subPath: config.yaml
     cnpg:
       main:
         enabled: false
