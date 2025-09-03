@@ -68,29 +68,27 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-    gatus:
-      endpoints:
-        - name: fasten
-          group: medical
-          url: "http://fasten-app-template.fasten.svc.cluster.local:8080"
-          interval: 1m
-          ui:
-            hide-url: true
-            hide-hostname: true
-          conditions:
-            - "[CONNECTED] == true"
-          alerts:
-            - type: discord
-              description: "healthcheck failed"
-              send-on-resolved: true
     configmap:
       gatus:
-        enabled: false
+        enabled: true
         labels:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            {{- $.Values.gatus | toYaml | nindent 2 }}
+            endpoints:
+              - name: {{ .Release.Namespace }}
+                group: medical
+                url: '{{ printf "%s://%s-app-template.%s.svc.cluster.local:%v" "http" .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
+                interval: 1m
+                ui:
+                  hide-url: true
+                  hide-hostname: true
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "healthcheck failed"
+                    send-on-resolved: true
     persistence:
       db:
         enabled: true

@@ -162,21 +162,6 @@ spec:
             - 172.17.0.0/16
             - 10.0.0.0/8
     
-    gatus:
-      endpoints:
-        - name: checkrr
-          group: media
-          url: "http://checkrr-app-template.checkrr.svc.cluster.local:8585"
-          interval: 1m
-          ui:
-            hide-url: true
-            hide-hostname: true
-          conditions:
-            - "[CONNECTED] == true"
-          alerts:
-            - type: discord
-              description: "healthcheck failed"
-              send-on-resolved: true
     configmap:
       checkrr-config:
         enabled: true
@@ -189,7 +174,20 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            {{- $.Values.gatus | toYaml | nindent 2 }}
+            endpoints:
+              - name: {{ .Release.Namespace }}
+                group: media
+                url: '{{ printf "%s://%s-app-template.%s.svc.cluster.local:%v" "http" .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
+                interval: 1m
+                ui:
+                  hide-url: true
+                  hide-hostname: true
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "healthcheck failed"
+                    send-on-resolved: true
     ingress:
       main:
         enabled: true

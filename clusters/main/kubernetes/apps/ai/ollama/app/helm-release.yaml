@@ -27,7 +27,6 @@ spec:
   values:
     global:
       stopAll: true
-      gatus: false
     image:
       repository: ollama/ollama
       pullPolicy: IfNotPresent
@@ -85,12 +84,11 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-
     configmap:
       gatus:
-        enabled: "{{ .Values.global.gatus }}"
+        enabled: false
         labels:
-          gatus.io/enabled: "{{ .Values.global.gatus }}"
+          gatus.io/enabled: "false"
         data:
           config.yaml: |
             endpoints:
