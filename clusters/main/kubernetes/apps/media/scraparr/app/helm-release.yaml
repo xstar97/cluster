@@ -1,0 +1,78 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: scraparr
+  namespace: scraparr
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.4.16
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    image:
+      repository: ghcr.io/thecfu/scraparr
+      pullPolicy: IfNotPresent
+      tag: 2.2.4@sha256:4aa7e22f7a632082dbfe6e4be694068b08e5764b83c95339220ff2b33bf43be2
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-scraparr"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        # runAsNonRoot: false
+        readOnlyRootFilesystem: false
+        # runAsUser: 0
+        # runAsGroup: 0
+    service:
+      main:
+        ports:
+          main:
+            port: 7100
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                GENERAL_ADDRESS: "0.0.0.0"
+                GENERAL_PORT: "{{ .Values.service.main.ports.main.port }}"
+                GENERAL_PATH: /metrics
+                SONARR_URL: http://sonarr.sonarr.svc.cluster.local:8989
+                SONARR_API_KEY: ${SONARR_SERIES_KEY}
+                SONARR_ALIAS: sonarr-series
+    cnpg:
+      main:
+        enabled: false
+
+    metrics:
+      main:
+        enabled: true
+        type: "servicemonitor"
+        endpoints:
+          - port: main
+            path: /metrics
