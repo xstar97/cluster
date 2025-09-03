@@ -61,21 +61,6 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-    gatus:
-      endpoints:
-        - name: home-assistant
-          group: automations
-          url: "http://home-assistant.home-assistant.svc.cluster.local:8123"
-          interval: 1m
-          ui:
-            hide-url: true
-            hide-hostname: true
-          conditions:
-            - "[CONNECTED] == true"
-          alerts:
-            - type: discord
-              description: "healthcheck failed"
-              send-on-resolved: true
     configmap:
       gatus:
         enabled: true
@@ -83,7 +68,20 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            {{- $.Values.gatus | toYaml | nindent 2 }}
+            endpoints:
+              - name: {{ .Release.Namespace }}
+                group: automations
+                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" "http" .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
+                interval: 1m
+                ui:
+                  hide-url: true
+                  hide-hostname: true
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "healthcheck failed"
+                    send-on-resolved: true
     persistence:
       config:
         volsync:

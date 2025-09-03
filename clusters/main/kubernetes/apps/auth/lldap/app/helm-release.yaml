@@ -99,21 +99,6 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-    gatus:
-      endpoints:
-        - name: lldap
-          group: auth
-          url: "http://lldap.lldap.svc.cluster.local:3000"
-          interval: 1m
-          ui:
-            hide-url: true
-            hide-hostname: true
-          conditions:
-            - "[CONNECTED] == true"
-          alerts:
-            - type: discord
-              description: "healthcheck failed"
-              send-on-resolved: true
     configmap:
       gatus:
         enabled: true
@@ -121,7 +106,20 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            {{- $.Values.gatus | toYaml | nindent 2 }}
+            endpoints:
+              - name: {{ .Release.Namespace }}
+                group: auth
+                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" "http" .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
+                interval: 1m
+                ui:
+                  hide-url: true
+                  hide-hostname: true
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "healthcheck failed"
+                    send-on-resolved: true
     persistence:
       data:
         volsync:

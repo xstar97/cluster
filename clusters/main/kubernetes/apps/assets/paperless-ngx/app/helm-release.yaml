@@ -71,21 +71,6 @@ spec:
                 PAPERLESS_DISABLE_REGULAR_LOGIN: false
                 PAPERLESS_REDIRECT_LOGIN_TO_SSO: false
                 PAPERLESS_ACCOUNT_SESSION_REMEMBER: true
-    gatus:
-      endpoints:
-        - name: paperless-ngx
-          group: assets
-          url: "http://paperless-ngx.paperless-ngx.svc.cluster.local:10140"
-          interval: 1m
-          ui:
-            hide-url: true
-            hide-hostname: true
-          conditions:
-            - "[CONNECTED] == true"
-          alerts:
-            - type: discord
-              description: "healthcheck failed"
-              send-on-resolved: true
     configmap:
       gatus:
         enabled: true
@@ -93,7 +78,20 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            {{- $.Values.gatus | toYaml | nindent 2 }}
+            endpoints:
+              - name: {{ .Release.Namespace }}
+                group: assets
+                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" "http" .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
+                interval: 1m
+                ui:
+                  hide-url: true
+                  hide-hostname: true
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "healthcheck failed"
+                    send-on-resolved: true
     ingress:
       main:
         enabled: true
