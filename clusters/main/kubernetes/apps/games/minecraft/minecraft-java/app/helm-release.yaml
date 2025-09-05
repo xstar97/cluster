@@ -288,7 +288,12 @@ spec:
               enabled: true
       maps:
         enabled: true
-        mountPath: /maps
+        targetSelector:
+          main:
+            main:
+              mountPath: /maps
+            codeserver:
+              mountPath: /maps
     addons:
       codeserver:
         enabled: true
