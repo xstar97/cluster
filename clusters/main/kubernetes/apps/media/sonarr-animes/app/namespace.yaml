@@ -1,9 +1,4 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-    name: sonarr-animes
-    labels:
-        pod-security.kubernetes.io/enforce: privileged
-        topolvm.io/webhook: ignore
-    annotations:
-        volsync.backube/privileged-movers: "true"
+  name: sonarr-animes
