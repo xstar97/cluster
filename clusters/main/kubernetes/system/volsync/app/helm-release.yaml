@@ -22,6 +22,5 @@ spec:
     remediation:
       retries: 3
   values:
-    metrics:
-    main:
-      enabled: false
+    global:
+      stopAll: true
