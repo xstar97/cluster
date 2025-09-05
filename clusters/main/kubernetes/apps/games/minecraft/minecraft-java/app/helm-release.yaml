@@ -316,9 +316,3 @@ spec:
             certManager:
               enabled: true
               certificateIssuer: general-le-prod
-
-    mariadb:
-      enabled: true
-      mariadbUsername: bluemap
-      mariadbDatabase: bluemap
-      mariadbPassword: "bluemap"
