@@ -55,6 +55,7 @@ spec:
                 PORT: "{{ .Values.service.main.ports.main.port }}"
                 # Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)
                 USER_AGENT: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.361
+                RULESET: /ruleset.yaml
     ingress:
       main:
         enabled: true
@@ -70,7 +71,52 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
+    persistence:
+      ruleset:
+        enabled: true
+        type: configmap
+        objectName: ladder-ruleset  
+        expandObjectName: false
+        mountPath: /ruleset.yaml
+        subPath: ruleset.yaml
+        readOnly: true
+    
     configmap:
+      ladder-ruleset:
+        enabled: true
+        data:
+          ruleset.yaml: |
+            - domain: www.bloomberg.com
+              domains:
+                - bloomberg.com
+              headers:
+                x-forwarded-for: none
+                referer: none
+                user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36
+                content-security-policy: script-src 'self';
+                cookie: privacy=1
+              regexRules:
+                - match: <script\s+([^>]*\s+)?src="(/)([^"]*)"
+                  replace: <script $1 script="/https://www.bloomberg.com/$3"
+                - match: <iframe\s+([^>]*\s+)?src="(/)([^"]*)"
+                  replace: <iframe $1 src="/https://www.bloomberg.com/$3"
+              injections:
+                - position: head
+                  append: |
+                    <script>
+                      window.localStorage.clear();
+                      console.log("Bloomberg ruleset active");
+                    </script>
+              urlMods:
+                query:
+                  - key: embedded-checkout
+                    value: true
+                domain:
+                  - match: ^www
+                    replace: www
+                path:
+                  - match: ^/news/articles/
+                    replace: /news/articles/
       gatus:
         enabled: true
         labels:
