@@ -13,3 +13,4 @@ resources:
   - omni-tools/ks.yaml
   - guacamole/ks.yaml
   - rompatcherjs/ks.yaml
+  - ladder/ks.yaml
