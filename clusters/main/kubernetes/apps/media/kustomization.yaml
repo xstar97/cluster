@@ -33,3 +33,4 @@ resources:
   - jellyseerr/ks.yaml
   - fileflows-external-node/ks.yaml
   - agregarr/ks.yaml
+  - isponsorblocktv/ks.yaml
