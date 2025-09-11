@@ -8,8 +8,8 @@ spec:
   interval: 15m
   chart:
     spec:
-      chart: app-template
-      version: 15.6.0
+      chart: agregarr
+      version: 0.0.1
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -30,10 +30,6 @@ spec:
   values:
     global:
       stopAll: false
-    image:
-      repository: ghcr.io/agregarr/agregarr
-      pullPolicy: IfNotPresent
-      tag: 1.2.2@sha256:6bcf50f619790b921d2439cc3b7f3f0c09c2ffa57d6e16d0b215aced1be9f1a4
     credentials:
       cf-restic:
         type: s3
@@ -42,17 +38,6 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-    securityContext:
-      container:
-        runAsNonRoot: false
-        readOnlyRootFilesystem: false
-        runAsUser: 0
-        runAsGroup: 0
-    service:
-      main:
-        ports:
-          main:
-            port: 7171
     ingress:
       main:
         enabled: true
@@ -92,7 +77,6 @@ spec:
     persistence:
       config:
         enabled: true
-        mountPath: /app/config
         volsync:
           - name: config
             type: restic
@@ -101,6 +85,3 @@ spec:
               enabled: true
             src:
               enabled: true
-    cnpg:
-      main:
-        enabled: false
