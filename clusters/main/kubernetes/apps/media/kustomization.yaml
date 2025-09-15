@@ -4,7 +4,8 @@ resources:
   - doublecommander/ks.yaml
   - plex/ks.yaml
   - deemix/ks.yaml
-  - fileflows/ks.yaml
+  # - fileflows/ks.yaml
+  # - fileflows-external-node/ks.yaml
   - flaresolverr/ks.yaml
   - kavita/ks.yaml
   - lidarr/ks.yaml
@@ -31,5 +32,4 @@ resources:
   - huntarr/ks.yaml
   - cloudcmd/ks.yaml
   - jellyseerr/ks.yaml
-  - fileflows-external-node/ks.yaml
   - agregarr/ks.yaml
