@@ -29,10 +29,6 @@ spec:
   values:
     global:
       stopAll: false
-    image:
-      repository: docker.io/revenz/fileflows
-      tag: 25.09
-      pullPolicy: IfNotPresent
     credentials:
       cf-restic:
         type: s3
@@ -47,11 +43,6 @@ spec:
         runAsNonRoot: false
         runAsUser: 0
         runAsGroup: 0
-    workload:
-      main:
-        podSpec:
-          containers:
-            main:
     ingress:
       main:
         enabled: true
@@ -104,9 +95,9 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              enabled: true
+              enabled: false
             src:
-              enabled: true
+              enabled: false
       logs:
         enabled: true
         type: emptyDir
