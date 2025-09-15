@@ -28,7 +28,11 @@ spec:
     keepHistory: false
   values:
     global:
-      stopAll: true
+      stopAll: false
+    image:
+      repository: docker.io/revenz/fileflows
+      tag: 25.04
+      pullPolicy: IfNotPresent
     credentials:
       cf-restic:
         type: s3
