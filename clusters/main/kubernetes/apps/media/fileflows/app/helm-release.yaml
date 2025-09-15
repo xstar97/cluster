@@ -48,17 +48,13 @@ spec:
         enabled: true
         ingressClassName: "internal"
         hosts:
-          - host: fileflows.${DOMAIN_2}
+          - host: fileflows2.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
         integrations:
           nginx:
             enabled: true
-            auth:
-              type: "authelia"
-              internalHost: "authelia.authelia.svc.cluster.local:9091"
-              externalHost: "auth.${DOMAIN_2}"
           homepage:
             enabled: true
             group: Media Transcoder
