@@ -5,7 +5,7 @@ resources:
   - plex/ks.yaml
   - deemix/ks.yaml
   - fileflows/ks.yaml
-  # - fileflows-external-node/ks.yaml
+  - fileflows-external-node/ks.yaml
   - flaresolverr/ks.yaml
   - kavita/ks.yaml
   - lidarr/ks.yaml
