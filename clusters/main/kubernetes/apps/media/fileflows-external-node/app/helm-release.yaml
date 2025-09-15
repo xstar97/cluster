@@ -28,7 +28,7 @@ spec:
     keepHistory: false
   values:
     global:
-      stopAll: falsete)
+      stopAll: false
     credentials:
       cf-restic:
         type: s3
