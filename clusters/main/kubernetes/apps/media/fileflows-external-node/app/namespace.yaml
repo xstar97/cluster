@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: fileflows
+  name: fileflows-external-node
   labels:
     pod-security.kubernetes.io/enforce: privileged
     topolvm.io/webhook: ignore

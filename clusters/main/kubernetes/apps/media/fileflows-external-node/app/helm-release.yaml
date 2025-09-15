@@ -2,7 +2,7 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: fileflows-external-node
-  namespace: fileflows
+  namespace: fileflows-external-node
 spec:
   interval: 15m
   chart:
