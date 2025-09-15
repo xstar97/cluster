@@ -48,7 +48,7 @@ spec:
         enabled: true
         ingressClassName: "internal"
         hosts:
-          - host: fileflows2.${DOMAIN_2}
+          - host: fileflows.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
@@ -91,9 +91,9 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              enabled: false
+              enabled: true
             src:
-              enabled: false
+              enabled: true
       logs:
         enabled: true
         type: emptyDir
