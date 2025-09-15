@@ -31,7 +31,7 @@ spec:
     image:
       repository: ghcr.io/xstar97/rompatcherjs
       pullPolicy: IfNotPresent
-      tag: v3.0@sha256:fa9f61162d5c82739ab758403fc13fbae9aebd9e573f87dc837b94bd0f1b190e
+      tag: v2.9.1
     global:
       stopAll: false
     securityContext:
