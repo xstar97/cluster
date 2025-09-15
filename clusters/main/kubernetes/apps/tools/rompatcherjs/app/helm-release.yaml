@@ -46,7 +46,7 @@ spec:
         enabled: true
         ingressClassName: "internal"
         hosts:
-          - host: rompatcherjs.${DOMAIN_2}
+          - host: rompatcherjs2.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
