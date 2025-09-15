@@ -45,7 +45,7 @@ spec:
         runAsGroup: 0
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "internal"
         hosts:
           - host: fileflows.${DOMAIN_2}
