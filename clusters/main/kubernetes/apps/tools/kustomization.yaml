@@ -12,4 +12,3 @@ resources:
   - feedcord/ks.yaml
   - omni-tools/ks.yaml
   - guacamole/ks.yaml
-  - rompatcherjs/ks.yaml
