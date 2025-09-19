@@ -62,14 +62,12 @@ spec:
                 SONARR_URL: "http://sonarr-animes.sonarr-animes.svc.cluster.local:8989"
                 SONARR_API_KEY: "${SONARR_ANIMES_KEY}"
                 # 361 one piece
-                SONARR_SERIES_ID: "361"
+                SONARR_SERIES_ID: 361
                 AFL_ANIME_NAME: "one-piece"
                 PLEX_URL: "http://plex.plex.svc.cluster.local:32400"
                 PLEX_TOKEN: "${PLEX_TOKEN_PAL}"
                 CREATE_PLEX_COLLECTION: "True"
                 PLEX_ANIME_LIBRARY: Animes
-    sofe:
-      a
 
     configmap:
       gatus:
