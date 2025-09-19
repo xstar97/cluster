@@ -32,4 +32,4 @@ resources:
   - huntarr/ks.yaml
   - cloudcmd/ks.yaml
   - jellyseerr/ks.yaml
-  - agregarr/ks.yaml
+  - agregarr/ks.yaml  - sofe/ks.yaml
