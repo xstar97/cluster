@@ -64,7 +64,7 @@ spec:
             enabled: true
           homepage:
             enabled: true
-            group: "Media Manager"
+            group: "Media Indexer"
             widget:
               custom:
                 key: "${PROWLARR_KEY}"
