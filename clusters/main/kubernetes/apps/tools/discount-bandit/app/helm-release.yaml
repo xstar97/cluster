@@ -77,8 +77,8 @@ spec:
                 SPA: 1
                 DISABLE_AUTH: 1
                 THEME_COLOR: Stone
-                APP_URL: "https://disbandit.${DOMAIN_2}"
-                ASSET_URL: "https://disbandit.${DOMAIN_2}"
+                APP_URL: "http://localhost:80"
+                ASSET_URL: http://localhost:80"
     ingress:
       main:
         enabled: true
