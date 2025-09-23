@@ -65,9 +65,9 @@ spec:
                 # NTFY_BASE_URL: "https://ntfy.sh"
                 # TELEGRAM_BOT_TOKEN: ""
                 # TELEGRAM_CHANNEL_ID: ""
-                # DEFAULT_USER: "test"
-                # DEFAULT_EMAIL: "docker@test.com"
-                # DEFAULT_PASSWORD: "thisismypassword"
+                DEFAULT_USER: "test"
+                DEFAULT_EMAIL: "docker@test.com"
+                DEFAULT_PASSWORD: "thisismypassword"
                 # APPRISE_URL: ""
                 APP_TIMEZONE: America/New_York
                 RSS_FEED: 1
