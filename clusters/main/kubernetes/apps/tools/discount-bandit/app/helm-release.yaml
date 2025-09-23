@@ -33,7 +33,7 @@ spec:
     image:
       repository: cybrarist/discount-bandit
       pullPolicy: IfNotPresent
-      tag: v3.6@sha256:1e44a4d12eae1db26d383ec5830f8dfd0e3e73565bddff0fa346642c927a1672
+      tag: v3.7@sha256:42ba1547426e0a0d78fd49d702a5fc193711f13952a002ddeb85bef4bfa0e63e
     credentials:
       cf-restic:
         type: s3
