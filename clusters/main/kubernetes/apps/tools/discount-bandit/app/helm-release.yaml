@@ -1,0 +1,130 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: discount-bandit
+  namespace: discount-bandit
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.8.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:    
+    global:
+      stopAll: false
+    image:
+      repository: cybrarist/discount-bandit
+      pullPolicy: IfNotPresent
+      tag: v3.6@sha256:1e44a4d12eae1db26d383ec5830f8dfd0e3e73565bddff0fa346642c927a1672
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-discount-bandit"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        runAsNonRoot: false
+        readOnlyRootFilesystem: false
+        runAsUser: 0
+        runAsGroup: 0
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 80
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                DB_CONNECTION: sqlite
+                #NTFY_CHANNEL_ID: ""
+                # NTFY_BASE_URL: "https://ntfy.sh"
+                # TELEGRAM_BOT_TOKEN: ""
+                # TELEGRAM_CHANNEL_ID: ""
+                # DEFAULT_USER: "test"
+                # DEFAULT_EMAIL: "docker@test.com"
+                # DEFAULT_PASSWORD: "thisismypassword"
+                # APPRISE_URL: ""
+                APP_TIMEZONE: America/New_York
+                RSS_FEED: 1
+                TOP_NAVIGATION: 0
+                DISABLE_TOP_BAR: 0
+                BREADCRUMBS: 1
+                SPA: 1
+                DISABLE_AUTH: 1
+                THEME_COLOR: Stone
+                APP_URL: "https://disbandit.${DOMAIN_2}"
+                ASSET_URL: "https://disbandit.${DOMAIN_2}"
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: disbandit.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    configmap:
+      gatus:
+        enabled: true
+        labels:
+          gatus.io/enabled: "false"
+        data:
+          config.yaml: |
+            endpoints:
+              - name: {{ .Release.Namespace }}
+                group: tools
+                url: '{{ printf "%s://%s-app-template.%s.svc.cluster.local:%v" "http" .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
+                interval: 1m
+                ui:
+                  hide-url: true
+                  hide-hostname: true
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "healthcheck failed"
+                    send-on-resolved: true
+
+    persistence:
+      database:
+        enabled: true
+        mountPath: /app/database
+        volsync:
+          - name: database
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
