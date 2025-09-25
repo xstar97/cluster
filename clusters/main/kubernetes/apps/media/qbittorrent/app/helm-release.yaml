@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: qbittorrent
-      version: 23.5.0
+      version: 23.6.0
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -36,7 +36,7 @@ spec:
         encrKey: "${CF_S3_RESTIC_KEY}"
     service:
       glue:
-        enabled: true
+        enabled: false
         type: ClusterIP
         ports:
           control:
@@ -65,7 +65,7 @@ spec:
       gatus:
         enabled: true
         labels:
-          gatus.io/enabled: "true"
+          gatus.io/enabled: "false"
         data:
           config.yaml: |
             endpoints:
@@ -83,7 +83,7 @@ spec:
                     description: "healthcheck failed"
                     send-on-resolved: true
       gluetun-auth-config:
-        enabled: true
+        enabled: false
         data:
           config.toml: >-
             [[roles]]
@@ -110,7 +110,7 @@ spec:
         path: ${DOWNLOADS_NFS}
         mountPath: "${DOWNLOADS_LOCAL}"
       gluetun-auth-config:
-        enabled: true
+        enabled: false
         type: configmap
         mountPath: /gluetun/auth/config.toml
         objectName: gluetun-auth-config
@@ -119,7 +119,7 @@ spec:
         targetSelectAll: true
     addons:
       gluetun:
-        enabled: true
+        enabled: false
         container:
           resources:
             limits:

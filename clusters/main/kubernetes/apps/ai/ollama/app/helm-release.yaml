@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 15.7.0
+      version: 15.8.3
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -30,7 +30,7 @@ spec:
     image:
       repository: ollama/ollama
       pullPolicy: IfNotPresent
-      tag: 0.11.11@sha256:24d41d792306fc3221de215bb6f225faf981712d1f38083d8c61301dfa2b69b3
+      tag: 0.12.2@sha256:1b80cecb262ee3be70474130aaff1e4949dab741c74b94e819d3f2a2ba520f29
     credentials:
       cf-restic:
         type: s3

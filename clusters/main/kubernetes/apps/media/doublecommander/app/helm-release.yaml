@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: doublecommander
-      version: 15.5.0
+      version: 15.6.0
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -43,10 +43,6 @@ spec:
         integrations:
           nginx:
             enabled: true
-            auth:
-              type: "authelia"
-              internalHost: "authelia.authelia.svc.cluster.local:9091"
-              externalHost: "auth.${DOMAIN_2}"
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
