@@ -8,4 +8,4 @@ metadata:
 spec:
   type: oci
   interval: 5m
-  url: oci://oci.trueforge.org/truecharts
+  url: oci://tccr.io/truecharts # oci://oci.trueforge.org/truecharts
