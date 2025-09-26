@@ -30,6 +30,8 @@ spec:
   values:
     global:
       stopAll: false
+    securityContext:
+      readOnlyRootFilesystem: false
     credentials:
       cf-restic:
         type: s3
