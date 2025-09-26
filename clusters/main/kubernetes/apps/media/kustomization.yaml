@@ -33,3 +33,4 @@ resources:
   - cloudcmd/ks.yaml
   - jellyseerr/ks.yaml
   - agregarr/ks.yaml
+  - nzbget/ks.yaml

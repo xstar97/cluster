@@ -1,0 +1,116 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nzbget
+  namespace: nzbget
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: nzbget
+      version: 27.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-nzbget"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 6789
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                NZBGET__PORT: "{{ .Values.service.main.ports.main.port }}"
+                NZBGET__USER: nzbget
+                NZBGET__PASS: nzbget
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: nzbget.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          homepage:
+            enabled: true
+            group: "Media Downloads"
+            widget:
+              custom:
+                type: nzbget
+                # url: http://nzbget.nzbget.svc.cluster.local:10097
+                username: nzbget
+                password: nzbget
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    configmap:
+      gatus:
+        enabled: true
+        labels:
+          gatus.io/enabled: "true"
+        data:
+          config.yaml: |
+            endpoints:
+              - name: {{ .Release.Namespace }}
+                group: media
+                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" "http" .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
+                interval: 1m
+                ui:
+                  hide-url: true
+                  hide-hostname: true
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "healthcheck failed"
+                    send-on-resolved: true
+    persistence:
+      config:
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      downloads:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${DOWNLOADS_NFS}
+        mountPath: "${DOWNLOADS_LOCAL}"
