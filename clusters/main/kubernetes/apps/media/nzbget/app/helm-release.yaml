@@ -30,6 +30,10 @@ spec:
   values:
     global:
       stopAll: false
+    image:
+      repository: ghcr.io/home-operations/nzbget
+      pullPolicy: IfNotPresent
+      tag: 25.2.0@sha256:1eea992c839f16cb23e7635b407a576eec928db1f2989f3aca801289ba782f59
     credentials:
       cf-restic:
         type: s3
@@ -53,6 +57,16 @@ spec:
         podSpec:
           containers:
             main:
+              probes:
+                liveness:
+                  enabled: true
+                  path: /
+                readiness:
+                  enabled: true
+                  path: /
+                startup:
+                  enabled: true
+                  path: /
               env:
                 NZBGET__PORT: "{{ .Values.service.main.ports.main.port }}"
                 NZBGET__USER: nzbget
