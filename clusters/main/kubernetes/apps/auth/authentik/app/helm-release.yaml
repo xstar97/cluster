@@ -30,7 +30,7 @@ spec:
     keepHistory: false
   values:
     global:
-      stopAll: true
+      stopAll: false
       skipEmptyWalArchiveCheck: true
     credentials:
       cf-restic:
@@ -50,7 +50,7 @@ spec:
       gatus:
         enabled: true
         labels:
-          gatus.io/enabled: "false"
+          gatus.io/enabled: "true"
         data:
           config.yaml: |
             endpoints:
