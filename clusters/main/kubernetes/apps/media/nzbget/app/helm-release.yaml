@@ -40,7 +40,11 @@ spec:
         encrKey: "${CF_S3_RESTIC_KEY}"
     service:
       main:
-        type: ClusterIP
+        type: LoadBalancer
+        loadBalancerIP: 10.0.0.226
+        integrations:
+          metallb:
+            enabled: true
         ports:
           main:
             port: 6789
