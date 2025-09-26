@@ -30,6 +30,10 @@ spec:
   values:
     global:
       stopAll: false
+    image:
+      repository: ghcr.io/sharevb/it-tools
+      pullPolicy: IfNotPresent
+      tag: 2025.8.31-13b8f041@sha256:823f70ea2bf55dea0e1a4ae23db97e6bace07bfe883d7e3b7e2900975486aa0e
     service:
       main:
         type: ClusterIP
