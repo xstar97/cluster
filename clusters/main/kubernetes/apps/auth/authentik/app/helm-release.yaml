@@ -30,7 +30,7 @@ spec:
     keepHistory: false
   values:
     global:
-      stopAll: false
+      stopAll: true
       skipEmptyWalArchiveCheck: true
     credentials:
       cf-restic:
