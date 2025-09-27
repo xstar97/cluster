@@ -59,14 +59,14 @@ spec:
     workload:
       main:
         podSpec:
-          runtimeClassName: nvidia
+          # runtimeClassName: nvidia
           containers:
             main:
               env:
                 PLEX_CLAIM: "${PLEX_CLAIM_TOKEN}"
               resources:
                 limits:
-                  nvidia.com/gpu: 1
+                  nvidia.com/gpu: 0
     ingress:
       main:
         enabled: true
