@@ -98,9 +98,12 @@ spec:
             # Dump as JSON array so it’s easy to consume
             internalUrls: {{ $allUrls | toJson }}
 
+            # Single service URL
             {{- $svcName := "guacd" -}}
             {{- $portName := "guacd" -}}
-            singleURL: '{{ printf "%s://%s.%s.svc.cluster.local:%v" (default "http" (index .Values.service $svcName).ports.$portName.protocol) (printf "%s-%s" (include "tc.v1.common.lib.chart.names.fullname" $) $svcName) .Release.Namespace (index .Values.service $svcName).ports.$portName.port }}'
+            {{- $svc := index .Values.service $svcName -}}
+            {{- $port := index $svc.ports $portName -}}
+            singleURL: '{{ printf "%s://%s.%s.svc.cluster.local:%v" (default "http" $port.protocol) (printf "%s-%s" (include "tc.v1.common.lib.chart.names.fullname" $) $svcName) .Release.Namespace $port.port }}'
 
             
       gatus:
