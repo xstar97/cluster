@@ -68,6 +68,9 @@ spec:
         integrations:
           nginx:
             enabled: true
+          homepage:
+            enabled: true
+            group: Monitoring
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
