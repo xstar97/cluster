@@ -60,50 +60,26 @@ spec:
         enabled: true
         data:
           test.txt: |
-            internalURL: '{{ printf "%s://%s.%s.svc.cluster.local:%v" .Values.service.main.ports.main.protocol (include "tc.v1.common.lib.chart.names.fullname" $) .Release.Namespace .Values.service.main.ports.main.port }}'
+            # Single service URL (respects expandName and primary)
+            {{- $svcName := "main" -}}           # Change to "guacd" or any other service
+            {{- $portName := "main" -}}
 
-            
-            # Collect all services and ports into a list
-            {{- $allUrls := list -}}
-            {{- range $name, $service := .Values.service -}}
-              {{- $enabled := (include "tc.v1.common.lib.util.enabled" (dict
-                              "rootCtx" $ "objectData" $service
-                              "name" $name "caller" "Service"
-                              "key" "service")) -}}
-              {{- if eq $enabled "true" -}}
-                {{- $namespace := (include "tc.v1.common.lib.metadata.namespace" (dict "rootCtx" $ "objectData" $service "caller" "Service")) -}}
-                {{- $fullname := include "tc.v1.common.lib.chart.names.fullname" $ -}}
-                {{- $objectName := $name -}}
-                {{- $expandName := (include "tc.v1.common.lib.util.expandName" (dict "rootCtx" $ "objectData" $service "name" $name "caller" "Service" "key" "service")) -}}
-                {{- if eq $expandName "true" -}}
-                  {{- $objectName = $fullname -}}
-                {{- end -}}
-                {{- if and (eq $expandName "true") (not $service.primary) -}}
-                  {{- $objectName = (printf "%s-%s" $fullname $name) -}}
-                {{- end -}}
-
-                {{- range $port := $service.ports -}}
-                  {{- $enabledP := (include "tc.v1.common.lib.util.enabled" (dict
-                                  "rootCtx" $ "objectData" $port
-                                  "name" $name "caller" "service"
-                                  "key" "port")) -}}
-                  {{- if eq $enabledP "true" -}}
-                    {{- $url := printf "%s://%s.%s.svc.cluster.local:%v" $port.protocol $objectName $namespace $port.port -}}
-                    {{- $allUrls = mustAppend $allUrls $url -}}
-                  {{- end -}}
-                {{- end -}}
-              {{- end -}}
-            {{- end -}}
-
-            # Dump as JSON array so it’s easy to consume
-            internalUrls: {{ $allUrls | toJson }}
-
-            # Single service URL
-            {{- $svcName := "guacd" -}}
-            {{- $portName := "guacd" -}}
             {{- $svc := index .Values.service $svcName -}}
             {{- $port := index $svc.ports $portName -}}
-            singleURL: '{{ printf "%s://%s.%s.svc.cluster.local:%v" (default "http" $port.protocol) (printf "%s-%s" (include "tc.v1.common.lib.chart.names.fullname" $) $svcName) .Release.Namespace $port.port }}'
+
+            {{- $fullname := include "tc.v1.common.lib.chart.names.fullname" $ -}}
+            {{- $objectName := $svcName -}}
+
+            {{- $expandName := (include "tc.v1.common.lib.util.expandName" (dict "rootCtx" $ "objectData" $svc "name" $svcName "caller" "Service" "key" "service")) -}}
+            {{- if eq $expandName "true" -}}
+              {{- $objectName = $fullname -}}
+            {{- end -}}
+
+            {{- if and (eq $expandName "true") (not $svc.primary) -}}
+              {{- $objectName = printf "%s-%s" $fullname $svcName -}}
+            {{- end -}}
+
+            singleURL: '{{ printf "%s://%s.%s.svc.cluster.local:%v" (default "http" $port.protocol) $objectName .Release.Namespace $port.port }}'
 
             
       gatus:
