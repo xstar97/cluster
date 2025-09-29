@@ -60,7 +60,11 @@ spec:
         enabled: true
         data:
           test.txt: |
-            endpoints:
+            {{- if .Values.chartContext.appUrl }}
+            ## Connecting externally
+            You can use this Chart by opening the following links in your browser:
+            - {{ toYaml .Values.chartContext.appUrl }}
+            {{- end }}
             {{- if .Values.chartContext.internalUrls }}
             ## Connecting Internally
 
