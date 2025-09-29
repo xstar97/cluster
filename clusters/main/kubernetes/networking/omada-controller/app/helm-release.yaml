@@ -173,6 +173,10 @@ spec:
                 group: networking
                 url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" .Values.service.main.ports.main.protocol .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
                 interval: 1m
+                client:
+                  insecure: true
+                  ignore-redirect: false
+                  timeout: 10s
                 ui:
                   hide-url: true
                   hide-hostname: true
