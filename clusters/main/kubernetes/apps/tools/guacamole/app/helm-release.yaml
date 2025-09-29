@@ -62,8 +62,10 @@ spec:
           test.txt: |
             internalURL: '{{ printf "%s://%s.%s.svc.cluster.local:%v" .Values.service.main.ports.main.protocol (include "tc.v1.common.lib.chart.names.fullname" $) .Release.Namespace .Values.service.main.ports.main.port }}'
             
-            serviceMain: '{{ $.Values.service.main }}'
-
+            
+            {{- $namespace := (include "tc.v1.common.lib.metadata.namespace" (dict "rootCtx" $ "objectData" $service "caller" "Service")) -}}
+            ns: '{{ printf "%s" $namespace }}'
+            
       gatus:
         enabled: true
         labels:
