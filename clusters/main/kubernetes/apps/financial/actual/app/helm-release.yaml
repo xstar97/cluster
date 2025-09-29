@@ -84,7 +84,7 @@ spec:
             endpoints:
               - name: {{ .Release.Namespace }}
                 group: financial
-                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" "http" .Release.Name "actualserver" .Values.service.main.ports.main.port }}'
+                url: '{{ printf "%s://%s-actualserver.%s.svc.cluster.local:%v" "http" .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
                 interval: 1m
                 ui:
                   hide-url: true
