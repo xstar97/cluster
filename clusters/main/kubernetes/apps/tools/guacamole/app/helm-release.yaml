@@ -60,30 +60,32 @@ spec:
         enabled: true
         data:
           test.txt: |
+            {{- $svcName := "main" -}}
+            {{- $portName := "main" -}}
+
+            {{- $svc := index .Values.service $svcName -}}
+            {{- $port := index $svc.ports $portName -}}
+
+            {{- $fullname := include "tc.v1.common.lib.chart.names.fullname" $ -}}
+            {{- $objectName := $svcName -}}
+
+            {{- $expandName := include "tc.v1.common.lib.util.expandName" (dict "rootCtx" $ "objectData" $svc "name" $svcName "caller" "Service" "key" "service") -}}
+            {{- if eq $expandName "true" -}}
+              {{- $objectName = $fullname -}}
+            {{- end -}}
+
+            {{- if and (eq $expandName "true") (not $svc.primary) -}}
+              {{- $objectName = printf "%s-%s" $fullname $svcName -}}
+            {{- end -}}
+
+            {{- $internalUrl := printf "%s://%s.%s.svc.cluster.local:%v" (default "http" $port.protocol) $objectName .Release.Namespace $port.port -}}
+
+            {{- if not (empty $internalUrl) -}}
+            # Only render this section if $internalUrl is not empty
             endpoints:
               - name: {{ .Release.Namespace }}
                 group: tools
-                
-                {{- $svcName := "main" -}}
-                {{- $portName := "main" -}}
-
-                {{- $svc := index .Values.service $svcName -}}
-                {{- $port := index $svc.ports $portName -}}
-
-                {{- $fullname := include "tc.v1.common.lib.chart.names.fullname" $ -}}
-                {{- $objectName := $svcName -}}
-
-                {{- $expandName := (include "tc.v1.common.lib.util.expandName" (dict "rootCtx" $ "objectData" $svc "name" $svcName "caller" "Service" "key" "service")) -}}
-                {{- if eq $expandName "true" -}}
-                  {{- $objectName = $fullname -}}
-                {{- end -}}
-
-                {{- if and (eq $expandName "true") (not $svc.primary) -}}
-                  {{- $objectName = printf "%s-%s" $fullname $svcName -}}
-                {{- end -}}
-
-                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" (default "http" $port.protocol) $objectName .Release.Namespace $port.port }}'
-                
+                url: {{ $internalUrl }}
                 interval: 1m
                 ui:
                   hide-url: true
@@ -94,6 +96,9 @@ spec:
                   - type: discord
                     description: "healthcheck failed"
                     send-on-resolved: true
+            {{- else -}}
+            # internalUrl is empty, skipping endpoints
+            {{- end -}}
 
       gatus:
         enabled: true
