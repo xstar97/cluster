@@ -62,7 +62,38 @@ spec:
           test.txt: |          
             appURL: {{ toYaml .Values.chartContext.appUrl }}
             internalURL: '{{ printf "%s://%s.%s.svc.cluster.local:%v" .Values.service.main.ports.main.protocol .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
-            
+
+
+            {{- range $name, $service := .Values.service -}}
+            {{- $enabled := (include "tc.v1.common.lib.util.enabled" (dict
+                            "rootCtx" $ "objectData" $service
+                            "name" $name "caller" "Service"
+                            "key" "service")) -}}
+
+                    
+            {{/* Create a copy of the configmap */}}
+            {{- $objectData := (mustDeepCopy $service) -}}
+            {{- $namespace := (include "tc.v1.common.lib.metadata.namespace" (dict "rootCtx" $ "objectData" $service "caller" "Service")) -}}
+
+            {{/* Init object name */}}
+            {{- $objectName := $name -}}
+            {{- $allUrls := $.Values.chartContext.internalUrls | default list -}}
+
+            {{/* Set the name of the service */}}
+            {{- $_ := set $objectData "name" $objectName -}}
+            {{- $_ := set $objectData "shortName" $name -}}
+
+            {{/* Now iterate over the ports in the service */}}
+            {{- range $port := $service.ports -}}
+              {{- $enabledP := (include "tc.v1.common.lib.util.enabled" (dict
+                            "rootCtx" $ "objectData" $port
+                            "name" $name "caller" "service"
+                            "key" "port")) -}}
+              {{- if ne $enabledP "true" -}}{{- continue -}}{{- end -}}
+              {{- $internalUrl := (printf "%s.%s.svc.cluster.local:%s" $objectName $namespace $port.port) -}}
+              {{/* Append URLS */}}
+              {{- $allUrls = mustAppend $allUrls $internalUrl -}}
+            {{- end -}}
 
       gatus:
         enabled: true
