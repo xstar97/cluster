@@ -79,7 +79,8 @@ spec:
 
             {{- if and (eq $expandName "true") (not $svc.primary) -}}
               {{- $objectName = printf "%s-%s" $fullname $svcName -}}
-            {{- end -}}            
+            {{- end -}}
+            
             endpoints:
               - name: {{ .Release.Namespace }}
                 group: tools
