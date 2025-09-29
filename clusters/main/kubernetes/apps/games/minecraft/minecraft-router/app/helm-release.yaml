@@ -115,7 +115,7 @@ spec:
             endpoints:
               - name: {{ .Release.Namespace }}
                 group: games
-                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" "http" .Release.Name .Release.Namespace .Values.service.api.ports.api.port }}'
+                url: '{{ printf "%s://%s-minecraft-java.%s.svc.cluster.local:%v" "http" .Release.Name .Release.Namespace .Values.service.api.ports.api.port }}'
                 interval: 1m
                 ui:
                   hide-url: true
