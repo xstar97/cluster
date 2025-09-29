@@ -58,12 +58,11 @@ spec:
     configmap:
       test:
         enabled: true
-        data:
-          test.txt: |
+        data: |
             endpoints:
               - name: {{ .Release.Namespace }}
                 group: tools
-                
+
                 {{- $svcName := "main" -}}
                 {{- $portName := "main" -}}
 
