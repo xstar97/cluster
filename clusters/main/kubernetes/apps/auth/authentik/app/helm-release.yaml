@@ -76,7 +76,7 @@ spec:
           nginx.ingress.kubernetes.io/ssl-passthrough: "true"
           nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         hosts:
-          - host: auth2.${DOMAIN_2}
+          - host: '{{ printf "%s.%s".Release.Name DOMAIN_2 }}'
             paths:
               - path: /
                 pathType: Prefix
