@@ -64,9 +64,9 @@ spec:
             
             internalURL: '{{ printf "%s://%s.%s.svc.cluster.local:%v" .Values.service.main.ports.main.protocol (include "tc.v1.common.lib.chart.names.fullname" $) .Release.Namespace .Values.service.main.ports.main.port }}'
             
-            chartName: {{ .Values.chart.name }}
-            
-            chartVER: {{ .Values.chart.version }}
+            chartName: {{ .spec.chart.name }}
+
+            chartVER: {{ .spec.chart.version }}
 
       gatus:
         enabled: true
