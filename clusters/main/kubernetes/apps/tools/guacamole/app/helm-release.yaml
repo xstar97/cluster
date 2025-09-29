@@ -59,12 +59,15 @@ spec:
       test:
         enabled: true
         data:
-          test.txt: |          
-            appURL: {{ toYaml .Values.chartContext.appUrl }}
+          test.txt: |
+            {{- $fullname := include "tc.v1.common.lib.chart.names.fullname" $ }}
+            {{- $prot := .Values.service.main.ports.main.protocol -}}
+            {{- $svc := .Values.selectedService.name -}}
+            {{- $ns := .Release.Namespace -}}
+            {{- $port := .Values.service.main.ports.main.port -}}
+            internalURL: '{{ printf "%s://%s.%s.svc.cluster.local:%v" $prot $fullname $ns $port }}'
             
-            internalURL: '{{ printf "%s://%s.%s.svc.cluster.local:%v" .Values.service.main.ports.main.protocol (include "tc.v1.common.lib.chart.names.fullname" $) .Release.Namespace .Values.service.main.ports.main.port }}'
-            
-            Values: {{ toYaml .Values }}
+            svc: {{ $svc }}
 
       gatus:
         enabled: true
