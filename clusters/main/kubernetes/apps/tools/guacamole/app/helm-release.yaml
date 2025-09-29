@@ -68,6 +68,7 @@ spec:
             {{- $svc := $objectData.selectedService.name -}}
             {{- $port := $objectData.selectedService.port -}}
             {{- $prot := $objectData.selectedService.protocol -}}
+            {{- $ns := .Release.Namespace -}}
             internalURL2: '{{ printf "%s://%s.%s.svc:%s" $prot $svc $ns $port }}'
 
       gatus:
