@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-external-gatus
+  namespace: flux-system
+  labels:
+    gatus.io/enabled: "true"
+data:
+  config.yaml: |
+    endpoints:
+      - name: nginx-external
+        group: core
+        url: 'https://nginx-external-controller-admission.nginx.svc.cluster.local:443'
+        interval: 1m
+        client:
+          insecure: true
+          timeout: 30s
+        ui:
+          hide-url: true
+          hide-hostname: true
+        conditions:
+          - "[CONNECTED] == true"
+        alerts:
+          - type: discord
+            description: "healthcheck failed"
+            send-on-resolved: true

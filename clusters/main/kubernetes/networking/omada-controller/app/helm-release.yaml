@@ -161,25 +161,6 @@ spec:
                 # ROOTLESS: "true"
                 # PUSERNAME: 568
                 # PGROUP: 568
-    gatus:
-      endpoints:
-        - name: omada-controller
-          group: networking
-          url: "https://omada-controller.omada-controller.svc.cluster.local:8043"
-          interval: 1m
-          ui:
-            hide-url: true
-            hide-hostname: true
-          client:
-            insecure: true
-            ignore-redirect: false
-            timeout: 10s
-          conditions:
-            - "[CONNECTED] == true"
-          alerts:
-            - type: discord
-              description: "healthcheck failed"
-              send-on-resolved: true
     configmap:
       gatus:
         enabled: true
@@ -187,7 +168,20 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            {{- $.Values.gatus | toYaml | nindent 2 }}
+            endpoints:
+              - name: {{ .Release.Namespace }}
+                group: networking
+                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" .Values.service.main.ports.main.protocol .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
+                interval: 1m
+                ui:
+                  hide-url: true
+                  hide-hostname: true
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "healthcheck failed"
+                    send-on-resolved: true
     persistence:
       data:
         volsync:

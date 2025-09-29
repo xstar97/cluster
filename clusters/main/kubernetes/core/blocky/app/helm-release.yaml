@@ -79,21 +79,6 @@ spec:
       # optional one of: mysql, postgresql, csv, csv-client. If empty, log to console only
       type: ""
 
-    gatus:
-      endpoints:
-        - name: blocky
-          group: networking
-          url: "http://blocky.blocky.svc.cluster.local:4000"
-          interval: 1m
-          ui:
-            hide-url: true
-            hide-hostname: true
-          conditions:
-            - "[CONNECTED] == true"
-          alerts:
-            - type: discord
-              description: "healthcheck failed"
-              send-on-resolved: true
     configmap:
       dashboard:
         enabled: false
@@ -105,7 +90,21 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            {{- $.Values.gatus | toYaml | nindent 2 }}
+            endpoints:
+              - name: {{ .Release.Namespace }}
+                group: networking
+                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" .Values.service.main.ports.main.protocol .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
+                interval: 1m
+                ui:
+                  hide-url: true
+                  hide-hostname: true
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "healthcheck failed"
+                    send-on-resolved: true
+
     cnpg:
       main:
         enabled: false

@@ -57,9 +57,9 @@ spec:
             certificateIssuer: general-le-prod
     configmap:
       gatus:
-        enabled: false
+        enabled: true
         labels:
-          gatus.io/enabled: "false"
+          gatus.io/enabled: "true"
         data:
           config.yaml: |
             endpoints:

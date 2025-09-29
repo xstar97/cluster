@@ -83,21 +83,6 @@ spec:
                 APP_TIMEZONE: "America/New_York"
                 DISPLAY_TIMEZONE: "America/New_York"
                 SPEEDTEST_SCHEDULE: "0 */3 * * *"
-    gatus:
-      endpoints:
-        - name: speedtest-tracker
-          group: networking
-          url: "http://speedtest-tracker.speedtest-tracker.svc.cluster.local:80"
-          interval: 1m
-          ui:
-            hide-url: true
-            hide-hostname: true
-          conditions:
-            - "[CONNECTED] == true"
-          alerts:
-            - type: discord
-              description: "healthcheck failed"
-              send-on-resolved: true
     configmap:
       gatus:
         enabled: true
@@ -105,7 +90,20 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            {{- $.Values.gatus | toYaml | nindent 2 }}
+            endpoints:
+              - name: {{ .Release.Namespace }}
+                group: networking
+                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" .Values.service.main.ports.main.protocol .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
+                interval: 1m
+                ui:
+                  hide-url: true
+                  hide-hostname: true
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "healthcheck failed"
+                    send-on-resolved: true
     persistence:
       config:
         volsync:
