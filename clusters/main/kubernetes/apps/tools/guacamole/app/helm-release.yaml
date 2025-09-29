@@ -60,7 +60,7 @@ spec:
         enabled: true
         data:
           test.txt: |
-            # Single service URL (respects expandName and primary)
+            # gatus example
 
             {{- $svcName := "main" -}}
             {{- $portName := "main" -}}
@@ -78,12 +78,7 @@ spec:
 
             {{- if and (eq $expandName "true") (not $svc.primary) -}}
               {{- $objectName = printf "%s-%s" $fullname $svcName -}}
-            {{- end -}}
-
-
-            # singleURL: '{{ printf "%s://%s.%s.svc.cluster.local:%v" (default "http" $port.protocol) $objectName .Release.Namespace $port.port }}'
-
-            
+            {{- end -}}            
             endpoints:
               - name: {{ .Release.Namespace }}
                 group: tools
