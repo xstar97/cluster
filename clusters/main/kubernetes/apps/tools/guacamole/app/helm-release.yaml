@@ -57,7 +57,7 @@ spec:
             certificateIssuer: general-le-prod
     configmap:
       test:
-        enabled: true
+        enabled: false
         data:
           test.txt: |
             {{- $svcName := "main" -}}
@@ -101,9 +101,7 @@ spec:
             {{- end -}}
 
       gatus:
-        enabled: true
-        labels:
-          gatus.io/enabled: "true"
+        enabled: false
         data:
           config.yaml: |
             endpoints:
