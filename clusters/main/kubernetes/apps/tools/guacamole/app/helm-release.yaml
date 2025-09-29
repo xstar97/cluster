@@ -60,8 +60,7 @@ spec:
         enabled: true
         data:
           test.txt: |
-            # Single service URL (respects expandName and primary)
-            {{- $svcName := "guacd" -}}           # Change to "guacd" or any other service
+            {{- $svcName := "guacd" -}}
             {{- $portName := "guacd" -}}
 
             {{- $svc := index .Values.service $svcName -}}
@@ -78,7 +77,7 @@ spec:
             {{- if and (eq $expandName "true") (not $svc.primary) -}}
               {{- $objectName = printf "%s-%s" $fullname $svcName -}}
             {{- end -}}
-            
+
             endpoints:
               - name: {{ .Release.Namespace }}
                 group: tools
