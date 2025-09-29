@@ -67,6 +67,7 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
+          
             {{- $svcName := "main" -}}
             {{- $portName := "main" -}}
 
