@@ -60,11 +60,10 @@ spec:
         enabled: true
         data:
           test.txt: |
-          
-            # Single service URL (respects expandName and primary
+            # Single service URL (respects expandName and primary)
 
-            {{- $svcName := "guacd" -}}
-            {{- $portName := "guacd" -}}
+            {{- $svcName := "main" -}}
+            {{- $portName := "main" -}}
 
             {{- $svc := index .Values.service $svcName -}}
             {{- $port := index $svc.ports $portName -}}
@@ -81,7 +80,25 @@ spec:
               {{- $objectName = printf "%s-%s" $fullname $svcName -}}
             {{- end -}}
 
-            singleURL: '{{ printf "%s://%s.%s.svc.cluster.local:%v" (default "http" $port.protocol) $objectName .Release.Namespace $port.port }}'
+
+            # singleURL: '{{ printf "%s://%s.%s.svc.cluster.local:%v" (default "http" $port.protocol) $objectName .Release.Namespace $port.port }}'
+
+            
+            endpoints:
+              - name: {{ .Release.Namespace }}
+                group: tools
+                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" (default "http" $port.protocol) $objectName .Release.Namespace $port.port }}'
+                interval: 1m
+                ui:
+                  hide-url: true
+                  hide-hostname: true
+                conditions:
+                  - "[CONNECTED] == true"
+                alerts:
+                  - type: discord
+                    description: "healthcheck failed"
+                    send-on-resolved: true
+
 
       gatus:
         enabled: true
