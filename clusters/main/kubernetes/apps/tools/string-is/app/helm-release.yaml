@@ -67,29 +67,10 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-          
-            {{- $svcName := "main" -}}
-            {{- $portName := "main" -}}
-
-            {{- $svc := index .Values.service $svcName -}}
-            {{- $port := index $svc.ports $portName -}}
-
-            {{- $fullname := include "tc.v1.common.lib.chart.names.fullname" $ -}}
-            {{- $objectName := $svcName -}}
-
-            {{- $expandName := (include "tc.v1.common.lib.util.expandName" (dict "rootCtx" $ "objectData" $svc "name" $svcName "caller" "Service" "key" "service")) -}}
-            {{- if eq $expandName "true" -}}
-              {{- $objectName = $fullname -}}
-            {{- end -}}
-
-            {{- if and (eq $expandName "true") (not $svc.primary) -}}
-              {{- $objectName = printf "%s-%s" $fullname $svcName -}}
-            {{- end -}}
-
             endpoints:
               - name: {{ .Release.Namespace }}
                 group: tools
-                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" (default "http" $port.protocol) $objectName .Release.Namespace $port.port }}'
+                url: '{{ printf "%s://%s-app-template.%s.svc.cluster.local:%v" "http" .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
                 interval: 1m
                 ui:
                   hide-url: true
