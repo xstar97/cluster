@@ -70,6 +70,8 @@ spec:
             enabled: true
           homepage:
             enabled: true
+            description: "Automated service health dashboard"
+            icon: "sh-gatus.svg"
             group: Monitoring
             widget:
               type: gatus
