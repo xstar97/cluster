@@ -73,7 +73,7 @@ spec:
             endpoints:
               - name: {{ .Release.Namespace }}
                 group: tools
-                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" "http" .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
+                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v/health" .Values.service.main.ports.main.protocol .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
                 interval: 1m
                 ui:
                   hide-url: true
