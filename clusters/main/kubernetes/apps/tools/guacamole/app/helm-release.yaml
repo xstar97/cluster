@@ -60,11 +60,15 @@ spec:
         enabled: true
         data:
           test.txt: |
+            {{- $rootCtx := .rootCtx -}}
             {{- $fullname := include "tc.v1.common.lib.chart.names.fullname" $ }}
+            {{- $primaryServiceName := include "tc.v1.common.lib.util.service.primary" (dict "rootCtx" $rootCtx) -}}
+            {{- $selectedService := (get .Values.service $primaryServiceName) -}}
             {{- $prot := .Values.service.main.ports.main.protocol -}}
-            {{- $svc := .Values.selectedService.name -}}
+            {{- $svc := $selectedService.name -}}
             {{- $ns := .Release.Namespace -}}
             {{- $port := .Values.service.main.ports.main.port -}}
+            
             internalURL: '{{ printf "%s://%s.%s.svc.cluster.local:%v" $prot $fullname $ns $port }}'
             
             svc: {{ $svc }}
