@@ -3,11 +3,3 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - helm-release.yaml
-  - ../../../components/gatus/config.yaml
-
-configMapGenerator:
-  - name: gatus-env
-    literals:
-      - GATUS_NAME=guacamole
-      - GATUS_GROUP=tools
-      - GATUS_URL=http://guacamole.guacamole.svc.cluster.local:10123
