@@ -63,6 +63,7 @@ spec:
             endpoints:
               - name: {{ .Release.Namespace }}
                 group: tools
+                
                 {{- $svcName := "main" -}}
                 {{- $portName := "main" -}}
 
@@ -80,7 +81,9 @@ spec:
                 {{- if and (eq $expandName "true") (not $svc.primary) -}}
                   {{- $objectName = printf "%s-%s" $fullname $svcName -}}
                 {{- end -}}
+
                 url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" (default "http" $port.protocol) $objectName .Release.Namespace $port.port }}'
+                
                 interval: 1m
                 ui:
                   hide-url: true
