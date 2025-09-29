@@ -10,4 +10,10 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  # Include the shared Gatus component
+  postBuild:
+    substitute:
+      # These will be available for the component placeholders
+      GATUS_NAME: guacamole
+      GATUS_GROUP: tools
+      GATUS_URL: http://guacamole.guacamole.svc.cluster.local:10123
