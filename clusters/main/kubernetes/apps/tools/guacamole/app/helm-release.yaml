@@ -61,8 +61,8 @@ spec:
         data:
           test.txt: |
             # Single service URL (respects expandName and primary)
-            {{- $svcName := "main" -}}           # Change to "guacd" or any other service
-            {{- $portName := "main" -}}
+            {{- $svcName := "guacd" -}}           # Change to "guacd" or any other service
+            {{- $portName := "guacd" -}}
 
             {{- $svc := index .Values.service $svcName -}}
             {{- $port := index $svc.ports $portName -}}
