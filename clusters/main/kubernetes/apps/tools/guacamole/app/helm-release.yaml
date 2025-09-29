@@ -60,9 +60,6 @@ spec:
         enabled: true
         data:
           test.txt: |
-            
-            # gatus example
-
             {{- $svcName := "main" -}}
             {{- $portName := "main" -}}
 
@@ -80,8 +77,9 @@ spec:
             {{- if and (eq $expandName "true") (not $svc.primary) -}}
               {{- $objectName = printf "%s-%s" $fullname $svcName -}}
             {{- end -}}
-
             
+            # gatus example
+
             endpoints:
               - name: {{ .Release.Namespace }}
                 group: tools
