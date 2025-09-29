@@ -62,7 +62,9 @@ spec:
           test.txt: |
             internalURL: '{{ printf "%s://%s.%s.svc.cluster.local:%v" .Values.service.main.ports.main.protocol (include "tc.v1.common.lib.chart.names.fullname" $) .Release.Namespace .Values.service.main.ports.main.port }}'
             
-            internalUrls: '{{ printf "%s" $$.Values.chartContext.internalUrls }}'
+            {{- $internalUrls := include "tc.v1.common.spawner.service" . -}}
+            
+            internalUrls: '{{ printf "%s" $internalUrls }}'
             
       gatus:
         enabled: true
