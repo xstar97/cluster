@@ -71,6 +71,8 @@ spec:
           homepage:
             enabled: true
             group: Monitoring
+            widget:
+              type: gatus
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
