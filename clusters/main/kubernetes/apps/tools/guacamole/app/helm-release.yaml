@@ -60,6 +60,7 @@ spec:
         enabled: true
         data:
           test.txt: |
+            
             # gatus example
 
             {{- $svcName := "main" -}}
@@ -93,7 +94,6 @@ spec:
                   - type: discord
                     description: "healthcheck failed"
                     send-on-resolved: true
-
 
       gatus:
         enabled: true
