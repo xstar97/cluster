@@ -63,27 +63,6 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-    configmap:
-      gatus:
-        enabled: true
-        labels:
-          gatus.io/enabled: "true"
-        data:
-          config.yaml: |
-            endpoints:
-              - name: {{ .Release.Namespace }}
-                group: tools
-                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v/health" .Values.service.main.ports.main.protocol .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
-                interval: 1m
-                ui:
-                  hide-url: true
-                  hide-hostname: true
-                conditions:
-                  - "[CONNECTED] == true"
-                alerts:
-                  - type: discord
-                    description: "healthcheck failed"
-                    send-on-resolved: true
     persistence:
       libraries:
         volsync:

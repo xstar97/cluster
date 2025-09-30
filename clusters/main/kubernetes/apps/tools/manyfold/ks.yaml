@@ -9,5 +9,14 @@ spec:
   prune: true
   sourceRef:
     kind: GitRepository
-    name: cluster
-
+    name: clustercluster
+  targetNamespace: manyfold
+  postBuild:
+    substitute:
+      CHART: manyfold
+      NAME: manyfold
+      GROUP: tools
+      PROT: http
+      SVC: manyfold
+      NAMESPACE: manyfold
+      PORT: "3214"

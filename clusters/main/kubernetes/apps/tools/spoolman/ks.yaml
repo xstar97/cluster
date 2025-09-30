@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: spoolman
+  postBuild:
+    substitute:
+      CHART: spoolman
+      NAME: spoolman
+      GROUP: tools
+      PROT: http
+      SVC: spoolman
+      NAMESPACE: spoolman
+      PORT: "8000"

@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: reubah
+  postBuild:
+    substitute:
+      CHART: reubah
+      NAME: reubah
+      GROUP: tools
+      PROT: http
+      SVC: reubah
+      NAMESPACE: reubah
+      PORT: "8081"
