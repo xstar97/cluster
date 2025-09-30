@@ -14,7 +14,7 @@ spec:
   postBuild:
     substitute:
       CHART: sonarr
-      NAME: sonarr
+      NAME: sonarr (series)
       GROUP: media
       PROT: http
       SVC: sonarr
