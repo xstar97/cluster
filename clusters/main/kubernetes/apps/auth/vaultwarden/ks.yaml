@@ -10,3 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
+  targetNamespace: vaultwarden
+  postBuild:
+    substitute:
+      CHART: vaultwarden
+      NAME: vaultwarden
+      GROUP: assets
+      PROT: http
+      SVC: vaultwarden
+      NAMESPACE: vaultwarden
+      PORT: "8080"
