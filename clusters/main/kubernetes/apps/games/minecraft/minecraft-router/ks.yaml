@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: minecraft-router
+  postBuild:
+    substitute:
+      CHART: minecraft-router
+      NAME: minecraft-router
+      GROUP: assets
+      PROT: tcp
+      SVC: minecraft-router-api
+      NAMESPACE: minecraft-router
+      PORT: "25564"
