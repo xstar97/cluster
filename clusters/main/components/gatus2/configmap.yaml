@@ -32,7 +32,7 @@ data:
       {{- $objectName = printf "%s-%s" $fullname $svcName -}}
     {{- end -}}
 
-    {{- $internalUrl := printf "%s://%s.%s.svc.cluster.local:%v" protocol $objectName .Release.Namespace $port.port -}}
+    {{- $internalUrl := printf "%s://%s.%s.svc.cluster.local:%v" $protocol $objectName .Release.Namespace $port.port -}}
 
     endpoints:
       - name: "${NAME}"
