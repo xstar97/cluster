@@ -129,9 +129,9 @@ spec:
     - kind: HelmRelease
       name: "*"
       namespace: "home-assistant"
-    - kind: HelmRelease
-      name: "*"
-      namespace: "homebox"
+    # - kind: HelmRelease
+    #   name: "*"
+    #   namespace: "homebox"
     - kind: HelmRelease
       name: "*"
       namespace: "homepage"
