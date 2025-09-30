@@ -10,7 +10,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-  targetNamespace: fileflows-external-node
+  targetNamespace: fileflows
   postBuild:
     substitute:
       CHART: fileflows-external-node
