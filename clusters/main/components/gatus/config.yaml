@@ -3,7 +3,10 @@ endpoints:
   - name: "${NAME}"
     url: "${URL:-${PROT}://${SVC}.${NAMESPACE}.svc.cluster.local:${PORT}}"
     group: "${GROUP}"
-    interval: 1m
+    interval: 1m    
+    ui:
+      hide-url: true
+      hide-hostname: true
     client:
       insecure: true
       timeout: 30s
