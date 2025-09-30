@@ -10,4 +10,10 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: homebox
+  postBuild:
+    substitute:
+      CHART: homebox
+      GROUP: assets
+      SVC: main
+      PROT: http 

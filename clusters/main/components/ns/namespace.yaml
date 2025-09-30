@@ -1,4 +1,4 @@
-# components/namespace/namespace.yaml
+# components/ns/namespace.yaml
 apiVersion: v1
 kind: Namespace
 metadata:

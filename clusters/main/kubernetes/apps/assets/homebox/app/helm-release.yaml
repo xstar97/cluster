@@ -60,9 +60,9 @@ spec:
 
     configmap:
       gatus:
-        enabled: true
+        enabled: false
         labels:
-          gatus.io/enabled: "true"
+          gatus.io/enabled: "false"
         data:
           config.yaml: |
             endpoints:
