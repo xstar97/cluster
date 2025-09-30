@@ -1,7 +1,7 @@
 ---
 endpoints:
   - name: "${NAME}"
-    enabled: "{{ default true .Values.enabled }}"
+    enabled: '{{ if eq "${ENABLED}" "false" }}false{{ else }}true{{ end }}'
     url: "${URL:-${PROT}://${SVC}.${NAMESPACE}.svc.cluster.local:${PORT}}"
     group: "${GROUP}"
     interval: 1m    
