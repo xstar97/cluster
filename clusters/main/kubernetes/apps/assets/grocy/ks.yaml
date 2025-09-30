@@ -15,5 +15,5 @@ spec:
     substitute:
       NAMESPACE: grocy
       CHART: grocy
-      GROUP: tools
+      GROUP: assets
       URL: http://grocy.grocy.svc.cluster.local:10013
