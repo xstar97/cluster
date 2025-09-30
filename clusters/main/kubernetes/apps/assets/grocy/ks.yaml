@@ -14,6 +14,7 @@ spec:
   postBuild:
     substitute:
       CHART: grocy
+      NAME: grocy
       GROUP: assets
       PROT: http
       SVC: grocy

@@ -10,4 +10,15 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
+  targetNamespace: authentik
+  postBuild:
+    substitute:
+      CHART: authentik
+      NAME: authentik
+      GROUP: assets
+      PROT: https
+      SVC: authentik
+      NAMESPACE: authentik
+      PORT: "10229"
+
 

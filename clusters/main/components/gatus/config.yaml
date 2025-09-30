@@ -1,6 +1,6 @@
 ---
 endpoints:
-  - name: "${CHART}"
+  - name: "${NAME}"
     group: "${GROUP}"
     url: "${URL:-${PROT}://${SVC}.${NAMESPACE}.svc.cluster.local:${PORT}}"
     interval: 1m
