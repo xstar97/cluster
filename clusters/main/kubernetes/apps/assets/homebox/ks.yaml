@@ -13,7 +13,9 @@ spec:
   targetNamespace: homebox
   postBuild:
     substitute:
-      NAMESPACE: homebox
       CHART: homebox
       GROUP: assets
-      URL: http://homebox.homebox.svc.cluster.local:10603
+      PROT: http
+      SVC: homebox
+      NAMESPACE: homebox
+      PORT: "10603"

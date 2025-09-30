@@ -2,7 +2,7 @@
 endpoints:
   - name: "${CHART}"
     group: "${GROUP}"
-    url: "${URL}"
+    url: "${URL:-${PROT}://${SVC}.${NAMESPACE}.svc.cluster.local:${PORT}}"
     interval: 1m
     ui:
       hide-url: true

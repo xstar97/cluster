@@ -13,7 +13,9 @@ spec:
   targetNamespace: guacamole
   postBuild:
     substitute:
-      NAMESPACE: guacamole
       CHART: guacamole
       GROUP: tools
-      URL: http://guacamole.guacamole.svc.cluster.local:10123
+      PROT: http
+      SVC: guacamole
+      NAMESPACE: guacamole
+      PORT: "10123"

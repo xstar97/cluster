@@ -13,7 +13,9 @@ spec:
   targetNamespace: grocy
   postBuild:
     substitute:
-      NAMESPACE: grocy
       CHART: grocy
       GROUP: assets
-      URL: http://grocy.grocy.svc.cluster.local:10013
+      PROT: http
+      SVC: grocy
+      NAMESPACE: grocy
+      PORT: "10013"
