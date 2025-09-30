@@ -1,14 +1,15 @@
 ---
 endpoints:
-  - name: "${APP}"
-    group: guarded
-    url: 1.1.1.1
+  - name: "${CHART}"
+    group: "${GROUP}"
+    url: "${URL}"
     interval: 1m
     ui:
-      hide-hostname: true
       hide-url: true
-    dns:
-      query-name: "${GATUS_SUBDOMAIN:=${APP}}.turbo.ac"
-      query-type: A
+      hide-hostname: true
     conditions:
-      - len([BODY]) == 0
+      - "[CONNECTED] == true"
+    alerts:
+      - type: discord
+        description: "healthcheck failed"
+        send-on-resolved: true
