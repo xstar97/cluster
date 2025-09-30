@@ -1,7 +1,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: grocy
+  name: &chart grocy
   namespace: flux-system
 spec:
   interval: 10m
@@ -10,13 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-  targetNamespace: grocy
+  targetNamespace: *chart
   postBuild:
     substitute:
-      CHART: grocy
-      NAME: grocy
+      CHART: *chart
+      NAME: *chart
       GROUP: assets
       PROT: http
-      SVC: grocy
-      NAMESPACE: grocy
+      SVC: *chart
+      NAMESPACE: *chart
       PORT: "10013"
