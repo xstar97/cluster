@@ -19,4 +19,4 @@ spec:
       PROT: https
       SVC: omada-controller
       NAMESPACE: omada-controller
-      PORT: "8843"
+      PORT: "8043"
