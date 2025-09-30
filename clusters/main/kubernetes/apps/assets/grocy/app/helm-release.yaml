@@ -65,9 +65,9 @@ spec:
                 GROCY_LDAP_UID_ATTR: "uid"
     configmap:
       gatus:
-        enabled: true
-        labels:
-          gatus.io/enabled: "true"
+        enabled: false
+        # labels:
+        #   gatus.io/enabled: "true"
         data:
           config.yaml: |
             endpoints:

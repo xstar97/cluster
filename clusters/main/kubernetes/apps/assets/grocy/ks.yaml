@@ -10,4 +10,10 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: grocy
+  postBuild:
+    substitute:
+      NAMESPACE: grocy
+      CHART: grocy
+      GROUP: tools
+      URL: http://grocy.grocy.svc.cluster.local:10013
