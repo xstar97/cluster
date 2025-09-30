@@ -17,6 +17,6 @@ spec:
       NAME: actual
       GROUP: financial
       PROT: http
-      SVC: actual
+      SVC: actual-actualserver
       NAMESPACE: actual
       PORT: "5006"
