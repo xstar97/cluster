@@ -4,5 +4,5 @@ resources:
   #- ../../../../../components/ns
   - namespace.yaml
   - helm-release.yaml
-components:
-  - ../../../../../components/gatus2
+  # components:
+  #  - ../../../../../components/gatus2
