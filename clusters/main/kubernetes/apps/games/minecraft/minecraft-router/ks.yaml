@@ -20,3 +20,4 @@ spec:
       SVC: minecraft-router-api
       NAMESPACE: minecraft-router
       PORT: "25564"
+      PATH: ""
