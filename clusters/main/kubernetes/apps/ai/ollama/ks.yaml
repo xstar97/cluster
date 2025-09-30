@@ -10,4 +10,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: ollama
+  postBuild:
+    substitute:
+      NAMESPACE: ollama

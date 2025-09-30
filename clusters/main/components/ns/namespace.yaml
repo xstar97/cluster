@@ -1,0 +1,10 @@
+# components/ns/namespace.yaml
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ${NAMESPACE}
+  labels:
+    pod-security.kubernetes.io/enforce: privileged
+    topolvm.io/webhook: ignore
+  annotations:
+    volsync.backube/privileged-movers: "true"

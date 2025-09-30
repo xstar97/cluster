@@ -63,27 +63,6 @@ spec:
                 GROCY_LDAP_BIND_PW: "${LLDAP_LDAP_PWDMANAGER_PASS}"
                 GROCY_LDAP_USER_FILTER: "(&(objectClass=person)(memberof=cn=lldap_grocy,ou=groups,${LLDAP_LDAP_BASE_DN}))"
                 GROCY_LDAP_UID_ATTR: "uid"
-    configmap:
-      gatus:
-        enabled: true
-        labels:
-          gatus.io/enabled: "true"
-        data:
-          config.yaml: |
-            endpoints:
-              - name: {{ .Release.Namespace }}
-                group: assets
-                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" "http" .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
-                interval: 1m
-                ui:
-                  hide-url: true
-                  hide-hostname: true
-                conditions:
-                  - "[CONNECTED] == true"
-                alerts:
-                  - type: discord
-                    description: "healthcheck failed"
-                    send-on-resolved: true
     persistence:
       config:
         volsync:

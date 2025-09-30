@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: grafana
+  postBuild:
+    substitute:
+      CHART: grafana
+      NAME: grafana
+      GROUP: observability
+      PROT: http
+      SVC: grafana
+      NAMESPACE: grafana
+      PORT: "3000"

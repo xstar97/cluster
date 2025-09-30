@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: string-is
+  postBuild:
+    substitute:
+      CHART: string-is
+      NAME: string-is
+      GROUP: tools
+      PROT: http
+      SVC: string-is-app-template
+      NAMESPACE: string-is
+      PORT: "3000"

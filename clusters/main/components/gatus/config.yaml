@@ -1,0 +1,18 @@
+---
+endpoints:
+  - name: "${NAME}"
+    url: "${URL:-${PROT}://${SVC}.${NAMESPACE}.svc.cluster.local:${PORT}${PATH:-/}}"
+    group: "${GROUP}"
+    interval: 1m    
+    ui:
+      hide-url: true
+      hide-hostname: true
+    client:
+      insecure: true
+      timeout: 30s
+    conditions:
+      - "[CONNECTED] == true"
+    alerts:
+      - type: discord
+        description: "healthcheck failed"
+        send-on-resolved: true

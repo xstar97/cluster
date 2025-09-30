@@ -8,7 +8,7 @@ spec:
   chart:
     spec:
       chart: paperless-ngx
-      version: 11.18.0
+      version: 11.19.1
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -71,27 +71,6 @@ spec:
                 PAPERLESS_DISABLE_REGULAR_LOGIN: false
                 PAPERLESS_REDIRECT_LOGIN_TO_SSO: false
                 PAPERLESS_ACCOUNT_SESSION_REMEMBER: true
-    configmap:
-      gatus:
-        enabled: true
-        labels:
-          gatus.io/enabled: "true"
-        data:
-          config.yaml: |
-            endpoints:
-              - name: {{ .Release.Namespace }}
-                group: assets
-                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" "http" .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
-                interval: 1m
-                ui:
-                  hide-url: true
-                  hide-hostname: true
-                conditions:
-                  - "[CONNECTED] == true"
-                alerts:
-                  - type: discord
-                    description: "healthcheck failed"
-                    send-on-resolved: true
     ingress:
       main:
         enabled: true

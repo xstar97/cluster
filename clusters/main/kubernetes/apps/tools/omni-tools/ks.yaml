@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: omni-tools
+  postBuild:
+    substitute:
+      CHART: omni-tools
+      NAME: omni-tools
+      GROUP: tools
+      PROT: http
+      SVC: omni-tools-app-template
+      NAMESPACE: omni-tools
+      PORT: "80"

@@ -195,27 +195,6 @@ spec:
         # cache: 2592000
         ## Cache time-to-live for icons that were not available. 0 means no purging.
         # cacheFailed: 259200
-    configmap:
-      gatus:
-        enabled: true
-        labels:
-          gatus.io/enabled: "true"
-        data:
-          config.yaml: |
-            endpoints:
-              - name: {{ .Release.Namespace }}
-                group: auth
-                url: '{{ printf "%s://%s.%s.svc.cluster.local:%v" "http" .Release.Name .Release.Namespace .Values.service.main.ports.main.port }}'
-                interval: 1m
-                ui:
-                  hide-url: true
-                  hide-hostname: true
-                conditions:
-                  - "[CONNECTED] == true"
-                alerts:
-                  - type: discord
-                    description: "healthcheck failed"
-                    send-on-resolved: true
     persistence:
       data:
         volsync:

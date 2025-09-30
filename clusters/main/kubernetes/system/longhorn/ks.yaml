@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: longhorn-system
+  postBuild:
+    substitute:
+      CHART: longhorn
+      NAME: longhorn
+      GROUP: core
+      PROT: http
+      SVC: longhorn-frontend
+      NAMESPACE: longhorn-system
+      PORT: "80"

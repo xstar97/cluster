@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: authelia
+  postBuild:
+    substitute:
+      CHART: authelia
+      NAME: authelia
+      GROUP: assets
+      PROT: http
+      SVC: authelia
+      NAMESPACE: authelia
+      PORT: "9091"

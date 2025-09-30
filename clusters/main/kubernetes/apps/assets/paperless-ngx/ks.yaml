@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: paperless-ngx
+  postBuild:
+    substitute:
+      CHART: paperless-ngx
+      NAME: paperless
+      GROUP: assets
+      PROT: http
+      SVC: paperless-ngx
+      NAMESPACE: paperless-ngx
+      PORT: "10140"
