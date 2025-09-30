@@ -2,7 +2,7 @@
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
-  name: ${NAMESPACE}-discord
+  name: discord
   namespace: flux-system
 spec:
   providerRef:
