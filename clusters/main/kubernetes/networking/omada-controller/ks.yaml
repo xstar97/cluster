@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: nginx
+  postBuild:
+    substitute:
+      CHART: omada-controller
+      NAME: omada-controller
+      GROUP: networking
+      PROT: https
+      SVC: omada-controller
+      NAMESPACE: omada-controller
+      PORT: "8843"

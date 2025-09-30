@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: nginx
+  postBuild:
+    substitute:
+      CHART: nginx-internal
+      NAME: nginx-internal
+      GROUP: core
+      PROT: https
+      SVC: nginx-internal-controller-admission
+      NAMESPACE: nginx
+      PORT: "443"
