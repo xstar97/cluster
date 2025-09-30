@@ -219,9 +219,9 @@ spec:
     - kind: HelmRelease
       name: "*"
       namespace: "nginx-internal"
-    - kind: HelmRelease
-      name: "*"
-      namespace: "nvidia-device-plugin"
+    # - kind: HelmRelease
+    #   name: "*"
+    #   namespace: "nvidia-device-plugin"
     - kind: HelmRelease
       name: "*"
       namespace: "ollama"
