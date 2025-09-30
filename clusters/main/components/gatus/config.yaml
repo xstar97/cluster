@@ -1,7 +1,7 @@
 ---
 endpoints:
   - name: "${NAME}"
-    url: "${URL:-${PROT}://${SVC}.${NAMESPACE}.svc.cluster.local:${PORT}${PATH:-/}}"
+    url: "${URL:-${PROT}://${SVC}.${NAMESPACE}.svc.cluster.local:${PORT}${PATH:-}}"
     group: "${GROUP}"
     interval: 1m    
     ui:
