@@ -19,4 +19,4 @@ spec:
       PROT: http
       SVC: pasta
       NAMESPACE: pasta
-      PORT: "4545"
+      PORT: "80"
