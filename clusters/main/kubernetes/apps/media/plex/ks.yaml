@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: plex
+  postBuild:
+    substitute:
+      CHART: plex
+      NAME: plex
+      GROUP: media
+      PROT: http
+      SVC: plex
+      NAMESPACE: plex
+      PORT: "32400"
