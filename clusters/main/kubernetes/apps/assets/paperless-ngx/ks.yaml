@@ -14,9 +14,9 @@ spec:
   postBuild:
     substitute:
       CHART: paperless-ngx
-      # NAME: paperless
+      NAME: paperless
       GROUP: assets
-      # PROT: http
-      SVC: main # paperless-ngx
-      # NAMESPACE: paperless-ngx
-      # PORT: "10140"
+      PROT: http
+      SVC: paperless-ngx
+      NAMESPACE: paperless-ngx
+      PORT: "10140"
