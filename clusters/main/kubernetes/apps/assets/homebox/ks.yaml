@@ -14,6 +14,7 @@ spec:
   postBuild:
     substitute:
       CHART: homebox
+      NAME: homebox
       GROUP: assets
       SVC: main
       PROT: http 
