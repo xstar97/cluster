@@ -10,3 +10,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
+  targetNamespace: guacamole
+  postBuild:
+    substitute:
+      NAMESPACE: guacamole
