@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: qbittorrent
+  postBuild:
+    substitute:
+      CHART: qbittorrent
+      NAME: qbittorrent
+      GROUP: media
+      PROT: http
+      SVC: qbittorrent
+      NAMESPACE: qbittorrent
+      PORT: "10095"

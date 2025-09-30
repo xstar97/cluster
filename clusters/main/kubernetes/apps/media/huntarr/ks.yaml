@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: huntarr
+  postBuild:
+    substitute:
+      CHART: huntarr
+      NAME: huntarr
+      GROUP: media
+      PROT: http
+      SVC: huntarr-app-template
+      NAMESPACE: huntarr
+      PORT: "9705"

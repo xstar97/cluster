@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: kavita
+  postBuild:
+    substitute:
+      CHART: kavita
+      NAME: kavita
+      GROUP: media
+      PROT: http
+      SVC: kavita
+      NAMESPACE: kavita
+      PORT: "5000"

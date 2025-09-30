@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: flaresolverr
+  postBuild:
+    substitute:
+      CHART: flaresolverr
+      NAME: flaresolverr
+      GROUP: media
+      PROT: http
+      SVC: flaresolverr
+      NAMESPACE: flaresolverr
+      PORT: "8191"

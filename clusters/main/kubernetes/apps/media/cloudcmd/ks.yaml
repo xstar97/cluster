@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: cloudcmd
+  postBuild:
+    substitute:
+      CHART: cloudcmd
+      NAME: cloudcmd
+      GROUP: media
+      PROT: http
+      SVC: cloudcmd-app-template
+      NAMESPACE: cloudcmd
+      PORT: "8000"

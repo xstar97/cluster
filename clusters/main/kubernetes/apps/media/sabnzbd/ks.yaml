@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: sabnzbd
+  postBuild:
+    substitute:
+      CHART: sabnzbd
+      NAME: sabnzbd
+      GROUP: media
+      PROT: http
+      SVC: sabnzbd
+      NAMESPACE: sabnzbd
+      PORT: "10097"

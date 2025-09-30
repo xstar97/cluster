@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: profilarr
+  postBuild:
+    substitute:
+      CHART: profilarr
+      NAME: profilarr
+      GROUP: media
+      PROT: http
+      SVC: profilarr
+      NAMESPACE: profilarr
+      PORT: "6868"

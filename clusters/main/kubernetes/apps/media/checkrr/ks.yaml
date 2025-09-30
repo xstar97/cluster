@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: checkrr
+  postBuild:
+    substitute:
+      CHART: checkrr
+      NAME: checkrr
+      GROUP: media
+      PROT: http
+      SVC: checkrr-app-template
+      NAMESPACE: checkrr
+      PORT: "8585"

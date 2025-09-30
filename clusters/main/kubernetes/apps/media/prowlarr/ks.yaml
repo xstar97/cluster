@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: prowlarr
+  postBuild:
+    substitute:
+      CHART: prowlarr
+      NAME: prowlarr
+      GROUP: media
+      PROT: http
+      SVC: prowlarr
+      NAMESPACE: prowlarr
+      PORT: "9696"

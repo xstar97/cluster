@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: radarr
+  postBuild:
+    substitute:
+      CHART: radarr
+      NAME: radarr
+      GROUP: media
+      PROT: http
+      SVC: radarr
+      NAMESPACE: radarr
+      PORT: "7878"

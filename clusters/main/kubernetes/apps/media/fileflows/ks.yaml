@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: fileflows
+  postBuild:
+    substitute:
+      CHART: fileflows
+      NAME: fileflows
+      GROUP: media
+      PROT: http
+      SVC: fileflows
+      NAMESPACE: fileflows
+      PORT: "10242"

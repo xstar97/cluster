@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: pasta
+  postBuild:
+    substitute:
+      CHART: pasta
+      NAME: pasta
+      GROUP: media
+      PROT: http
+      SVC: pasta
+      NAMESPACE: pasta
+      PORT: "4545"
