@@ -1,17 +1,15 @@
 ---
-default-core: &core
-  group: "${GROUP}"
-  interval: 1m
-  client:
-    insecure: true
-    timeout: 30s
-  conditions:
-    - "[CONNECTED] == true"
-  alerts:
-    - type: discord
-      description: "healthcheck failed"
-      send-on-resolved: true
 endpoints:
   - name: "${NAME}"
-    <<: *core
     url: "${URL:-${PROT}://${SVC}.${NAMESPACE}.svc.cluster.local:${PORT}}"
+    group: "${GROUP}"
+    interval: 1m
+    client:
+      insecure: true
+      timeout: 30s
+    conditions:
+      - "[CONNECTED] == true"
+    alerts:
+      - type: discord
+        description: "healthcheck failed"
+        send-on-resolved: true
