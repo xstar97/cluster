@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{ .chart }}-gatus-ep2"
+  labels:
+    gatus.io/enabled: "false"
+data:
+  config.yaml: |
+    default-core: &core
+      group: core
+      interval: 1m
+      client:
+        insecure: true
+        timeout: 30s
+      conditions:
+        - "[CONNECTED] == true"
+      alerts:
+        - type: discord
+    endpoints:
+    {{- range .ENDPOINTS }}
+      - name: {{ .name }}
+        <<: *core
+        group: {{ .gatus_group | default "core" }}
+        url: {{ .url }}
+    {{- end }}

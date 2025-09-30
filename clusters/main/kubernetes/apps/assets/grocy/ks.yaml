@@ -12,11 +12,16 @@ spec:
     name: cluster
   targetNamespace: grocy
   postBuild:
-    substitute:
-      CHART: grocy
-      NAME: grocy
-      GROUP: assets
-      PROT: http
-      SVC: grocy
-      NAMESPACE: grocy
-      PORT: "10013"
+    # substitute:
+    #   CHART: grocy
+    #   NAME: grocy
+    #   GROUP: assets
+    #   PROT: http
+    #   SVC: grocy
+    #   NAMESPACE: grocy
+    #   PORT: "10013"
+    substituteList:
+      - chart: grocy
+      - ENDPOINTS.0.name: grocy
+      - ENDPOINTS.0.url: http://grocy.grocy.svc.cluster.local:10013
+      - ENDPOINTS.0.gatus_group: assets
