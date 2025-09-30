@@ -14,6 +14,7 @@ spec:
   postBuild:
     substitute:
       CHART: paperless-ngx
+      ENABLED: "false"
       NAME: paperless
       GROUP: assets
       PROT: http
