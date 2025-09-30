@@ -19,4 +19,4 @@ spec:
       PROT: http
       SVC: string-is-app-template
       NAMESPACE: string-is
-      PORT: "10688"
+      PORT: "3000"
