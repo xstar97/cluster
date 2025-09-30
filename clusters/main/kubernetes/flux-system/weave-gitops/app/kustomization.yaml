@@ -4,5 +4,5 @@ kind: Kustomization
 namespace: flux-system
 resources:
   - helm-release.yaml
-# components:
-#   - ../../../components/gatus
+components:
+  - ../../../components/gatus

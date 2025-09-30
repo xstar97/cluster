@@ -11,3 +11,12 @@ spec:
     kind: GitRepository
     name: cluster
   targetNamespace: flux-system
+  postBuild:
+    substitute:
+      CHART: weave-gitops
+      NAME: weave-gitops
+      GROUP: core
+      PROT: http
+      SVC: weave-gitops
+      NAMESPACE: flux-system
+      PORT: "9001"
