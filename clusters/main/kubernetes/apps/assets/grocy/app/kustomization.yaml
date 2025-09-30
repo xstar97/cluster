@@ -6,4 +6,4 @@ resources:
   - helm-release.yaml
   # - ../../../../../components/alert/discord.yaml
 components:
-  - ../../../../../components/gatus2
+  - ../../../../../components/gatus
