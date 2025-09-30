@@ -10,4 +10,13 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  targetNamespace: actual
+  postBuild:
+    substitute:
+      CHART: actual
+      NAME: actual
+      GROUP: financial
+      PROT: http
+      SVC: actual
+      NAMESPACE: actual
+      PORT: "5006"
