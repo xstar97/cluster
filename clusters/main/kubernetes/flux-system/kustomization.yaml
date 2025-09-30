@@ -3,4 +3,4 @@ kind: Kustomization
 resources:
   - flux
   - notifications
-  - weave-gitops
+  - weave-gitops/ks.yaml
