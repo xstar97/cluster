@@ -20,3 +20,4 @@ spec:
       SVC: fileflows-external-node
       NAMESPACE: fileflows
       PORT: "10242"
+      PATH: "/api/system/version"
