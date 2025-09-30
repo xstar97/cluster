@@ -10,7 +10,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-  # targetNamespace: nginx
+  targetNamespace: nginx-internal
   postBuild:
     substitute:
       CHART: nginx-internal

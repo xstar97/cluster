@@ -10,7 +10,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-  # targetNamespace: nginx
+  targetNamespace: nginx-external
   postBuild:
     substitute:
       CHART: nginx-external
