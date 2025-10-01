@@ -1,4 +1,3 @@
-# alert.yaml
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
@@ -11,4 +10,5 @@ spec:
   eventSources:
     - kind: HelmRelease
       name: "*"
-      namespace: "${NAMESPACE}"
+      matchLabels:
+        discord.io/alert/enabled: "true"

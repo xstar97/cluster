@@ -3,6 +3,8 @@ kind: HelmRelease
 metadata:
   name: grocy
   namespace: grocy
+  labels:
+    discord.io/alert/enabled: "true"
 spec:
   interval: 5m
   chart:
