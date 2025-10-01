@@ -13,10 +13,4 @@ spec:
   targetNamespace: agregarr
   postBuild:
     substitute:
-      CHART: agregarr
-      NAME: agregarr
       GROUP: media
-      PROT: http
-      SVC: agregarr
-      NAMESPACE: agregarr
-      PORT: "7171"

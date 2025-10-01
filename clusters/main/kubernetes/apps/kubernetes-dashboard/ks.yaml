@@ -13,10 +13,4 @@ spec:
   targetNamespace: kubernetes-dashboard
   postBuild:
     substitute:
-      CHART: kubernetes-dashboard
-      NAME: kubernetes-dashboard
       GROUP: dashboard
-      PROT: http
-      SVC: kubernetes-dashboard
-      NAMESPACE: kubernetes-dashboard
-      PORT: "80"
