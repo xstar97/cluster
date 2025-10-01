@@ -15,11 +15,11 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    credentials: {}   # <-- add this empty block
-        # cf-restic:
+    credentials:   # <-- add this empty block
+      cf-restic:
         # type: s3
         # url: "${CF_S3_RESTIC_URL}"
-        # bucket: "${CF_S3_RESTIC_BUCKET}-{{ .Release.Name }}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-{{ .Release.Name }}"
         # accessKey: "${CF_S3_RESTIC_ID}"
         # secretKey: "${CF_S3_RESTIC_KEY}"
         # encrKey: "${CF_S3_RESTIC_KEY}"
