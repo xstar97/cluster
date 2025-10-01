@@ -1,6 +1,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
+  name: ${CHART}         # variable from kustomization
+  namespace: ${NAMESPACE} # variable from kustomization
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
