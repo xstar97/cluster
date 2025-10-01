@@ -242,6 +242,12 @@ spec:
         annotations:
           nginx.ingress.kubernetes.io/configuration-snippet: |
             rewrite ^/stats$ / permanent;
+          gatus.home-operations.com/endpoint: |
+            group: "${GROUP}"
+            alerts:
+              - type: discord
+                description: "healthcheck failed"
+                send-on-resolved: true
         targetSelector:
           web: map
         hosts:
@@ -259,6 +265,12 @@ spec:
           nginx.ingress.kubernetes.io/preserve-trailing-slash: "true"
           nginx.ingress.kubernetes.io/configuration-snippet: |
             rewrite ^/$ /stats permanent;
+          gatus.home-operations.com/endpoint: |
+            group: "${GROUP}"
+            alerts:
+              - type: discord
+                description: "healthcheck failed"
+                send-on-resolved: true
         targetSelector:
           web: map
         hosts:
