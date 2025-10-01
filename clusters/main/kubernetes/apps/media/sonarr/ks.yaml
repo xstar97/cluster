@@ -13,10 +13,5 @@ spec:
   targetNamespace: sonarr
   postBuild:
     substitute:
-      CHART: sonarr
-      NAME: sonarr (series)
+      # NAME: sonarr (series)
       GROUP: media
-      PROT: http
-      SVC: sonarr
-      NAMESPACE: sonarr
-      PORT: "8989"

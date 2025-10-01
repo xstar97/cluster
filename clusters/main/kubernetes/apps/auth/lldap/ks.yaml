@@ -13,10 +13,4 @@ spec:
   targetNamespace: lldap
   postBuild:
     substitute:
-      CHART: lldap
-      NAME: lldap
       GROUP: auth
-      PROT: http
-      SVC: lldap
-      NAMESPACE: lldap
-      PORT: "3000"

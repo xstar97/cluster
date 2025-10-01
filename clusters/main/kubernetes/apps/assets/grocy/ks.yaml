@@ -13,10 +13,5 @@ spec:
   targetNamespace: *chart
   postBuild:
     substitute:
-      CHART: *chart
       NAME: *chart
       GROUP: assets
-      PROT: http
-      SVC: *chart
-      NAMESPACE: *chart
-      PORT: "10013"

@@ -13,10 +13,5 @@ spec:
   targetNamespace: homebox
   postBuild:
     substitute:
-      CHART: homebox
-      NAME: homebox
+      # NAME: homebox
       GROUP: assets
-      PROT: http
-      SVC: homebox
-      NAMESPACE: homebox
-      PORT: "10603"

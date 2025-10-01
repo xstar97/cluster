@@ -13,10 +13,4 @@ spec:
   targetNamespace: authentik
   postBuild:
     substitute:
-      CHART: authentik
-      NAME: authentik
       GROUP: auth
-      PROT: https
-      SVC: authentik
-      NAMESPACE: authentik
-      PORT: "10229"

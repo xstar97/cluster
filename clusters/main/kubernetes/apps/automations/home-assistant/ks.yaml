@@ -13,10 +13,4 @@ spec:
   targetNamespace: home-assistant
   postBuild:
     substitute:
-      CHART: home-assistant
-      NAME: home-assistant
       GROUP: automations
-      PROT: http
-      SVC: home-assistant
-      NAMESPACE: home-assistant
-      PORT: "8123"

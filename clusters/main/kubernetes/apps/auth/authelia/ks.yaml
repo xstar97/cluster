@@ -13,10 +13,5 @@ spec:
   targetNamespace: authelia
   postBuild:
     substitute:
-      CHART: authelia
-      NAME: authelia
+      # NAME: authelia
       GROUP: auth
-      PROT: http
-      SVC: authelia
-      NAMESPACE: authelia
-      PORT: "9091"

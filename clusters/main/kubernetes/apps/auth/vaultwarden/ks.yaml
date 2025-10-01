@@ -13,10 +13,4 @@ spec:
   targetNamespace: vaultwarden
   postBuild:
     substitute:
-      CHART: vaultwarden
-      NAME: vaultwarden
       GROUP: auth
-      PROT: http
-      SVC: vaultwarden
-      NAMESPACE: vaultwarden
-      PORT: "8080"
