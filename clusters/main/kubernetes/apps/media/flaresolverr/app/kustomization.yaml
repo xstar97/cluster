@@ -4,4 +4,4 @@ resources:
   - namespace.yaml
   - helm-release.yaml
 components:
-  - ../../../../../components/gatus/configmap2
+  - clusters/main/components/gatus/configmap2
