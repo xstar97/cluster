@@ -13,10 +13,5 @@ spec:
   targetNamespace: it-tools
   postBuild:
     substitute:
-      CHART: it-tools
-      NAME: it-tools
+      # NAME: it-tools
       GROUP: tools
-      PROT: http
-      SVC: it-tools-app-template
-      NAMESPACE: it-tools
-      PORT: "8080"
