@@ -39,13 +39,6 @@ spec:
       main:
         enabled: true
         ingressClassName: "internal"
-        annotations:
-          gatus.home-operations.com/endpoint: |-
-            group: "${GROUP}"
-            alerts:
-              - type: discord
-                description: "healthcheck failed"
-                send-on-resolved: true
         hosts:
           - host: grocy.${DOMAIN_2}
             paths:

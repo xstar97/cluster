@@ -1,0 +1,18 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta2
+kind: HelmRelease
+metadata:
+  name: not-used
+spec:
+  interval: 5m
+  values:
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            group: "${GROUP}"
+            alerts:
+              - type: discord
+                description: "healthcheck failed"
+                send-on-resolved: true
