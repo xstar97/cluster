@@ -86,6 +86,7 @@ spec:
           annotations:
             gatus.home-operations.com/endpoint: |
               enabled: false
+              group: "${GROUP}"
           hosts:
             - host: editor.cluesolver.${DOMAIN_2}
               paths:
