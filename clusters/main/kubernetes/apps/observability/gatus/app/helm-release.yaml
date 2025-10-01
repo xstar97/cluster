@@ -240,22 +240,13 @@ spec:
         clusterWide: true
         rules:
           - apiGroups:
-              - "gateway.networking.k8s.io"
+              - "networking.k8s.io"
             resources:
-                - "ingresses"
-              # - "configmaps"
-              # - "secrets"
+              - "ingresses"
             verbs:
               - "get"
               - "list"
               - "watch"
-    bindings:
-      main:
-        type: ClusterRoleBinding
-        roleRef:
-          identifier: main
-        subjects:
-          - identifier: main
     # -- The service account the pods will use to interact with the Kubernetes API
     serviceAccount:
       main:
