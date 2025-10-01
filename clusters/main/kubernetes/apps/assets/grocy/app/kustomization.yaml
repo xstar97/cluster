@@ -6,15 +6,6 @@ resources:
   - helm-release.yaml
   # - ../../../../../components/alert/discord.yaml
 patchesStrategicMerge:
-  - ../../../../../components/common/helmrelease-patch.yaml
+  - ../../../../../components/common/credentials-patch.yaml
 components:
   - ../../../../../components/gatus
-# optional variable substitution
-vars:
-  - name: CHART
-    objref:
-      kind: HelmRelease
-      name: grocy
-      apiVersion: helm.toolkit.fluxcd.io/v2
-    fieldref:
-      fieldpath: metadata.name
