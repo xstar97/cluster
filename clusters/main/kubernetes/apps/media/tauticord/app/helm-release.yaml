@@ -66,7 +66,12 @@ spec:
         ingressClassName: "internal"
         annotations:
           gatus.home-operations.com/endpoint: |
-            enabled: false
+            url: "https://{{ .Release.Name }}.${DOMAIN_2}/health"
+            group: "${GROUP}"
+            alerts:
+              - type: discord
+                description: "healthcheck failed"
+                send-on-resolved: true
         hosts:
           - host: tauticord.${DOMAIN_2}
             paths:
