@@ -15,7 +15,7 @@ spec:
     substitute:
       CHART: minecraft-java
       NAME: minecraft-java
-      GROUP: assets
+      GROUP: games
       PROT: tcp
       SVC: minecraft-java
       NAMESPACE: minecraft-java

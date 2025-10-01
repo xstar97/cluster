@@ -15,7 +15,7 @@ spec:
     substitute:
       CHART: minecraft-lobby
       NAME: minecraft-lobby
-      GROUP: assets
+      GROUP: games
       PROT: tcp
       SVC: minecraft-lobby-minecraft-java
       NAMESPACE: minecraft-lobby

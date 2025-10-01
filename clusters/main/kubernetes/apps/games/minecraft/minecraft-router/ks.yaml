@@ -15,7 +15,7 @@ spec:
     substitute:
       CHART: minecraft-router
       NAME: minecraft-router
-      GROUP: assets
+      GROUP: games
       PROT: tcp
       SVC: minecraft-router-api
       NAMESPACE: minecraft-router
