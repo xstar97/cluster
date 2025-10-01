@@ -13,10 +13,4 @@ spec:
   targetNamespace: guacamole
   postBuild:
     substitute:
-      CHART: guacamole
-      NAME: guacamole
       GROUP: tools
-      PROT: http
-      SVC: guacamole
-      NAMESPACE: guacamole
-      PORT: "10123"

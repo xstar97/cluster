@@ -13,10 +13,4 @@ spec:
   targetNamespace: clue-solver
   postBuild:
     substitute:
-      CHART: clue-solver
-      NAME: clue-solver
       GROUP: projects
-      PROT: http
-      SVC: clue-solver-static-web-server
-      NAMESPACE: clue-solver
-      PORT: "38080"

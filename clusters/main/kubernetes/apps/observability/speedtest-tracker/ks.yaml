@@ -13,10 +13,4 @@ spec:
   targetNamespace: speedtest-tracker
   postBuild:
     substitute:
-      CHART: speedtest-tracker
-      NAME: speedtest-tracker
       GROUP: networking
-      PROT: http
-      SVC: speedtest-tracker
-      NAMESPACE: speedtest-tracker
-      PORT: "80"

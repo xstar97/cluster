@@ -13,10 +13,4 @@ spec:
   targetNamespace: peanut
   postBuild:
     substitute:
-      CHART: peanut
-      NAME: peanut
       GROUP: observability
-      PROT: http
-      SVC: peanut
-      NAMESPACE: peanut
-      PORT: "10688"

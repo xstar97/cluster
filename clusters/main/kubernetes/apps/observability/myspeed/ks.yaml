@@ -13,10 +13,4 @@ spec:
   targetNamespace: myspeed
   postBuild:
     substitute:
-      CHART: myspeed
-      NAME: myspeed
       GROUP: networking
-      PROT: http
-      SVC: myspeed
-      NAMESPACE: myspeed
-      PORT: "5216"

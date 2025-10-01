@@ -13,10 +13,4 @@ spec:
   targetNamespace: fasten
   postBuild:
     substitute:
-      CHART: fasten
-      NAME: fasten
       GROUP: medical
-      PROT: http
-      SVC: fasten-app-template
-      NAMESPACE: fasten
-      PORT: "8080"
