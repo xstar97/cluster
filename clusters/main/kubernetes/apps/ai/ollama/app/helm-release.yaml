@@ -73,6 +73,9 @@ spec:
       main:
         enabled: true
         ingressClassName: "internal" 
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            enabled: false
         hosts:
           - host: ollama.${DOMAIN_2}
             paths:

@@ -41,6 +41,9 @@ spec:
       main:
         enabled: true
         ingressClassName: "internal"
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            enabled: false
         hosts:
           - host: octoprint.${DOMAIN_2}
             paths:

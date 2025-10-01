@@ -41,8 +41,10 @@ spec:
       main:
         enabled: true
         ingressClassName: "internal"
-        # annotations:
+        annotations:
         #   nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          gatus.home-operations.com/endpoint: |
+            enabled: false
         hosts:
           - host: dockge.${DOMAIN_2}
             paths:

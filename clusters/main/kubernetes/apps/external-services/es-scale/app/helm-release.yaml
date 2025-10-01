@@ -43,6 +43,8 @@ spec:
         ingressClassName: "internal"
         annotations:
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          gatus.home-operations.com/endpoint: |
+            enabled: false
         hosts:
           - host: scale.${DOMAIN_2}
             paths:
