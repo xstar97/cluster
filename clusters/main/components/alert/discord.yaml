@@ -12,5 +12,6 @@ spec:
       name: "*"
     - kind: HelmRelease
       name: "*"
+      namespace: "${NAMESPACE}"
       matchLabels:
         discord.io/alert-enabled: "true"
