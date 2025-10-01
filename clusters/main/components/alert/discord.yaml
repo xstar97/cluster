@@ -11,4 +11,4 @@ spec:
     - kind: HelmRelease
       name: "*"
       matchLabels:
-        discord.io/alert/enabled: "true"
+        discord.io/alert-enabled: "true"
