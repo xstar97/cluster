@@ -15,7 +15,7 @@ spec:
     substitute:
       CHART: authentik
       NAME: authentik
-      GROUP: assets
+      GROUP: auth
       PROT: https
       SVC: authentik
       NAMESPACE: authentik
