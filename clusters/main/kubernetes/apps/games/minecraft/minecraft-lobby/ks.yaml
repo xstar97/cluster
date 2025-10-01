@@ -13,11 +13,4 @@ spec:
   targetNamespace: minecraft-lobby
   postBuild:
     substitute:
-      CHART: minecraft-lobby
-      NAME: minecraft-lobby
       GROUP: games
-      PROT: tcp
-      SVC: minecraft-lobby-minecraft-java
-      NAMESPACE: minecraft-lobby
-      PORT: "25565"
-      PATH: ""

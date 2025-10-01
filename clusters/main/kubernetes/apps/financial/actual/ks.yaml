@@ -13,10 +13,5 @@ spec:
   targetNamespace: actual
   postBuild:
     substitute:
-      CHART: actual
-      NAME: actual
       GROUP: financial
-      PROT: http
-      SVC: actual-actualserver
-      NAMESPACE: actual
-      PORT: "5006"
+  

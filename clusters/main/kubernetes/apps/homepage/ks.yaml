@@ -13,10 +13,4 @@ spec:
   targetNamespace: homepage
   postBuild:
     substitute:
-      CHART: homepage
-      NAME: homepage
       GROUP: dashboard
-      PROT: http
-      SVC: homepage
-      NAMESPACE: homepage
-      PORT: "3000"

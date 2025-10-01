@@ -13,10 +13,4 @@ spec:
   targetNamespace: wallos
   postBuild:
     substitute:
-      CHART: wallos
-      NAME: wallos
       GROUP: financial
-      PROT: http
-      SVC: wallos
-      NAMESPACE: wallos
-      PORT: "80"

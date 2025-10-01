@@ -13,10 +13,5 @@ spec:
   targetNamespace: romm
   postBuild:
     substitute:
-      CHART: romm
-      NAME: romm
       GROUP: games
-      PROT: http
-      SVC: romm
-      NAMESPACE: romm
-      PORT: "8000"
+  

@@ -13,11 +13,6 @@ spec:
   targetNamespace: minecraft-router
   postBuild:
     substitute:
-      CHART: minecraft-router
-      NAME: minecraft-router
       GROUP: games
-      PROT: tcp
-      SVC: minecraft-router-api
-      NAMESPACE: minecraft-router
-      PORT: "25564"
-      PATH: ""
+      # PROT: tcp
+      SVC: api
