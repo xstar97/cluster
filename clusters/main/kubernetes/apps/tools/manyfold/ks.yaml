@@ -13,11 +13,5 @@ spec:
   targetNamespace: manyfold
   postBuild:
     substitute:
-      CHART: manyfold
-      NAME: manyfold
       GROUP: tools
-      PROT: http
-      SVC: manyfold
-      NAMESPACE: manyfold
-      PORT: "3214"
       PATH: "/health"
