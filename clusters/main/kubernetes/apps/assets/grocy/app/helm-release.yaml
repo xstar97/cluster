@@ -30,12 +30,18 @@ spec:
     ingress:
       main:
         enabled: true
-        # ingressClassName: "internal"
+        ingressClassName: "internal"
         hosts:
           - host: grocy.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
     workload:
       main:
         podSpec:

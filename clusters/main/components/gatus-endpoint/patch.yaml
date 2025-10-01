@@ -7,8 +7,6 @@ spec:
   values:
     ingress:
       main:
-        enabled: true
-        ingressClassName: "internal"
         annotations:
           gatus.home-operations.com/endpoint: |
             group: "${GROUP}"
@@ -16,9 +14,3 @@ spec:
               - type: discord
                 description: "healthcheck failed"
                 send-on-resolved: true
-        integrations:
-          nginx:
-            enabled: true
-          certManager:
-            enabled: true
-            certificateIssuer: general-le-prod
