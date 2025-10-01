@@ -90,7 +90,10 @@ spec:
               port: 36107
         ingress:
           enabled: true
-          ingressClassName: "internal" 
+          ingressClassName: "internal"
+          annotations:
+            gatus.home-operations.com/endpoint: |
+              enabled: false
           hosts:
             - host: editor.homepage.${DOMAIN_2}
               paths:

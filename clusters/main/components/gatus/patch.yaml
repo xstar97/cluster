@@ -14,13 +14,3 @@ spec:
               - type: discord
                 description: "healthcheck failed"
                 send-on-resolved: true
-
-    addons:
-      codeserver:
-        ingress:
-          gatus.home-operations.com/endpoint: |
-            group: "${GROUP}"
-            alerts:
-              - type: discord
-                description: "healthcheck failed"
-                send-on-resolved: true

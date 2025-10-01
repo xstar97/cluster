@@ -64,6 +64,9 @@ spec:
       main:
         enabled: true
         ingressClassName: "external"
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            enabled: false
         hosts:
           - host: gatus.${DOMAIN_2}
             paths:
@@ -220,6 +223,9 @@ spec:
         ingress:
           enabled: true
           ingressClassName: "internal"
+          annotations:
+            gatus.home-operations.com/endpoint: |
+              enabled: false
           hosts:
             - host: editor.gatus.${DOMAIN_2}
               paths:

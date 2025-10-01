@@ -317,6 +317,9 @@ spec:
         ingress:
           enabled: true
           ingressClassName: "internal"
+          annotations:
+            gatus.home-operations.com/endpoint: |
+              enabled: false
           hosts:
             - host: editor.survival.${DOMAIN_2}
               paths:
