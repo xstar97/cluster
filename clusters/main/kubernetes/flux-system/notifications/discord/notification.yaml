@@ -23,6 +23,8 @@ spec:
   eventSources:
     - kind: HelmRelease
       name: "*"
+    - kind: HelmRelease
+      name: "*"
       namespace: "grocy"
 ---
 # yaml-language-server: $schema=https://github.com/fluxcd-community/flux2-schemas/raw/main/alert-notification-v1beta3.json
