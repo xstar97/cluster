@@ -50,7 +50,7 @@ spec:
         ingressClassName: "internal"
         annotations:
           gatus.home-operations.com/endpoint: |
-            url: "{{ .Release.Name }}.${DOMAIN_2}/health"
+            url: "https://{{ .Release.Name }}.${DOMAIN_2}/health"
             group: "${GROUP}"
             alerts:
               - type: discord
