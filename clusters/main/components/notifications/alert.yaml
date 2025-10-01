@@ -2,7 +2,7 @@
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
-  name: discord-helm
+  name: discord
 spec:
   providerRef:
     name: discord
