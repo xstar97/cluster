@@ -14,3 +14,4 @@ spec:
   postBuild:
     substitute:
       GROUP: media
+      PATH: "/health"
