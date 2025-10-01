@@ -6,4 +6,4 @@ resources:
   - authelia-oidc.secret.yaml
   - authelia-configfile.configmap.yaml
 components:
-  - ../../../../../components/gatus
+  - ../../../../../components/gatus/ingress
