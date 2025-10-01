@@ -104,14 +104,7 @@ spec:
               args:
               - --mode=ingress
               - --output="{{ .Values.persistence.config.mountPath }}"
-              - --default-dns tcp://blocky-dns.blocky.svc.cluster.local:53
-              env:
-                FOLDER: "{{ .Values.persistence.config.mountPath }}"
-                LABEL: gatus.io/enabled
-                NAMESPACE: ALL
-                RESOURCE: both
-                UNIQUE_FILENAMES: true
-                METHOD: WATCH
+              - --default-dns=tcp://blocky-dns.blocky.svc.cluster.local:53
             configs:
               enabled: false
               imageSelector: configsImage
