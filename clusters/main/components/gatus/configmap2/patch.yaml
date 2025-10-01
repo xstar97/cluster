@@ -13,7 +13,7 @@ spec:
         data:
           config.yaml: |
             # code to generate clusterUrl!
-            
+
             {{- $svcName := default "main" "${SVC}" -}}
             {{- $svc := index .Values.service $svcName -}}
             {{- $port := index $svc.ports $svcName -}}
@@ -30,10 +30,7 @@ spec:
             {{- if and (eq $expandName "true") (not $svc.primary) -}}
               {{- $objectName = printf "%s-%s" $fullname $svcName -}}
             {{- end -}}
-            {{- $internalUrl := printf "%s://%s.%s.svc.cluster.local:%v" $protocol $objectName .Release.Namespace $port.port -}}
-
-            # endpoint
-
+            {{ $internalUrl := printf "%s://%s.%s.svc.cluster.local:%v" $protocol $objectName .Release.Namespace $port.port }}
             endpoints:
               - name: {{ .Release.Namespace }}
                 group: "${GROUP}"
