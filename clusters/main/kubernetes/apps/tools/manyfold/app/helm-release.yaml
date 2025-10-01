@@ -48,6 +48,9 @@ spec:
       main:
         enabled: true
         ingressClassName: "internal"
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            url: "{{ .Release.Name }}.${DOMAIN_2}/health"
         hosts:
           - host: manyfold.${DOMAIN_2}
             paths:
