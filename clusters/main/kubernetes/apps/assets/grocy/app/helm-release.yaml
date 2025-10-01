@@ -3,6 +3,8 @@ kind: HelmRelease
 metadata:
   name: grocy
   namespace: grocy
+  labels:
+    commons-patch: "true" 
 spec:
   interval: 5m
   chart:
@@ -15,11 +17,11 @@ spec:
         namespace: flux-system
       interval: 5m
   values:
-    credentials:
-      cf-restic:
+        # credentials:
+        # cf-restic:
         # type: s3
         # url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-{{ .Release.Name }}"
+        # bucket: "${CF_S3_RESTIC_BUCKET}-{{ .Release.Name }}"
         # accessKey: "${CF_S3_RESTIC_ID}"
         # secretKey: "${CF_S3_RESTIC_KEY}"
         # encrKey: "${CF_S3_RESTIC_KEY}"

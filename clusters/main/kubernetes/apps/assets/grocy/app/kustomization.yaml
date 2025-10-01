@@ -5,6 +5,7 @@ resources:
   - namespace.yaml
   - helm-release.yaml
   # - ../../../../../components/alert/discord.yaml
+patchesStrategicMerge:
+  - ../../../../../components/common/helmrelease-patch.yaml
 components:
-  - ../../../../../components/common/helmrelease-patch
   - ../../../../../components/gatus

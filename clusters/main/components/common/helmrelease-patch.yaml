@@ -1,39 +1,26 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: ${CHART}         # variable from kustomization
-  namespace: ${NAMESPACE} # variable from kustomization
+  labels:
+    commons-patch: "true"
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
   interval: 5m
-  install:
-    createNamespace: true
-    crds: CreateReplace
-    remediation:
-      retries: 3
-  upgrade:
-    crds: CreateReplace
-    remediation:
-      retries: 3
-  timeout: 20m
   values:
-    global:
-      stopAll: false
     credentials:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
-        # bucket: "${CF_S3_RESTIC_BUCKET}-${CHART}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-{{ .Release.Name }}"
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
     ingress:
       main:
         enabled: false
-        ingressClassName: "internal"
+        ingressClassName: internal
         hosts: []
-          # - host: ""
         integrations:
           nginx:
             enabled: true
