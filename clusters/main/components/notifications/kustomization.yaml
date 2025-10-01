@@ -4,3 +4,4 @@ resources:
   - notification.yaml  
   - error.yaml
   - provider.yaml
+  - secret.sops.yaml
