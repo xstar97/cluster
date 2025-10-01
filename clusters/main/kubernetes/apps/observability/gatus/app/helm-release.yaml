@@ -242,7 +242,7 @@ spec:
           - apiGroups:
               - "gateway.networking.k8s.io"
             resources:
-                - "ingress"
+                - "ingresses"
               # - "configmaps"
               # - "secrets"
             verbs:
