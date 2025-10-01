@@ -11,6 +11,6 @@ spec:
     kind: GitRepository
     name: cluster
   targetNamespace: flaresolverr
-  # postBuild:
-    # substitute:
-      # GROUP: media
+  postBuild:
+    substitute:
+      GROUP: media
