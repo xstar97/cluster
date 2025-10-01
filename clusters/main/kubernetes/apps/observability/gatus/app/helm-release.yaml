@@ -127,10 +127,13 @@ spec:
                 METHOD: WATCH
     gatus:
       endpoints:
-        - name: internet
+        - name: seb-minipc
           group: external
-          url: 1.1.1.1:53
-          interval: 1m
+          url: "https://10.0.0.102:443"
+          interval: 1m          
+          client:
+            insecure: true
+            timeout: 30s
           conditions:
             - "[STATUS] == 200"
           alerts:
