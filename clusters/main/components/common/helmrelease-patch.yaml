@@ -1,6 +1,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
+  name: chart
+  namespace: namepace
   annotations:
     reloader.stakater.com/auto: "true"
 spec:
