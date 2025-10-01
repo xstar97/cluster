@@ -15,7 +15,7 @@ spec:
     substitute:
       CHART: *chart
       NAME: *chart
-      GROUP: assets
+      GROUP: assets2
       PROT: http
       SVC: *chart
       NAMESPACE: *chart
