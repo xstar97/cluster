@@ -123,6 +123,7 @@ spec:
           annotations:
             gatus.home-operations.com/endpoint: |
               enabled: false
+              group: "${GROUP}"
           integrations:
             nginx:
               enabled: true
