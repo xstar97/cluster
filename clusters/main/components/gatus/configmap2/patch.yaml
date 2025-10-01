@@ -36,7 +36,8 @@ spec:
 
             {{- $internalUrl := printf "%s://%s.%s.svc.cluster.local:%v" $protocol $objectName .Release.Namespace $port.port -}}
 
-            
+            # endpoint
+
             endpoints:
               - name: {{ .Release.Namespace }}
                 group: "${GROUP}"
