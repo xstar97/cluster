@@ -12,6 +12,7 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
+            # code to generate clusterUrl!
             {{- $svcName := default "main" "${SVC}" -}}
             {{- $svc := index .Values.service $svcName -}}
             {{- $port := index $svc.ports $svcName -}}
@@ -34,6 +35,8 @@ spec:
             {{- end -}}
 
             {{- $internalUrl := printf "%s://%s.%s.svc.cluster.local:%v" $protocol $objectName .Release.Namespace $port.port -}}
+            
+            # endpoint logic
 
             endpoints:
               - name: {{ .Release.Namespace }}
