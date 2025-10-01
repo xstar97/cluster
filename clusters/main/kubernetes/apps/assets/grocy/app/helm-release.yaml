@@ -41,6 +41,7 @@ spec:
         ingressClassName: "internal"
         annotations:
           gatus.home-operations.com/endpoint: |-
+            group: "assets"
             alerts:
               - type: discord
                 description: "healthcheck failed"
