@@ -41,6 +41,10 @@ spec:
       repository: ghcr.io/home-operations/k8s-sidecar
       pullPolicy: IfNotPresent
       tag: 1.30.10@sha256:dd3b1f0c4e6b4512b2deb50c58acf65fd0f0927120a59a95eec854d32a6c9ce3
+    sidecarImage:
+      repository: ghcr.io/home-operations/gatus-sidecar
+      pullPolicy: IfNotPresent
+      tag: 0.0.3@sha256:9d227ecdd2b1db04f484c108d58f6defb3f72447c44ddb8f609d2e66f77f52d4
     credentials:
       cf-restic:
         type: s3
@@ -87,8 +91,29 @@ spec:
               imageSelector: image
               env:
                 GATUS_CONFIG_PATH: "{{ .Values.persistence.config.mountPath }}"
+            sidecar:
+              enabled: false
+              imageSelector: sidecarImage
+              probes:
+                liveness:
+                  enabled: false
+                readiness:
+                  enabled: false
+                startup:
+                  enabled: false
+              args:
+              - --mode=ingress
+              - --output="{{ .Values.persistence.config.mountPath }}"
+              - --default-dns tcp://blocky-dns.blocky.svc.cluster.local:53
+              env:
+                FOLDER: "{{ .Values.persistence.config.mountPath }}"
+                LABEL: gatus.io/enabled
+                NAMESPACE: ALL
+                RESOURCE: both
+                UNIQUE_FILENAMES: true
+                METHOD: WATCH
             configs:
-              enabled: true
+              enabled: false
               imageSelector: configsImage
               probes:
                 liveness:
@@ -221,10 +246,12 @@ spec:
         primary: true
         clusterWide: true
         rules:
-          - apiGroups: [""]
+          - apiGroups:
+              - "gateway.networking.k8s.io"
             resources:
-              - "configmaps"
-              - "secrets"
+                - "ingress"
+              # - "configmaps"
+              # - "secrets"
             verbs:
               - "get"
               - "list"
