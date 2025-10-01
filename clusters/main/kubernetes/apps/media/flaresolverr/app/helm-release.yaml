@@ -36,6 +36,14 @@ spec:
         ports:
           main:
             port: 8191
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            group: "${GROUP}"
+            url: "http://flaresolverr.flaresolverr.svc.cluster.local:8191"
+            alerts:
+              - type: discord
+                description: "healthcheck failed"
+                send-on-resolved: true
     persistence:
       config:
         enabled: true
