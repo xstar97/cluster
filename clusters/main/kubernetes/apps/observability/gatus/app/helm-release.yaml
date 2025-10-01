@@ -109,7 +109,7 @@ spec:
               - --output=/config/config-eps.yaml
               - --default-dns=tcp://blocky-dns.blocky.svc.cluster.local:53
             configs:
-              enabled: false
+              enabled: true
               imageSelector: configsImage
               probes:
                 liveness:
@@ -119,7 +119,7 @@ spec:
                 startup:
                   enabled: false
               env:
-                FOLDER: "{{ .Values.persistence.config.mountPath }}"
+                FOLDER: "/config/ns"
                 LABEL: gatus.io/enabled
                 NAMESPACE: ALL
                 RESOURCE: both
@@ -127,26 +127,12 @@ spec:
                 METHOD: WATCH
     gatus:
       endpoints:
-        - name: flux-webhook
+        - name: internet
           group: external
-          url: https://fluxwh.${DOMAIN_2}
+          url: 1.1.1.1:53
           interval: 1m
-          client:
-            dns-resolver: tcp://1.1.1.1:53
           conditions:
             - "[STATUS] == 200"
-          alerts:
-            - type: discord
-              description: "healthcheck failed"
-              send-on-resolved: true
-        - name: mend-renovate
-          group: external
-          url: https://renovate.${DOMAIN_2}
-          interval: 1m
-          client:
-            dns-resolver: tcp://1.1.1.1:53
-          conditions:
-            - "[STATUS] == 404"
           alerts:
             - type: discord
               description: "healthcheck failed"
@@ -249,6 +235,8 @@ spec:
               - "networking.k8s.io"
             resources:
               - "ingresses"
+              - "configmaps"
+              - "secrets"
             verbs:
               - "get"
               - "list"
