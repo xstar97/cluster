@@ -119,7 +119,7 @@ spec:
                 startup:
                   enabled: false
               env:
-                FOLDER: "/config/ns"
+                FOLDER: "/config/ns/"
                 LABEL: gatus.io/enabled
                 NAMESPACE: ALL
                 RESOURCE: both
@@ -129,7 +129,7 @@ spec:
       endpoints:
         - name: seb-minipc
           group: external
-          url: "https://10.0.0.102:443"
+          url: "https://10.0.0.102:9090"
           interval: 1m          
           client:
             insecure: true
