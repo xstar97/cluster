@@ -25,7 +25,7 @@ spec:
       name: "*"
     - kind: HelmRelease
       name: "*"
-      # namespace: "grocy"
+      namespace: "grocy"
       matchLabels:
         discord.io/alert-enabled: "true"
 ---
