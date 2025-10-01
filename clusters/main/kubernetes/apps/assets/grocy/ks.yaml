@@ -15,3 +15,4 @@ spec:
     substitute:
       NAME: *chart
       GROUP: assets
+      NAMESPACE: *chart
