@@ -12,7 +12,7 @@ spec:
           gatus.io/enabled: "true"
         data:
           config.yaml: |
-            # code to generate clusterUrl!
+            # generated endpoint!
 
             {{- $svcName := default "main" "${SVC}" -}}
             {{- $svc := index .Values.service $svcName -}}
