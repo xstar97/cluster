@@ -1,12 +1,11 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: ${CHART}
-  namespace: ${NAMESPACE}
+  name: placeholder  # ignored by label selector
   labels:
     commons-patch: "true"
-  # annotations:
-  #   reloader.stakater.com/auto: "true"
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   interval: 5m
   values:
