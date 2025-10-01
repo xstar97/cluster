@@ -15,7 +15,7 @@ spec:
     substitute:
       CHART: authelia
       NAME: authelia
-      GROUP: assets
+      GROUP: auth
       PROT: http
       SVC: authelia
       NAMESPACE: authelia
