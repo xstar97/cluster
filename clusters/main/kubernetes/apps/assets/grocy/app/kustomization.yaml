@@ -9,3 +9,4 @@ resources:
 #   - ../../../../../components/gatus
 components:
   - ../../../../../components/gatus-endpoint
+  - ../../../../../components/credentials
