@@ -51,6 +51,11 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |
             url: "{{ .Release.Name }}.${DOMAIN_2}/health"
+            group: "${GROUP}"
+            alerts:
+              - type: discord
+                description: "healthcheck failed"
+                send-on-resolved: true
         hosts:
           - host: manyfold.${DOMAIN_2}
             paths:
