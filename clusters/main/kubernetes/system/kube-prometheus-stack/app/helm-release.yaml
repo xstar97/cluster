@@ -88,6 +88,12 @@ spec:
         annotations:
           cert-manager.io/cluster-issuer: general-le-prod
           cert-manager.io/private-key-rotation-policy: Always
+          gatus.home-operations.com/endpoint: |
+            group: "core"
+            alerts:
+              - type: discord
+                description: "healthcheck failed"
+                send-on-resolved: true
         hosts:
           - prometheus.${DOMAIN_2}
         paths:
