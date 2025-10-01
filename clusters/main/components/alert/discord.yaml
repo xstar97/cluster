@@ -10,5 +10,7 @@ spec:
   eventSources:
     - kind: HelmRelease
       name: "*"
+    - kind: HelmRelease
+      name: "*"
       matchLabels:
         discord.io/alert-enabled: "true"
