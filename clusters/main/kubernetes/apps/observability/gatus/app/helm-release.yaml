@@ -119,7 +119,7 @@ spec:
                 startup:
                   enabled: false
               env:
-                FOLDER: "/config/ns/"
+                FOLDER: "/config"
                 LABEL: gatus.io/enabled
                 NAMESPACE: ALL
                 RESOURCE: both
