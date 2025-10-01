@@ -13,10 +13,4 @@ spec:
   targetNamespace: blocky
   postBuild:
     substitute:
-      CHART: blocky
-      NAME: blocky
       GROUP: networking
-      PROT: http
-      SVC: blocky
-      NAMESPACE: blocky
-      PORT: "4000"
