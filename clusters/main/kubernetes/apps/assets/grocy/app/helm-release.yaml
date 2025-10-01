@@ -14,20 +14,42 @@ spec:
         name: truecharts
         namespace: flux-system
       interval: 5m
+  install:
+    createNamespace: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  timeout: 20m
   values:
-    credentials:   # <-- add this empty block
+    global:
+      stopAll: false
+    credentials:
       cf-restic:
-        # type: s3
-        # url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-{{ .Release.Name }}"
-        # accessKey: "${CF_S3_RESTIC_ID}"
-        # secretKey: "${CF_S3_RESTIC_KEY}"
-        # encrKey: "${CF_S3_RESTIC_KEY}"
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-grocy"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
     ingress:
       main:
         enabled: true
+        ingressClassName: "internal" 
         hosts:
           - host: grocy.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
     workload:
       main:
         podSpec:

@@ -20,7 +20,3 @@ spec:
       SVC: *chart
       NAMESPACE: *chart
       PORT: "10013"
-  patches:
-    - path: ../../../../../components/common/helmrelease-patch.yaml
-      target:
-        kind: HelmRelease
