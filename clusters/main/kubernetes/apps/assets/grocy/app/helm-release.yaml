@@ -3,8 +3,8 @@ kind: HelmRelease
 metadata:
   name: grocy
   namespace: grocy
-  labels:
-    discord.io/alert-enabled: "true"
+  annotations:
+    notification.toolkit.fluxcd.io/alert-info: "discord"
 spec:
   interval: 5m
   chart:
