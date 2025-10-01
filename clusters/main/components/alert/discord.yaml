@@ -11,4 +11,4 @@ spec:
   eventSources:
     - kind: HelmRelease
       name: "*"
-      namespace: "${NAMESPACE}"
+      # namespace: "${NAMESPACE}"
