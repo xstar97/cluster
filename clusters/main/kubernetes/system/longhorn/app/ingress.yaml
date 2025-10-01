@@ -10,6 +10,12 @@ metadata:
     nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
     cert-manager.io/cluster-issuer: general-le-prod
     cert-manager.io/private-key-rotation-policy: Always
+    gatus.home-operations.com/endpoint: |
+      group: "${GROUP}"
+      alerts:
+        - type: discord
+          description: "healthcheck failed"
+          send-on-resolved: true
 spec:
   ingressClassName: "internal"
   rules:

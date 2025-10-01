@@ -6,5 +6,5 @@ resources:
   - volumeSnapshotClass.yaml
   - ingress.yaml
   - jobs
-components:
-  - ../../../../components/gatus
+# components:
+#   - ../../../../components/gatus
