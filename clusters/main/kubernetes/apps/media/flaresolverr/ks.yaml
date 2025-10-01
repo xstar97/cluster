@@ -13,10 +13,10 @@ spec:
   targetNamespace: flaresolverr
   postBuild:
     substitute:
-      CHART: flaresolverr
-      NAME: flaresolverr
+      # CHART: flaresolverr
+      # NAME: flaresolverr
       GROUP: media
-      PROT: http
-      SVC: flaresolverr
-      NAMESPACE: flaresolverr
-      PORT: "8191"
+      # PROT: http
+      SVC: main # flaresolverr
+      # NAMESPACE: flaresolverr
+      # PORT: "8191"
