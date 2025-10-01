@@ -3,8 +3,8 @@ kind: HelmRelease
 metadata:
   labels:
     commons-patch: "true"
-  annotations:
-    reloader.stakater.com/auto: "true"
+  # annotations:
+  #   reloader.stakater.com/auto: "true"
 spec:
   interval: 5m
   values:
