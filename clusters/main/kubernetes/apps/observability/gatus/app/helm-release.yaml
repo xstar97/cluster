@@ -103,7 +103,7 @@ spec:
                   enabled: false
               args:
               - --mode=ingress
-              - --output="{{ .Values.persistence.config.mountPath }}"
+              - --output=/config
               - --default-dns=tcp://blocky-dns.blocky.svc.cluster.local:53
             configs:
               enabled: false
