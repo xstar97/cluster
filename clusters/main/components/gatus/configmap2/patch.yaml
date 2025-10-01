@@ -13,29 +13,24 @@ spec:
         data:
           config.yaml: |
             # code to generate clusterUrl!
-
-            {{ $svcName := default "main" "${SVC}" }}
-            {{ $svc := index .Values.service $svcName }}
-            {{ $port := index $svc.ports $svcName }}
-
-            {{ $protocol := default "http" "${PROT}" }}
-            {{- if not (empty $port.protocol) }}
-              {{- $protocol = $port.protocol }}
-            {{- end }}
-
-            {{ $fullname := include "tc.v1.common.lib.chart.names.fullname" $ }}
-            {{ $objectName := $svcName }}
-
-            {{ $expandName := include "tc.v1.common.lib.util.expandName" (dict "rootCtx" $ "objectData" $svc "name" $svcName "caller" "Service" "key" "service") }}
-            {{- if eq $expandName "true" }}
-              {{- $objectName = $fullname }}
-            {{- end }}
-
-            {{- if and (eq $expandName "true") (not $svc.primary) }}
-              {{- $objectName = printf "%s-%s" $fullname $svcName }}
-            {{- end }}
-
-            {{ $internalUrl := printf "%s://%s.%s.svc.cluster.local:%v" $protocol $objectName .Release.Namespace $port.port }}
+            
+            {{- $svcName := default "main" "${SVC}" -}}
+            {{- $svc := index .Values.service $svcName -}}
+            {{- $port := index $svc.ports $svcName -}}
+            {{- $protocol := default "http" "${PROT}" -}}
+            {{- if not (empty $port.protocol) -}}
+              {{- $protocol = $port.protocol -}}
+            {{- end -}}
+            {{- $fullname := include "tc.v1.common.lib.chart.names.fullname" $ -}}
+            {{- $objectName := $svcName -}}
+            {{- $expandName := include "tc.v1.common.lib.util.expandName" (dict "rootCtx" $ "objectData" $svc "name" $svcName "caller" "Service" "key" "service") -}}
+            {{- if eq $expandName "true" -}}
+              {{- $objectName = $fullname -}}
+            {{- end -}}
+            {{- if and (eq $expandName "true") (not $svc.primary) -}}
+              {{- $objectName = printf "%s-%s" $fullname $svcName -}}
+            {{- end -}}
+            {{- $internalUrl := printf "%s://%s.%s.svc.cluster.local:%v" $protocol $objectName .Release.Namespace $port.port -}}
 
             # endpoint
 
