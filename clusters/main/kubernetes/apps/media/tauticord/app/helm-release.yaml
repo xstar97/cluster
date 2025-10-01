@@ -63,7 +63,10 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "internal" 
+        ingressClassName: "internal"
+        annotations:
+          gatus.home-operations.com/endpoint: |
+            enabled: false
         hosts:
           - host: tauticord.${DOMAIN_2}
             paths:
