@@ -1,13 +1,6 @@
----
-# yaml-language-server: $schema=https://json.schemastore.org/kustomization
 apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
-configMapGenerator:
-  - name: ${CHART}-gatus-ep
-    files:
-      - config.yaml=./config.yaml
-    options:
-      labels:
-        gatus.io/enabled: "false"
-generatorOptions:
-  disableNameSuffixHash: true
+patches:
+  - path: patch.yaml
+    target:
+      kind: HelmRelease
