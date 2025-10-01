@@ -3,8 +3,6 @@ kind: HelmRelease
 metadata:
   name: grocy
   namespace: grocy
-  labels:
-    creds-patch: "true" 
 spec:
   interval: 5m
   chart:
@@ -27,7 +25,7 @@ spec:
         # encrKey: "${CF_S3_RESTIC_KEY}"
     ingress:
       main:
-        enabled: false
+        enabled: true
         hosts:
           - host: grocy.${DOMAIN_2}
     workload:
