@@ -13,10 +13,4 @@ spec:
   targetNamespace: requestrr
   postBuild:
     substitute:
-      CHART: requestrr
-      NAME: requestrr
       GROUP: media
-      PROT: http
-      SVC: requestrr
-      NAMESPACE: requestrr
-      PORT: "4545"

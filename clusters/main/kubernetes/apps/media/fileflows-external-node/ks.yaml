@@ -13,11 +13,5 @@ spec:
   targetNamespace: fileflows
   postBuild:
     substitute:
-      CHART: fileflows-external-node
-      NAME: fileflows-external-node
       GROUP: media
-      PROT: http
-      SVC: fileflows-external-node
-      NAMESPACE: fileflows
-      PORT: "10242"
       PATH: "/api/system/version"

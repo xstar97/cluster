@@ -13,12 +13,4 @@ spec:
   targetNamespace: tautulli
   postBuild:
     substitute:
-      CHART: tautulli
-      NAME: tautulli
       GROUP: media
-      PROT: http
-      SVC: tautulli
-      NAMESPACE: tautulli
-      PORT: "8181"
-
-

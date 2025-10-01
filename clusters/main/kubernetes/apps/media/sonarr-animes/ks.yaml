@@ -13,10 +13,4 @@ spec:
   targetNamespace: sonarr-animes
   postBuild:
     substitute:
-      CHART: sonarr-animes
-      NAME: sonarr (animes)
       GROUP: media
-      PROT: http
-      SVC: sonarr-animes
-      NAMESPACE: sonarr-animes
-      PORT: "8989"

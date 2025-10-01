@@ -13,10 +13,4 @@ spec:
   targetNamespace: overseerr
   postBuild:
     substitute:
-      CHART: overseerr
-      NAME: overseerr
       GROUP: media
-      PROT: http
-      SVC: overseerr
-      NAMESPACE: overseerr
-      PORT: "5055"

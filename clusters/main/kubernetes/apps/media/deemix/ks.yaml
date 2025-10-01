@@ -13,10 +13,4 @@ spec:
   targetNamespace: deemix
   postBuild:
     substitute:
-      CHART: deemix
-      NAME: deemix
       GROUP: media
-      PROT: http
-      SVC: deemix
-      NAMESPACE: deemix
-      PORT: "6595"

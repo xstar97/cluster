@@ -13,10 +13,4 @@ spec:
   targetNamespace: metube
   postBuild:
     substitute:
-      CHART: metube
-      NAME: metube
       GROUP: media
-      PROT: http
-      SVC: metube
-      NAMESPACE: metube
-      PORT: "8081"

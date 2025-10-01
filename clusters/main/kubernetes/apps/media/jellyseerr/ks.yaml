@@ -13,10 +13,4 @@ spec:
   targetNamespace: jellyseerr
   postBuild:
     substitute:
-      CHART: jellyseerr
-      NAME: jellyseerr
       GROUP: media
-      PROT: http
-      SVC: jellyseerr
-      NAMESPACE: jellyseerr
-      PORT: "10241"

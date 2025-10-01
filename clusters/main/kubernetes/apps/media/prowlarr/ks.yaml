@@ -13,10 +13,4 @@ spec:
   targetNamespace: prowlarr
   postBuild:
     substitute:
-      CHART: prowlarr
-      NAME: prowlarr
       GROUP: media
-      PROT: http
-      SVC: prowlarr
-      NAMESPACE: prowlarr
-      PORT: "9696"

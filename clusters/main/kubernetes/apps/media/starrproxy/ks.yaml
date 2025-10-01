@@ -13,10 +13,4 @@ spec:
   targetNamespace: starrproxy
   postBuild:
     substitute:
-      CHART: starrproxy
-      NAME: starrproxy
       GROUP: media
-      PROT: http
-      SVC: starrproxy-app-template
-      NAMESPACE: starrproxy
-      PORT: "80"

@@ -13,10 +13,4 @@ spec:
   targetNamespace: lidarr
   postBuild:
     substitute:
-      CHART: lidarr
-      NAME: lidarr
       GROUP: media
-      PROT: http
-      SVC: lidarr
-      NAMESPACE: lidarr
-      PORT: "8686"

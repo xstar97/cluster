@@ -13,10 +13,5 @@ spec:
   targetNamespace: fileflows
   postBuild:
     substitute:
-      CHART: fileflows
-      NAME: fileflows
       GROUP: media
-      PROT: http
-      SVC: fileflows
-      NAMESPACE: fileflows
-      PORT: "10242"
+      PATH: "/api/system/version"

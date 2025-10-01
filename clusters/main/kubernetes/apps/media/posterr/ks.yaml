@@ -13,10 +13,4 @@ spec:
   targetNamespace: posterr
   postBuild:
     substitute:
-      CHART: posterr
-      NAME: posterr
       GROUP: media
-      PROT: http
-      SVC: posterr
-      NAMESPACE: posterr
-      PORT: "3000"

@@ -13,10 +13,4 @@ spec:
   targetNamespace: doublecommander
   postBuild:
     substitute:
-      CHART: doublecommander
-      NAME: doublecommander
       GROUP: media
-      PROT: http
-      SVC: doublecommander
-      NAMESPACE: doublecommander
-      PORT: "3000"

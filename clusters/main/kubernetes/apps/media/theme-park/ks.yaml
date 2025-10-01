@@ -13,10 +13,4 @@ spec:
   targetNamespace: theme-park
   postBuild:
     substitute:
-      CHART: theme-park
-      NAME: theme-park
       GROUP: media
-      PROT: http
-      SVC: theme-park
-      NAMESPACE: theme-park
-      PORT: "8080"
