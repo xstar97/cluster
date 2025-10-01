@@ -4,5 +4,5 @@ resources:
   - namespace.yaml
   - helm-release.yaml
   # - ../../../../../components/alert/discord.yaml
-components:
-  - ../../../../../components/gatus
+# components:
+#  - ../../../../../components/gatus
