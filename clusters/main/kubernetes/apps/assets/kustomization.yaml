@@ -5,4 +5,4 @@ resources:
   - homebox/ks.yaml
   - paperless-ngx/ks.yaml
 components:
-  - ../../../components/alert
+  - ../../../components/alert/discord
