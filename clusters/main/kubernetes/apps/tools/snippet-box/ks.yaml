@@ -13,10 +13,4 @@ spec:
   targetNamespace: snippet-box
   postBuild:
     substitute:
-      CHART: snippet-box
-      NAME: snippet-box
       GROUP: tools
-      PROT: http
-      SVC: snippet-box
-      NAMESPACE: snippet-box
-      PORT: "5000"

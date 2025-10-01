@@ -13,10 +13,4 @@ spec:
   targetNamespace: stirling-pdf
   postBuild:
     substitute:
-      CHART: stirling-pdf
-      NAME: stirling-pdf
       GROUP: tools
-      PROT: http
-      SVC: stirling-pdf
-      NAMESPACE: stirling-pdf
-      PORT: "8080"

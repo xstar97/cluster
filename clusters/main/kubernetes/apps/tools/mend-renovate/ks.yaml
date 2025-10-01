@@ -13,10 +13,4 @@ spec:
   targetNamespace: mend-renovate
   postBuild:
     substitute:
-      CHART: mend-renovate
-      NAME: mend-renovate
       GROUP: core
-      PROT: http
-      SVC: mend-renovate
-      NAMESPACE: mend-renovate
-      PORT: "80"
