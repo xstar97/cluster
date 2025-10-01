@@ -238,6 +238,8 @@ spec:
               - "networking.k8s.io"
             resources:
               - "ingresses"
+          - apiGroups: [""]
+            resources:
               - "configmaps"
               - "secrets"
             verbs:
