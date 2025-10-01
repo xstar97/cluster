@@ -60,29 +60,3 @@ spec:
           certManager:
             certificateIssuer: general-le-prod
             enabled: true
-
-    configmap:
-      gatus:
-        enabled: true
-        labels:
-          gatus.io/enabled: "true"
-        data:
-          config.yaml: |
-            endpoints:
-              - name: CockPit-seb
-                group: networking
-                url: "https://${COCKPIT_IP}:9090"
-                interval: 1m
-                ui:
-                  hide-url: true
-                  hide-hostname: true
-                client:
-                  insecure: true
-                  ignore-redirect: false
-                  timeout: 10s
-                conditions:
-                  - "[CONNECTED] == true"
-                alerts:
-                  - type: discord
-                    description: "healthcheck failed"
-                    send-on-resolved: true
