@@ -7,7 +7,7 @@ metadata:
   annotations:
     gatus.home-operations.com/endpoint: |
       group: "${GROUP}"
-      # url: "http://flaresolverr.flaresolverr.svc.cluster.local:8191"
+      url: "http://flaresolverr.flaresolverr.svc.cluster.local:8191"
       alerts:
         - type: discord
           description: "healthcheck failed"
