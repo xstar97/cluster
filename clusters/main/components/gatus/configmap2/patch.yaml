@@ -30,9 +30,10 @@ spec:
             {{- if and (eq $expandName "true") (not $svc.primary) -}}
               {{- $objectName = printf "%s-%s" $fullname $svcName -}}
             {{- end -}}
-            {{ $internalUrl := printf "%s://%s.%s.svc.cluster.local:%v" $protocol $objectName .Release.Namespace $port.port }}
+            {{- $path := default "" "${PATH}" -}}
+            {{ $internalUrl := printf "%s://%s.%s.svc.cluster.local:%v%s" $protocol $objectName .Release.Namespace $port.port $path }}
             endpoints:
-              - name: {{ .Release.Namespace }}
+              - name: {{ default .Release.Name "${NAME}" }}
                 group: "${GROUP}"
                 url: {{ $internalUrl }}
                 interval: 1m

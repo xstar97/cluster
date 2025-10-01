@@ -9,6 +9,7 @@ spec:
       main:
         annotations:
           gatus.home-operations.com/endpoint: |
+            name: {{ default .Release.Name "${NAME}" }}
             group: "${GROUP}"
             alerts:
               - type: discord

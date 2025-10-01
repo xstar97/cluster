@@ -14,4 +14,3 @@ spec:
   postBuild:
     substitute:
       GROUP: media
-      SVC: main
