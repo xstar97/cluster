@@ -7,4 +7,3 @@ resources:
   # - ../../../../../components/alert/discord.yaml
 components:
   - ../../../../../components/gatus
-  - ../../../../../components/credentials
