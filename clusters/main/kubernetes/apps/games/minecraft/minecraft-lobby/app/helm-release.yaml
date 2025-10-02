@@ -105,6 +105,9 @@ spec:
                 GUI: "FALSE"
                 TYPE: "LIMBO"
                 LIMBO_BUILD: LATEST
+                SERVER_NAME: "The Noob Lobby!"
+                MODE: survival
+                MOTD: "Welcome to the ShitSHow's Lobby!"
             mcbackup:
               enabled: false
     persistence:
