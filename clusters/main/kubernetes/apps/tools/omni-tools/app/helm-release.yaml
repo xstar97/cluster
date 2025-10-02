@@ -33,7 +33,7 @@ spec:
     image:
       repository: iib0011/omni-tools
       pullPolicy: IfNotPresent
-      tag: 0.5.0@sha256:9d494a4d8d64f34a87ebbf5bc5e1a5f02b5b9796f7ddbc9e3aacda5996e76b61
+      tag: 0.6.0@sha256:3f35a17d8d81caa33c7caec0198eb561dee212a5f48d8303d8f7b182c930fb71
     securityContext:
       container:
         runAsNonRoot: false
