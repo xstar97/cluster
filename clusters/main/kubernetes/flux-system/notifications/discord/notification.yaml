@@ -113,9 +113,9 @@ spec:
     - kind: HelmRelease
       name: "*"
       namespace: grafana
-    # - kind: HelmRelease
-    #   name: "*"
-    #   namespace: grocy
+    - kind: HelmRelease
+      name: "*"
+      namespace: grocy
     - kind: HelmRelease
       name: "*"
       namespace: guacamole
