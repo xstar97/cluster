@@ -34,7 +34,7 @@ spec:
             {{ $internalUrl := printf "%s://%s.%s.svc.cluster.local:%v%s" $protocol $objectName .Release.Namespace $port.port $path }}
             endpoints:
               - name: {{ default .Release.Name "${NAME}" }}
-                group: "${GROUP}"
+                group: "${GROUP:-core}"
                 url: {{ $internalUrl }}
                 interval: 1m
                 ui:
