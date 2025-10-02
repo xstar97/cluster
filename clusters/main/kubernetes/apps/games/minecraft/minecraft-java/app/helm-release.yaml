@@ -243,6 +243,7 @@ spec:
           nginx.ingress.kubernetes.io/configuration-snippet: |
             rewrite ^/stats$ / permanent;
           gatus.home-operations.com/endpoint: |
+            name: minecraft-java-map
             group: "${GROUP}"
             alerts:
               - type: discord
