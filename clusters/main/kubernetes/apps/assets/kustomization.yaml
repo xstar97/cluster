@@ -4,5 +4,4 @@ resources:
   - grocy/ks.yaml
   - homebox/ks.yaml
   - paperless-ngx/ks.yaml
-components:
-  - ../../../components/notifications
+  - ../../../components/notifications/notification.yaml
