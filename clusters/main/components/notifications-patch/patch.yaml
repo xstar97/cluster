@@ -1,7 +1,7 @@
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
-  name: not-used
+  name: discord
   namespace: flux-system
 spec:
   providerRef:
@@ -10,4 +10,4 @@ spec:
   eventSources:
     - kind: HelmRelease
       name: "*"
-      namespace: "${NAMESPACE}"
+      # namespace: "${NAMESPACE}"
