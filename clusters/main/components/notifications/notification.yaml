@@ -1,3 +1,15 @@
+---
+# yaml-language-server: $schema=https://github.com/fluxcd-community/flux2-schemas/raw/main/provider-notification-v1beta3.json
+apiVersion: notification.toolkit.fluxcd.io/v1beta3
+kind: Provider
+metadata:
+  name: discord
+  namespace: flux-system
+spec:
+  type: discord
+  secretRef:
+    name: discord-webhook
+---
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
@@ -10,4 +22,4 @@ spec:
   eventSources:
     - kind: HelmRelease
       name: "*"
-      namespace: "${NAMESPACE}"
+      # namespace: "${NAMESPACE}"
