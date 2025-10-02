@@ -6,8 +6,9 @@ metadata:
 spec:
   providerRef:
     name: discord
+    namespace: flux-system
   eventSeverity: info
   eventSources:
     - kind: HelmRelease
       name: "*"
-      # namespace: "${NAMESPACE}"
+      namespace: "${NAMESPACE}"
