@@ -12,3 +12,7 @@ spec:
   eventSources:
     - kind: Kustomization
       name: "*"
+    - kind: HelmRepository
+      name: '*'
+    - kind: OCIRepository
+      name: '*'
