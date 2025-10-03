@@ -10,11 +10,11 @@ spec:
   secretRef:
     name: discord-webhook
 ---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/notification.toolkit.fluxcd.io/alert_v1beta3.json
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
-  name: discord
-  namespace: flux-system
+  name: discord-info
 spec:
   providerRef:
     name: discord
@@ -22,7 +22,6 @@ spec:
   eventSources:
     - kind: HelmRelease
       name: "*"
-      # namespace: "${NAMESPACE}"
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/notification.toolkit.fluxcd.io/alert_v1beta3.json
 apiVersion: notification.toolkit.fluxcd.io/v1beta3
