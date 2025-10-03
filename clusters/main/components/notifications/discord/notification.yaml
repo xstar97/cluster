@@ -15,6 +15,7 @@ apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
   name: discord-info
+  namespace: flux-system
 spec:
   providerRef:
     name: discord
@@ -28,6 +29,7 @@ apiVersion: notification.toolkit.fluxcd.io/v1beta3
 kind: Alert
 metadata:
   name: discord-error
+  namespace: flux-system
 spec:
   providerRef:
     name: discord
