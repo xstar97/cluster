@@ -7,11 +7,6 @@ replacements:
     kind: Namespace
     fieldPath: metadata.name
   targets:
-  - select:
-      kind: Provider
-      name: discord
-    fieldPaths:
-      - metadata.namespace
     options:
         create: true
   - select:
