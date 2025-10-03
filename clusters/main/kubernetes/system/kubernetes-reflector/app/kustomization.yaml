@@ -4,5 +4,3 @@ namespace: kubernetes-reflector
 resources:
   - helm-release.yaml
   - namespace.yaml
-components:
-  - ../../../../components/notifications/discord

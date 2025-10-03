@@ -4,5 +4,3 @@ namespace: openebs
 resources:
   - namespace.yaml
   - helm-release.yaml
-components:
-  - ../../../../components/notifications/discord

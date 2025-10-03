@@ -5,5 +5,3 @@ resources:
   - namespace.yaml
   - helm-release.yaml
   - alertmanagerconfig.yaml
-components:
-  - ../../../../components/notifications/discord
