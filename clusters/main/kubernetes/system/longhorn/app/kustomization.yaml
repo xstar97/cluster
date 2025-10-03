@@ -7,3 +7,5 @@ resources:
   - volumeSnapshotClass.yaml
   - ingress.yaml
   - jobs
+components:
+  - ../../../../components/notifications/discord

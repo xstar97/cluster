@@ -4,3 +4,5 @@ namespace: generic-device-plugin
 resources:
   - helm-release.yaml
   - namespace.yaml
+components:
+  - ../../../../components/notifications/discord
