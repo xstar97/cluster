@@ -14,9 +14,9 @@ charts/*
 output/*
 kubeconfig
 charts.md
-scripts/
-/configs/noob-renovate.2025-02-25.private-key.pem
+scripts
 /configs/output/
 kubectl
 bwdc
 keytar.node
+venv
