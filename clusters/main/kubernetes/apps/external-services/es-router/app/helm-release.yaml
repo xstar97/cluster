@@ -44,7 +44,9 @@ spec:
         annotations:
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
           gatus.home-operations.com/endpoint: |
+            name: external-service-{{ .Release.Name }}
             enabled: false
+            group: NONE
         hosts:
           - host: router.${DOMAIN_2}
             paths:

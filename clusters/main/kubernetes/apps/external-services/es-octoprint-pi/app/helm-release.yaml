@@ -43,7 +43,9 @@ spec:
         ingressClassName: "internal"
         annotations:
           gatus.home-operations.com/endpoint: |
+            name: external-service-{{ .Release.Name }}
             enabled: false
+            group: NONE
         hosts:
           - host: octoprint.${DOMAIN_2}
             paths:
