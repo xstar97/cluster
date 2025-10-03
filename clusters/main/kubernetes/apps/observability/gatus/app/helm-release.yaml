@@ -105,8 +105,8 @@ spec:
                 startup:
                   enabled: false
               args:
-              - --auto-ingresses
-              # - --auto-services
+              # - --auto-ingresses
+              - --auto-services
               - --output=/config/config-eps.yaml
               - --default-dns=tcp://blocky-dns.blocky.svc.cluster.local:53
             configs:
