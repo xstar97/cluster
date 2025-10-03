@@ -247,6 +247,7 @@ spec:
             resources:
               - "configmaps"
               - "secrets"
+              - "services"
             verbs:
               - "get"
               - "list"
