@@ -4,5 +4,3 @@ resources:
   - namespace.yaml
   - helm-release.yaml
   - rbac.yaml
-components:
-  - ../../../../components/notifications/discord
