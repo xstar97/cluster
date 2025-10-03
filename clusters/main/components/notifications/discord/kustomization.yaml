@@ -3,23 +3,21 @@ kind: Component
 resources:
   - notification.yaml
 replacements:
-- source:
-    kind: Namespace
-    fieldPath: metadata.name
-  targets:
-    options:
-        create: true
-  - select:
-      kind: Alert
-      name: discord-info
-    fieldPaths:
-      - metadata.namespace
-    options:
-        create: true
-  - select:
-      kind: Alert
-      name: discord-error
-    fieldPaths:
-      - metadata.namespace
-    options:
-        create: true        
+  - source:
+      kind: Namespace
+      fieldPath: metadata.name
+    targets:
+      - select:
+          kind: Alert
+          name: discord-info
+        fieldPaths:
+          - metadata.namespace
+        options:
+          create: true
+      - select:
+          kind: Alert
+          name: discord-error
+        fieldPaths:
+          - metadata.namespace
+        options:
+          create: true
