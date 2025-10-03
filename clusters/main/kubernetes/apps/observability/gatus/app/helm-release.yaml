@@ -106,7 +106,8 @@ spec:
                   enabled: false
               args:
               # - --auto-ingresses
-              - --auto-services
+              - --auto-services=true
+              - --auto-routes=false
               - --output=/config/config-eps.yaml
               - --default-dns=tcp://blocky-dns.blocky.svc.cluster.local:53
             configs:
