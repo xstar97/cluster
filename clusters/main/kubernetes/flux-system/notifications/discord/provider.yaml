@@ -7,5 +7,5 @@ metadata:
   namespace: flux-system
 spec:
   type: discord
-  secretRef:
-    name: discord-webhook
+  address: ${DISCORD_WEBHOOK_NOTIFICATION}
+---
