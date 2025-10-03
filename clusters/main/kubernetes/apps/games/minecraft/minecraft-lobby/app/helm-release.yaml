@@ -59,11 +59,11 @@ spec:
             protocol: udp
             port: 25566
       rcon:
-        enabled: true
+        enabled: false
         type: ClusterIP
         ports:
           rcon:
-            enabled: true
+            enabled: false
             port: 25575
     resources:
       limits:
@@ -98,7 +98,7 @@ spec:
                 RCON_PORT: "{{ .Values.service.rcon.ports.rcon.port }}"
                 DISABLE_HEALTHCHECK: true
                 SERVER_HOST: '{{ printf "%s" (include "tc.v1.common.lib.chart.names.fullname" $) }}'
-                ENABLE_RCON: true
+                ENABLE_RCON: false
                 EXEC_DIRECTLY: "true"
                 ENABLE_QUERY: "true"
                 EULA: "TRUE"
