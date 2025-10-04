@@ -1,10 +1,11 @@
 # skip
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-components:
-  - ../../../components/ns
-replacements:
-  - path: ../../../components/ns/ks.yaml
+# components:
+#   - ../../../components/ns
+  
+# replacements:
+#   - path: ../../../components/ns/ks.yaml
 resources:
   - ollama/ks.yaml
   - actual-ai/ks.yaml
