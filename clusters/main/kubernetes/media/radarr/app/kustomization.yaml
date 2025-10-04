@@ -4,6 +4,6 @@ namespace: radarr
 resources:
   - helm-release.yaml
 components:
-  - ../../../../../components/ns
+  - ../../../../components/ns
 replacements:
   - path: ../../../../components/ks/ks.yaml
