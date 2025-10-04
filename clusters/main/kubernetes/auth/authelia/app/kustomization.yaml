@@ -7,5 +7,6 @@ resources:
   - authelia-configfile.configmap.yaml
 components:
   - ../../../../components/ns
+  - ../../../../components/notifications/discord
 replacements:
   - path: ../../../../components/ks/ks.yaml

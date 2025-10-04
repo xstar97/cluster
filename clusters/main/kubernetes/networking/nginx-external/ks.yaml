@@ -10,7 +10,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-  targetNamespace: nginx-external
   postBuild:
     substitute:
       GROUP: core

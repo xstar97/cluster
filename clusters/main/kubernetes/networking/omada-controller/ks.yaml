@@ -10,7 +10,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-  targetNamespace: omada-controller
   postBuild:
     substitute:
       GROUP: networking
