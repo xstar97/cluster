@@ -4,7 +4,7 @@ namespace: nginx-external
 resources:
   - helm-release.yaml
 components:
-  - ../../../../components/notifications/discord
+  # - ../../../../components/notifications/discord
   - ../../../../components/ns
 replacements:
   - path: ../../../../components/ks/ks.yaml
