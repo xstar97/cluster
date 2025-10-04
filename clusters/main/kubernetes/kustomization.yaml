@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - apps
   - ai
+  - auth
   - assets
   - core
   - flux-entry.yaml
@@ -10,4 +11,3 @@ resources:
   - kube-system
   - system
   - networking
-  
