@@ -1,10 +1,8 @@
-# components/ns/namespace.yaml
+---
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: ${NAMESPACE}
-  labels:
-    pod-security.kubernetes.io/enforce: privileged
-    topolvm.io/webhook: ignore
+  name: not-used
   annotations:
+    kustomize.toolkit.fluxcd.io/prune: disabled
     volsync.backube/privileged-movers: "true"
