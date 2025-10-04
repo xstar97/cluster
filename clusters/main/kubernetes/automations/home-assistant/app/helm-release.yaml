@@ -85,8 +85,7 @@ spec:
           enabled: true
           ingressClassName: "internal"
           annotations:
-            gatus.home-operations.com/endpoint: |
-              enabled: false
+            gatus.home-operations.com/enabled: "false"
           hosts:
             - host: editor.ha.${DOMAIN_2}
               paths:

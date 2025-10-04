@@ -84,9 +84,7 @@ spec:
           enabled: true
           ingressClassName: "internal"
           annotations:
-            gatus.home-operations.com/endpoint: |
-              enabled: false
-              group: "${GROUP}"
+            gatus.home-operations.com/enabled: "false"
           hosts:
             - host: editor.cluesolver.${DOMAIN_2}
               paths:

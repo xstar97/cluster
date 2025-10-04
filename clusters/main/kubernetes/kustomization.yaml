@@ -1,11 +1,11 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - apps
   - ai
-  - auth
+  - apps
   - assets
   - automations
+  - auth
   - core
   - external-services
   - financial
@@ -13,9 +13,10 @@ resources:
   - flux-system
   - games
   - kube-system
-  - system
-  - networking
   - medical
+  - media
+  - networking
   - observability
   - projects
+  - system
   - tools

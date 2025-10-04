@@ -10,7 +10,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-  targetNamespace: kubernetes-dashboard
   postBuild:
     substitute:
       GROUP: dashboard
