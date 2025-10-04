@@ -1,16 +1,15 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: vaultwarden
+  name: authelia
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/apps/auth/vaultwarden/app
+  path: clusters/main/kubernetes/auth/authelia/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: cluster
-  targetNamespace: vaultwarden
   postBuild:
     substitute:
       GROUP: auth
