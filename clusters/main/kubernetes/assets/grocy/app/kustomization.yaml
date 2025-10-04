@@ -1,8 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: ollama
+namespace: grocy
 resources:
-  - namespace.yaml
   - helm-release.yaml
 components:
-  - ../../../../../components/notifications/discord
+  - ../../../../components/ns
+replacements:
+  - path: ../../../../components/ks/ks.yaml

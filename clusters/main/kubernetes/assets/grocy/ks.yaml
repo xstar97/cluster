@@ -1,13 +1,18 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: actual-ai
+  name: grocy
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/apps/ai/actual-ai/app
+  path: clusters/main/kubernetes/assets/grocy/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: cluster
-
+  # targetNamespace: *chart
+  postBuild:
+    substitute:
+      # NAME: *chart
+      GROUP: assets
+      # NAMESPACE: *chart

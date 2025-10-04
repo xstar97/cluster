@@ -1,18 +1,16 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: &chart grocy
+  name: ollama
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/apps/assets/grocy/app
+  path: clusters/main/kubernetes/ai/ollama/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: cluster
-  targetNamespace: *chart
+  targetNamespace: ollama
   postBuild:
     substitute:
-      NAME: *chart
-      GROUP: assets
-      NAMESPACE: *chart
+      NAMESPACE: ollama
