@@ -4,8 +4,7 @@ namespace: omada-controller
 resources:
   - helm-release.yaml
 components:
-  # - ../../../../components/gatus/ingress
-  # - ../../../../components/notifications/discord
   - ../../../../components/ns
+  - ../../../../components/gatus/ingress
 replacements:
   - path: ../../../../components/ks/ks.yaml
