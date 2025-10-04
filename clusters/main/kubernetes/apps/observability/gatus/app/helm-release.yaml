@@ -95,7 +95,7 @@ spec:
               env:
                 GATUS_CONFIG_PATH: "{{ .Values.persistence.config.mountPath }}"
             sidecar:
-              enabled: true
+              enabled: false
               imageSelector: sidecarImage
               probes:
                 liveness:
