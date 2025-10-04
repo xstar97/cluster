@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/apps/external-services/es-cockpit-seb/app
+  path: clusters/main/kubernetes/external-services/es-cockpit-seb/app
   prune: true
   sourceRef:
     kind: GitRepository

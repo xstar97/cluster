@@ -1,11 +1,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: es-router
+  name: es-scale
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/apps/external-services/es-router/app
+  path: clusters/main/kubernetes/external-services/es-scale/app
   prune: true
   sourceRef:
     kind: GitRepository
