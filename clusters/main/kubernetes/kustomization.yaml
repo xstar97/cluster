@@ -8,8 +8,10 @@ resources:
   - automations
   - core
   - external-services
+  - financial
   - flux-entry.yaml
   - flux-system
+  - games
   - kube-system
   - system
   - networking
