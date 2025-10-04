@@ -7,7 +7,6 @@ spec:
   interval: 10m
   path: clusters/main/kubernetes/system/system-upgrade-controller/app
   prune: true
-  targetNamespace: system-upgrade
   sourceRef:
     kind: GitRepository
     name: cluster

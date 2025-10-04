@@ -1,6 +1,13 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
+namespace: system-upgrade
 resources:
   - namespace.yaml
   - helm-release.yaml
   - rbac.yaml
+components:
+  - ../../../../components/ns
+  - ../../../../components/notifications/discord
+replacements:
+  - path: ../../../../components/ks/ks.yaml
+  
