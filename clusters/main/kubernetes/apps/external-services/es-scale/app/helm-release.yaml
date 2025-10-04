@@ -43,10 +43,7 @@ spec:
         ingressClassName: "internal"
         annotations:
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-          gatus.home-operations.com/endpoint: |
-            name: external-service-{{ .Release.Name }}
-            enabled: false
-            group: NONE
+          gatus.home-operations.com/enabled: "false"
         hosts:
           - host: scale.${DOMAIN_2}
             paths:
