@@ -3,5 +3,3 @@ kind: Kustomization
 resources:
 - schematic-to-pod.yaml
   # - ensure-digest.yaml
-components:
-- ../../../../components/notifications/discord
