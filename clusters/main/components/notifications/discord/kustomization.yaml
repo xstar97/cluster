@@ -1,5 +1,4 @@
----
-apiVersion: notification.toolkit.fluxcd.io/v1beta3
+apiVersion: kustomize.config.k8s.io/v1alpha1
 kind: Component
 resources:
   - notification.yaml
@@ -8,24 +7,24 @@ replacements:
       kind: Namespace
       fieldPath: metadata.name
     targets:
-      - select:
-          kind: Provider
-          name: discord
-        fieldPaths:
-          - metadata.namespace
-        options:
+    - select:
+        kind: Provider
+        name: discord
+      fieldPaths:
+        - metadata.namespace
+      options:
           create: true
-      - select:
-          kind: Alert
-          name: discord-info
-        fieldPaths:
-          - metadata.namespace
-        options:
+    - select:
+        kind: Alert
+        name: discord-info
+      fieldPaths:
+        - metadata.namespace
+      options:
           create: true
-      - select:
-          kind: Alert
-          name: discord-error
-        fieldPaths:
-          - metadata.namespace
-        options:
+    - select:
+        kind: Alert
+        name: discord-error
+      fieldPaths:
+        - metadata.namespace
+      options:
           create: true
