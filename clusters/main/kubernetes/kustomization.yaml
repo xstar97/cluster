@@ -5,6 +5,7 @@ resources:
   - ai
   - auth
   - assets
+  - automations
   - core
   - flux-entry.yaml
   - flux-system

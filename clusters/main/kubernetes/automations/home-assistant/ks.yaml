@@ -5,12 +5,11 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/apps/automations/home-assistant/app
+  path: clusters/main/kubernetes/automations/home-assistant/app
   prune: true
   sourceRef:
     kind: GitRepository
     name: cluster
-  targetNamespace: home-assistant
   postBuild:
     substitute:
       GROUP: automations
