@@ -4,7 +4,7 @@ namespace: cloudflared
 resources:
   - helm-release.yaml
 components:
-  - ../../../../components/notifications/discord
   - ../../../../components/ns
+  - ../../../../components/notifications/discord
 replacements:
   - path: ../../../../components/ks/ks.yaml
