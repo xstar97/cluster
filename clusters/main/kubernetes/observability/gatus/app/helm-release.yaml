@@ -106,7 +106,7 @@ spec:
               args:
               - --auto-ingress
               - --output=/config/config-eps.yaml
-              - --default-dns=tcp://blocky-dns.blocky.svc.cluster.local:53
+              # - --default-dns=tcp://blocky-dns.blocky.svc.cluster.local:53
             configs:
               enabled: true
               imageSelector: configsImage
