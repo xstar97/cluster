@@ -15,3 +15,7 @@ resources:
   - kube-system
   - system
   - networking
+  - medical
+  - observability
+  - projects
+  - tools

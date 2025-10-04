@@ -6,4 +6,4 @@ resources:
 components:
   - ../../../../../components/ns
 replacements:
-  - path: ../../../../components/ks/ks.yaml
+  - path: ../../../../../components/ks/ks.yaml
