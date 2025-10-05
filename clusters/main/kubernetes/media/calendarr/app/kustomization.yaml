@@ -1,10 +1,10 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
+apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 namespace: calendarr
 resources:
-  - helm-release.yaml
+- helm-release.yaml
 components:
-  - ../../../../components/ns
-  - ../../../../components/notifications/discord
+- ../../../../components/ns
+- ../../../../components/notifications/discord
 replacements:
-  - path: ../../../../components/ks/ks.yaml
+- path: ../../../../components/ks/ks.yaml
