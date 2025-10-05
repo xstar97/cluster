@@ -103,7 +103,7 @@ spec:
                   enabled: false
                 startup:
                   enabled: false
-              args:
+              extraArgs:
               - --auto-ingress=false
               - --auto-httproute=false
               - --auto-service=false
