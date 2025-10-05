@@ -7,5 +7,3 @@ components:
 - ../../../../../components/ns
 - ../../../../../components/notifications/discord
 - ../../../../../components/gatus/configmap/auto
-replacements:
-- path: ../../../../../components/ks/ks.yaml

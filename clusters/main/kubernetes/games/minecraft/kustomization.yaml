@@ -4,3 +4,5 @@ resources:
 - minecraft-java/ks.yaml
 - minecraft-router/ks.yaml
 - minecraft-lobby/ks.yaml
+replacements:
+- path: ../../../components/ks/ks.yaml
