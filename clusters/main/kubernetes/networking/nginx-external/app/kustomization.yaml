@@ -6,5 +6,3 @@ resources:
 components:
 - ../../../../components/ns
 - ../../../../components/gatus/ingress
-replacements:
-- path: ../../../../components/ks/ks.yaml

@@ -9,5 +9,3 @@ components:
 - ../../../../components/ns
 - ../../../../components/notifications/discord
 - ../../../../components/gatus/ingress
-replacements:
-- path: ../../../../components/ks/ks.yaml

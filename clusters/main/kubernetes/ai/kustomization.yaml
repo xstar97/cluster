@@ -3,3 +3,5 @@ kind: Kustomization
 resources:
 - ollama/ks.yaml
 - actual-ai/ks.yaml
+replacements:
+- path: ../../components/ks/ks.yaml

@@ -6,5 +6,3 @@ resources:
 components:
 - ../../../../components/ns
 - ../../../../components/notifications/discord
-replacements:
-- path: ../../../../components/ks/ks.yaml
