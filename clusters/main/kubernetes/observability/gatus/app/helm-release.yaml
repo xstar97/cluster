@@ -104,7 +104,6 @@ spec:
                 startup:
                   enabled: false
               args:
-              - gatus-sidecar
               - --auto-ingress=false
               - --auto-httproute=false
               - --auto-service=false
