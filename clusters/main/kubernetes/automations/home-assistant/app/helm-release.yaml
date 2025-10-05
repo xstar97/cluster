@@ -48,7 +48,7 @@ spec:
       trusted_proxies: ["172.16.0.0/16"]
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "external" 
         hosts:
           - host: ha.${DOMAIN_2}
