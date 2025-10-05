@@ -1,13 +1,14 @@
 ---
-- # Apply targetNamespace to all Flux Kustomizations
-  source:
-    kind: Namespace
-    fieldPath: metadata.name
-  targets:
-    - select:
-        kind: Kustomization
-        group: kustomize.toolkit.fluxcd.io
-      fieldPaths:
-        - spec.targetNamespace
-      options:
-        create: true
+# Apply targetNamespace to all Flux Kustomizations
+replacements:
+  - source:
+      kind: Namespace
+      fieldPath: metadata.name
+    targets:
+      - select:
+          kind: Kustomization
+          group: kustomize.toolkit.fluxcd.io
+        fieldPaths:
+          - spec.targetNamespace
+        options:
+          create: true
