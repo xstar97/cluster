@@ -10,9 +10,14 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |
             name: {{ default .Release.Name "${NAME}" }}
-            group: "${GROUP}"
+            group: "${GROUP}"            
+            ui:
+              hide-url: true
+              hide-hostname: true
             client:
-              dns-resolver: "tcp://blocky-dns.blocky.svc.cluster.local:53"
+              insecure: true
+              timeout: 30s
+              # dns-resolver: "tcp://blocky-dns.blocky.svc.cluster.local:53"
             alerts:
               - type: discord
                 description: "healthcheck failed"
