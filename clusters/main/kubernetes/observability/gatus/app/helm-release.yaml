@@ -106,11 +106,8 @@ spec:
                 startup:
                   enabled: true
                   port: "{{ .Values.service.main.ports.main.port }}"
-              command:
-                - /gatus-sidecar
-              Args:
-              # extraArgs:
-                - --auto-ingress
+              Args: # extraArgs:
+                # - --auto-ingress
                 # - --auto-httproute=false
                 # - --auto-service=false
                 - --output=/config/config-eps.yaml
