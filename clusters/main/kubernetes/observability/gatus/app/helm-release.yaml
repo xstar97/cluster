@@ -106,7 +106,9 @@ spec:
                 startup:
                   enabled: true
                   port: "{{ .Values.service.main.ports.main.port }}"
-              Args: []
+              command:
+                - /gatus-sidecar
+              # Args: []
               extraArgs:
                 - --auto-ingress=false
                 - --auto-httproute=false
@@ -118,11 +120,14 @@ spec:
               imageSelector: configsImage
               probes:
                 liveness:
-                  enabled: false
+                  enabled: true
+                  port: "{{ .Values.service.main.ports.main.port }}"
                 readiness:
-                  enabled: false
+                  enabled: true
+                  port: "{{ .Values.service.main.ports.main.port }}"
                 startup:
-                  enabled: false
+                  enabled: true
+                  port: "{{ .Values.service.main.ports.main.port }}"
               env:
                 FOLDER: "/config"
                 LABEL: gatus.io/enabled
