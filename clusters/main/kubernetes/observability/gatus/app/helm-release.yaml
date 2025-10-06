@@ -107,12 +107,7 @@ spec:
                   enabled: true
                   port: "{{ .Values.service.main.ports.main.port }}"
               extraArgs:
-                # - --auto-ingress
-                # - --auto-httproute=false
-                # - --auto-service=false
                 - --output=/config/config-eps.yaml
-                - --auto-httproute=false
-                # - --default-dns=tcp://blocky-dns.blocky.svc.cluster.local:53
             configs:
               enabled: true
               imageSelector: configsImage
