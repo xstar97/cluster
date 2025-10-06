@@ -71,8 +71,8 @@ spec:
       create: true
       username: admin
       passwordHash: "$2a$10$zbuAGqz3.4YAk4NPiDMwVOzRJu1QwzAUkDxYDcg3c3L74xKDXf.fi"
-    networkPolicy:
-      create: false
+    # networkPolicy:
+    #   create: false
     rbac:
       main:
         enabled: true
