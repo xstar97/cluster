@@ -106,7 +106,7 @@ spec:
                 startup:
                   enabled: true
                   port: "{{ .Values.service.main.ports.main.port }}"
-              Args: # extraArgs:
+              extraArgs:
                 # - --auto-ingress
                 # - --auto-httproute=false
                 # - --auto-service=false
