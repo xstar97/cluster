@@ -7,3 +7,4 @@ resources:
 # helm-release.yaml.bk
 components:
 - ../../../../components/notifications/discord
+- ../../../../components/gatus/configmap/auto
