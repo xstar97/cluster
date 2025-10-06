@@ -7,4 +7,4 @@ components:
 - ../../../../../components/ns
 - ../../../../../components/notifications/discord
 - ../../../../../components/gatus/service
-- ../../../../../components/gatus/configmap/auto
+# - ../../../../../components/gatus/configmap/auto
