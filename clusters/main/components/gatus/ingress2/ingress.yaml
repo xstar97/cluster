@@ -6,7 +6,7 @@ metadata:
   annotations:
     gatus.home-operations.com/endpoint: |-
       name: {{ default .Release.Name "${NAME}" }}
-      group: "${GROUP}"
+      group: "test"
       client:
         dns-resolver: "tcp://blocky-dns.blocky.svc.cluster.local:53"
       alerts:
