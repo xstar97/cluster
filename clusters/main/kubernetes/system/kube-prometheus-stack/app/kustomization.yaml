@@ -6,3 +6,4 @@ resources:
 - alertmanagerconfig.yaml
 components:
 - ../../../../components/notifications/discord
+- ../../../../components/gatus/configmap/auto
