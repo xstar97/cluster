@@ -1,19 +1,20 @@
 ---
-# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: weave-gitops
   namespace: flux-system
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   interval: 15m
   chart:
     spec:
-      chart: weave-gitops
-      version: 4.0.36
+      chart: app-template
+      version: 15.13.7
       sourceRef:
         kind: HelmRepository
-        name: weave-gitops
+        name: truecharts
         namespace: flux-system
       interval: 15m
   timeout: 20m
@@ -29,46 +30,67 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    global:
+      stopAll: false
+    image:
+      repository: ghcr.io/weaveworks/charts/weave-gitops
+      pullPolicy: IfNotPresent
+      tag: 4.0.36
+    securityContext:
+      readOnlyRootFilesystem: false
+    service:
+      main:
+        ports:
+          main:
+            port: 9001
+      metrics:
+        enabled: "{{ .Values.metrics.main.enabled }}"
+        ports:
+          metrics:
+            enabled: true
+            port: 2112
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        annotations:
+          cert-manager.io/cluster-issuer: general-le-prod
+          cert-manager.io/private-key-rotation-policy: Always
+        hosts:
+          - host: gitops.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
     adminUser:
       create: true
       username: admin
       passwordHash: "$2a$10$zbuAGqz3.4YAk4NPiDMwVOzRJu1QwzAUkDxYDcg3c3L74xKDXf.fi"
-    ingress:
-      enabled: true
-      ingressClassName: "internal"
-      annotations:
-        # nginx.ingress.kubernetes.io/auth-method: 'GET'
-        # nginx.ingress.kubernetes.io/auth-url: 'http://authelia.authelia.svc.cluster.local:9091/api/verify'
-        # nginx.ingress.kubernetes.io/auth-signin: 'https://auth.${DOMAIN_2}?rm=$request_method'
-        # nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
-        cert-manager.io/cluster-issuer: general-le-prod
-        cert-manager.io/private-key-rotation-policy: Always
-        gatus.home-operations.com/enabled: "true"
-        gatus.home-operations.com/endpoint: |
-          group: "${GROUP}"
-          alerts:
-            - type: discord
-              description: "healthcheck failed"
-              send-on-resolved: true
-      tls:
-        - hosts:
-            - gitops.${DOMAIN_2}
-          secretName: gitops-tls-0
-      hosts:
-        - host: gitops.${DOMAIN_2}
-          paths:
-            - path: /
-              pathType: Prefix
     networkPolicy:
       create: false
+    rbac:
+      main:
+        enabled: true
+        primary: true
+        clusterWide: true
+        impersonationResourceNames: ["admin"]
+        rules:
+          - apiGroups: ["infra.contrib.fluxcd.io"]
+            resources: ["terraforms"]
+            verbs: ["get", "list", "patch"]
     metrics:
       enabled: true
-    rbac:
-      create: true
-      impersonationResourceNames: ["admin"]
-      additionalRules:
-        - apiGroups: ["infra.contrib.fluxcd.io"]
-          resources: ["terraforms"]
-          verbs: ["get", "list", "patch"]
-    annotations:
-      reloader.stakater.com/auto: "true"
+      main:
+        enabled: true
+        type: "servicemonitor"
+        endpoints:
+          - port: metrics
+            path: /metrics
+        targetSelector: metrics
+        prometheusRule:
+          enabled: false
