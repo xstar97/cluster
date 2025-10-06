@@ -4,4 +4,3 @@ resources:
 - flux
 - notifications
 - weave-gitops/ks.yaml
-- capacitor
