@@ -110,7 +110,7 @@ spec:
                 - /gatus-sidecar
               Args:
               # extraArgs:
-                # - --auto-ingress=false
+                - --auto-ingress
                 # - --auto-httproute=false
                 # - --auto-service=false
                 - --output=/config/config-eps.yaml
