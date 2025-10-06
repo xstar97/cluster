@@ -33,9 +33,9 @@ spec:
     global:
       stopAll: false
     image:
-      repository: ghcr.io/weaveworks/charts/weave-gitops
+      repository: ghcr.io/weaveworks/wego-app # ghcr.io/weaveworks/charts/weave-gitops
       pullPolicy: IfNotPresent
-      tag: 4.0.36
+      tag: v0.39.0-rc.2 # 4.0.36
     securityContext:
       readOnlyRootFilesystem: false
     service:
