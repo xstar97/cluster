@@ -83,6 +83,16 @@ spec:
           - apiGroups: ["infra.contrib.fluxcd.io"]
             resources: ["terraforms"]
             verbs: ["get", "list", "patch"]
+
+    # -- The service account the pods will use to interact with the Kubernetes API
+    serviceAccount:
+      main:
+        enabled: true
+        primary: true
+
+    podOptions:
+      automountServiceAccountToken: true
+
     metrics:
       enabled: true
       main:
