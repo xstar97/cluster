@@ -98,17 +98,21 @@ spec:
               imageSelector: sidecarImage
               probes:
                 liveness:
-                  enabled: false
+                  enabled: true
+                  port: "{{ .Values.service.main.ports.main.port }}"
                 readiness:
-                  enabled: false
+                  enabled: true
+                  port: "{{ .Values.service.main.ports.main.port }}"
                 startup:
-                  enabled: false
+                  enabled: true
+                  port: "{{ .Values.service.main.ports.main.port }}"
+              Args: []
               extraArgs:
-              - --auto-ingress=false
-              - --auto-httproute=false
-              - --auto-service=false
-              - --output=/config/config-eps.yaml
-              # - --default-dns=tcp://blocky-dns.blocky.svc.cluster.local:53
+                - --auto-ingress=false
+                - --auto-httproute=false
+                - --auto-service=false
+                - --output=/config/config-eps.yaml
+                # - --default-dns=tcp://blocky-dns.blocky.svc.cluster.local:53
             configs:
               enabled: true
               imageSelector: configsImage
