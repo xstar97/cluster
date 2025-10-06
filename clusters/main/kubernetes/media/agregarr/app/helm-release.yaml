@@ -37,7 +37,22 @@ spec:
         bucket: "${CF_S3_RESTIC_BUCKET}-agregarr"
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
-        encrKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"  
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              probes:
+                liveness:
+                  enabled: true
+                  path: "/api/v1"
+                readiness:
+                  enabled: true
+                  path: "/api/v1"
+                startup:
+                  enabled: true
+                  path: "/api/v1"
     ingress:
       main:
         enabled: true
