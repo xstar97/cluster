@@ -5,6 +5,8 @@ kind: HelmRelease
 metadata:
   name: weave-gitops
   namespace: flux-system
+  annotations:
+    reloader.stakater.com/auto: "true"
 spec:
   interval: 15m
   chart:
@@ -70,5 +72,3 @@ spec:
         - apiGroups: ["infra.contrib.fluxcd.io"]
           resources: ["terraforms"]
           verbs: ["get", "list", "patch"]
-    annotations:
-      reloader.stakater.com/auto: "true"
