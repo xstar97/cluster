@@ -8,7 +8,7 @@ spec:
     ingress:
       main:
         annotations:
-          gatus.home-operations.com/enabled: "true"
+          # gatus.home-operations.com/enabled: "true"
           gatus.home-operations.com/endpoint: |
             name: {{ default .Release.Name "${NAME}" }}
             group: "${GROUP}"
