@@ -94,7 +94,6 @@ spec:
       automountServiceAccountToken: true
 
     metrics:
-      enabled: true
       main:
         enabled: true
         type: "servicemonitor"
