@@ -33,15 +33,6 @@ spec:
           metallb.io/ip-allocated-from-pool: main
           metallb.io/loadBalancerIPs: ${NGINX_EXTERNAL_IP}
           metallb.universe.tf/ip-allocated-from-pool: main
-          gatus.home-operations.com/endpoint: |
-            name: {{ default .Release.Name "${NAME}" }}
-            group: "nginx-external"
-            client:
-              dns-resolver: "tcp://blocky-dns.blocky.svc.cluster.local:53"
-            alerts:
-              - type: discord
-                description: "healthcheck failed"
-                send-on-resolved: true
       ingressClassByName: true
       watchIngressWithoutClass: false
       ingressClassResource:
