@@ -10,7 +10,7 @@ metadata:
     nginx.ingress.kubernetes.io/auth-response-headers: 'Remote-User,Remote-Name,Remote-Groups,Remote-Email'
     cert-manager.io/cluster-issuer: general-le-prod
     cert-manager.io/private-key-rotation-policy: Always
-    gatus.home-operations.com/enabled: "true"
+    gatus.home-operations.com/enabled: "false"
     gatus.home-operations.com/endpoint: |
       group: "${GROUP}"
       alerts:
