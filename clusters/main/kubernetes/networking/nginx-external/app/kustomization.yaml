@@ -5,4 +5,4 @@ resources:
 - helm-release.yaml
 components:
 - ../../../../components/ns
-- ../../../../components/gatus/ingress
+- ../../../../components/gatus/service

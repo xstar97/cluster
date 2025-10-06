@@ -17,7 +17,6 @@ spec:
             client:
               insecure: true
               timeout: 30s
-              # dns-resolver: "tcp://blocky-dns.blocky.svc.cluster.local:53"
             alerts:
               - type: discord
                 description: "healthcheck failed"

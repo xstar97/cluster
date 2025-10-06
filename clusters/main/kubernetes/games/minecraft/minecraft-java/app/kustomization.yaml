@@ -6,5 +6,5 @@ resources:
 components:
 - ../../../../../components/ns
 - ../../../../../components/notifications/discord
-- ../../../../../components/gatus/ingress
+- ../../../../../components/gatus/service
 - ../../../../../components/gatus/configmap/auto
