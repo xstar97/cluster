@@ -108,6 +108,8 @@ spec:
                   port: "{{ .Values.service.main.ports.main.port }}"
               extraArgs:
                 - --output=/config/config-eps.yaml
+                - --enable-httproute
+                - "false"
             configs:
               enabled: true
               imageSelector: configsImage
