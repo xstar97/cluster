@@ -6,4 +6,4 @@ resources:
 components:
 - ../../../../components/ns
 - ../../../../components/notifications/discord
-- ../../../../components/gatus/ingress2
+- ../../../../components/gatus/ingress
