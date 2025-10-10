@@ -34,3 +34,4 @@ resources:
 - jellyseerr/ks.yaml
 - agregarr/ks.yaml
 - reaparr/ks.yaml
+- audiobookrequest/ks.yaml

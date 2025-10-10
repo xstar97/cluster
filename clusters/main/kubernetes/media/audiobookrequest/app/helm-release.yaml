@@ -1,0 +1,126 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: audiobookrequest
+  namespace: audiobookrequest
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.16.3
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    image:
+      repository: markbeep/audiobookrequest
+      pullPolicy: IfNotPresent
+      tag: 1.8.0@sha256:42a76015746f1ac60c11afbf0805edff799b36bae8e0e1e94990875dbf057bd6
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-audiobookrequest"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+    service:
+      main:
+        ports:
+          main:
+            port: 8080
+    workload:
+      main:
+        # type: StatefulSet
+        podSpec:
+          containers:
+            main:
+              env:
+                ABR_APP__PORT: "{{ .Values.service.main.ports.main.port }}"
+                ABR_APP__CONFIG_DIR: "{{.Values.persistence.config.mountPath }}"
+                # ABR_APP__OPENAPI_ENABLED: false
+                # ABR_APP__DEBUG: false
+                # ABR_DB__SQLITE_PATH: db.sqlite
+                # ABR_APP__LOG_LEVEL: INFO # DEBUG, INFO, WARN, ERROR
+                # ABR_APP__BASE_URL: /
+                ABR_APP__DEFAULT_REGION: us # us, ca, uk, au, fr, de, jp, it, in, es, br
+                ABR_APP__FORCE_LOGIN_TYPE: oidc # basic, forms, oidc, or none
+                ABR_APP__INIT_ROOT_USERNAME: "${ABR_INITIAL_USER}"
+                ABR_APP__INIT_ROOT_PASSWORD: "${ABR_INITIAL_PASS}"
+                ABR_DB__USE_POSTGRES: true
+                ABR_DB__POSTGRES_HOST: '{{ .Values.cnpg.main.creds.host | trimAll "\"" }}'
+                ABR_DB__POSTGRES_PORT: 5432
+                ABR_DB__POSTGRES_DB: audiobookrequest
+                ABR_DB__POSTGRES_USER: "{{ .Values.cnpg.main.user }}"
+                ABR_DB__POSTGRES_PASSWORD: '{{  .Values.cnpg.main.creds.password | trimAll "\"" }}'
+                # ABR_DB__POSTGRES_SSL_MODE: "prefer"
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: abr.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      config:
+        enabled: true
+        mountPath: /config
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+
+    cnpg:
+      main:
+        enabled: true
+        user: abr
+        database: audiobookrequest
+        # mode: recovery
+        cluster:
+          singleNode: true
+        backups:
+          enabled: true
+          credentials: cf-restic
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              schedule: "0 5 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic
