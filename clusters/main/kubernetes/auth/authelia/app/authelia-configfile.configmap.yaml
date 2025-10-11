@@ -28,7 +28,7 @@ data:
             id_token: ['email', 'name', 'groups', 'preferred_username']            
           vaultwarden:
             id_token: ['email', 'groups', 'profile']     
-          audiobookerequest:
+          audiobookrequest:
             id_token: ['groups', 'profile', 'email']
         hmac_secret: {{ secret "/config/secret/hmac_secret" }}
         jwks:
@@ -89,7 +89,7 @@ data:
                 subject: 'group:lldap_admin'
               - policy: 'one_factor'
                 subject: 'group:lldap_wallos'
-          audiobookerequest:
+          audiobookrequest:
             default_policy: 'deny'
             rules:
               - policy: 'one_factor'
@@ -97,7 +97,7 @@ data:
               - policy: 'one_factor'
                 subject: 'group:trusted'
               - policy: 'one_factor'
-                subject: 'group:lldap_audiobookerequest'
+                subject: 'group:lldap_audiobookrequest'
         clients:
           - client_id: 'guacamole'
             client_name: 'Apache Guacamole'
@@ -254,10 +254,10 @@ data:
             userinfo_signed_response_alg: "none"
             claims_policy: "default"
           - client_id: audiobookrequest
-            client_name: 'audiobookrequest'
+            client_name: 'audiobookrequest' 
             client_secret: {{ secret "/config/secret/clients_abr_client_secret" }}
             public: false
-            authorization_policy: audiobookerequest
+            authorization_policy: audiobookrequest
             require_pkce: true
             pkce_challenge_method: 'S256'
             access_token_signed_response_alg: none
@@ -276,4 +276,4 @@ data:
             consent_mode: implicit # self hosted
             response_types:
               - code
-            claims_policy: "audiobookerequest"
+            claims_policy: "audiobookrequest"
