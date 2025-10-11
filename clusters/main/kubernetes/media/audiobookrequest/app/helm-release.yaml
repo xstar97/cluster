@@ -65,7 +65,7 @@ spec:
                 # ABR_APP__LOG_LEVEL: INFO # DEBUG, INFO, WARN, ERROR
                 # ABR_APP__BASE_URL: /
                 ABR_APP__DEFAULT_REGION: us # us, ca, uk, au, fr, de, jp, it, in, es, br
-                ABR_APP__FORCE_LOGIN_TYPE: oidc # basic, forms, oidc, or none
+                # ABR_APP__FORCE_LOGIN_TYPE: oidc # basic, forms, oidc, or none
                 ABR_APP__INIT_ROOT_USERNAME: "${ABR_INITIAL_USER}"
                 ABR_APP__INIT_ROOT_PASSWORD: "${ABR_INITIAL_PASS}"
                 ABR_DB__USE_POSTGRES: true
