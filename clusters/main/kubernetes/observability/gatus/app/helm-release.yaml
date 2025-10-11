@@ -57,6 +57,11 @@ spec:
       readOnlyRootFilesystem: false
     service:
       main:
+        type: LoadBalancer
+        loadBalancerIP: ${GATUS_IP}
+        integrations:
+          metallb:
+            enabled: true
         ports:
           main:
             port: 8080
