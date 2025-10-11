@@ -29,7 +29,7 @@ data:
           vaultwarden:
             id_token: ['email', 'groups', 'profile']     
           audiobookerequest:
-            id_token: ['openid', 'groups', 'profile', 'email']
+            id_token: ['groups', 'profile', 'email']
         hmac_secret: {{ secret "/config/secret/hmac_secret" }}
         jwks:
           - key: |
