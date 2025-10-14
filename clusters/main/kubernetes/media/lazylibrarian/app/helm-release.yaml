@@ -73,5 +73,5 @@ spec:
         enabled: true
         type: nfs
         server: ${SCALE_IP}
-        path: ${MEDIA_NFS}
-        mountPath: ${MEDIA_LOCAL}
+        path: "${MEDIA_NFS}/Literature"
+        mountPath: "/books"
