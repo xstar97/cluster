@@ -57,7 +57,7 @@ spec:
         enabled: true
         ingressClassName: "internal"
         hosts:
-          - host: dl.cwa.${DOMAIN_2}
+          - host: cwadl.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
