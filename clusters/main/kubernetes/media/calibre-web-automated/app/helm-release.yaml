@@ -1,0 +1,105 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: calibre-web-automated
+  namespace: calibre-web-automated
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.19.2
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    image:
+      repository: ghcr.io/crocodilestick/calibre-web-automated
+      pullPolicy: IfNotPresent
+      tag: V3.1.4@sha256:577e846f104fd21453ef306eefb4a95dd95b3b9ddd2463a150944494284da0fd
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-calibre-web-automated"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsGroup: 0
+        runAsUser: 0
+    service:
+      main:
+        ports:
+          main:
+            port: 8083
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: cwa.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                CWA_PORT_OVERRIDE: "{{ .Values.service.main.ports.main.port }}"
+                HARDCOVER_TOKEN: "${CWA_HARDCOVER_TOKEN}"
+                NETWORK_SHARE_MODE: true
+    persistence:
+      config:
+        enabled: true
+        mountPath: /config
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      imports:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: "${MEDIA_NFS}/imports"
+        mountPath: "/cwa-book-ingest"
+      media:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: "${MEDIA_NFS}/Literature"
+        mountPath: "/calibre-library"
+    cnpg:
+      main:
+        enabled: false
