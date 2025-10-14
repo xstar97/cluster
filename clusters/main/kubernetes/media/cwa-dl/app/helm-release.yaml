@@ -1,0 +1,88 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: cwa-dl
+  namespace: cwa-dl
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.19.2
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    image:
+      repository: ghcr.io/calibrain/calibre-web-automated-book-downloader
+      pullPolicy: IfNotPresent
+      tag: v0.2.2@sha256:a709fc56f80e132c48360cbd042543d8ab8534af21c376a21c26d94917a4c918
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-cwa"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsGroup: 0
+        runAsUser: 0
+    service:
+      main:
+        ports:
+          main:
+            port: 8084
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: dl.cwa.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                FLASK_HOST: "0.0.0.0"
+                FLASK_PORT: "{{ .Values.service.sidecar.ports.downloader.port }}"
+                INGEST_DIR: "/cwa-book-ingest"
+    persistence:
+      imports:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: "${MEDIA_NFS}/Literature/imports"
+        mountPath: "/cwa-book-ingest"
+    cnpg:
+      main:
+        enabled: false

@@ -37,4 +37,4 @@ resources:
   - audiobookrequest/ks.yaml
   - jelu/ks.yaml
   - lazylibrarian/ks.yaml
-  - calibre-web-automated/ks.yaml
+  - cwa-dl/ks.yaml
