@@ -38,3 +38,4 @@ resources:
   - jelu/ks.yaml
   - lazylibrarian/ks.yaml
   - cwa-dl/ks.yaml
+  - bookshelf/ks.yaml
