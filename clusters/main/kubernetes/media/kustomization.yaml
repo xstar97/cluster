@@ -36,3 +36,4 @@ resources:
   - reaparr/ks.yaml
   - audiobookrequest/ks.yaml
   - jelu/ks.yaml
+  - lazylibrarian/ks.yaml
