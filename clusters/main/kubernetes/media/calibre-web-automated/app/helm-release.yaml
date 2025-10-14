@@ -136,7 +136,7 @@ spec:
         enabled: true
         mountPath: /calibre-library
         volsync:
-          - name: config
+          - name: calibre
             type: restic
             credentials: cf-restic
             dest:
