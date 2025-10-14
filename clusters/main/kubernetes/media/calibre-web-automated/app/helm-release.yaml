@@ -120,7 +120,7 @@ spec:
         enabled: true
         type: nfs
         server: ${SCALE_IP}
-        path: "${MEDIA_NFS}/imports"
+        path: "${MEDIA_NFS}/Literature/imports"
         mountPath: "/cwa-book-ingest"
       media:
         enabled: true
