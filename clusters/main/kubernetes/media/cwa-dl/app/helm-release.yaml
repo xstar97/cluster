@@ -74,8 +74,8 @@ spec:
             main:
               env:
                 FLASK_HOST: "0.0.0.0"
-                FLASK_PORT: "{{ .Values.service.sidecar.ports.downloader.port }}"
-                INGEST_DIR: "/cwa-book-ingest"
+                FLASK_PORT: "{{ .Values.service.main.ports.main.port }}"
+                INGEST_DIR: "{{ .Values.persistence.imports.mountPath }}"
     persistence:
       imports:
         enabled: true
