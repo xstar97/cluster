@@ -77,6 +77,22 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
+      downloader:
+        enabled: true
+        ingressClassName: internal
+        targetSelector:
+          sidecar: downloader
+        hosts:
+          - host: dl.cwa.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
     workload:
       main:
         podSpec:
