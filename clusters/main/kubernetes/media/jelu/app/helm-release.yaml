@@ -1,0 +1,139 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: jelu
+  namespace: jelu
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.19.2
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    image:
+      repository: wabayang/jelu
+      pullPolicy: IfNotPresent
+      tag: 0.74.0@sha256:db34bc341408f4b5219ec29decc378855964bd88a19aa1374fb2363404dbe656
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-jelu"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsGroup: 0
+        runAsUser: 0
+    service:
+      main:
+        ports:
+          main:
+            port: 11111
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: jelu.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                SERVER_PORT: "{{ .Values.service.main.ports.main.port }}"
+                JELU_DATABASE_PATH: "{{.Values.persistence.db.mountPath }}"
+                JELU_FILES_IMPORTS: "{{.Values.persistence.imports.mountPath }}"
+                JELU_FILES_IMAGES: "{{.Values.persistence.images.mountPath }}"
+                # JELU_SESSION_DURATION: 604800
+                LANGUAGE: en_US:en
+                # LDAP                
+                # JELU_AUTH_LDAP_ENABLED=false
+                # JELU_AUTH_LDAP_URL=ldap://127.0.0.1:389/dc=home,dc=lab
+                # JELU_AUTH_LDAP_USERDN_PATTERNS_0=uid={0}
+                # JELU_AUTH_LDAP_USERDN_PATTERNS_1=cn={0},ou=users
+                # JELU_AUTH_LDAP_USERSEARCHFILTER=(cn={0})
+                # JELU_AUTH_PROXY_ENABLED=false
+                # JELU_AUTH_PROXY_ADMINNAME=adminproxy
+                # JELU_METADATA_CALIBRE_PATH: /usr/bin/fetch-ebook-metadata
+                # QTWEBENGINE_DISABLE_SANDBOX: 1
+    persistence:
+      config:
+        enabled: true
+        mountPath: /config
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      db:
+        enabled: true
+        mountPath: /db
+        volsync:
+          - name: db
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      images:
+        enabled: true
+        mountPath: /images
+        volsync:
+          - name: images
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      imports:
+        enabled: true
+        mountPath: /imports
+        volsync:
+          - name: imports
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+    cnpg:
+      main:
+        enabled: false

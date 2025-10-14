@@ -1,37 +1,39 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- doublecommander/ks.yaml
-- plex/ks.yaml
-- deemix/ks.yaml
-- fileflows/ks.yaml
-- fileflows-external-node/ks.yaml
-- flaresolverr/ks.yaml
-- kavita/ks.yaml
-- lidarr/ks.yaml
-- metube/ks.yaml
-- overseerr/ks.yaml
-- posterr/ks.yaml
-- prowlarr/ks.yaml
-- radarr/ks.yaml
-- requestrr/ks.yaml
-- sabnzbd/ks.yaml
-- sonarr/ks.yaml
-- sonarr-animes/ks.yaml
-- tautulli/ks.yaml
-- qbittorrent/ks.yaml
-- pasta/ks.yaml
-- plex-auto-languages/ks.yaml
-- theme-park/ks.yaml
-- tauticord/ks.yaml
-- starrproxy/ks.yaml
-- profilarr/ks.yaml
-- muse/ks.yaml
-- checkrr/ks.yaml
-- calendarr/ks.yaml
-- huntarr/ks.yaml
-- cloudcmd/ks.yaml
-- jellyseerr/ks.yaml
-- agregarr/ks.yaml
-- reaparr/ks.yaml
-- audiobookrequest/ks.yaml
+  - doublecommander/ks.yaml
+  - plex/ks.yaml
+  - deemix/ks.yaml
+  - fileflows/ks.yaml
+  - fileflows-external-node/ks.yaml
+  - flaresolverr/ks.yaml
+  - kavita/ks.yaml
+  - lidarr/ks.yaml
+  - metube/ks.yaml
+  - overseerr/ks.yaml
+  - posterr/ks.yaml
+  - prowlarr/ks.yaml
+  - radarr/ks.yaml
+  - requestrr/ks.yaml
+  - sabnzbd/ks.yaml
+  - sonarr/ks.yaml
+  - sonarr-animes/ks.yaml
+  - tautulli/ks.yaml
+  - qbittorrent/ks.yaml
+  - pasta/ks.yaml
+  - plex-auto-languages/ks.yaml
+  - theme-park/ks.yaml
+  - tauticord/ks.yaml
+  - starrproxy/ks.yaml
+  - profilarr/ks.yaml
+  - muse/ks.yaml
+  - checkrr/ks.yaml
+  - calendarr/ks.yaml
+  - huntarr/ks.yaml
+  - cloudcmd/ks.yaml
+  - jellyseerr/ks.yaml
+  - agregarr/ks.yaml
+  - reaparr/ks.yaml
+  - audiobookrequest/ks.yaml
+  - jelu/ks.yaml
+  - lazylibrarian/ks.yaml

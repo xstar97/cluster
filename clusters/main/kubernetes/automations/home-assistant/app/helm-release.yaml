@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: home-assistant
-      version: 28.11.0
+      version: 28.12.0
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -30,6 +30,10 @@ spec:
   values:
     global:
       stopAll: false
+    image:
+      repository: docker.io/homeassistant/home-assistant
+      pullPolicy: IfNotPresent
+      tag: 2025.10.2@sha256:5ae78cf2e6d8b53439cac50ed184ff1336cfbbb878fce16f75589e048fcdcdd9
     credentials:
       cf-restic:
         type: s3

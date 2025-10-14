@@ -2,9 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 namespace: minecraft-java
 resources:
-- helm-release.yaml
+  - helm-release.yaml
 components:
-- ../../../../../components/ns
-- ../../../../../components/notifications/discord
-- ../../../../../components/gatus/service
-# - ../../../../../components/gatus/configmap/auto
+  - ../../../../../components/ns
+  - ../../../../../components/notifications/discord
+  - ../../../../../components/gatus/service

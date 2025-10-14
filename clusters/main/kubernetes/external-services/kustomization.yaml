@@ -1,8 +1,8 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-- es-scale/ks.yaml
-- es-router/ks.yaml
-- es-octoprint-pi/ks.yaml
-- es-cockpit-seb/ks.yaml
-- es-dockge/ks.yaml
+  - es-scale/ks.yaml
+  - es-router/ks.yaml
+  - es-octoprint-pi/ks.yaml
+  - es-cockpit-seb/ks.yaml
+  - es-dockge/ks.yaml
