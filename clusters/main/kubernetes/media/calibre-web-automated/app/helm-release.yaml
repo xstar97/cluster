@@ -132,6 +132,17 @@ spec:
               enabled: true
             src:
               enabled: true
+      calibre:
+        enabled: true
+        mountPath: /calibre-library
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
       imports:
         enabled: true
         type: nfs
@@ -142,8 +153,8 @@ spec:
         enabled: true
         type: nfs
         server: ${SCALE_IP}
-        path: "${MEDIA_NFS}/Literature"
-        mountPath: "/calibre-library"
+        path: "${MEDIA_NFS}"
+        mountPath: "/media"
     cnpg:
       main:
         enabled: false
