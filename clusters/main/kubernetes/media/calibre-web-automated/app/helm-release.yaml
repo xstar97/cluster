@@ -119,7 +119,7 @@ spec:
               env:
                 FLASK_HOST: "0.0.0.0"
                 FLASK_PORT: "{{ .Values.service.sidecar.ports.downloader.port }}"
-                INGEST_DIR: "{{.Values.persistence.imports.mountPath }}"
+                INGEST_DIR: "/cwa-book-ingest"
     persistence:
       config:
         enabled: true
@@ -134,7 +134,12 @@ spec:
               enabled: true
       calibre:
         enabled: true
-        mountPath: /calibre-library
+        targetSelector:
+          main:
+            main:
+              mountPath: /calibre-library
+            downloader:
+              mountPath: /calibre-library
         volsync:
           - name: calibre
             type: restic
@@ -148,7 +153,12 @@ spec:
         type: nfs
         server: ${SCALE_IP}
         path: "${MEDIA_NFS}/Literature/imports"
-        mountPath: "/cwa-book-ingest"
+        targetSelector:
+          main:
+            main:
+              mountPath: "/cwa-book-ingest"
+            downloader:
+              mountPath: "/cwa-book-ingest"
       media:
         enabled: true
         type: nfs
