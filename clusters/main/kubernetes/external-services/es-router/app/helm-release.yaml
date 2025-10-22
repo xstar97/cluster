@@ -42,7 +42,7 @@ spec:
         ingressClassName: "internal"
         annotations:
           nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-          gatus.home-operations.com/enabled: "false"
+          # gatus.home-operations.com/enabled: "false"
         hosts:
           - host: router.${DOMAIN_2}
             paths:
