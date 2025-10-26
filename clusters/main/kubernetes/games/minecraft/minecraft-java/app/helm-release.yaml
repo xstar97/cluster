@@ -118,14 +118,15 @@ spec:
       # takeaim
       # - 68713
     modrinth:
-      # - discordsrv
-      # - hopperfilter
+      - discordsrv
+      - hopperfilter
       - luckperms
       # - chunky
       # - auraskills
       # - deathlocator
       - bluemap
-      # - plan
+      - viaversion
+
     workload:
       main:
         # type: StatefulSet
@@ -161,7 +162,7 @@ spec:
                 EULA: "TRUE"
                 GUI: "FALSE"
                 OVERRIDE_SERVER_PROPERTIES: true
-                VERSION: "1.21.7"
+                VERSION: "LATEST" # "1.21.8"
                 TYPE: "PAPER"
                 # PAPER_BUILD: "138"
                 DIFFICULTY: easy
