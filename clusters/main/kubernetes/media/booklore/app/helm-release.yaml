@@ -83,5 +83,5 @@ spec:
         enabled: true
         type: nfs
         server: ${SCALE_IP}
-        path: "${MEDIA_NFS}/Literature/booklore"
+        path: "${MEDIA_NFS}/Literature"
         mountPath: "/books"
