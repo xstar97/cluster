@@ -7,13 +7,13 @@ data:
   configuration.yaml: |
     session:
       cookies:
-        - domain: ${DOMAIN_2}
-          authelia_url: https://auth.${DOMAIN_2}
+        - domain: greenehomelab.com
+          authelia_url: https://auth.greenehomelab.com
     access_control:
       rules:
         - domain:
-            - ${DOMAIN_2}
-            - '*.${DOMAIN_2}'
+            - greenehomelab.com
+            - '*.greenehomelab.com'
           policy: one_factor
           subject:
             - 'group:lldap_admin'            
@@ -116,7 +116,7 @@ data:
             require_pkce: false
             pkce_challenge_method: ''
             redirect_uris:
-              - 'https://guacamole.${DOMAIN_2}'
+              - 'https://guacamole.greenehomelab.com'
             scopes:
               - 'openid'
               - 'profile'
@@ -137,7 +137,7 @@ data:
             grant_types:
                 - authorization_code
             redirect_uris:
-                - "https://romm.${DOMAIN_2}/api/oauth/openid"
+                - "https://romm.greenehomelab.com/api/oauth/openid"
             claims_policy: "romm"
             scopes:
                 - "openid"
@@ -153,7 +153,7 @@ data:
             require_pkce: true
             pkce_challenge_method: 'S256'
             redirect_uris:
-              - 'https://grafana.${DOMAIN_2}/login/generic_oauth'
+              - 'https://grafana.greenehomelab.com/login/generic_oauth'
             scopes:
               - 'openid'
               - 'profile'
@@ -175,7 +175,7 @@ data:
             require_pkce: true
             pkce_challenge_method: 'S256'
             redirect_uris:
-              - 'https://paperless.${DOMAIN_2}/accounts/oidc/authelia/login/callback/'
+              - 'https://paperless.greenehomelab.com/accounts/oidc/authelia/login/callback/'
             scopes:
               - 'openid'
               - 'profile'
@@ -196,7 +196,7 @@ data:
             require_pkce: false
             pkce_challenge_method: ''
             redirect_uris:
-              - 'https://actual.${DOMAIN_2}/openid/callback'
+              - 'https://actual.greenehomelab.com/openid/callback'
             scopes:
               - 'openid'
               - 'profile'
@@ -215,7 +215,7 @@ data:
             public: false
             authorization_policy: 'jellyseerr'
             redirect_uris:
-              - 'https://jellyseerr.${DOMAIN_2}/login/oidc/callback/authelia'
+              - 'https://jellyseerr.greenehomelab.com/login/oidc/callback/authelia'
             scopes:
               - 'openid'
               - 'email'
@@ -229,7 +229,7 @@ data:
             authorization_policy: 'vaultwarden'
             require_pkce: true
             redirect_uris:
-              - 'https://vaultwarden.${DOMAIN_2}/identity/connect/oidc-signin'
+              - 'https://vaultwarden.greenehomelab.com/identity/connect/oidc-signin'
             scopes:
               - 'email'
               - 'profile'
@@ -243,7 +243,7 @@ data:
             authorization_policy: 'wallos'
             pre_configured_consent_duration: "1y"
             redirect_uris:
-              - 'https://wallos.${DOMAIN_2}/'
+              - 'https://wallos.greenehomelab.com/'
             grant_types:
               - "refresh_token"
               - "authorization_code"
@@ -278,7 +278,7 @@ data:
               - profile
               - email
             redirect_uris:
-              - https://abr.${DOMAIN_2}/auth/oidc
+              - https://abr.greenehomelab.com/auth/oidc
             grant_types:
               - authorization_code
             pre_configured_consent_duration: 1m
@@ -300,7 +300,7 @@ data:
               - profile
               - email
             redirect_uris:
-              - https://booklore.${DOMAIN_2}/oauth2-callback
+              - https://booklore.greenehomelab.com/oauth2-callback
               - https://booklore.${DOMAIN_2/*
             response_types:
               - code
