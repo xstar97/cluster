@@ -281,27 +281,3 @@ data:
             response_types:
               - code
             claims_policy: "audiobookrequest"
-          - client_id: booklore
-            client_name: 'Booklore' 
-            client_secret: {{ secret "/config/secret/clients_booklore_client_secret" }}
-            public: false
-            authorization_policy: booklore
-            require_pkce: true
-            pkce_challenge_method: 'S256'
-            consent_mode: implicit
-            scopes:
-              - offline_access
-              - openid
-              - profile
-              - email
-            redirect_uris:
-              - 'https://booklore.${DOMAIN_2}/oauth2-callback'
-              - 'https://booklore.${DOMAIN_2/*'
-            grant_types:
-              - authorization_code
-              - refresh_token
-            pre_configured_consent_duration: 1m
-            consent_mode: implicit # self hosted
-            response_types:
-              - code
-            claims_policy: "booklore"
