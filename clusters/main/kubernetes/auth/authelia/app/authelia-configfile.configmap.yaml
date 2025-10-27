@@ -267,7 +267,6 @@ data:
             claims_policy: "audiobookrequest"
           - client_id: booklore
             client_name: Booklore
-            client_secret: {{ secret "/config/secret/clients_booklore_client_secret" }}
             public: true
             authorization_policy: booklore
             claims_policy: booklore
