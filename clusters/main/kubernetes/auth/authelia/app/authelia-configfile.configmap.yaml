@@ -28,10 +28,10 @@ data:
             id_token: ['email', 'name', 'groups', 'preferred_username']            
           vaultwarden:
               id_token: ['email', 'groups', 'profile']     
-            audiobookrequest:
-              id_token: ['groups', 'profile', 'email']     
-            audiobookrequest:
-              id_token: ['email', 'email_verified', 'preferred_username', 'name']
+          audiobookrequest:
+            id_token: ['groups', 'profile', 'email']     
+          booklore:
+            id_token: ['email', 'email_verified', 'preferred_username', 'name']
         hmac_secret: {{ secret "/config/secret/hmac_secret" }}
         jwks:
           - key: |
