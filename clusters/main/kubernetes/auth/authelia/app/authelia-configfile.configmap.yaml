@@ -27,9 +27,11 @@ data:
           grafana:
             id_token: ['email', 'name', 'groups', 'preferred_username']            
           vaultwarden:
-            id_token: ['email', 'groups', 'profile']     
-          audiobookrequest:
-            id_token: ['groups', 'profile', 'email']
+              id_token: ['email', 'groups', 'profile']     
+            audiobookrequest:
+              id_token: ['groups', 'profile', 'email']     
+            audiobookrequest:
+              id_token: ['email', 'email_verified', 'preferred_username', 'name']
         hmac_secret: {{ secret "/config/secret/hmac_secret" }}
         jwks:
           - key: |
@@ -98,6 +100,13 @@ data:
                 subject: 'group:trusted'
               - policy: 'one_factor'
                 subject: 'group:lldap_audiobookrequest'
+          booklore:
+            default_policy: 'deny'
+            rules:
+              - policy: 'one_factor'
+                subject: 'group:lldap_admin'
+              - policy: 'one_factor'
+                subject: 'group:lldap_booklore'
         clients:
           - client_id: "romm" # read above for how generate
             client_name: "RomM" # will be displayed in Authelia to users
