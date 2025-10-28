@@ -39,3 +39,4 @@ resources:
   - lazylibrarian/ks.yaml
   - cwa-dl/ks.yaml
   - booklore/ks.yaml
+  - sonobarr/ks.yaml

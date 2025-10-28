@@ -1,0 +1,120 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: sonobarr
+  namespace: sonobarr
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.24.14
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    image:
+      repository: ghcr.io/dodelidoo-labs/sonobarr
+      pullPolicy: IfNotPresent
+      tag: 0.9.0@sha256:08f2eca014149bf7b0a007d993ad973ab2755263cb3b30137677ceb5b82ad947
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-sonobarr"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsGroup: 0
+        runAsUser: 0
+    service:
+      main:
+        ports:
+          main:
+            port: 5000
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: sonobarr.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                secret_key: "${SONOBARR_SECRET_KEY}"
+
+                # Lidarr configuration
+                lidarr_address: http://lidarr.lidarr.svc.cluster.local:8686
+                lidarr_api_key: "${LIDARR_KEY}"
+                root_folder_path: "${MEDIA_LOCAL}/Music"
+                quality_profile_id: 6
+                metadata_profile_id: TODO
+                lidarr_api_timeout: 120
+                fallback_to_top_result: false
+                search_for_missing_albums: false
+                dry_run_adding_to_lidarr: false
+
+                # Discovery tuning
+                similar_artist_batch_size: 10
+                auto_start: false
+                auto_start_delay: 60
+
+                # External APIs
+                last_fm_api_key: "${SONOBARR_LASTFM_API_KEY}"
+                last_fm_api_secret: "${SONOBARR_LASTFM_API_SECRET}"
+                # youtube_api_key=
+                # openai_api_key=
+                # openai_model=gpt-4o-mini
+                # openai_max_seed_artists=5
+
+                # Super-admin bootstrap (used on first launch)
+                sonobarr_superadmin_username: "${SONOBARR_ADMIN_USER}"
+                sonobarr_superadmin_password: "${SONOBARR_ADMIN_PASS}"
+                sonobarr_superadmin_display_name: Super Admin
+                sonobarr_superadmin_reset: false
+  
+    persistence:
+      config:
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+    cnpg:
+      main:
+        enabled: false
