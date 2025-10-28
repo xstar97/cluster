@@ -47,7 +47,7 @@ data:
           audiobookrequest:
             id_token: ['groups', 'profile', 'email']     
           booklore:
-            id_token: ['email', 'email_verified', 'preferred_username', 'name']
+            id_token: ['email', 'preferred_username', 'name']
         hmac_secret: {{ secret "/config/secret/hmac_secret" }}
         jwks:
           - key: |
