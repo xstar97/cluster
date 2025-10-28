@@ -79,7 +79,7 @@ spec:
                 lidarr_address: http://lidarr.lidarr.svc.cluster.local:8686
                 lidarr_api_key: "${LIDARR_KEY}"
                 root_folder_path: "${MEDIA_LOCAL}/Music"
-                quality_profile_id: 6
+                quality_profile_id: 2
                 metadata_profile_id: 1
                 lidarr_api_timeout: 120
                 fallback_to_top_result: false
