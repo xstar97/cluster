@@ -80,7 +80,7 @@ spec:
                 lidarr_api_key: "${LIDARR_KEY}"
                 root_folder_path: "${MEDIA_LOCAL}/Music"
                 quality_profile_id: 6
-                metadata_profile_id: TODO
+                metadata_profile_id: 1
                 lidarr_api_timeout: 120
                 fallback_to_top_result: false
                 search_for_missing_albums: false
