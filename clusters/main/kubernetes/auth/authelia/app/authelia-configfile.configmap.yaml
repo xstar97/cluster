@@ -7,13 +7,13 @@ data:
   configuration.yaml: |
     session:
       cookies:
-        - domain: ${DOMAIN_2}
-          authelia_url: https://auth.${DOMAIN_2}
+        - domain: "${DOMAIN_2}"
+          authelia_url: "https://auth.${DOMAIN_2}"
     access_control:
       rules:
         - domain:
-            - ${DOMAIN_2}
-            - '*.${DOMAIN_2}'
+            - "${DOMAIN_2}"
+            - "*.${DOMAIN_2}"
           policy: one_factor
           subject:
             - 'group:lldap_admin'            
@@ -264,8 +264,8 @@ data:
             authorization_policy: audiobookrequest
             require_pkce: true
             pkce_challenge_method: 'S256'
-            access_token_signed_response_alg: none
-            userinfo_signed_response_alg: none
+            access_token_signed_response_alg: 'none'
+            userinfo_signed_response_alg: 'none'
             token_endpoint_auth_method: "client_secret_basic"
             scopes:
               - openid
