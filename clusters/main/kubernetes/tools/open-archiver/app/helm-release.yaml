@@ -39,7 +39,7 @@ spec:
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
     image:
-      repository: ghcr.io/sharevb/open-archiver
+      repository: logiclabshq/open-archiver
       pullPolicy: IfNotPresent
       tag: v0.4.0@sha256:8b580260ae82d9f4656912a8d7dd57fbdaaca7b993c82a42f7f0514d8908597b
     meiliImage:
