@@ -164,7 +164,7 @@ spec:
 
                 # Apache Tika Integration
                 # ONLY active if TIKA_URL is set
-                TIKA_URL: "http://localhost:9998" # '{{ printf "http://%v-tika:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.backend.ports.tika.port }}'
+                TIKA_URL: '{{ printf "http://%v-tika:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.backend.ports.tika.port }}'
             meili:
               enabled: true
               imageSelector: meiliImage
