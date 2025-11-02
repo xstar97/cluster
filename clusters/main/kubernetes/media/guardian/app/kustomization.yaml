@@ -6,4 +6,4 @@ resources:
 components:
 - ../../../../components/ns
 - ../../../../components/notifications/discord
-- ../../../../components/gatus/service
+# - ../../../../components/gatus/service
