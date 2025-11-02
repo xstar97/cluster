@@ -143,19 +143,15 @@ spec:
                 # You can use `openssl rand -hex 32` to generate a key.
                 # This key is used for AES-256 encryption of files at rest.
                 # This is an optional variable, if not set, files will not be encrypted.
-                STORAGE_ENCRYPTION_KEY: "${OPEN_ARCHIVER_STORAGE_ENCRYPTION_KEY}"
-
+                # STORAGE_ENCRYPTION_KEY: "${OPEN_ARCHIVER_STORAGE_ENCRYPTION_KEY}"
                 # --- Security & Authentication ---
-
                 # Enable or disable deletion of emails and ingestion sources. Defaults to false.
                 ENABLE_DELETION: false
-
                 # Rate Limiting
                 # The window in milliseconds for which API requests are checked. Defaults to 60000 (1 minute).
                 RATE_LIMIT_WINDOW_MS: 60000
                 # The maximum number of API requests allowed from an IP within the window. Defaults to 100.
                 RATE_LIMIT_MAX_REQUESTS: 100
-
                 # JWT
                 # IMPORTANT: Change this to a long, random, and secret string in your .env file
                 JWT_SECRET: ${OPEN_ARCHIVER_JWT_SECRET}
