@@ -85,6 +85,22 @@ spec:
           containers:
             main:
               imageSelector: image
+              probes:
+                liveness:
+                  enabled: true
+                  type: http
+                  path: /health
+                  port: "{{ .Values.service.backend.ports.main.port }}"
+                readiness:
+                  enabled: true
+                  type: http
+                  path: /health
+                  port: "{{ .Values.service.backend.ports.main.port }}"
+                startup:
+                  enabled: true
+                  type: http
+                  path: /health
+                  port: "{{ .Values.service.backend.ports.main.port }}"
             backend:
               enabled: true
               imageSelector: backendImage
@@ -92,17 +108,17 @@ spec:
                 liveness:
                   enabled: true
                   type: http
-                  path: /
+                  path: /health
                   port: "{{ .Values.service.backend.ports.backend.port }}"
                 readiness:
                   enabled: true
                   type: http
-                  path: /
+                  path: /health
                   port: "{{ .Values.service.backend.ports.backend.port }}"
                 startup:
                   enabled: true
                   type: http
-                  path: /
+                  path: /health
                   port: "{{ .Values.service.backend.ports.backend.port }}"
               env:
                 DATABASE_PATH: /app/data/plex-guard.db
