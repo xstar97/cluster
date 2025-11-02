@@ -74,6 +74,12 @@ spec:
         podSpec:
           containers:
             main:
+              securityContext:
+                container:
+                  runAsUser: 0
+                  runAsGroup: 0
+                  runAsNonRoot: false
+                  readOnlyRootFilesystem: false
               env:
                 # --- Application Settings ---
                 # Set to 'production' for production environments
