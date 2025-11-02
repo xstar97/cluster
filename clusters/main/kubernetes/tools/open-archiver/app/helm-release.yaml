@@ -50,6 +50,12 @@ spec:
       repository: apache/tika
       pullPolicy: IfNotPresent
       tag: 3.2.3.0-full@sha256:21d8052de04e491ccf66e8680ade4da6f3d453a56d59f740b4167e54167219b7
+    securityContext:
+      container:
+        runAsUser: 0
+        runAsGroup: 0
+        runAsNonRoot: false
+        readOnlyRootFilesystem: false
     service:
       main:
         type: ClusterIP
@@ -74,12 +80,6 @@ spec:
         podSpec:
           containers:
             main:
-              securityContext:
-                container:
-                  runAsUser: 0
-                  runAsGroup: 0
-                  runAsNonRoot: false
-                  readOnlyRootFilesystem: false
               env:
                 # --- Application Settings ---
                 # Set to 'production' for production environments
