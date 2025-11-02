@@ -1,0 +1,127 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: guardian
+  namespace: guardian
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.24.22
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    image:
+      repository: hydroshieldmkii/guardian-frontend
+      pullPolicy: IfNotPresent
+      tag: v1.2.5@sha256:d531663e2974552cb8db7f4697d9062eeb56b5ed47c180cd9383be54e6fb54f1
+    backendImage:
+      repository: hydroshieldmkii/guardian-backend
+      pullPolicy: IfNotPresent
+      tag: v1.2.5@sha256:7d2a50c76e334778879998b382e3c5def16560bc4c264c198088905493569a97
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-guardian"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsNonRoot: false
+        runAsGroup: 0
+        runAsUser: 0
+    service:
+      main:
+        ports:
+          main:
+            port: 3000
+      backend:
+        enabled: true
+        type: ClusterIP
+        ports:
+          backend:
+            enabled: true
+            port: 3001
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: guardian.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              imageSelector: image
+            backend:
+              enabled: true
+              imageSelector: backendImage
+              probes:
+                liveness:
+                  enabled: true
+                  type: http
+                  path: /
+                  port: "{{ .Values.service.backend.ports.backend.port }}"
+                readiness:
+                  enabled: true
+                  type: http
+                  path: /
+                  port: "{{ .Values.service.backend.ports.backend.port }}"
+                startup:
+                  enabled: true
+                  type: http
+                  path: /
+                  port: "{{ .Values.service.backend.ports.backend.port }}"
+              env:
+                DATABASE_PATH: /app/data/plex-guard.db
+
+    persistence:
+      data:
+        enabled: true
+        targetSelector:
+          main:
+            backend:
+              mountPath: /app/data
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+    cnpg:
+      main:
+        enabled: false
