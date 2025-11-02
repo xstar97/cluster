@@ -83,7 +83,7 @@ spec:
               env:
                 # --- Application Settings ---
                 # Set to 'production' for production environments
-                # NODE_ENV: development
+                NODE_ENV: production
                 PORT_BACKEND: "{{ .Values.service.backend.ports.backend.port }}"
                 PORT_FRONTEND: "{{ .Values.service.main.ports.main.port }}"
                 # The public-facing URL of your application. This is used by the backend to configure CORS.
@@ -95,15 +95,13 @@ spec:
                 SYNC_FREQUENCY: '* * * * *' 
                 # Set to 'true' to include Junk and Trash folders in the email archive. Defaults to false.
                 ALL_INCLUSIVE_ARCHIVE: false
-                
                 # PostgreSQL
                 DATABASE_URL:
                   secretKeyRef:
                     name: cnpg-main-urls
                     key: std
-
                 # Meilisearch
-                MEILI_MASTER_KEY: "${OPEN_ARCHIVER_meili_MSTR_KEY}"
+                MEILI_MASTER_KEY: "${OPEN_ARCHIVER_MEILI_MSTR_KEY}"
                 MEILI_HOST: '{{ printf "http://%v-meili:%v" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.backend.ports.meili.port }}'
                 # The number of emails to batch together for indexing. Defaults to 500.
                 MEILI_INDEXING_BATCH: 500
@@ -191,7 +189,7 @@ spec:
                   path: /health
                   port: "{{ .Values.service.backend.ports.meili.port }}"
               env:
-                MEILI_MASTER_KEY: "${OPEN_ARCHIVER_MELI_MSTR_KEY}"
+                MEILI_MASTER_KEY: "${OPEN_ARCHIVER_MEILI_MSTR_KEY}"
             tika:
               enabled: true
               imageSelector: tikaImage
