@@ -41,15 +41,17 @@ data:
           default:
             id_token: ['rat', 'groups', 'email', 'email_verified', 'alt_emails', 'preferred_username', 'name']
           romm:
-            id_token: ['email', 'email_verified', 'alt_emails', 'preferred_username', 'name']            
+            id_token: ['email', 'email_verified', 'alt_emails', 'preferred_username', 'name']
           grafana:
-            id_token: ['email', 'name', 'groups', 'preferred_username']            
+            id_token: ['email', 'name', 'groups', 'preferred_username']
           vaultwarden:
-              id_token: ['email', 'groups', 'profile']     
+              id_token: ['email', 'groups', 'profile']
           audiobookrequest:
-            id_token: ['groups', 'profile', 'email']     
+            id_token: ['groups', 'profile', 'email']
           booklore:
             id_token: ['email', 'preferred_username', 'name']
+          ggrequestz:
+            id_token: ['email', 'openid', 'profile', 'group']
         hmac_secret: {{ secret "/config/secret/hmac_secret" }}
         jwks:
           - key: |
@@ -131,7 +133,7 @@ data:
             client_secret:  {{ secret "/config/secret/clients_romm_client_secret" }}
             public: false
             claims_policy: "romm"
-            authorization_policy: "romm" # or one_factor, depending on your needs
+            authorization_policy: "romm"
             grant_types:
                 - authorization_code
             redirect_uris:
@@ -140,6 +142,23 @@ data:
                 - "openid"
                 - "email"
                 - "profile"
+            userinfo_signed_response_alg: "none"
+            token_endpoint_auth_method: "client_secret_basic"
+          - client_id: "ggrequestz" # read above for how generate
+            client_name: "ggRequestZ" # will be displayed in Authelia to users
+            client_secret:  {{ secret "/config/secret/clients_ggrequestz_client_secret" }}
+            public: false
+            claims_policy: "ggrequestz"
+            authorization_policy: "romm"
+            grant_types:
+                - authorization_code
+            redirect_uris:
+                - "https://ggrequestz.${DOMAIN_2}/api/auth/callback"
+            scopes:
+                - "openid"
+                - "email"
+                - "profile"
+                - "group"
             userinfo_signed_response_alg: "none"
             token_endpoint_auth_method: "client_secret_basic"
           - client_id: 'grafana'

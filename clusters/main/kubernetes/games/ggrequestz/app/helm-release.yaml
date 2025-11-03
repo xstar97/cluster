@@ -1,0 +1,163 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ggrequestz
+  namespace: ggrequestz
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.24.25
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-ggrequestz"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    image:
+      repository: ghcr.io/xtreemmak/ggrequestz
+      pullPolicy: IfNotPresent
+      tag: 1.2.5@sha256:ff5adae9de25018f7827fb5857d974f31ac212c51a52937efdcdcdb95cd3feb8
+    securityContext:
+      container:
+        runAsUser: 0
+        runAsGroup: 0
+        runAsNonRoot: false
+        readOnlyRootFilesystem: false
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 3000
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              probes:
+                liveness:
+                  enabled: true
+                  type: http
+                  path: /api/health
+                readiness:
+                  enabled: true
+                  type: http
+                  path: /api/health
+                startup:
+                  enabled: true
+                  type: http
+                  path: /api/health
+              env:
+                APP_PORT: "{{ .Values.service.main.ports.main.port }}"
+                PUBLIC_SITE_URL: "{{ .Values.chartContext.appUrl }}"
+                # Database Configuration
+                POSTGRES_HOST:
+                  secretKeyRef:
+                    name: cnpg-main-urls
+                    key: host
+                POSTGRES_PORT: 5432
+                POSTGRES_DB: "{{ .Values.cnpg.main.database }}"
+                POSTGRES_USER: "{{ .Values.cnpg.main.user }}"
+                POSTGRES_PASSWORD:
+                  secretKeyRef:
+                    name: cnpg-main-user
+                    key: password
+                # Redis Cache (recommended for production)
+                REDIS_URL: '{{ .Values.redis.creds.plainhost | trimAll "\"" }}'
+                REDIS_EXTERNAL_PORT: 6379
+                REDIS_MAX_MEMORY: 512mb
+                # Session Secret (generate a random 64-character string for production)
+                SESSION_SECRET: "${GGREQUESTZ_SESSION_SECRET}"
+                # IGDB API Credentials (required for game data)
+                # Get these from: https://dev.twitch.tv/console
+                IGDB_CLIENT_ID: "${ROMM_CLIENT_ID}"
+                IGDB_CLIENT_SECRET: "${ROMM_CLIENT_SECRET}"
+
+                # Gotify Push Notifications (optional)
+                # GOTIFY_URL: https://gotify.yourdomain.com
+                # GOTIFY_TOKEN: your_gotify_token
+
+                # ROMM Game Library Integration (optional)
+                ROMM_SERVER_URL: http://romm.romm.svc.cluster.local:8000
+                ROMM_USERNAME: "${ROMM_ADMIN_USER}"
+                ROMM_PASSWORD: "${ROMM_ADMIN_PASS}"
+                # auth
+                AUTH_METHOD: oidc_generic
+                # OIDC Provider Configuration
+                OIDC_ISSUER_URL: https://auth.${DOMAIN_2}
+                OIDC_CLIENT_ID: ggrequestz
+                OIDC_CLIENT_SECRET: ${GGREQUESTZ_OIDC_CLIENT_SECRET}
+                OIDC_REDIRECT_URI: '{{ printf "%s/%s" .Values.chartContext.appUrl "api/auth/callback" }}'
+
+                # Optional: Custom endpoints (auto-discovered if not set)
+                # OIDC_AUTH_URL: https://your-provider.com/protocol/openid-connect/auth
+                # OIDC_TOKEN_URL: https://your-provider.com/protocol/openid-connect/token
+                # OIDC_USERINFO_URL: https://your-provider.com/protocol/openid-connect/userinfo
+
+                # Optional: Additional scopes
+                OIDC_SCOPES: openid profile email groups
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: ggrequestz.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+
+    redis:
+      enabled: true
+    cnpg:
+      main:
+        enabled: true
+        user: ggrequestz
+        database: ggrequestz
+        # mode: recovery
+        cluster:
+          singleNode: true
+        backups:
+          enabled: true
+          credentials: cf-restic
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              schedule: "0 5 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic
