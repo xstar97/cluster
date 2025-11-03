@@ -92,6 +92,8 @@ spec:
     
     workload:
       main:
+        annotations:
+          reloader.stakater.com/auto: "true"
         podSpec:
           annotations:
             reloader.stakater.com/auto: "true"
