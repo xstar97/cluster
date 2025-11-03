@@ -24,6 +24,7 @@ spec:
   values:
     fullnameOverride: reloader
     reloader:
+      reloadOnDelete: true
       env:
         secret:
           ALERT_ON_RELOAD: true
