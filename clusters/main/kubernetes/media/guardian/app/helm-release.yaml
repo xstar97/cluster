@@ -37,7 +37,7 @@ spec:
     backendImage:
       repository: hydroshieldmkii/guardian-backend
       pullPolicy: IfNotPresent
-      tag: v1.2.5@sha256:7d2a50c76e334778879998b382e3c5def16560bc4c264c198088905493569a97
+      tag: v1.2.6@sha256:c0b8809dc068e704e44c056178859c14145c028b070e5ee109e36489c7884cd3
     credentials:
       cf-restic:
         type: s3
