@@ -87,6 +87,10 @@ spec:
               imageSelector: image
               env:
                 DEPLOYMENT_MODE: standalone
+      backend:
+        podSpec:
+          hostname: backend
+          containers:
             backend:
               enabled: true
               imageSelector: backendImage
