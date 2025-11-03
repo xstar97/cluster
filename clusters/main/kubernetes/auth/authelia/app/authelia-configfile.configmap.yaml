@@ -225,6 +225,8 @@ data:
             require_pkce: true
             redirect_uris:
               - 'https://vaultwarden.${DOMAIN_2}/identity/connect/oidc-signin'
+            response_types:
+              - 'code'
             scopes:
               - 'email'
               - 'profile'
