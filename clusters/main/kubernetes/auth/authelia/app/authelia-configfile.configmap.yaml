@@ -51,7 +51,7 @@ data:
           booklore:
             id_token: ['email', 'preferred_username', 'name']
           ggrequestz:
-            id_token: ['email', 'openid', 'profile', 'group']
+            id_token: ['email', 'openid', 'profile']
         hmac_secret: {{ secret "/config/secret/hmac_secret" }}
         jwks:
           - key: |
