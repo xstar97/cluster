@@ -2,8 +2,6 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: not-used
-  annotations:
-    reloader.stakater.com/auto: "true"
 spec:
   interval: 5m
   values:
@@ -12,6 +10,8 @@ spec:
         enabled: true
         labels:
           gatus.io/enabled: "true"
+        annotations:
+          reloader.stakater.com/auto: "true"
         data:
           config.yaml: |
             # generated endpoint!
