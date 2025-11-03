@@ -31,8 +31,6 @@ spec:
     global:
       stopAll: false
       skipEmptyWalArchiveCheck: true
-    annotations:
-      reloader.stakater.com/auto: "true"
     image:
       repository: ghcr.io/twin/gatus
       pullPolicy: IfNotPresent
@@ -89,11 +87,8 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-    
     workload:
       main:
-        annotations:
-          reloader.stakater.com/auto: "true"
         podSpec:
           annotations:
             reloader.stakater.com/auto: "true"

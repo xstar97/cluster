@@ -4,7 +4,6 @@ namespace: flux-system
 resources:
   - helm-release.yaml
   - namespace.yaml
-  # helm-release.yaml.bk
 components:
   - ../../../../components/notifications/discord
-  - ../../../../components/gatus/configmap/auto
+#  - ../../../../components/gatus/configmap/auto

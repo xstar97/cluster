@@ -3,6 +3,8 @@ kind: ConfigMap
 metadata:
   name: authelia-configfile
   namespace: authelia
+  annotations:
+    reloader.stakater.com/auto: "true"
 data:
   configuration.yaml: |
     session:
