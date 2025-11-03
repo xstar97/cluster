@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/tools/ggrequestz/app
+  path: clusters/main/kubernetes/games/ggrequestz/app
   prune: true
   sourceRef:
     kind: GitRepository
