@@ -50,8 +50,6 @@ data:
             id_token: ['groups', 'profile', 'email']
           booklore:
             id_token: ['email', 'preferred_username', 'name']
-          ggrequestz:
-            id_token: ['email', 'openid', 'profile']
         hmac_secret: {{ secret "/config/secret/hmac_secret" }}
         jwks:
           - key: |
@@ -148,7 +146,7 @@ data:
             client_name: "ggRequestZ" # will be displayed in Authelia to users
             client_secret:  {{ secret "/config/secret/clients_ggrequestz_client_secret" }}
             public: false
-            claims_policy: "ggrequestz"
+            claims_policy: "romm"
             authorization_policy: "romm"
             grant_types:
                 - authorization_code
