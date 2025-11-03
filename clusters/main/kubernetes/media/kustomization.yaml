@@ -40,4 +40,4 @@ resources:
   - cwa-dl/ks.yaml
   - booklore/ks.yaml
   - sonobarr/ks.yaml
-#  - guardian/ks.yaml
+  - guardian/ks.yaml
