@@ -38,20 +38,13 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-    image:
-      repository: ghcr.io/rommapp/romm
-      pullPolicy: IfNotPresent
-      tag: 4.3.2@sha256:1895c339b3c7ca62d52f809f5e4c747d78fc8291ea5ee88b3b57df84acf33449
     service:
       main:
         type: ClusterIP
         ports:
           main:
             port: 8000
-    romm:
-      auth:
-        user: "${ROMM_ADMIN_USER}"
-        pass: "${ROMM_ADMIN_PASS}"
+  
     workload:
       main:
         podSpec:
