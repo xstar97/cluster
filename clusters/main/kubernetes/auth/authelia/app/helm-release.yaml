@@ -4,8 +4,6 @@ kind: HelmRelease
 metadata:
   name: authelia
   namespace: authelia
-  annotations:
-    reloader.stakater.com/auto: "true"
 spec:
   interval: 15m
   chart:
@@ -51,6 +49,8 @@ spec:
       main:
         replicas: 1
         podSpec:
+          annotations:
+            reloader.stakater.com/auto: "true"
           containers:
             main:
               env:
