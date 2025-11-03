@@ -89,7 +89,7 @@ spec:
                 DEPLOYMENT_MODE: standalone
       backend:
         enabled: true
-        type: StatefulSet
+        type: DaemonSet
         podSpec:
           hostname: backend
           containers:
