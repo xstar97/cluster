@@ -85,6 +85,8 @@ spec:
           containers:
             main:
               imageSelector: image
+              env:
+                DEPLOYMENT_MODE: standalone
             backend:
               enabled: true
               imageSelector: backendImage
