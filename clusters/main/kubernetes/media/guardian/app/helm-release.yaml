@@ -95,6 +95,7 @@ spec:
           containers:
             backend:
               enabled: true
+              primary: true
               imageSelector: backendImage
               probes:
                 liveness:
