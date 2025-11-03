@@ -47,7 +47,7 @@ spec:
             port: 9091
     workload:
       main:
-        replicas: 1
+        # replicas: 1
         podSpec:
           annotations:
             reloader.stakater.com/auto: "true"
