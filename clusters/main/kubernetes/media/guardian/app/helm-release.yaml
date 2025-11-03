@@ -87,12 +87,6 @@ spec:
               imageSelector: image
               env:
                 DEPLOYMENT_MODE: standalone
-      backend:
-        enabled: true
-        type: DaemonSet
-        podSpec:
-          hostname: backend
-          containers:
             backend:
               enabled: true
               primary: true
