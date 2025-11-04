@@ -4,7 +4,7 @@ metadata:
   name: authelia-configfile
   namespace: authelia
   annotations:
-    reloader.stakater.com/auto: "true"
+    configmap.reloader.stakater.com/reload: "authelia-configfile"
 data:
   configuration.yaml: |
     session:
