@@ -41,3 +41,4 @@ resources:
   - booklore/ks.yaml
   - sonobarr/ks.yaml
   - guardian/ks.yaml
+  - spotizerr/ks.yaml
