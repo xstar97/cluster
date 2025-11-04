@@ -108,7 +108,7 @@ spec:
                 # GOTIFY_TOKEN: your_gotify_token
 
                 # ROMM Game Library Integration (optional)
-                ROMM_SERVER_URL: http://romm.romm.svc.cluster.local:8000
+                ROMM_SERVER_URL: "https://romm.${DOMAIN_2}"
                 ROMM_USERNAME: "${ROMM_ADMIN_USER}"
                 ROMM_PASSWORD: "${ROMM_ADMIN_PASS}"
                 # auth
