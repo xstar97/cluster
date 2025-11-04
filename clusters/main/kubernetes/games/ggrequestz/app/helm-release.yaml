@@ -112,7 +112,7 @@ spec:
                 ROMM_USERNAME: "${ROMM_ADMIN_USER}"
                 ROMM_PASSWORD: "${ROMM_ADMIN_PASS}"
                 # auth
-                AUTH_METHOD: oidc_generic
+                AUTH_METHOD: basic
                 # OIDC Provider Configuration
                 OIDC_ISSUER_URL: https://auth.${DOMAIN_2}
                 OIDC_CLIENT_ID: ggrequestz
