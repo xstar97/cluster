@@ -93,6 +93,7 @@ spec:
                   secretKeyRef:
                     expandObjectName: false
                     name: '{{ printf "%s-%s" .Release.Name "rediscreds" }}'
+                    key: url
                 # REDIS_EXTERNAL_PORT: 6379
                 REDIS_MAX_MEMORY: 512mb
                 # Session Secret (generate a random 64-character string for production)
