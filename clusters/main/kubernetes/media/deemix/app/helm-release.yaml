@@ -30,10 +30,6 @@ spec:
   values:
     global:
       stopAll: false
-    image:
-      repository: ghcr.io/bambanah/deemix
-      pullPolicy: IfNotPresent
-      tag: v4.3.5@sha256:4181e560d3e07b60bdeeb29a0f93454cfb5139b2c1e1847d93c9a17d5648daeb
     credentials:
       cf-restic:
         type: s3
