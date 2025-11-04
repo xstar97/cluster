@@ -42,11 +42,6 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-    securityContext:
-      container:
-        readOnlyRootFilesystem: false
-        runAsGroup: 0
-        runAsUser: 0
     service:
       main:
         ports:
@@ -86,6 +81,8 @@ spec:
         server: ${SCALE_IP}
         path: "${DOWNLOADS_NFS}/complete/music"
         mountPath: "${DOWNLOADS_LOCAL}"
+    redis:
+      enabled: false
     cnpg:
       main:
         enabled: false
