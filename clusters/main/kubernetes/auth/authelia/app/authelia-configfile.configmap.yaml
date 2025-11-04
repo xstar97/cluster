@@ -202,12 +202,12 @@ data:
             userinfo_signed_response_alg: 'none'
             token_endpoint_auth_method: 'client_secret_basic'
           - client_id: 'actual-budget'
-            client_name: 'Actual Budget'
+            client_name: 'Actual-Budget'
             client_secret: {{ secret "/config/secret/clients_actual_budget_client_secret" }}
             public: false
             authorization_policy: 'actual'
             require_pkce: false
-            pkce_challenge_method: ''
+            # pkce_challenge_method: ''
             redirect_uris:
               - 'https://actual.${DOMAIN_2}/openid/callback'
             scopes:
@@ -223,7 +223,7 @@ data:
             userinfo_signed_response_alg: 'none'
             token_endpoint_auth_method: 'client_secret_basic'
           - client_id: 'jellyseerr'
-            client_name: 'Jellyseerr'
+            client_name: 'JellySeerr'
             client_secret: {{ secret "/config/secret/clients_jellyseerr_client_secret" }}
             public: false
             claims_policy: "default"
@@ -237,7 +237,7 @@ data:
               - 'groups'
             token_endpoint_auth_method: 'client_secret_post'
           - client_id: 'vaultwarden'
-            client_name: 'vaultwarden'
+            client_name: 'Vaultwarden'
             client_secret: {{ secret "/config/secret/clients_vaultwarden_client_secret" }}
             public: false
             authorization_policy: 'vaultwarden'
@@ -252,7 +252,7 @@ data:
               - 'openid'
               - 'offline_access'
           - client_id: 'wallos'
-            client_name: 'wallos'
+            client_name: 'Wallos'
             client_secret: {{ secret "/config/secret/clients_wallos_client_secret" }}
             public: false
             claims_policy: "default"
@@ -278,7 +278,7 @@ data:
             token_endpoint_auth_method: 'client_secret_post'
             userinfo_signed_response_alg: "none"
           - client_id: audiobookrequest
-            client_name: 'audiobookrequest' 
+            client_name: 'AudioBookRequest' 
             client_secret: {{ secret "/config/secret/clients_abr_client_secret" }}
             public: false
             response_types:
