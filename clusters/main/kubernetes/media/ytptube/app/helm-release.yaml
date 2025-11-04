@@ -86,8 +86,6 @@ spec:
         server: ${SCALE_IP}
         path: "${DOWNLOADS_NFS}/complete/music"
         mountPath: "${DOWNLOADS_LOCAL}"
-    redis:
-      enabled: true
     cnpg:
       main:
         enabled: false
