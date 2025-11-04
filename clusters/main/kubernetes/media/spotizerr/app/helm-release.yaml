@@ -113,10 +113,6 @@ spec:
         enabled: true
         type: emptyDir
         mountPath: /app/logs
-      cache:
-        enabled: true
-        type: emptyDir
-        mountPath: /app/.cache
       downloads:
         enabled: true
         type: nfs
