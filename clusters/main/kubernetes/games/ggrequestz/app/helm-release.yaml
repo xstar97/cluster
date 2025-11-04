@@ -73,6 +73,7 @@ spec:
                   type: http
                   path: /api/health
               env:
+                PM2_INSTANCES: 1
                 APP_PORT: "{{ .Values.service.main.ports.main.port }}"
                 PUBLIC_SITE_URL: "{{ .Values.chartContext.appUrl }}"
                 # Database Configuration
