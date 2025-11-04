@@ -2,14 +2,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: deemix
-  namespace: deemix
+  name: ytptube
+  namespace: ytptube
 spec:
   interval: 15m
   chart:
     spec:
-      chart: deemix
-      version: 13.11.3
+      chart: app-template
+      version: 15.24.25
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -30,50 +30,48 @@ spec:
   values:
     global:
       stopAll: false
+    image:
+      repository: ghcr.io/arabcoders/ytptube
+      pullPolicy: IfNotPresent
+      tag: v1.0.2@sha256:2382feaf3edfac37b44736df26c6f4758acc8107b11553253637e19378b28d01
     credentials:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-deemix"
+        bucket: "${CF_S3_RESTIC_BUCKET}-ytptube"
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsGroup: 0
+        runAsUser: 0
     service:
       main:
-        type: ClusterIP
         ports:
           main:
-            port: 6595
-    workload:
-      main:
-        podSpec:
-          containers:
-            main:
-              env:
-                DEEMIX_SINGLE_USER: true
+            port: 8081
     ingress:
       main:
         enabled: true
         ingressClassName: "internal"
         hosts:
-          - host: deemix.${DOMAIN_2}
+          - host: ytptube.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
         integrations:
           nginx:
             enabled: true
-            auth:
-              type: "authelia"
-              internalHost: "authelia.authelia.svc.cluster.local:9091"
-              externalHost: "auth.${DOMAIN_2}"
-          homepage:
-            enabled: false
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
+
     persistence:
       config:
+        enabled: true
+        mountPath: /config
         volsync:
           - name: config
             type: restic
@@ -82,9 +80,14 @@ spec:
               enabled: true
             src:
               enabled: true
-      data:
+      downloads:
         enabled: true
         type: nfs
         server: ${SCALE_IP}
         path: "${DOWNLOADS_NFS}/complete/music"
         mountPath: "${DOWNLOADS_LOCAL}"
+    redis:
+      enabled: true
+    cnpg:
+      main:
+        enabled: false
