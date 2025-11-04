@@ -51,8 +51,7 @@ spec:
         podSpec:
           annotations:
             # reloader.stakater.com/auto: "true"
-            secret.reloader.stakater.com/reload: "authelia-oidc-secret"
-            configmap.reloader.stakater.com/reload: "authelia-configfile"
+            reloader.stakater.com/search: "true"
           containers:
             main:
               env:
