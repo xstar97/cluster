@@ -33,7 +33,7 @@ spec:
     image:
       repository: ghcr.io/dodelidoo-labs/sonobarr
       pullPolicy: IfNotPresent
-      tag: 0.9.0@sha256:08f2eca014149bf7b0a007d993ad973ab2755263cb3b30137677ceb5b82ad947
+      tag: 0.10.0@sha256:ddb70f93004100c392a62b6a1e3e972d485affe3e7790f18a2527ffa1bed9334
     credentials:
       cf-restic:
         type: s3
