@@ -115,15 +115,8 @@ spec:
         mountPath: /app/logs
       cache:
         enabled: true
+        type: emptyDir
         mountPath: /app/.cache
-        volsync:
-          - name: cache
-            type: restic
-            credentials: cf-restic
-            dest:
-              enabled: true
-            src:
-              enabled: true
       downloads:
         enabled: true
         type: nfs
