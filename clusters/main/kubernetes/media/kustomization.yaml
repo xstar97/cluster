@@ -42,3 +42,4 @@ resources:
   - sonobarr/ks.yaml
   - guardian/ks.yaml
   - ytptube/ks.yaml
+  - deezer-downloader/ks.yaml
