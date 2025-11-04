@@ -89,8 +89,11 @@ spec:
                     name: cnpg-main-user
                     key: password
                 # Redis Cache (recommended for production)
-                REDIS_URL: '{{ .Values.redis.creds.plainhost | trimAll "\"" }}'
-                REDIS_EXTERNAL_PORT: 6379
+                REDIS_URL:
+                  secretKeyRef:
+                    expandObjectName: false
+                    name: '{{ printf "%s-%s" .Release.Name "rediscreds" }}'
+                # REDIS_EXTERNAL_PORT: 6379
                 REDIS_MAX_MEMORY: 512mb
                 # Session Secret (generate a random 64-character string for production)
                 SESSION_SECRET: "${GGREQUESTZ_SESSION_SECRET}"
