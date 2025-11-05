@@ -143,7 +143,7 @@ spec:
             [deezer]
             ; valid arl cookie value
             ; login manually using your web browser and take the arl cookie
-            ; cookie_arl = [a-f0-9]{192}
+            cookie_arl = ${DEEZER_COOKIE_ARL_1}
             ; mp3 or flac - flac needs premium subscription
             quality = flac
 
