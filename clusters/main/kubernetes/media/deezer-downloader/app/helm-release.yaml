@@ -65,12 +65,10 @@ spec:
                   enabled: true
                   type: http
                   path: /debug
-              args:
-                - /usr/local/bin/deezer-downloader 
-                - --config
-                - /config/deezer-downloader.ini
               env:
                 DEEZER_COOKIE_ARL: "${DEEZER_COOKIE_ARL_1}"
+                DEEZER_FLAC_QUALITY: "flac"
+                DEEZER_DOWNLOADER_CONFIG_FILE: "/config/settings.ini"
     ingress:
       main:
         enabled: true
@@ -91,7 +89,7 @@ spec:
       deezerdl-ini:
         enabled: true
         data:
-          deezer-downloader.ini: |
+          settings.ini: |
             ;;; template configuration for deezer-downlaoder
             ;;; you need to adjust: deezer.cookie_arl
 
@@ -156,9 +154,9 @@ spec:
       deezerdl-ini:
         enabled: true
         type: configmap
-        mountPath: /config/deezer-downloader.ini
+        mountPath: /config/settings.ini
         objectName: deezerdl-ini
-        subPath: deezer-downloader.ini
+        subPath: settings.ini
         readOnly: true
       downloads:
         enabled: true
