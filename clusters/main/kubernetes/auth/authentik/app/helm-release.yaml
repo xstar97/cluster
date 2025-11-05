@@ -29,6 +29,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    gatus:
+      group: auth
     global:
       stopAll: false
       skipEmptyWalArchiveCheck: true

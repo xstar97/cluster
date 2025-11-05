@@ -24,6 +24,8 @@ spec:
     remediation:
       retries: 3
   values:
+    gatus:
+      group: media
     global:
       stopAll: false
     credentials:

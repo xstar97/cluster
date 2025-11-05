@@ -11,6 +11,3 @@ spec:
     kind: GitRepository
     name: cluster
   targetNamespace: minecraft-lobby
-  postBuild:
-    substitute:
-      GROUP: games

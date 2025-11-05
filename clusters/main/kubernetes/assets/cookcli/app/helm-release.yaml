@@ -28,6 +28,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    gatus:
+      group: assets
     global:
       stopAll: false
     image:

@@ -11,8 +11,3 @@ spec:
     kind: GitRepository
     name: cluster
   targetNamespace: minecraft-router
-  postBuild:
-    substitute:
-      GROUP: games
-      # PROT: tcp
-      SVC: api

@@ -31,6 +31,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    gatus:
+      group: core
     grafana:
       enabled: false
       forceDeployDashboards: true

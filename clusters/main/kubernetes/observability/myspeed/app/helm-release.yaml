@@ -28,6 +28,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    gatus:
+      group: networking
     global:
       stopAll: false
     credentials:

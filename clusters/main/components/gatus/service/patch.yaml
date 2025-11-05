@@ -9,8 +9,8 @@ spec:
       main:
         annotations:
           gatus.home-operations.com/endpoint: |
-            name: {{ default .Release.Name "${NAME}" }}
-            group: "${GROUP}"            
+            name: "{{ default .Release.Name .Values.gatus.name }}"
+            group: "{{ default "core" .Values.gatus.group }}"
             ui:
               hide-url: true
               hide-hostname: true

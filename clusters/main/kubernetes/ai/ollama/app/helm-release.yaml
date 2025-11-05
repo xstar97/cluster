@@ -25,6 +25,8 @@ spec:
       retries: 3
   timeout: 20m
   values:
+    gatus:
+      group: AI
     global:
       stopAll: true
     image:

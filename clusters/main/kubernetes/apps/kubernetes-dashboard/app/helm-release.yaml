@@ -30,6 +30,8 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    gatus:
+      group: dashboard
     global:
       stopAll: false
     ingress:

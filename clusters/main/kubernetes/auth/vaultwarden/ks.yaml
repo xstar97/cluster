@@ -11,6 +11,3 @@ spec:
     kind: GitRepository
     name: cluster
   targetNamespace: vaultwarden
-  postBuild:
-    substitute:
-      GROUP: auth

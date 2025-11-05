@@ -11,6 +11,3 @@ spec:
     kind: GitRepository
     name: cluster
   targetNamespace: minecraft-java
-  postBuild:
-    substitute:
-      GROUP: games

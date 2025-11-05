@@ -9,8 +9,8 @@ spec:
       main:
         annotations:
           gatus.home-operations.com/endpoint: |
-            name: {{ default .Release.Name "${NAME}" }}
-            group: "${GROUP}"
+            name: "{{ default .Release.Name .Values.gatus.name }}"
+            group: "{{ default "core" .Values.gatus.group }}"
             client:
               dns-resolver: "tcp://blocky-dns.blocky.svc.cluster.local:53"
             alerts:

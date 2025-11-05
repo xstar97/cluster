@@ -27,6 +27,9 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    gatus:
+      group: media
+      path: "/api/system/version"
     global:
       stopAll: false
     credentials:

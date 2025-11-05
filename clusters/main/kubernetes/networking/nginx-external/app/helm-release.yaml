@@ -24,6 +24,8 @@ spec:
     remediation:
       retries: 3
   values:
+    gatus:
+      group: core
     nameOverride: nginx-external
     controller:
       replicaCount: 1

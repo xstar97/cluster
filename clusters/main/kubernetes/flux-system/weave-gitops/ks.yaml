@@ -11,6 +11,3 @@ spec:
     kind: GitRepository
     name: cluster
   targetNamespace: flux-system
-  postBuild:
-    substitute:
-      GROUP: core
