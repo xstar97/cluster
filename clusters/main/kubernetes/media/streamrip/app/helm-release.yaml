@@ -286,6 +286,17 @@ spec:
     persistence:
       config:
         enabled: true
+        mountPath: "/config/streamrip"
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      configuration:
+        enabled: true
         type: configmap
         mountPath: /config/streamrip/config.toml
         objectName: config-file
