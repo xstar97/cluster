@@ -79,7 +79,7 @@ spec:
         enabled: true
         ingressClassName: "internal"
         hosts:
-          - host: deezerdl.${DOMAIN_2}
+          - host: deezer.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
@@ -96,4 +96,4 @@ spec:
         type: nfs
         server: ${SCALE_IP}
         path: "${DOWNLOADS_NFS}/complete/music"
-        mountPath: "/mnt/deezer-downloader/songs"
+        mountPath: "/mnt/deezer-downloader"
