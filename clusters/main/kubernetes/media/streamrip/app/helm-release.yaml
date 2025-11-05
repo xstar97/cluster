@@ -288,7 +288,7 @@ spec:
         enabled: true
         type: configmap
         mountPath: /config/streamrip/config.toml
-        objectName: config-toml
+        objectName: config-file
         subPath: config.toml
         readOnly: true
       downloads:
