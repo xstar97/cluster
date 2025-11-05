@@ -50,6 +50,8 @@ spec:
     workload:
       main:
         podSpec:
+          annotations:
+            reloader.stakater.com/search: "true"
           containers:
             main:
               probes:
@@ -88,6 +90,8 @@ spec:
     configmap:
       deezerdl-ini:
         enabled: true
+        annotations:
+          reloader.stakater.com/match: "true"
         data:
           settings.ini: |
             ;;; template configuration for deezer-downlaoder
