@@ -10,3 +10,6 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
+  postBuild:
+    substitute:
+      GROUP: assets
