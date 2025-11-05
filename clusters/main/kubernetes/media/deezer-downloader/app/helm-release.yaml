@@ -103,10 +103,10 @@ spec:
             use_mpd = False
             host = 0.0.0.0
             port = 6000
-            music_dir_root = "${DOWNLOADS_LOCAL}"
+            music_dir_root = "/mnt/deezer-downloader"
 
             [download_dirs]
-            base = "${DOWNLOADS_LOCAL}"
+            base = "/mnt/deezer-downloader/songs"
 
             songs = %(base)s/songs
             albums = %(base)s/albums
@@ -167,4 +167,4 @@ spec:
         type: nfs
         server: ${SCALE_IP}
         path: "${DOWNLOADS_NFS}/complete/music"
-        mountPath: "${DOWNLOADS_LOCAL}"
+        mountPath: "/mnt/deezer-downloader/songs"
