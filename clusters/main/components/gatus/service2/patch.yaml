@@ -10,7 +10,7 @@ spec:
         annotations:
           gatus.home-operations.com/endpoint: |
             name: {{ default .Release.Name "${NAME}" }}
-            group: "{{ .Values.gatus.group | default \"core\" }}"            
+            group: "{{ .Values.gatus.group | default "core" }}"
             ui:
               hide-url: true
               hide-hostname: true
