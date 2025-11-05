@@ -65,6 +65,10 @@ spec:
                   enabled: true
                   type: http
                   path: /debug
+              args:
+                - /usr/local/bin/deezer-downloader 
+                - --config
+                - /config/deezer-downloader.ini
               env:
                 DEEZER_COOKIE_ARL: "${DEEZER_COOKIE_ARL_1}"
     ingress:
@@ -152,7 +156,7 @@ spec:
       deezerdl-ini:
         enabled: true
         type: configmap
-        mountPath: /etc/deezer-downloader.ini
+        mountPath: /config/deezer-downloader.ini
         objectName: deezerdl-ini
         subPath: deezer-downloader.ini
         readOnly: true
