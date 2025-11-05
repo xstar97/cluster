@@ -10,7 +10,3 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-  targetNamespace: authentik
-  postBuild:
-    substitute:
-      GROUP: auth

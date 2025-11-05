@@ -10,7 +10,4 @@ spec:
   sourceRef:
     kind: GitRepository
     name: cluster
-  targetNamespace: lldap
-  postBuild:
-    substitute:
-      GROUP: auth
+  
