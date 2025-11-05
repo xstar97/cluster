@@ -72,7 +72,7 @@ spec:
                   path: /debug
               env:
                 DEEZER_COOKIE_ARL: "${DEEZER_COOKIE_ARL_1}"
-                # DEEZER_FLAC_QUALITY: "flac"
+                DEEZER_FLAC_QUALITY: "flac"
     ingress:
       main:
         enabled: true
