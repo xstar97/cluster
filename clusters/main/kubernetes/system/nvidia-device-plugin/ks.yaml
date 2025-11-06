@@ -11,6 +11,3 @@ spec:
     kind: GitRepository
     name: cluster
   targetNamespace: nvidia-device-plugin
-  postBuild:
-    substitute:
-      NAMESPACE: nvidia-device-plugin
