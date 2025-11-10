@@ -188,6 +188,8 @@ spec:
                   port: "{{ .Values.service.backend.ports.meili.port }}"
               env:
                 MEILI_MASTER_KEY: "${OPEN_ARCHIVER_MEILI_MSTR_KEY}"
+                # needed for upgrades
+                MEILI_EXPERIMENTAL_DUMPLESS_UPGRADE: true
             tika:
               enabled: true
               imageSelector: tikaImage
