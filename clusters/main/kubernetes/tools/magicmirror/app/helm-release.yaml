@@ -78,19 +78,20 @@ spec:
             port: 8907
 
     magicmirror:
-      mmpm:
-        MMPM_MAGICMIRROR_ROOT: /opt/magic_mirror
-        MMPM_MAGICMIRROR_URI: http://0.0.0.0:8080
-        MMPM_MAGICMIRROR_PM2_PROCESS_NAME: ""
-        MMPM_MAGICMIRROR_DOCKER_COMPOSE_FILE: ""
-        MMPM_IS_DOCKER_IMAGE: true
+      config: []
 
     configmap:
       mmpm-env:
         enabled: true
         data:
           mmpm-env.json: |
-            {{ .Values.magicmirror.mmpm | toJson }}
+            {
+            "MMPM_MAGICMIRROR_ROOT": "/opt/magic_mirror",
+            "MMPM_MAGICMIRROR_URI": "http://0.0.0.0:8080",
+            "MMPM_MAGICMIRROR_PM2_PROCESS_NAME": "",
+            "MMPM_MAGICMIRROR_DOCKER_COMPOSE_FILE": "",
+            "MMPM_IS_DOCKER_IMAGE": true
+            }
 
     workload:
       main:
