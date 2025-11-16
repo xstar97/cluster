@@ -1,0 +1,241 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: magicmirror
+  namespace: magicmirror
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.24.42
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: tools
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-magicmirror"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    image:
+      repository: karsten13/magicmirror
+      pullPolicy: IfNotPresent
+      tag: v2.33.0_fat@sha256:c56dd73519ec0e678a820b8c137f7ce5da5ce94135573f9cf0222faee179d2e0
+    mmpmImage:
+      repository: karsten13/mmpm
+      pullPolicy: IfNotPresent
+      tag: 4.2.4@sha256:019c8cb4b757d7ea7d3b72321b0f8f413df742538e9a846e9eb2e75fea70f082
+    securityContext:
+      container:
+        runAsUser: 0
+        runAsGroup: 0
+        runAsNonRoot: false
+        readOnlyRootFilesystem: false
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 8080
+      backend:
+        enabled: true
+        type: ClusterIP
+        ports:
+          backend1:
+            enabled: true
+            port: 7890
+          backend2:
+            enabled: true
+            port: 7891
+          backend3:
+            enabled: true
+            port: 6789
+          backend4:
+            enabled: true
+            port: 8907
+
+    mmpm:
+      MMPM_MAGICMIRROR_ROOT: /opt/magic_mirror
+      MMPM_MAGICMIRROR_URI: http://0.0.0.0:8080
+      MMPM_MAGICMIRROR_PM2_PROCESS_NAME: ""
+      MMPM_MAGICMIRROR_DOCKER_COMPOSE_FILE: ""
+      MMPM_IS_DOCKER_IMAGE: true
+
+    magicmirror:
+      electronOptions:
+        webPreferences:
+          webviewTag: true
+      address: 0.0.0.0
+      port: 8080
+      basePath: /
+      ipWhitelist: []
+      useHttps: false
+      httpsPrivateKey: ""
+      httpsCertificate: ""
+      language: en
+      locale: en-US
+      logLevel:
+        - INFO
+        - LOG
+        - WARN
+        - ERROR
+      timeFormat: 24
+      units: metric
+      modules:
+        - module: clock
+          position: top_left
+          config: {}
+
+    configmap:
+      config-mmpm:
+        enabled: true
+        data:
+          mmpm-env.json: |
+            {{ .Values.mmpm | toJson }}
+      config-template:
+        enabled: true
+        data:
+          config.js.template: |
+            let config = {{ .Values.magicmirror | toJson }}
+            /*************** DO NOT EDIT THE LINE BELOW ***************/
+            if (typeof module !== "undefined") {module.exports = config;}
+
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                NODE_ENV: production
+            mmpm:
+              enabled: true
+              imageSelector: mmpmImage
+              probes:
+                liveness:
+                  enabled: true
+                  type: http
+                  path: /
+                readiness:
+                  enabled: true
+                  type: http
+                  path: /
+                startup:
+                  enabled: true
+                  type: http
+                  path: /
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: magicmirror.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+      mmpm:
+        enabled: true
+        ingressClassName: internal
+        targetSelector:
+          backend: backend1
+        hosts:
+          - host: mmpm.magicmirror.${DOMAIN_2}
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod    
+    persistence:
+      mmpmconfig:
+        enabled: true
+        mountPath: "/home/node/.config/mmpm"
+        targetSelectAll: true
+        volsync:
+          - name: mmpmconfig
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      mmpmconfigfile:
+        enabled: true
+        type: configmap
+        objectName: config-mmpm  
+        expandObjectName: false
+        mountPath: /home/node/.config/mmpm/mmpm-env.json
+        subPath: mmpm-env.json
+        readOnly: true
+      config:
+        enabled: true
+        mountPath: "/opt/magic_mirror/config"
+        targetSelectAll: true
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      configtemplate:
+        enabled: true
+        type: configmap
+        objectName: config-template  
+        expandObjectName: false
+        mountPath: /opt/magic_mirror/config/config.js.template
+        subPath: config.js.template
+        readOnly: true
+      modules:
+        enabled: true
+        mountPath: "/opt/magic_mirror/modules"
+        targetSelectAll: true
+        volsync:
+          - name: modules
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      css:
+        enabled: true
+        mountPath: "/opt/magic_mirror/css"
+        targetSelectAll: true
+        volsync:
+          - name: css
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
