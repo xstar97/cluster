@@ -84,44 +84,12 @@ spec:
       MMPM_MAGICMIRROR_DOCKER_COMPOSE_FILE: ""
       MMPM_IS_DOCKER_IMAGE: true
 
-    magicmirror:
-      electronOptions:
-        webPreferences:
-          webviewTag: true
-      address: 0.0.0.0
-      port: 8080
-      basePath: /
-      ipWhitelist: []
-      useHttps: false
-      httpsPrivateKey: ""
-      httpsCertificate: ""
-      language: en
-      locale: en-US
-      logLevel:
-        - INFO
-        - LOG
-        - WARN
-        - ERROR
-      timeFormat: 24
-      units: metric
-      modules:
-        - module: clock
-          position: top_left
-          config: {}
-
     configmap:
       config-mmpm:
         enabled: false
         data:
           mmpm-env.json: |
             {{ .Values.mmpm | toJson }}
-      config-template:
-        enabled: true
-        data:
-          config.js.template: |
-            let config = {{ .Values.magicmirror | toJson }}
-            /*************** DO NOT EDIT THE LINE BELOW ***************/
-            if (typeof module !== "undefined") {module.exports = config;}
 
     workload:
       main:
@@ -210,14 +178,6 @@ spec:
               enabled: true
             src:
               enabled: true
-      configtemplate:
-        enabled: true
-        type: configmap
-        objectName: config-template  
-        expandObjectName: false
-        mountPath: /opt/magic_mirror/config/config.js.template
-        subPath: config.js.template
-        readOnly: true
       modules:
         enabled: true
         mountPath: "/opt/magic_mirror/modules"
@@ -242,3 +202,29 @@ spec:
               enabled: true
             src:
               enabled: true
+    addons:
+      codeserver:
+        enabled: true
+        service:
+          type: "ClusterIP"
+          ports:
+            codeserver:
+              port: 36107
+        ingress:
+          enabled: true
+          ingressClassName: "internal"
+          annotations:
+            gatus.home-operations.com/endpoint: |
+              enabled: false
+          hosts:
+            - host: editor.magicmirror.${DOMAIN_2}
+              paths:
+                - path: /
+                  # Ignored if not kubeVersion >= 1.14-0
+                  pathType: Prefix
+          integrations:
+            nginx:
+              enabled: true
+            certManager:
+              enabled: true
+              certificateIssuer: general-le-prod
