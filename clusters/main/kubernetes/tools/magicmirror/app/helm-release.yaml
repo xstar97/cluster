@@ -78,6 +78,7 @@ spec:
             port: 8907
 
     magicmirror:
+      mmpm: []
       config: []
 
     configmap:
@@ -92,7 +93,7 @@ spec:
             "MMPM_MAGICMIRROR_DOCKER_COMPOSE_FILE": "",
             "MMPM_IS_DOCKER_IMAGE": true
             }
-
+            
     workload:
       main:
         podSpec:
@@ -163,11 +164,11 @@ spec:
       mmpm-env:
         enabled: true
         type: configmap
-        objectName: mmpm-env
-        expandObjectName: false
         mountPath: /home/node/.config/mmpm/mmpm-env.json
+        objectName: mmpm-env
         subPath: mmpm-env.json
         readOnly: true
+        targetSelectAll: true
       config:
         enabled: true
         mountPath: "/opt/magic_mirror/config"
