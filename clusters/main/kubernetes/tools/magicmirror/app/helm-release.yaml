@@ -111,7 +111,7 @@ spec:
 
     configmap:
       config-mmpm:
-        enabled: true
+        enabled: false
         data:
           mmpm-env.json: |
             {{ .Values.mmpm | toJson }}
@@ -131,7 +131,7 @@ spec:
               env:
                 NODE_ENV: production
             mmpm:
-              enabled: true
+              enabled: false
               imageSelector: mmpmImage
               probes:
                 liveness:
@@ -165,7 +165,7 @@ spec:
             enabled: true
             certificateIssuer: general-le-prod
       mmpm:
-        enabled: true
+        enabled: false
         ingressClassName: internal
         targetSelector:
           backend: backend1
@@ -179,7 +179,7 @@ spec:
             certificateIssuer: general-le-prod    
     persistence:
       mmpmconfig:
-        enabled: true
+        enabled: false
         mountPath: "/home/node/.config/mmpm"
         targetSelectAll: true
         volsync:
@@ -191,7 +191,7 @@ spec:
             src:
               enabled: true
       mmpmconfigfile:
-        enabled: true
+        enabled: false
         type: configmap
         objectName: config-mmpm  
         expandObjectName: false
