@@ -5,7 +5,7 @@ metadata:
   name: magicmirror
   namespace: magicmirror
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: app-template
@@ -14,8 +14,8 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
-  timeout: 20m
+      interval: 30m
+  timeout: 45m
   maxHistory: 3
   install:
     createNamespace: true
