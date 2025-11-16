@@ -138,14 +138,17 @@ spec:
                   enabled: true
                   type: http
                   path: /
+                  port: "{{ .Values.service.backend.ports.backend1.port }}"
                 readiness:
                   enabled: true
                   type: http
                   path: /
+                  port: "{{ .Values.service.backend.ports.backend1.port }}"
                 startup:
                   enabled: true
                   type: http
                   path: /
+                  port: "{{ .Values.service.backend.ports.backend1.port }}"
     ingress:
       main:
         enabled: true
