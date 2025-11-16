@@ -141,7 +141,7 @@ spec:
         targetSelector:
           backend: backend1
         hosts:
-          - host: mmpm.magicmirror.${DOMAIN_2}
+          - host: mmpm.${DOMAIN_2}
         integrations:
           nginx:
             enabled: true
