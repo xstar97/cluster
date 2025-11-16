@@ -121,7 +121,7 @@ spec:
       # - 68713
     modrinth:
       - discordsrv
-      - hopperfilter
+      # - hopperfilter
       - luckperms
       # - chunky
       # - auraskills
