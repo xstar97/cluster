@@ -77,19 +77,20 @@ spec:
             enabled: true
             port: 8907
 
-    mmpm:
-      MMPM_MAGICMIRROR_ROOT: /opt/magic_mirror
-      MMPM_MAGICMIRROR_URI: http://0.0.0.0:8080
-      MMPM_MAGICMIRROR_PM2_PROCESS_NAME: ""
-      MMPM_MAGICMIRROR_DOCKER_COMPOSE_FILE: ""
-      MMPM_IS_DOCKER_IMAGE: true
+    magicmirror:
+      mmpm:
+        MMPM_MAGICMIRROR_ROOT: /opt/magic_mirror
+        MMPM_MAGICMIRROR_URI: http://0.0.0.0:8080
+        MMPM_MAGICMIRROR_PM2_PROCESS_NAME: ""
+        MMPM_MAGICMIRROR_DOCKER_COMPOSE_FILE: ""
+        MMPM_IS_DOCKER_IMAGE: true
 
     configmap:
-      config-mmpm:
-        enabled: false
+      mmpm-env:
+        enabled: true
         data:
           mmpm-env.json: |
-            {{ .Values.mmpm | toJson }}
+            {{ .Values.magicmirror.mmpm | toJson }}
 
     workload:
       main:
@@ -99,7 +100,7 @@ spec:
               env:
                 NODE_ENV: production
             mmpm:
-              enabled: false
+              enabled: true
               imageSelector: mmpmImage
               probes:
                 liveness:
@@ -133,7 +134,7 @@ spec:
             enabled: true
             certificateIssuer: general-le-prod
       mmpm:
-        enabled: false
+        enabled: true
         ingressClassName: internal
         targetSelector:
           backend: backend1
@@ -146,8 +147,8 @@ spec:
             enabled: true
             certificateIssuer: general-le-prod    
     persistence:
-      mmpmconfig:
-        enabled: false
+      mmpm-config:
+        enabled: true
         mountPath: "/home/node/.config/mmpm"
         targetSelectAll: true
         volsync:
@@ -158,10 +159,10 @@ spec:
               enabled: true
             src:
               enabled: true
-      mmpmconfigfile:
-        enabled: false
+      mmpm-env:
+        enabled: true
         type: configmap
-        objectName: config-mmpm  
+        objectName: mmpm-env
         expandObjectName: false
         mountPath: /home/node/.config/mmpm/mmpm-env.json
         subPath: mmpm-env.json
