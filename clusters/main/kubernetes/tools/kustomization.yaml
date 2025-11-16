@@ -13,3 +13,4 @@ resources:
   - omni-tools/ks.yaml
   - guacamole/ks.yaml
   - open-archiver/ks.yaml
+  - magicmirror/ks.yaml
