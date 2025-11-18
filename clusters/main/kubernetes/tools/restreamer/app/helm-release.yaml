@@ -1,0 +1,125 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: restreamer
+  namespace: restreamer
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.24.44
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: tools
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-restreamer"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    image:
+      repository: datarhei/restreamer
+      pullPolicy: IfNotPresent
+      tag: cuda-2.12.0@sha256:35a082bb2474d9f02932de09c8eb40364ef66a49770a2e1fef71cbf565534869
+    securityContext:
+      container:
+        runAsUser: 0
+        runAsGroup: 0
+        runAsNonRoot: false
+        readOnlyRootFilesystem: false
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 8080
+      backend:
+        enabled: true
+        type: LoadBalancer
+        loadBalancerIP: ${RESTREAM_IP}
+        integrations:
+          metallb:
+            enabled: true
+        ports:
+          rtmp:
+            enabled: true
+            port: 1935
+          rtmps:
+            enabled: true
+            port: 1936
+          srt:
+            enabled: true
+            port: 6000
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                CORE_ADDRESS: ":{{ .Values.service.main.ports.main.port }}"
+                CORE_RTMP_ADDRESS: ":{{ .Values.service.backend.ports.rtmp.port }}"
+                CORE_API_AUTH_USERNAME: "${RESTREAMER_USER}"
+                CORE_API_AUTH_PASSWORD: "{$RESTREAMER_PASS}"
+                CORE_API_AUTH_JWT_SECRET: "${RESTREAMER_JWT}"
+                CORE_RTMP_TOKEN: "${RESTREAMER_RTMP_TOKEN}"
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: restreamer.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      config:
+        enabled: true
+        mountPath: "/core/config"
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      data:
+        enabled: true
+        mountPath: "/core/data"
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true

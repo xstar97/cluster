@@ -14,3 +14,4 @@ resources:
   - guacamole/ks.yaml
   - open-archiver/ks.yaml
   - magicmirror/ks.yaml
+  - restreamer/ks.yaml
