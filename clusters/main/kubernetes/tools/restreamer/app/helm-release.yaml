@@ -86,6 +86,7 @@ spec:
                 CORE_API_AUTH_PASSWORD: "{$RESTREAMER_PASS}"
                 CORE_API_AUTH_JWT_SECRET: "${RESTREAMER_JWT}"
                 CORE_RTMP_TOKEN: "${RESTREAMER_RTMP_TOKEN}"
+                CORE_API_AUTH_ENABLE: false
               resources:
                 limits:
                   nvidia.com/gpu: 1
