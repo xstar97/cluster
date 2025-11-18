@@ -43,7 +43,7 @@ spec:
     image:
       repository: datarhei/restreamer
       pullPolicy: IfNotPresent
-      tag: cuda-2.12.0@sha256:35a082bb2474d9f02932de09c8eb40364ef66a49770a2e1fef71cbf565534869
+      tag: 2.12.0@sha256:813acc9d41d2953b1e7fbb5b281f9a1f68d07fef4e1b30e34472b12d3db9426a
     securityContext:
       container:
         runAsUser: 0
@@ -76,7 +76,7 @@ spec:
     workload:
       main:
         podSpec:
-          runtimeClassName: nvidia
+          # runtimeClassName: nvidia
           containers:
             main:
               env:
@@ -89,7 +89,7 @@ spec:
                 CORE_API_AUTH_ENABLE: false
               resources:
                 limits:
-                  nvidia.com/gpu: 1
+                  nvidia.com/gpu: 0
     ingress:
       main:
         enabled: true
