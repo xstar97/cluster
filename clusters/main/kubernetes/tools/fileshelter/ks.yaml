@@ -1,11 +1,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: picoshare
+  name: fileshelter
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/tools/picoshare/app
+  path: clusters/main/kubernetes/tools/fileshelter/app
   prune: true
   sourceRef:
     kind: GitRepository
