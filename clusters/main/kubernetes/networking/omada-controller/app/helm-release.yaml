@@ -31,7 +31,7 @@ spec:
     gatus:
       group: networking
     global:
-      stopAll: false
+      stopAll: true
     resources:
       limits:
         cpu: 4000m
