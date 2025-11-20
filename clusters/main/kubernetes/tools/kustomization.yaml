@@ -15,3 +15,4 @@ resources:
   - open-archiver/ks.yaml
   - magicmirror/ks.yaml
   - restreamer/ks.yaml
+  - fileshelter/ks.yaml
