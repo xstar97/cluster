@@ -35,7 +35,7 @@ spec:
     image:
       repository: anoddname/streamrip-web-gui
       pullPolicy: IfNotPresent
-      tag: latest@sha256:2688dca2ee0fc24008942e5788edd5f30f3633d3b0a8c0e976949aec87b43709
+      tag: latest@sha256:c0883b85f402e4cf13cb842d7554c6641d1ae9b60a3c038409dabd0c18a111b0
     credentials:
       cf-restic:
         type: s3
