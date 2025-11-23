@@ -43,7 +43,7 @@ spec:
     image:
       repository: karsten13/magicmirror
       pullPolicy: IfNotPresent
-      tag: v2.33.0@sha256:11c800b927abf5d472f2799d230e4781e909f55e228dcdbf6bc3d0a9452ce646
+      tag: v2.33.0@sha256:8d11d7bb5674f454f093d910982e4f07e9a0dc311d200a2f91ddedb0a31c71e2
     mmpmImage:
       repository: karsten13/mmpm
       pullPolicy: IfNotPresent
