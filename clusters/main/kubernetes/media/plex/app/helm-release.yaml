@@ -4,7 +4,7 @@ metadata:
   name: plex
   namespace: plex
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
       chart: plex
@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 5m
+      interval: 15m
   install:
     createNamespace: true
     crds: CreateReplace
@@ -23,7 +23,7 @@ spec:
     crds: CreateReplace
     remediation:
       retries: 3
-  timeout: 20m
+  timeout: 60m
   values:
     gatus:
       group: media
