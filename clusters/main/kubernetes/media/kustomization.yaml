@@ -44,3 +44,4 @@ resources:
   - ytptube/ks.yaml
   - deezer-downloader/ks.yaml
   - streamrip/ks.yaml
+  - seerr/ks.yaml
