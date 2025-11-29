@@ -101,11 +101,9 @@ spec:
             type: restic
             credentials: tn-restic
             dest:
-              cacheCapacity: 100Gi
               enabled: true
             src:
               enabled: true
-              cacheCapacity: 100Gi
       transcode:
         enabled: true
         type: emptyDir
