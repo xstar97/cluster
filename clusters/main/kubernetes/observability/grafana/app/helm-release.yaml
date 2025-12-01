@@ -32,7 +32,7 @@ spec:
     gatus:
       group: observability
     global:
-      stopAll: false
+      stopAll: true
     credentials:
       cf-restic:
         type: s3
