@@ -31,7 +31,7 @@ spec:
     gatus:
       group: media
     global:
-      stopAll: false
+      stopAll: true
     credentials:
       cf-restic:
         type: s3
@@ -53,7 +53,7 @@ spec:
             main:
               env:
                 # JELLYFIN_TYPE: ""
-                DB_TYPE: postgre
+                DB_TYPE: postgres
                 DB_HOST:
                   secretKeyRef:
                     name: cnpg-main-urls
@@ -112,7 +112,8 @@ spec:
           retentionPolicy: "7d"
           scheduledBackups:
             - name: daily-backup
-              schedule: "0 5 0 * * *"
+              # https://crontab.guru/#50_0_*_*_*
+              schedule: "50 0 * * *"
               backupOwnerReference: self
               immediate: true
               suspend: false
