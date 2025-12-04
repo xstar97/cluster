@@ -40,13 +40,6 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-    service:
-      main:
-        type: ClusterIP
-        ports:
-          main:
-            port: 8000
-  
     workload:
       main:
         podSpec:
@@ -64,6 +57,12 @@ spec:
                 OIDC_CLIENT_SECRET: "${AUTHELIA_CLIENT_ROMM_SECRET}"
                 OIDC_REDIRECT_URI: https://romm.${DOMAIN_2}/api/oauth/openid
                 OIDC_SERVER_APPLICATION_URL: https://auth.${DOMAIN_2}
+                PLAYMATCH_API_ENABLED: true
+                LAUNCHBOX_API_ENABLED: true
+                HASHEOUS_API_ENABLED: true
+                FLASHPOINT_API_ENABLED: true
+                HLTB_API_ENABLED: true
+                TGDB_API_ENABLED: true
 
     ingress:
       main:
