@@ -124,3 +124,14 @@ spec:
         server: ${SCALE_IP}
         path: ${ROMS_NFS}
         mountPath: /romm/library
+
+    mariadb:
+      enabled: true
+      credentials:
+        minio:
+          type: s3
+          url: "${CF_S3_RESTIC_URL}"
+          bucket: "${CF_S3_RESTIC_BUCKET}-romm"
+          accessKey: "${CF_S3_RESTIC_ID}"
+          secretKey: "${CF_S3_RESTIC_KEY}"
+          encrKey: "${CF_S3_RESTIC_KEY}"
