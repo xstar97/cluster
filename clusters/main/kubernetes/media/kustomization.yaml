@@ -45,3 +45,4 @@ resources:
   - deezer-downloader/ks.yaml
   - streamrip/ks.yaml
   - seerr/ks.yaml
+  - listenarr/ks.yaml
