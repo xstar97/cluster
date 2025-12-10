@@ -152,7 +152,7 @@ spec:
         enabled: true
         user: ggrequestz
         database: ggrequestz
-        # mode: recovery
+        mode: recovery
         cluster:
           singleNode: true
         backups:
