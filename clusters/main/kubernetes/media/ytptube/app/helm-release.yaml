@@ -81,7 +81,7 @@ spec:
         enabled: true
         type: nfs
         server: ${SCALE_IP}
-        path: "${DOWNLOADS_NFS}/complete/music"
+        path: "${DOWNLOADS_NFS}/complete/manual"
         mountPath: "${DOWNLOADS_LOCAL}"
     redis:
       enabled: false
