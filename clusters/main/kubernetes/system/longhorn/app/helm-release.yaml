@@ -32,7 +32,14 @@ spec:
       # Overprovisioning might be needed when using volsync
       storageOverProvisioningPercentage: "100000"
       storageReservedPercentageForDefaultDisk: "10"
+      # single-node
       # v2DataEngine: true
+      defaultClassReplicaCount: "1"
+      removeSnapshotsDuringFilesystemTrim: "true"  # auto-remove old snapshots on trim
+      snapshotMaxCount: "50"                        # max snapshots per volume
+      orphanResourceAutoDeletion: "true"            # auto-delete orphaned volumes
+      orphanResourceAutoDeletionGracePeriod: "300"
+      recurringJobGroup: default    
     csi:
       attacherReplicaCount: "1"
       provisionerReplicaCount: "1"
