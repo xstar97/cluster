@@ -88,3 +88,9 @@ spec:
         server: ${SCALE_IP}
         path: ${DOWNLOADS_NFS}
         mountPath: "/data/downloads"
+      documents:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${DOCS_NFS}
+        mountPath: "/data/documents"
