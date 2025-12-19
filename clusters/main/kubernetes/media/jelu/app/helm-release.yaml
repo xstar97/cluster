@@ -35,7 +35,7 @@ spec:
     image:
       repository: wabayang/jelu
       pullPolicy: IfNotPresent
-      tag: 0.75.0@sha256:e7f5418e1098cf7e60bde9f7fb9f5603feb1faeeb004e3fcea84a90ee97043b8
+      tag: 0.75.1@sha256:20388c3edc90017dbfe36e7ec707ff5b5e9171e8c787bd036693254696bbec33
     credentials:
       cf-restic:
         type: s3
