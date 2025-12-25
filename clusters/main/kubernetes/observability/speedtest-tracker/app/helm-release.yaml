@@ -73,23 +73,45 @@ spec:
               probes:
                 liveness:
                   enabled: true
-                  type: http
-                  path: /health
-                  port: "{{ .Values.service.backend.ports.apprise.port }}"
+                  type: exec
+                  command:
+                    - sh
+                    - -c
+                    - 'wget'
+                    - '--quiet'
+                    - '--tries=1'
+                    - '--spider'
+                    - '{{ printf "http://%v-apprise:%v/health" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.backend.ports.apprise.port }}'
                 readiness:
                   enabled: true
-                  type: http
-                  path: /health
-                  port: "{{ .Values.service.backend.ports.apprise.port }}"
+                  type: exec
+                  command:
+                    - sh
+                    - -c
+                    - 'wget'
+                    - '--quiet'
+                    - '--tries=1'
+                    - '--spider'
+                    - '{{ printf "http://%v-apprise:%v/health" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.backend.ports.apprise.port }}'
+                # -- Startup probe configuration
+                # @default -- See below
                 startup:
+                  # -- Enable the startup probe
                   enabled: true
-                  type: http
-                  path: /health
-                  port: "{{ .Values.service.backend.ports.apprise.port }}"
+                  type: exec
+                  command:
+                    - sh
+                    - -c
+                    - 'wget'
+                    - '--quiet'
+                    - '--tries=1'
+                    - '--spider'
+                    - '{{ printf "http://%v-apprise:%v/health" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.backend.ports.apprise.port }}'
               env:
                 APPRISE_CONFIG_DIR: /apprise/config
                 APPRISE_ATTACH_DIR: /apprise/attach
                 APPRISE_PLUGIN_PATHS: /apprise/plugin
+                APPRISE_WORKER_COUNT: 1
     ingress:
       main:
         enabled: false
