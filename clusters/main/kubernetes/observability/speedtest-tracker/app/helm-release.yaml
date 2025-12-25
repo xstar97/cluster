@@ -117,7 +117,7 @@ spec:
         enabled: true
         ingressClassName: "internal"
         hosts:
-          - host: speedtest.tracker.${DOMAIN_2}
+          - host: stt.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
