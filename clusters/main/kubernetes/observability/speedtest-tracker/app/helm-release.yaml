@@ -36,22 +36,26 @@ spec:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-speedtest-tracker"
+        bucket: "${CF_S3_RESTIC_BUCKET}-stt"
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-    securityContext:
-      container:
-        runAsNonRoot: false
-        readOnlyRootFilesystem: false
-        runAsUser: 0
-        runAsGroup: 0
-    service:
+    workload:
       main:
-        type: ClusterIP
-        ports:
-          main:
-            port: 80
+        podSpec:
+          containers:
+            main:
+              env:
+                APP_URL: "{{ .Values.chartContext.appUrl }}"
+                ASSET_URL: "{{ .Values.chartContext.appUrl }}"
+                APP_TIMEZONE: "America/New_York"
+                DISPLAY_TIMEZONE: "America/New_York"
+                SPEEDTEST_SCHEDULE: "0 */3 * * *"
+                APP_KEY: "${STT_APP_KEY}"
+                # inital install only
+                ADMIN_NAME: "${STT_ADMIN_NAME}"
+                ADMIN_EMAIL: "${STT_ADMIN_EMAIL}"
+                ADMIN_PASSWORD: "${STT_ADMIN_PASSWORD}"
     ingress:
       main:
         enabled: true
@@ -74,17 +78,6 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-    workload:
-      main:
-        podSpec:
-          containers:
-            main:
-              env:
-                APP_URL: "{{ .Values.chartContext.appUrl }}"
-                ASSET_URL: "{{ .Values.chartContext.appUrl }}"
-                APP_TIMEZONE: "America/New_York"
-                DISPLAY_TIMEZONE: "America/New_York"
-                SPEEDTEST_SCHEDULE: "0 */3 * * *"
     persistence:
       config:
         volsync:
