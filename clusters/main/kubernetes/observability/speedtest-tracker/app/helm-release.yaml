@@ -114,7 +114,7 @@ spec:
                 APPRISE_WORKER_COUNT: 1
     ingress:
       main:
-        enabled: false
+        enabled: true
         ingressClassName: "internal"
         hosts:
           - host: speedtest.tracker.${DOMAIN_2}
