@@ -72,7 +72,7 @@ spec:
               imageSelector: apprRiseImage
               probes:
                 liveness:
-                  enabled: true
+                  enabled: false
                   type: exec
                   command:
                     - sh
@@ -83,7 +83,7 @@ spec:
                     - '--spider'
                     - '{{ printf "http://%v-apprise:%v/health" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.backend.ports.apprise.port }}'
                 readiness:
-                  enabled: true
+                  enabled: false
                   type: exec
                   command:
                     - sh
@@ -97,7 +97,7 @@ spec:
                 # @default -- See below
                 startup:
                   # -- Enable the startup probe
-                  enabled: true
+                  enabled: false
                   type: exec
                   command:
                     - sh
