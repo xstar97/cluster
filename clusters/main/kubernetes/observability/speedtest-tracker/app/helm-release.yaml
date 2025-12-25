@@ -32,11 +32,6 @@ spec:
       group: networking
     global:
       stopAll: false
-    apprRiseImage:
-      repository: caronc/apprise
-      pullPolicy: IfNotPresent
-      tag: 1.3.0@sha256:e365025a7bf1fed39ef66b5f22c9855d500ee7bdea27441365e5b95ea972e843
-    credentials:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
@@ -67,51 +62,7 @@ spec:
                 ADMIN_NAME: "${STT_ADMIN_NAME}"
                 ADMIN_EMAIL: "${STT_ADMIN_EMAIL}"
                 ADMIN_PASSWORD: "${STT_ADMIN_PASSWORD}"
-            apprise:
-              enabled: true
-              imageSelector: apprRiseImage
-              probes:
-                liveness:
-                  enabled: false
-                  type: exec
-                  command:
-                    - sh
-                    - -c
-                    - 'wget'
-                    - '--quiet'
-                    - '--tries=1'
-                    - '--spider'
-                    - '{{ printf "http://%v-apprise:%v/health" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.backend.ports.apprise.port }}'
-                readiness:
-                  enabled: false
-                  type: exec
-                  command:
-                    - sh
-                    - -c
-                    - 'wget'
-                    - '--quiet'
-                    - '--tries=1'
-                    - '--spider'
-                    - '{{ printf "http://%v-apprise:%v/health" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.backend.ports.apprise.port }}'
-                # -- Startup probe configuration
-                # @default -- See below
-                startup:
-                  # -- Enable the startup probe
-                  enabled: false
-                  type: exec
-                  command:
-                    - sh
-                    - -c
-                    - 'wget'
-                    - '--quiet'
-                    - '--tries=1'
-                    - '--spider'
-                    - '{{ printf "http://%v-apprise:%v/health" (include "tc.v1.common.lib.chart.names.fullname" $) .Values.service.backend.ports.apprise.port }}'
-              env:
-                APPRISE_CONFIG_DIR: /apprise/config
-                APPRISE_ATTACH_DIR: /apprise/attach
-                APPRISE_PLUGIN_PATHS: /apprise/plugin
-                APPRISE_WORKER_COUNT: 1
+
     ingress:
       main:
         enabled: true
@@ -142,24 +93,6 @@ spec:
               enabled: true
       varrun:
         enabled: false
-      apprise-config:
-        enabled: true
-        targetSelector:
-          main:
-            apprise:
-              mountPath: /apprise/config
-      apprise-attach:
-        enabled: true
-        targetSelector:
-          main:
-            apprise:
-              mountPath: /apprise/attach
-      apprise-plugin:
-        enabled: true
-        targetSelector:
-          main:
-            apprise:
-              mountPath: /apprise/plugin
 
     cnpg:
       main:
