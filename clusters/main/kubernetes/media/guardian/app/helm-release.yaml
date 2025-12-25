@@ -35,7 +35,7 @@ spec:
     image:
       repository: hydroshieldmkii/guardian-frontend
       pullPolicy: IfNotPresent
-      tag: v1.3.2@sha256:e77f916464bb2972437c20c428f23e86c1d7c93d7ca8716faa708d8fbd4a212d
+      tag: v1.3.3@sha256:5d9a5c8deb45068c9c89d6c7794d766f32bd219eba88da0a5c9437827df4b385
     backendImage:
       repository: hydroshieldmkii/guardian-backend
       pullPolicy: IfNotPresent
