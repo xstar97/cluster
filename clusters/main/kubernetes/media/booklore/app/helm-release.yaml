@@ -87,3 +87,6 @@ spec:
         server: ${SCALE_IP}
         path: "${MEDIA_NFS}/Literature"
         mountPath: "/books"
+
+    mariadb:
+      enabled: true
