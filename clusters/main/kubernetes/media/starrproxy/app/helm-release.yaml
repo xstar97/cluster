@@ -31,7 +31,7 @@ spec:
     gatus:
       group: media
     global:
-      stopAll: false
+      stopAll: true
     image:
       repository: ghcr.io/notifiarr/starrproxy
       pullPolicy: IfNotPresent

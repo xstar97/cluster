@@ -31,7 +31,7 @@ spec:
     gatus:
       group: assets
     global:
-      stopAll: false
+      stopAll: true
     image:
       repository: inigochoa/cookcli
       pullPolicy: IfNotPresent

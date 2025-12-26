@@ -31,7 +31,7 @@ spec:
     gatus:
       group: medical
     global:
-      stopAll: false
+      stopAll: true
     image:
       repository: ghcr.io/fastenhealth/fasten-onprem
       pullPolicy: IfNotPresent
