@@ -32,6 +32,7 @@ spec:
       group: networking
     global:
       stopAll: false
+    credentials:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
