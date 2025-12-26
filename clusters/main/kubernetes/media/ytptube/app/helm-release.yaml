@@ -35,7 +35,7 @@ spec:
     image:
       repository: ghcr.io/arabcoders/ytptube
       pullPolicy: IfNotPresent
-      tag: v1.0.10@sha256:3ca0151aa5565c0df7e3fba37e419fe65316e766b5b239d78909324892a71b8b
+      tag: v1.0.11@sha256:f8a93351bc13aadd56f5ad97547a276d559f65f958db51ffce31d498d206ade5
     credentials:
       cf-restic:
         type: s3
