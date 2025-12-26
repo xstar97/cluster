@@ -36,7 +36,7 @@ spec:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-booklore"
+        bucket: "${CF_S3_RESTIC_BUCKET}-booklore-v2"
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
