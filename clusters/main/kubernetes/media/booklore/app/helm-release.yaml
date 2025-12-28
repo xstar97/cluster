@@ -45,6 +45,14 @@ spec:
         ports:
           main:
             port: 6060
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                SWAGGER_ENABLED: true
+                FORCE_DISABLE_OIDC: false
     ingress:
       main:
         enabled: true
