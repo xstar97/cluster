@@ -6,7 +6,7 @@ resources:
   - reubah/ks.yaml
   - stirling-pdf/ks.yaml
   - string-is/ks.yaml
-  - manyfold/ks.yaml
+  # - manyfold/ks.yaml
   - mend-renovate/ks.yaml
   - spoolman/ks.yaml
   - feedcord/ks.yaml
