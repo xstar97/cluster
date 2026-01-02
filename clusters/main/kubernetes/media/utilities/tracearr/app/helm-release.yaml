@@ -67,6 +67,10 @@ spec:
                   secretKeyRef:
                     name: cnpg-main-urls
                     key: std
+                DB_PASSWORD:
+                  secretKeyRef:
+                    name: cnpg-main-user
+                    key: password
                 REDIS_URL:
                   secretKeyRef:
                     expandObjectName: false
