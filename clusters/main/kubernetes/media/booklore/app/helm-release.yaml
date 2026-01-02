@@ -31,7 +31,7 @@ spec:
     gatus:
       group: media
     global:
-      stopAll: false
+      stopAll: true
     image:
       pullPolicy: IfNotPresent
       repository: ghcr.io/booklore-app/booklore
@@ -52,6 +52,8 @@ spec:
         runAsGroup: 0
     service:
       main:
+        annotations:
+          gatus.home-operations.com/enabled: "false"
         ports:
           main:
             port: 6060
