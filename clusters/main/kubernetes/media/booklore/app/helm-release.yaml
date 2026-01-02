@@ -50,11 +50,6 @@ spec:
         readOnlyRootFilesystem: false
         runAsUser: 0
         runAsGroup: 0
-    service:
-      main:
-        ports:
-          main:
-            port: 3000
     workload:
       main:
         podSpec:
