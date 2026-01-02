@@ -120,7 +120,7 @@ spec:
       # takeaim
       # - 68713
     modrinth:
-      - discordsrv
+      # - discordsrv
       # - hopperfilter
       - luckperms
       # - chunky
