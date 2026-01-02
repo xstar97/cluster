@@ -77,8 +77,6 @@ spec:
                     key: jdbc-mariadb
                 DATABASE_USERNAME: "{{ .Values.mariadb.mariadbUsername }}"
                 DATABASE_PASSWORD: "{{ .Values.mariadb.password }}"
-                USER_ID: 568 
-                GROUP_ID: 568
 
     ingress:
       main:
