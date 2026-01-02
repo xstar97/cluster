@@ -83,7 +83,7 @@ spec:
         enabled: true
         ingressClassName: "external"
         hosts:
-          - host: booklore.${DOMAIN_2}
+          - host: books.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
