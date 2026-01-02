@@ -48,6 +48,8 @@ spec:
       readOnlyRootFilesystem: false
     service:
       main:
+        annotations:
+          gatus.home-operations.com/enabled: "false"
         ports:
           main:
             port: 8080
