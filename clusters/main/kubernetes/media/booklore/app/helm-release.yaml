@@ -50,6 +50,13 @@ spec:
         podSpec:
           containers:
             main:
+              probes:
+                liveness:
+                  path: "/api/v1/healthcheck"
+                readiness:
+                  path: "/api/v1/healthcheck"
+                startup:
+                  path: "/api/v1/healthcheck"
               env:
                 SWAGGER_ENABLED: true
                 FORCE_DISABLE_OIDC: false
@@ -98,3 +105,4 @@ spec:
 
     mariadb:
       enabled: true
+      mariadbUsername: booklore
