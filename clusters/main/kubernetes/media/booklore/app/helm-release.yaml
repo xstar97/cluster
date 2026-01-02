@@ -61,6 +61,12 @@ spec:
                 SWAGGER_ENABLED: true
                 FORCE_DISABLE_OIDC: false
                 DATABASE_USERNAME: booklore
+                DATABASE_URL:
+                  secretKeyRef:
+                    expandObjectName: false
+                    name: '{{ printf "%s-%s?createDatabaseIfNotExist=true" .Release.Name "mariadbcreds" }}'
+                    key: jdbc-mariadb
+
     ingress:
       main:
         enabled: true
