@@ -90,6 +90,8 @@ spec:
       
     persistence:
       data:
+        enabled: true
+        mountPath: "/app/data"
         volsync:
           - name: data
             type: restic
