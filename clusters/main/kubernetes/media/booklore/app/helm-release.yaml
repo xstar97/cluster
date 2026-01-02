@@ -60,6 +60,7 @@ spec:
               env:
                 SWAGGER_ENABLED: true
                 FORCE_DISABLE_OIDC: false
+                DATABASE_URL: jdbc:mariadb://booklore-mariadb:3306/booklore
     ingress:
       main:
         enabled: true
