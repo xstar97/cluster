@@ -119,4 +119,5 @@ spec:
 
     redis:
       enabled: true
-      redisUsername: tracearr
+      # redisUsername: tracearr
+      # redisPassword: "tracearr"
