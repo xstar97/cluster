@@ -60,13 +60,13 @@ spec:
         podSpec:
           containers:
             main:
-              probes:
-                liveness:
-                  path: "/api/v1/healthcheck"
-                readiness:
-                  path: "/api/v1/healthcheck"
-                startup:
-                  path: "/api/v1/healthcheck"
+              # probes:
+              #   liveness:
+              #     path: "/api/v1/healthcheck"
+              #   readiness:
+              #     path: "/api/v1/healthcheck"
+              #   startup:
+              #     path: "/api/v1/healthcheck"
               env:
                 SWAGGER_ENABLED: true
                 BOOKLORE_PORT: "{{ .Values.service.main.ports.main.port }}"
