@@ -44,6 +44,11 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
+    service:
+      main:
+        ports:
+          main:
+            port: 8000
     securityContext:
       container:
         runAsNonRoot: false
