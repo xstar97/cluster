@@ -48,6 +48,8 @@ spec:
         runAsGroup: 0
     service:
       main:
+        annotations:
+          gatus.home-operations.com/enabled: "false"
         ports:
           main:
             port: 8000

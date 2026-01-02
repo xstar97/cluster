@@ -46,9 +46,12 @@ spec:
         encrKey: "${CF_S3_RESTIC_KEY}"
     service:
       main:
+        annotations:
+          gatus.home-operations.com/enabled: "false"
         ports:
           main:
             port: 9080
+
     ingress:
       main:
         enabled: true
