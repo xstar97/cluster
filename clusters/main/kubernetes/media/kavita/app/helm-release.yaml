@@ -70,6 +70,7 @@ spec:
             enabled: true
             group: "Media Server"
             widget:
+              type: kavita
               custom:
                 username: "${KAVITA_USER}"
                 password: "${KAVITA_PASS}"
