@@ -32,7 +32,6 @@ resources:
   - huntarr/ks.yaml
   - cloudcmd/ks.yaml
   - jellyseerr/ks.yaml
-  - agregarr/ks.yaml
   - reaparr/ks.yaml
   - audiobookrequest/ks.yaml
   - jelu/ks.yaml
