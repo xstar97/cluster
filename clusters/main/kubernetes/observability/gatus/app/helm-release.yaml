@@ -40,7 +40,7 @@ spec:
     configsImage:
       repository: ghcr.io/home-operations/k8s-sidecar
       pullPolicy: IfNotPresent
-      tag: 2.2.1@sha256:cf3cb2dc72095eeb286e424d68f79b8573af2beeab9c58e9119e4aaf7b0e56d6
+      tag: 2.2.2@sha256:cb9b206f3e1a045632648569c4cb7fc618a292ba1a12cb53e1754025a987445b
     sidecarImage:
       repository: ghcr.io/home-operations/gatus-sidecar
       pullPolicy: IfNotPresent
