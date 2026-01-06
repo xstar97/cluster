@@ -58,6 +58,20 @@ spec:
     workload:
       main:
         podSpec:
+          initContainers:
+            init-conf:
+              enabled: true
+              type: init
+              imageSelector: alpineImage
+              command: /bin/sh
+              args:
+                - -c
+                - |
+                  export SETTINGS={{ printf "%s/settings.json" .Values.persistence.config.targetSelector.main.main.mountPath }}
+                  python -m json.tool "$SETTINGS" > /dev/null 2>&1 && cat "$SETTINGS" || echo '{}' > "$SETTINGS"
+                  
+                  echo finish
+
           containers:
             main:
               probes:
@@ -88,7 +102,12 @@ spec:
     persistence:
       config:
         enabled: true
-        mountPath: /app/config
+        targetSelector:
+          main:
+            main:
+              mountPath: /app/config
+            init-conf:
+              mountPath: /app/config
         volsync:
           - name: config
             type: restic
