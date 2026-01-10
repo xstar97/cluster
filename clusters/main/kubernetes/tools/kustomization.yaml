@@ -16,3 +16,4 @@ resources:
   - magicmirror/ks.yaml
   - restreamer/ks.yaml
   - fileshelter/ks.yaml
+  - rackula/ks.yaml

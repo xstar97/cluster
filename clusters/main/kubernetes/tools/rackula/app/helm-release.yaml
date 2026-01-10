@@ -1,0 +1,69 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: rackula
+  namespace: rackula
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.29.54
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: tools
+    global:
+      stopAll: false
+    image:
+      repository: ghcr.io/rackulalives/rackula
+      pullPolicy: IfNotPresent
+      tag: 0.6.16@sha256:d5704581f598510f3866fbb22000089ac2411a80a1cc4f659b45063ad433f2c9
+    securityContext:
+      container:
+        runAsNonRoot: false
+        readOnlyRootFilesystem: false
+        runAsUser: 0
+        runAsGroup: 0
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 80
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: "{{ .Release.Name }}.${DOMAIN_2}"
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            # auth:
+            #   type: "authelia"
+            #   internalHost: "authelia.authelia.svc.cluster.local:9091"
+            #   externalHost: "auth.${DOMAIN_2}"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
