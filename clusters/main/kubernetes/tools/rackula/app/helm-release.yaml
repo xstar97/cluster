@@ -48,6 +48,24 @@ spec:
         ports:
           main:
             port: 80
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              probes:
+                liveness:
+                  enabled: true
+                  type: http
+                  path: /health
+                readiness:
+                  enabled: true
+                  type: http
+                  path: /health
+                startup:
+                  enabled: true
+                  type: http
+                  path: /health
     ingress:
       main:
         enabled: true
