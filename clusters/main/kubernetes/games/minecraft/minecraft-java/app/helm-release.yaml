@@ -133,6 +133,15 @@ spec:
       # - bluemap
       - viaversion
 
+    configmap:
+      plugins:
+        enabled: true
+        data:
+          plugins.txt: |
+            https://github.com/pdinklag/MinecraftStats/releases/download/v3.3.1/MinecraftStats.jar
+            https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
+            https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
+
     workload:
       main:
         # type: StatefulSet
@@ -281,6 +290,13 @@ spec:
             enabled: true
             certificateIssuer: general-le-prod
     persistence:
+      plugins:
+        enabled: true
+        type: configmap
+        mountPath: /data/plugins.txt
+        objectName: plugins
+        readOnly: true
+        subPath: plugins.txt
       data:
         targetSelector:
           main:
