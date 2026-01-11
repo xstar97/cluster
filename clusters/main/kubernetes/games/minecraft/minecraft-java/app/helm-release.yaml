@@ -164,7 +164,7 @@ spec:
                 EULA: "TRUE"
                 GUI: "FALSE"
                 OVERRIDE_SERVER_PROPERTIES: true
-                VERSION: "LATEST" # "1.21.8"
+                VERSION: "1.21.11" # "LATEST" # "1.21.8"
                 TYPE: "PAPER"
                 # PAPER_BUILD: "138"
                 DIFFICULTY: easy
