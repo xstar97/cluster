@@ -294,25 +294,25 @@ spec:
               enabled: true
             src:
               enabled: true
-      bluemapconfig:
+      bluemap-config:
         enabled: true
         targetSelector:
           main:
             bluemap:
               mountPath: /app/config
-      bluemapweb:
+      bluemap-web:
         enabled: true
         targetSelector:
           main:
             bluemap:
               mountPath: /app/web
-      bluemapdata:
+      bluemap-data:
         enabled: true
         targetSelector:
           main:
             bluemap:
               mountPath: /app/data
-      bluemapworld:
+      bluemap-world:
         enabled: true
         targetSelector:
           main:
@@ -320,7 +320,7 @@ spec:
               mountPath: /data/world
             bluemap:
               mountPath: /app/world
-      bluemapnether:
+      bluemap-nether:
         enabled: true
         targetSelector:
           main:
@@ -328,7 +328,7 @@ spec:
               mountPath: /data/world_nether
             bluemap:
               mountPath: /app/world_nether
-      bluemapend:
+      bluemap-end:
         enabled: true
         targetSelector:
           main:
