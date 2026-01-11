@@ -206,6 +206,7 @@ spec:
                 SPIGET_RESOURCES: '{{ join "," .Values.plugins }}'
                 MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
             bluemap:
+              enabled: true
               imageSelector: bluemapImage
               probes:
                 liveness:
