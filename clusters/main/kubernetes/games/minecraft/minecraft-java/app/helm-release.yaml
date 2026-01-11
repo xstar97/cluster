@@ -32,6 +32,10 @@ spec:
       group: games
     global:
       stopAll: false
+    bluemapImage:
+      repository: dghcr.io/bluemap-minecraft/bluemap
+      tag: v5.15@sha256:79113006811c3e9e8549d66d9e02be5a244b10c988a72aa41e7c174898f838a4
+      pullPolicy: Always
     credentials:
       cf-restic:
         type: s3
@@ -126,7 +130,7 @@ spec:
       # - chunky
       # - auraskills
       # - deathlocator
-      - bluemap
+      # - bluemap
       - viaversion
 
     workload:
@@ -201,6 +205,27 @@ spec:
                 PLUGINS_FILE: "/data/plugins.txt"
                 SPIGET_RESOURCES: '{{ join "," .Values.plugins }}'
                 MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
+            bluemap:
+              imageSelector: bluemapImage
+              probes:
+                liveness:
+                  enabled: true
+                  type: http
+                  port: "{{ .Values.service.web.ports.map.port }}"
+                readiness:
+                  enabled: true
+                  type: http
+                  port: "{{ .Values.service.web.ports.map.port }}"
+                startup:
+                  enabled: true
+                  type: http
+                  port: "{{ .Values.service.web.ports.map.port }}"
+              args:
+                - r 
+                - u 
+                - w
+              env:
+                SERVER_PORT: "{{ .Values.service.main.ports.main.port }}"
             mcbackup:
               enabled: false
     ingress:
@@ -209,8 +234,8 @@ spec:
         primary: true
         ingressClassName: external
         annotations:
-          nginx.ingress.kubernetes.io/configuration-snippet: |
-            rewrite ^/stats$ / permanent;
+        #   nginx.ingress.kubernetes.io/configuration-snippet: |
+        #     rewrite ^/stats$ / permanent;
           gatus.home-operations.com/endpoint: |
             name: minecraft-java-map
             group: "{{ .Values.gatus.group }}"
@@ -229,7 +254,7 @@ spec:
             enabled: true
             certificateIssuer: general-le-prod
       stats:
-        enabled: true
+        enabled: false
         ingressClassName: external
         annotations:
           nginx.ingress.kubernetes.io/preserve-trailing-slash: "true"
@@ -268,14 +293,48 @@ spec:
               enabled: true
             src:
               enabled: true
-      maps:
+      bluemap-config:
+        enabled: true
+        targetSelector:
+          main:
+            bluemap:
+              mountPath: /app/config
+      bluemap-web:
+        enabled: true
+        targetSelector:
+          main:
+            bluemap:
+              mountPath: /app/web
+      bluemap-data:
+        enabled: true
+        targetSelector:
+          main:
+            bluemap:
+              mountPath: /app/data
+      bluemap-world:
         enabled: true
         targetSelector:
           main:
             main:
-              mountPath: /maps
-            codeserver:
-              mountPath: /maps
+              mountPath: /data/world
+            bluemap:
+              mountPath: /app/world
+      bluemap-nether:
+        enabled: true
+        targetSelector:
+          main:
+            main:
+              mountPath: /data/world_nether
+            bluemap:
+              mountPath: /app/world_nether
+      bluemap-end:
+        enabled: true
+        targetSelector:
+          main:
+            main:
+              mountPath: /data/world_the_end
+            bluemap:
+              mountPath: /app/world_the_end
     addons:
       codeserver:
         enabled: true
