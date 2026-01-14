@@ -341,17 +341,17 @@ spec:
         targetSelector:
           main:
             main:
-              mountPath: /data/world_nether
+              mountPath: "/data/world_nether"
             bluemap:
-              mountPath: /app/world_nether
+              mountPath: "/app/world_nether"
       bluemap-end:
         enabled: true
         targetSelector:
           main:
             main:
-              mountPath: /data/world_the_end
+              mountPath: "/data/world_the_end"
             bluemap:
-              mountPath: /app/world_the_end
+              mountPath: "/app/world_the_end"
     addons:
       codeserver:
         enabled: true
