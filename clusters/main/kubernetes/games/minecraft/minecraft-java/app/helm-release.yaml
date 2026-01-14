@@ -268,6 +268,32 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
+      stats:
+        enabled: true
+        ingressClassName: external
+        annotations:
+          nginx.ingress.kubernetes.io/preserve-trailing-slash: "true"
+          nginx.ingress.kubernetes.io/configuration-snippet: |
+            rewrite ^/$ /stats/ permanent;
+          gatus.home-operations.com/endpoint: |
+            group: "{{ .Values.gatus.group }}"
+            alerts:
+              - type: discord
+                description: "healthcheck failed"
+                send-on-resolved: true
+        targetSelector:
+          web: map
+        hosts:
+          - host: stats.${DOMAIN_1}
+            paths:
+              - path: /stats/
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
     persistence:
       plugins:
         enabled: true
