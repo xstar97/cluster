@@ -245,7 +245,7 @@ spec:
               enabled: false
     ingress:
       bluemap:
-        enabled: true
+        enabled: false
         primary: true
         ingressClassName: external
         annotations:
