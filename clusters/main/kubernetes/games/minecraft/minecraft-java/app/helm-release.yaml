@@ -200,7 +200,12 @@ spec:
                 MODE: survival
                 MOTD: "Welcome to the ShitSHow!"
                 PVP: false
-                LEVEL_TYPE: DEFAULT
+                # minecraft:normal
+                # minecraft:flat
+                # minecraft:large_biomes
+                # minecraft:amplified
+                # minecraft:single_biome_surface
+                LEVEL_TYPE: minecraft:amplified
                 LEVEL: world
                 ONLINE_MODE: true
                 MEMORY: 4096M
