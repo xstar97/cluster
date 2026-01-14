@@ -321,6 +321,8 @@ spec:
           main:
             bluemap:
               mountPath: /app/config
+            codeserver:
+              mountPath: /app/config
       bm-wb:
         enabled: true
         targetSelector:
