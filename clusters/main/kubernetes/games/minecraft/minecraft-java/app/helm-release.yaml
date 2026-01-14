@@ -132,17 +132,15 @@ spec:
       # - deathlocator
       - bluemap
       - viaversion
-    urls:
-      - https://github.com/pdinklag/MinecraftStats/releases/download/v3.3.1/MinecraftStats.jar
-      - https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
-      - https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
 
     configmap:
       plugins:
         enabled: true
         data:
           plugins.txt: |
-            {{ join "\n" .Values.urls }}
+            https://github.com/pdinklag/MinecraftStats/releases/download/v3.3.1/MinecraftStats.jar
+            https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
+            https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
 
     workload:
       main:
