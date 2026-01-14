@@ -130,10 +130,10 @@ spec:
       # - chunky
       # - auraskills
       # - deathlocator
-      # - bluemap
+      - bluemap
       - viaversion
     urls:
-      # - https://github.com/pdinklag/MinecraftStats/releases/download/v3.3.1/MinecraftStats.jar
+      - https://github.com/pdinklag/MinecraftStats/releases/download/v3.3.1/MinecraftStats.jar
       - https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
       - https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
 
@@ -222,7 +222,7 @@ spec:
                 SPIGET_RESOURCES: '{{ join "," .Values.plugins }}'
                 MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
             bluemap:
-              enabled: true
+              enabled: false
               imageSelector: bluemapImage
               probes:
                 liveness:
