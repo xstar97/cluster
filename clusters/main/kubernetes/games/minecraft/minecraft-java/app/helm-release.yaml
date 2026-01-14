@@ -247,7 +247,7 @@ spec:
               enabled: false
     ingress:
       bluemap:
-        enabled: false
+        enabled: true
         primary: true
         ingressClassName: external
         annotations:
@@ -271,7 +271,7 @@ spec:
             enabled: true
             certificateIssuer: general-le-prod
       stats:
-        enabled: false
+        enabled: true
         ingressClassName: external
         annotations:
           nginx.ingress.kubernetes.io/preserve-trailing-slash: "true"
