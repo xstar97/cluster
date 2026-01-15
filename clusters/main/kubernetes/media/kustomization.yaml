@@ -33,7 +33,7 @@ resources:
   - cloudcmd/ks.yaml
   - jellyseerr/ks.yaml
   - reaparr/ks.yaml
-  - audiobookrequest/ks.yaml
+  # - audiobookrequest/ks.yaml
   - jelu/ks.yaml
   - lazylibrarian/ks.yaml
   - cwa-dl/ks.yaml
