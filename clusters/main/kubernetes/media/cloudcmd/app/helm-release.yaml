@@ -35,7 +35,7 @@ spec:
     image:
       repository: ghcr.io/coderaiser/cloudcmd
       pullPolicy: IfNotPresent
-      tag: 19.1.4-alpine@sha256:76829b1802e79facd8f4d6a5f09d74ffbb2fcd10f7e93b89787da2eefe463a8f
+      tag: 19.1.5-alpine@sha256:e0fb9f73ae484df2918a75431a2b91f92cd16cd85888f4767cb8a563df92ffdc
     credentials:
       cf-restic:
         type: s3
