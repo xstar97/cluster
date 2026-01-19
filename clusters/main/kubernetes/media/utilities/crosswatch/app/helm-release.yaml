@@ -35,7 +35,7 @@ spec:
     image:
       repository: ghcr.io/cenodude/crosswatch
       pullPolicy: IfNotPresent
-      tag: 0.7.0@sha256:95cee826902e1277e4ebf4dde8f92e8f5d6e9b6cdb46d2e2e9e72963e143976b
+      tag: 0.7.1@sha256:a26c68970be60359370cf80b36a5a36a50990175f409f991a6b33a5b03c7e683
     credentials:
       cf-restic:
         type: s3
