@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: omada-controller
-      version: 18.2.18
+      version: 18.2.19
       sourceRef:
         kind: HelmRepository
         name: truecharts
