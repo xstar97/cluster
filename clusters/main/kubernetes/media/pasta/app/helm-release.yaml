@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: pasta
-      version: 12.3.15
+      version: 12.3.16
       sourceRef:
         kind: HelmRepository
         name: truecharts
