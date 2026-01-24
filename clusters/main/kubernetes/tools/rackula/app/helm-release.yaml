@@ -35,7 +35,7 @@ spec:
     image:
       repository: ghcr.io/rackulalives/rackula
       pullPolicy: IfNotPresent
-      tag: 0.7.2@sha256:340c2c169346d7b9c1c5c821075106c3fda39061dc61dd9f4bf17239b5750088
+      tag: 0.7.3@sha256:a8dd4dc596a88408b55eb036afffd68877a9d9c93d234247591393a7b57e6f6f
     securityContext:
       container:
         runAsNonRoot: false
