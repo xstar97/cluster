@@ -99,9 +99,11 @@ spec:
         enabled: true
         user: tracearr
         database: tracearr
-        # mode: recovery
+        mode: recovery
         cluster:
           singleNode: true
+          walStorage:
+            size: 10Gi
         backups:
           enabled: true
           credentials: cf-restic
