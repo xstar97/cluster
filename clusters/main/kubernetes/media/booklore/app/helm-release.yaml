@@ -35,7 +35,7 @@ spec:
     image:
       pullPolicy: IfNotPresent
       repository: ghcr.io/booklore-app/booklore
-      tag: v1.17.1@sha256:480ea84a88bca014e994b3088dc8a24f53180c70cbac62f7cb57c107a29004ae
+      tag: v1.18.5@sha256:44a39097fcf69e7373b51df0459da052640d07459fb02b429f2c47cceaa32485
     credentials:
       cf-restic:
         type: s3
