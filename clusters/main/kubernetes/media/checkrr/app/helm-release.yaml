@@ -49,6 +49,8 @@ spec:
         readOnlyRootFilesystem: false
     service:
       main:
+        annotations:
+          gatus.home-operations.com/enabled: "{{ if .Values.global.stopAll }}false{{ else }}true{{ end }}"
         ports:
           main:
             port: 8585
