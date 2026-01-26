@@ -31,7 +31,7 @@ spec:
     gatus:
       group: media
     global:
-      stopAll: false
+      stopAll: true
     service:
       main:
         type: ClusterIP
