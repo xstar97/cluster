@@ -8,6 +8,7 @@ spec:
     service:
       main:
         annotations:
+          gatus.home-operations.com/enabled: "{{ if .Values.global.stopAll }}false{{ else }}true{{ end }}"
           gatus.home-operations.com/endpoint: |
             name: "{{ default .Release.Name .Values.gatus.name }}"
             group: "{{ default "core" .Values.gatus.group }}"
