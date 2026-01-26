@@ -31,13 +31,7 @@ spec:
     gatus:
       group: media
     global:
-      stopAll: true
-    service:
-      main:
-        type: ClusterIP
-        ports:
-          main:
-            port: 8080
+      stopAll: false
     ingress:
       main:
         enabled: true
@@ -53,7 +47,3 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-    persistence:
-      config:
-        enabled: true
-        mountPath: "/config"
