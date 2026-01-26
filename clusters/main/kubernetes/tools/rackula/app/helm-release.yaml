@@ -31,7 +31,7 @@ spec:
     gatus:
       group: tools
     global:
-      stopAll: false
+      stopAll: true
     image:
       repository: ghcr.io/rackulalives/rackula
       pullPolicy: IfNotPresent
