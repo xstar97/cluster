@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - crosswatch/ks.yaml
   - tracearr/ks.yaml
+  - sortarr/ks.yaml

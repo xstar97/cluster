@@ -1,0 +1,144 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: sortarr
+  namespace: sortarr
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.29.73
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: media-utilities
+    global:
+      stopAll: false
+    image:
+      repository: ghcr.io/jaredharper1/sortarr
+      pullPolicy: IfNotPresent
+      tag: 0.7.9@sha256:b8c0dde17c8455030d84de2e6627bdc0c1aae6b02b7bac59b6af00df3c6b8766
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-sortarr"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        runAsNonRoot: false
+        readOnlyRootFilesystem: false
+        runAsUser: 0
+        runAsGroup: 0
+    service:
+      main:
+        ports:
+          main:
+            port: 8787
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                # SORTARR_CONFIG_PATH: /data/Sortarr.env
+                PORT: "{{ .Values.service.main.ports.main.port }}"
+                # required if using a reverse proxy
+                # 0 = Disabled. Safer if you only run Sortarr locally and are not using a reverse proxy.
+                # 1 = One proxy hop (Traefik/Nginx directly in front of Sortarr). Default.
+                # 2 = Two proxy hops (for example Cloudflare Tunnel -> Traefik -> Sortarr).
+                SORTARR_PROXY_HOPS: 1
+                CACHE_SECONDS: 300
+                SONARR_URL: "http://sonarr.sonarr.svc.cluster.local:8989"
+                SONARR_API_KEY: "${SONARR_SERIES_KEY}"
+                SONARR_NAME: "sonarr-series"
+                SONARR_URL_2: "http://sonarr-animes.sonarr-animes.svc.cluster.local:8989"
+                SONARR_API_KEY_2: "${SONARR_ANIMES_KEY}"
+                SONARR_NAME_2: "sonarr-animes"
+                # SONARR_EPISODEFILE_WORKERS: 8
+                # (optional, series default; bulk fetches all episode files at once, fast skips per-episode file lookups and omits codec/language detail)
+                # SONARR_EPISODEFILE_MODE: bulk
+                # (optional, per-request delay for Sonarr episode file calls; default 0)
+                # SONARR_EPISODEFILE_DELAY_SECONDS: 0
+                # (optional, per-series episode file cache TTL; default 600, set 0 to disable)
+                # SONARR_EPISODEFILE_CACHE_SECONDS: 600
+                # SONARR_TIMEOUT_SECONDS (optional, defaults to 90; per-request timeout for Sonarr API calls, 0 disables the timeout)
+                # SONARR_CACHE_PATH (optional, defaults to ./data/Sortarr.sonarr_cache.json)
+                RADARR_URL: "http://radarr.radarr.svc.cluster.local:7878"
+                RADARR_API_KEY: "${RADARR_KEY}"
+                RADARR_NAME: "radarr"
+                # (optional, defaults to 2; parallel Radarr wanted/missing/cutoff/recent fetch workers, set 1 for low-end boxes)
+                # RADARR_WANTED_WORKERS: 2
+                # (optional, defaults to 1; parallel Radarr instance fetch workers, opt-in for multi-instance setups)
+                # RADARR_INSTANCE_WORKERS: 1
+                # RADARR_TIMEOUT_SECONDS (optional, defaults to 90; per-request timeout for Radarr API calls, 0 disables the timeout)
+                # RADARR_CACHE_PATH 
+                TAUTULLI_URL: "http://tautulli.tautulli.svc.cluster.local:8181"
+                TAUTULLI_API_KEY: "${TAUTULLI_KEY}"
+                # TAUTULLI_METADATA_CACHE (optional, defaults to ./data/Sortarr.tautulli_cache.json)
+                # TAUTULLI_METADATA_LOOKUP_LIMIT (optional, defaults to -1 for no limit; set to 0 to disable metadata matching)
+                # TAUTULLI_METADATA_LOOKUP_SECONDS (optional, defaults to 0 for no lookup time limit)
+                # TAUTULLI_METADATA_WORKERS (optional, defaults to 4; parallel metadata lookup workers)
+                # TAUTULLI_METADATA_SAVE_EVERY (optional, defaults to 250; persist metadata cache every N lookups)
+                # TAUTULLI_REFRESH_STALE_SECONDS (optional, defaults to 3600; clear stuck Tautulli refresh locks)
+                # TAUTULLI_TIMEOUT_SECONDS (optional, defaults to 60; per-request timeout for each Tautulli API call, 0 falls back to 45 seconds)
+                # TAUTULLI_FETCH_SECONDS (optional; total fetch budget per load, defaults to 0 for no limit)
+
+                # SORTARR_LOG_LEVEL (optional, defaults to INFO)
+                # SORTARR_STRICT_INSTANCE_ERRORS (optional, default false; fail requests if any instance is unavailable)
+                # SORTARR_DEFER_WANTED (optional, default true; defer wanted/missing/cutoff/recent counts on cold start and backfill in the background)
+                # SORTARR_RADARR_LITE_FIRST (optional, default true; serve a lite Radarr payload on cold start, then hydrate full details in the background)
+                # ARR_BACKOFF_BASE_SECONDS (optional, base delay for retries on 429/5xx; default 0.5)
+                # ARR_BACKOFF_MAX_RETRIES (optional, retry attempts for 429/5xx or request errors; default 2)
+                # ARR_CIRCUIT_FAIL_THRESHOLD (optional, failures before opening the circuit; default 3)
+                # ARR_CIRCUIT_OPEN_SECONDS (optional, cooldown before retrying once the circuit opens; default 30)
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: sortarr.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      data:
+        enabled: true
+        mountPath: /data
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+    cnpg:
+      main:
+        enabled: false
