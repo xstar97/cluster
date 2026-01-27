@@ -139,6 +139,12 @@ spec:
               enabled: true
             src:
               enabled: true
+      media:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${MEDIA_NFS}
+        mountPath: ${MEDIA_LOCAL}
     cnpg:
       main:
         enabled: false
