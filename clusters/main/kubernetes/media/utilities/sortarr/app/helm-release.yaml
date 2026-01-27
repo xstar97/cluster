@@ -61,7 +61,7 @@ spec:
           containers:
             main:
               env:
-                # SORTARR_CONFIG_PATH: /data/Sortarr.env
+                SORTARR_CONFIG_PATH: /data/Sortarr.env
                 PORT: "{{ .Values.service.main.ports.main.port }}"
                 # required if using a reverse proxy
                 # 0 = Disabled. Safer if you only run Sortarr locally and are not using a reverse proxy.
