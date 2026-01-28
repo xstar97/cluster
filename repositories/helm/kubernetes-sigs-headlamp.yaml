@@ -3,7 +3,7 @@
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: headlamp-k8s
+  name: kubernetes-sigs-headlamp
   namespace: flux-system
 spec:
   type: oci
