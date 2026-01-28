@@ -33,3 +33,4 @@ resources:
   - weave-gitops.yaml
   - ingress-nginx.yaml
   - home-ops-mirror.yaml
+  - kubernetes-sigs-headlamp.yaml
