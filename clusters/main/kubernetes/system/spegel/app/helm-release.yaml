@@ -26,6 +26,9 @@ spec:
   values:
     global:
       stopAll: false
+      configmap:
+        dashboard:
+          enabled: true
     metrics:
       main:
         enabled: true
