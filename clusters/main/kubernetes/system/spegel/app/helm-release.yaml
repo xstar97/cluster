@@ -28,4 +28,4 @@ spec:
       stopAll: false
     metrics:
       main:
-        enabled: false
+        enabled: true
