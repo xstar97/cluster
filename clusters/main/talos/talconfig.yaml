@@ -28,7 +28,7 @@ nodes:
       controlPlane: true
       nameservers:
         - 1.1.1.1
-        - 1.0.0.1
+        - 8.8.8.8
       installDiskSelector:
         size: <= 1600GB
       networkInterfaces:
@@ -67,7 +67,7 @@ controlPlane:
                 officialExtensions:
                     - siderolabs/util-linux-tools
                     - siderolabs/iscsi-tools
-
+                    - siderolabs/qemu-guest-agent
     machineFiles:
     - content: |
         [plugins."io.containerd.cri.v1.images"]
@@ -98,7 +98,7 @@ worker:
                 officialExtensions:
                     - siderolabs/util-linux-tools
                     - siderolabs/iscsi-tools
-
+                    - siderolabs/qemu-guest-agent
     machineFiles:
     - content: |
         [plugins."io.containerd.cri.v1.images"]
