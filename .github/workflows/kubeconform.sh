@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-
 set -o errexit
 set -o pipefail
 
@@ -13,7 +12,7 @@ kubeconform_args=(
     "-strict"
     "-ignore-missing-schemas"
     "-skip"
-    "Secret,ConfigMap"
+    "Secret,ConfigMap,tuppr.home-operations.com/v1alpha1/TalosUpgrade,tuppr.home-operations.com/v1alpha1/KubernetesUpgrade"
     "-schema-location"
     "default"
     "-schema-location"
