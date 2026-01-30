@@ -70,8 +70,8 @@ spec:
                 SORTARR_PROXY_HOPS: 1
                 CACHE_SECONDS: 300
                 SONARR_NAME: "sonarr-series"
-                SONARR_URL: "https://series.sonarr.${DOMAIN_2}"
-                SONARR_URL_API: "http://sonarr.sonarr.svc.cluster.local:8989"
+                SONARR_URL_EXTERNAL: "https://series.sonarr.${DOMAIN_2}"
+                SONARR_URL: "http://sonarr.sonarr.svc.cluster.local:8989"
                 SONARR_API_KEY: "${SONARR_SERIES_KEY}"
                 SONARR_NAME_2: "sonarr-animes"
                 SONARR_URL_EXTERNAL_2: "https://animes.sonarr.${DOMAIN_2}"
