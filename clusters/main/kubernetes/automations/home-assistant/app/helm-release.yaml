@@ -74,11 +74,9 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              enabled: true
+              enabled: false
             src:
-              enabled: true
-              trigger:
-                schedule: 10 0 * * *
+              enabled: false
     addons:
       codeserver:
         enabled: true
