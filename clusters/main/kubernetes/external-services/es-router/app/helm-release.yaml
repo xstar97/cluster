@@ -34,7 +34,7 @@ spec:
         ports:
           main:
             enabled: true
-            port: 443
+            port: 444
             protocol: https
     ingress:
       main:
