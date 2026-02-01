@@ -2,8 +2,8 @@ aliases:
   k: "kubectl"
   f: "flux"
   gto: "gitops"
-  ct: clustertool
-  ctv: "ct info | awk -F': ' '/Clustertool Version/ {print $2}'"
+  ft: forgetool
+  ftv: "ft info | awk -F': ' '/Clustertool Version/ {print $2}'"
   tcl: "talosctl"
   utils: "./scripts/utils.sh"
   updateScripts: "git --git-dir=./scripts/.git --work-tree=./scripts pull"
