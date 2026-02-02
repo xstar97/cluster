@@ -1,33 +1,24 @@
 {
-    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-    "major": {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "gitAuthor": "viserion-renovate[bot] <199991279+viserion-renovate[bot]@users.noreply.github.com>",
+  "major": {
     "enabled": true,
     "automerge": false,
     "dependencyDashboardApproval": false
-    },
-    "ignore": [],
-    "packageRules": [
-      {
-        "description": ["Block automerge for Kubelet and Talos version Patch"],
-        "matchUpdateTypes": ["patch"],
-        "automerge": false,
-        "matchPackageNames": ["ghcr.io/siderolabs/kubelet", "ghcr.io/siderolabs/installer"],
-        "labels": ["type/patch", "system-upgrade"]
-      },
-      {
-        "description": ["Block automerge for Kubelet and Talos version Minor"],
-        "matchUpdateTypes": ["minor"],
-        "automerge": false,
-        "matchPackageNames": ["ghcr.io/siderolabs/kubelet", "ghcr.io/siderolabs/installer"],
-        "labels": ["type/minor", "system-upgrade"]
-      },
-      {
-        "description": ["Block automerge for Kubelet and Talos version Major"],
-        "matchUpdateTypes": ["major"],
-        "dependencyDashboardApproval": false,
-        "matchPackageNames": ["ghcr.io/siderolabs/kubelet", "ghcr.io/siderolabs/installer"],
-        "labels": ["type/major", "system-upgrade"]
-      }
-    ]
-
+  },
+  "pinDigest": {
+    "enabled": true,
+    "automerge": true,
+    "dependencyDashboardApproval": false,
+    "labels": ["type/pin", "automerge"]
+  },
+  "ignore": [],
+  "packageRules": [
+    {
+      "description": ["Custom schedule for frequently updated packages"],
+      "matchDataSources": ["docker", "helm"],
+      "matchPackagePatterns": ["minio", "postgresql", "reloader"],
+      "schedule": ["at any time"]
+    }
+  ]
 }
