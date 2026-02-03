@@ -12,6 +12,7 @@ A talos cluster for noobs.
   <img alt="Issues" src="https://img.shields.io/github/issues/xstar97/cluster">
   <img alt="Repo Size" src="https://img.shields.io/github/repo-size/xstar97/cluster">
   <img alt="Website" src="https://img.shields.io/website?url=https%3A%2F%2Fdocs.xstar97thenoob.com">
+  <img alt="Website" src="https://badgen.net/github/branches/xstar97/cluster">
 </div>
 
 Checkout what I deploy under [kubernetes](https://github.com/xstar97/cluster/tree/main/clusters/main/kubernetes)
