@@ -21,11 +21,7 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      # Step 3: Install GitHub CLI
-      - name: Install GitHub CLI
-        uses: cli/gh-action@v2
-
-      # Step 4: Run cleanup script
+      # Step 3: Run cleanup script
       - name: Run cleanup merged PR branches script
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
