@@ -1,28 +1,32 @@
 name: Cleanup Merged PR Branches
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # manual trigger
   schedule:
-    - cron: '0 0 * * 0' # weekly
+    - cron: '0 0 * * 0' # weekly on Sunday at 00:00 UTC
 
 jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:
+      # Step 1: Checkout the repository
       - name: Checkout repo
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 0  # fetch all branches
 
+      # Step 2: Configure Git user
       - name: Set up Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
+      # Step 3: Install GitHub CLI
       - name: Install GitHub CLI
-        uses: actions/setup-gh@v2
+        uses: cli/gh-action@v2
 
-      - name: Run cleanup script
+      # Step 4: Run cleanup script
+      - name: Run cleanup merged PR branches script
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
