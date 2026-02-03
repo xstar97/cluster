@@ -5,25 +5,32 @@ on:
   schedule:
     - cron: '0 0 * * 0' # weekly on Sunday at 00:00 UTC
 
+# Ensure the token can push/delete branches and read PRs
+permissions:
+  contents: write
+  pull-requests: read
+
 jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout repo
         uses: actions/checkout@v3
         with:
           fetch-depth: 0  # fetch all branches
+          persist-credentials: true
 
-      # Step 2: Configure Git user
       - name: Set up Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      # Step 3: Run cleanup script
+      - name: Make script executable (optional)
+        run: chmod +x .github/workflows/scripts/cleanup-merged-pr-branches.sh
+
       - name: Run cleanup merged PR branches script
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          .github/workflows/scripts/cleanup-merged-pr-branches.sh
+          # run with bash so executable bit isn't required
+          bash .github/workflows/scripts/cleanup-merged-pr-branches.sh
