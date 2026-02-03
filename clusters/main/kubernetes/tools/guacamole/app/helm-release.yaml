@@ -31,7 +31,7 @@ spec:
     gatus:
       group: tools
     global:
-      stopAll: false
+      stopAll: true
     guacamole:
       general:
         EXTENSION_PRIORITY: "openid"
