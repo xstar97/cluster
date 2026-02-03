@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: profilarr
-      version: 2.14.16
+      version: 2.14.17
       sourceRef:
         kind: HelmRepository
         name: truecharts
