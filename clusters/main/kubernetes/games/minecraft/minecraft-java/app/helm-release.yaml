@@ -5,7 +5,7 @@ metadata:
   name: minecraft-java
   namespace: minecraft-java
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: minecraft-java
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 20m
   maxHistory: 3
   install:
@@ -58,7 +58,7 @@ spec:
         integrations:
           metallb:
             enabled: true
-        annotations: 
+        annotations:
           mc-router.itzg.me/defaultServer: "true"
           mc-router.itzg.me/externalServerName: "java.${DOMAIN_1}"
         ports:
@@ -132,7 +132,6 @@ spec:
       # - deathlocator
       - bluemap
       - viaversion
-
     configmap:
       plugins:
         enabled: true
@@ -141,7 +140,6 @@ spec:
             https://github.com/pdinklag/MinecraftStats/releases/download/v3.3.1/MinecraftStats.jar
             https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
             https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
-
     workload:
       main:
         # type: StatefulSet
@@ -236,8 +234,8 @@ spec:
                   type: http
                   port: "{{ .Values.service.web.ports.map.port }}"
               args:
-                - r 
-                - u 
+                - r
+                - u
                 - w
               env:
                 SERVER_PORT: "{{ .Values.service.main.ports.main.port }}"
@@ -249,8 +247,8 @@ spec:
         primary: true
         ingressClassName: external
         annotations:
-        #   nginx.ingress.kubernetes.io/configuration-snippet: |
-        #     rewrite ^/stats$ / permanent;
+          #   nginx.ingress.kubernetes.io/configuration-snippet: |
+          #     rewrite ^/stats$ / permanent;
           gatus.home-operations.com/endpoint: |
             name: minecraft-java-map
             group: "{{ .Values.gatus.group }}"

@@ -5,7 +5,7 @@ metadata:
   name: minecraft-lobby
   namespace: minecraft-lobby
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: minecraft-java
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 20m
   maxHistory: 3
   install:
@@ -49,7 +49,7 @@ spec:
     service:
       main:
         enabled: true
-        annotations: 
+        annotations:
           mc-router.itzg.me/externalServerName: "lobby.${DOMAIN_1}"
         ports:
           main:
@@ -70,7 +70,6 @@ spec:
     resources:
       limits:
         memory: 2Gi
-   
     workload:
       main:
         # type: StatefulSet

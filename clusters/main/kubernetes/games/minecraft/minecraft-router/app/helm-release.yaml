@@ -5,7 +5,7 @@ metadata:
   name: minecraft-router
   namespace: minecraft-router
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: minecraft-router
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 20m
   maxHistory: 3
   install:
@@ -63,9 +63,8 @@ spec:
       # vanilla:25565
       default: "" # "minecraft-lobby-minecraft-java.minecraft-lobby.svc.cluster.local:25565"
       mappings: []
-        # - vanilla:25565
-        # - forge:25565
-        
+      # - vanilla:25565
+      # - forge:25565
     workload:
       main:
         podSpec:

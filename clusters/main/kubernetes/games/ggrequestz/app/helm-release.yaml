@@ -5,7 +5,7 @@ metadata:
   name: ggrequestz
   namespace: ggrequestz
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: app-template
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 20m
   maxHistory: 3
   install:
@@ -106,7 +106,6 @@ spec:
                 # Get these from: https://dev.twitch.tv/console
                 IGDB_CLIENT_ID: "${ROMM_CLIENT_ID}"
                 IGDB_CLIENT_SECRET: "${ROMM_CLIENT_SECRET}"
-
                 # Gotify Push Notifications (optional)
                 # GOTIFY_URL: https://gotify.yourdomain.com
                 # GOTIFY_TOKEN: your_gotify_token
@@ -122,7 +121,6 @@ spec:
                 OIDC_CLIENT_ID: ggrequestz
                 OIDC_CLIENT_SECRET: ${GGREQUESTZ_OIDC_CLIENT_SECRET}
                 OIDC_REDIRECT_URI: '{{ printf "%s/%s" .Values.chartContext.appUrl "api/auth/callback" }}'
-
                 # Optional: Custom endpoints (auto-discovered if not set)
                 # OIDC_AUTH_URL: https://your-provider.com/protocol/openid-connect/auth
                 # OIDC_TOKEN_URL: https://your-provider.com/protocol/openid-connect/token
@@ -130,7 +128,6 @@ spec:
 
                 # Optional: Additional scopes
                 OIDC_SCOPES: openid profile email groups
-
     ingress:
       main:
         enabled: true
@@ -146,7 +143,6 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-
     redis:
       enabled: true
     cnpg:

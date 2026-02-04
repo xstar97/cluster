@@ -5,7 +5,7 @@ metadata:
   name: romm
   namespace: romm
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: romm
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 20m
   maxHistory: 3
   install:
@@ -63,7 +63,6 @@ spec:
                 FLASHPOINT_API_ENABLED: true
                 HLTB_API_ENABLED: true
                 TGDB_API_ENABLED: true
-
     ingress:
       main:
         enabled: true
@@ -124,7 +123,6 @@ spec:
         server: ${SCALE_IP}
         path: ${ROMS_NFS}
         mountPath: /romm/library
-
     mariadb:
       enabled: true
       credentials:
