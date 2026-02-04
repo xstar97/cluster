@@ -35,7 +35,7 @@ spec:
     image:
       repository: ghcr.io/aetaric/checkrr
       pullPolicy: IfNotPresent
-      tag: 3.5.4-amd64@sha256:7a06972cdefe9e989933201068e80d93e779748ec2881bc8f01313c3aed6e647
+      tag: 3.6.0-amd64@sha256:ed2ae11ece2404701384f357b4d82e35a20a12850e43d7dbfcabe9ff4fc02f4d
     credentials:
       cf-restic:
         type: s3
