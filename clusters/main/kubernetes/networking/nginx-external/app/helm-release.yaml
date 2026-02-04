@@ -4,7 +4,7 @@ metadata:
   name: nginx-external
   namespace: nginx
 spec:
-  interval: 5m
+  interval: 15m
   chart:
     spec:
       chart: ingress-nginx
@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: home-ops-mirror
         namespace: flux-system
-      interval: 5m
+      interval: 15m
   install:
     createNamespace: true
     crds: CreateReplace
@@ -85,7 +85,7 @@ spec:
         repository: ghcr.io/tarampampam/error-pages
         tag: '3' # using the latest tag is highly discouraged
       extraEnvs:
-      - name: TEMPLATE_NAME # Optional: change the default theme
-        value: app-down
-      - name: SHOW_DETAILS # Optional: enables the output of additional information on error pages
-        value: 'true'
+        - name: TEMPLATE_NAME # Optional: change the default theme
+          value: app-down
+        - name: SHOW_DETAILS # Optional: enables the output of additional information on error pages
+          value: 'true'

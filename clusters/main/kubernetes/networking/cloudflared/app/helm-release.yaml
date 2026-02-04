@@ -4,7 +4,7 @@ metadata:
   name: cloudflared
   namespace: cloudflared
 spec:
-  interval: 5m
+  interval: 30m
   chart:
     spec:
       chart: cloudflared
@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 5m
+      interval: 30m
   install:
     createNamespace: true
     crds: CreateReplace
