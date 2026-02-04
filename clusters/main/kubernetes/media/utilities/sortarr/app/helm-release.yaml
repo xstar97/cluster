@@ -5,7 +5,7 @@ metadata:
   name: sortarr
   namespace: sortarr
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: app-template
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 20m
   maxHistory: 3
   install:
@@ -106,7 +106,6 @@ spec:
                 # TAUTULLI_REFRESH_STALE_SECONDS (optional, defaults to 3600; clear stuck Tautulli refresh locks)
                 # TAUTULLI_TIMEOUT_SECONDS (optional, defaults to 60; per-request timeout for each Tautulli API call, 0 falls back to 45 seconds)
                 # TAUTULLI_FETCH_SECONDS (optional; total fetch budget per load, defaults to 0 for no limit)
-
                 # SORTARR_LOG_LEVEL (optional, defaults to INFO)
                 # SORTARR_STRICT_INSTANCE_ERRORS (optional, default false; fail requests if any instance is unavailable)
                 # SORTARR_DEFER_WANTED (optional, default true; defer wanted/missing/cutoff/recent counts on cold start and backfill in the background)
@@ -115,6 +114,7 @@ spec:
                 # ARR_BACKOFF_MAX_RETRIES (optional, retry attempts for 429/5xx or request errors; default 2)
                 # ARR_CIRCUIT_FAIL_THRESHOLD (optional, failures before opening the circuit; default 3)
                 # ARR_CIRCUIT_OPEN_SECONDS (optional, cooldown before retrying once the circuit opens; default 30)
+
     ingress:
       main:
         enabled: true
