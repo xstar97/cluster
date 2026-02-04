@@ -5,7 +5,7 @@ metadata:
   name: calendarr
   namespace: calendarr
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: calendarr
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 20m
   maxHistory: 3
   install:
@@ -78,7 +78,7 @@ spec:
       http:
         timeout: 30
       # List of calendar URLs to fetch events from
-      urls: 
+      urls:
         - url: "${CALENDARR_CAL_SONARR_SERIES}"
           type: tv
         - url: "${CALENDARR_CAL_SONARR_ANIMES}"

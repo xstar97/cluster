@@ -5,7 +5,7 @@ metadata:
   name: checkrr
   namespace: checkrr
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: app-template
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 20m
   maxHistory: 3
   install:
@@ -163,7 +163,6 @@ spec:
             - 172.16.0.0/16
             - 172.17.0.0/16
             - 10.0.0.0/8
-    
     configmap:
       checkrr-config:
         enabled: true

@@ -5,7 +5,7 @@ metadata:
   name: jellyseerr
   namespace: jellyseerr
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: jellyseerr
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 20m
   maxHistory: 3
   install:
@@ -58,14 +58,14 @@ spec:
                   secretKeyRef:
                     name: cnpg-main-urls
                     key: host
-                DB_PORT: "5432" 
+                DB_PORT: "5432"
                 DB_USER: "{{ .Values.cnpg.main.user }}"
                 DB_PASS:
                   secretKeyRef:
                     name: cnpg-main-user
                     key: password
                 DB_NAME: "{{ .Values.cnpg.main.database }}"
-                DB_LOG_QUERIES: "false" 
+                DB_LOG_QUERIES: "false"
     ingress:
       main:
         enabled: true
@@ -97,7 +97,6 @@ spec:
               enabled: true
             src:
               enabled: true
-
     cnpg:
       main:
         enabled: true

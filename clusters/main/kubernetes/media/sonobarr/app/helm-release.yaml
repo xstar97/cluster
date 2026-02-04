@@ -5,7 +5,7 @@ metadata:
   name: sonobarr
   namespace: sonobarr
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: app-template
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 20m
   maxHistory: 3
   install:
@@ -76,7 +76,6 @@ spec:
             main:
               env:
                 secret_key: "${SONOBARR_SECRET_KEY}"
-
                 # Lidarr configuration
                 lidarr_address: http://lidarr.lidarr.svc.cluster.local:8686
                 lidarr_api_key: "${LIDARR_KEY}"
@@ -87,12 +86,10 @@ spec:
                 fallback_to_top_result: false
                 search_for_missing_albums: false
                 dry_run_adding_to_lidarr: false
-
                 # Discovery tuning
                 similar_artist_batch_size: 10
                 auto_start: false
                 auto_start_delay: 60
-
                 # External APIs
                 last_fm_api_key: "${SONOBARR_LASTFM_API_KEY}"
                 last_fm_api_secret: "${SONOBARR_LASTFM_API_SECRET}"
@@ -106,7 +103,6 @@ spec:
                 sonobarr_superadmin_password: "${SONOBARR_ADMIN_PASS}"
                 sonobarr_superadmin_display_name: Super Admin
                 sonobarr_superadmin_reset: false
-  
     persistence:
       config:
         enabled: true

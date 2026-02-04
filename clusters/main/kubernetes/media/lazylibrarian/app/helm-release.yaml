@@ -5,7 +5,7 @@ metadata:
   name: lazylibrarian
   namespace: lazylibrarian
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: lazylibrarian
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 20m
   maxHistory: 3
   install:

@@ -4,7 +4,7 @@ metadata:
   name: fileflows-external-node
   namespace: fileflows
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: fileflows
@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 20m
   maxHistory: 3
   install:

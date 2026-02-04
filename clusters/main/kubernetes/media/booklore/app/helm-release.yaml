@@ -5,7 +5,7 @@ metadata:
   name: booklore
   namespace: booklore
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: app-template
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 20m
   maxHistory: 3
   install:
@@ -79,7 +79,6 @@ spec:
                     key: jdbc-mariadb
                 DATABASE_USERNAME: "{{ .Values.mariadb.mariadbUsername }}"
                 DATABASE_PASSWORD: "{{ .Values.mariadb.password }}"
-
     ingress:
       main:
         enabled: true
@@ -93,13 +92,12 @@ spec:
           nginx:
             enabled: true
             # auth:
-              # type: "authelia"
-              # internalHost: "authelia.authelia.svc.cluster.local:9091"
-              # externalHost: "auth.${DOMAIN_2}"
+            # type: "authelia"
+            # internalHost: "authelia.authelia.svc.cluster.local:9091"
+            # externalHost: "auth.${DOMAIN_2}"
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-      
     persistence:
       data:
         enabled: true
@@ -124,7 +122,6 @@ spec:
         server: ${SCALE_IP}
         path: "${MEDIA_NFS}/Literature"
         mountPath: "/books"
-
     mariadb:
       enabled: true
       mariadbUsername: booklore

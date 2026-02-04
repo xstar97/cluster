@@ -5,7 +5,7 @@ metadata:
   name: ytptube
   namespace: ytptube
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: app-template
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 20m
   maxHistory: 3
   install:
@@ -64,7 +64,6 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-
     persistence:
       config:
         enabled: true

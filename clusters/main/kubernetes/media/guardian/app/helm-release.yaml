@@ -5,7 +5,7 @@ metadata:
   name: guardian
   namespace: guardian
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: app-template
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 20m
   maxHistory: 3
   install:
@@ -110,7 +110,6 @@ spec:
                   port: "{{ .Values.service.backend.ports.backend.port }}"
               env:
                 DATABASE_PATH: /app/data/plex-guard.db
-
     persistence:
       data:
         enabled: true

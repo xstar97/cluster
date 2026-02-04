@@ -5,7 +5,7 @@ metadata:
   name: sabnzbd
   namespace: sabnzbd
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: sabnzbd
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 20m
   maxHistory: 3
   install:
@@ -101,7 +101,6 @@ spec:
         server: ${SCALE_IP}
         path: ${DOWNLOADS_NFS}
         mountPath: "${DOWNLOADS_LOCAL}"
-
     metrics:
       main:
         enabled: true

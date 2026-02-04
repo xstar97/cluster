@@ -5,7 +5,7 @@ metadata:
   name: reaparr
   namespace: reaparr
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: reaparr
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 20m
   maxHistory: 3
   install:
@@ -40,7 +40,6 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-
     ingress:
       main:
         enabled: true
