@@ -4,7 +4,7 @@ metadata:
   name: grocy
   namespace: grocy
 spec:
-  interval: 5m
+  interval: 30m
   chart:
     spec:
       chart: grocy
@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 5m
+      interval: 30m
   install:
     createNamespace: true
     crds: CreateReplace
@@ -40,7 +40,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "internal" 
+        ingressClassName: "internal"
         hosts:
           - host: grocy.${DOMAIN_2}
             paths:
