@@ -4,7 +4,7 @@ metadata:
   name: qbittorrent
   namespace: qbittorrent
 spec:
-  interval: 5m
+  interval: 30m
   chart:
     spec:
       chart: qbittorrent
@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 5m
+      interval: 30m
   install:
     createNamespace: true
     crds: CreateReplace
@@ -48,7 +48,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "internal" 
+        ingressClassName: "internal"
         hosts:
           - host: qbit.${DOMAIN_2}
             paths:
