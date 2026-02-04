@@ -5,7 +5,7 @@ metadata:
   name: home-assistant
   namespace: home-assistant
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: home-assistant
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 15m
   maxHistory: 3
   install:
@@ -55,7 +55,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "external" 
+        ingressClassName: "external"
         hosts:
           - host: ha.${DOMAIN_2}
             paths:
