@@ -5,7 +5,7 @@ metadata:
   name: speedtest-tracker
   namespace: speedtest-tracker
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: speedtest-tracker
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 20m
   maxHistory: 3
   install:
@@ -63,7 +63,6 @@ spec:
                 ADMIN_NAME: "${STT_ADMIN_NAME}"
                 ADMIN_EMAIL: "${STT_ADMIN_EMAIL}"
                 ADMIN_PASSWORD: "${STT_ADMIN_PASSWORD}"
-
     ingress:
       main:
         enabled: true
@@ -94,7 +93,6 @@ spec:
               enabled: true
       varrun:
         enabled: false
-
     cnpg:
       main:
         mode: recovery

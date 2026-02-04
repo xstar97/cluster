@@ -7,7 +7,7 @@ metadata:
   annotations:
     reloader.stakater.com/rollout-strategy: "restart"
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: app-template
@@ -16,7 +16,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 20m
   maxHistory: 3
   install:
@@ -70,7 +70,7 @@ spec:
         enabled: true
         ingressClassName: "external"
         annotations:
-            gatus.home-operations.com/enabled: "false"
+          gatus.home-operations.com/enabled: "false"
         hosts:
           - host: gatus.${DOMAIN_2}
             paths:
@@ -141,7 +141,7 @@ spec:
         - name: seb-minipc
           group: external
           url: "https://10.0.0.102:9090"
-          interval: 1m          
+          interval: 1m
           client:
             insecure: true
             timeout: 30s
@@ -151,7 +151,6 @@ spec:
             - type: discord
               description: "healthcheck failed"
               send-on-resolved: true
-
     configmap:
       gatus-config:
         enabled: true
@@ -168,7 +167,6 @@ spec:
             skip-invalid-config-update: true
             metrics: true
             {{- $.Values.gatus | toYaml | nindent 2 }}
-
     persistence:
       config:
         enabled: true
@@ -189,7 +187,6 @@ spec:
         objectName: gatus-config
         readOnly: true
         subPath: config.yaml
-
     cnpg:
       main:
         enabled: true
@@ -214,7 +211,6 @@ spec:
         recovery:
           method: object_store
           credentials: cf-restic
-
     addons:
       codeserver:
         enabled: true
@@ -239,7 +235,6 @@ spec:
             certManager:
               enabled: true
               certificateIssuer: general-le-prod
-
     # -- Whether Role Based Access Control objects like roles and rolebindings should be created
     rbac:
       main:
@@ -277,10 +272,8 @@ spec:
       main:
         enabled: true
         primary: true
-
     podOptions:
       automountServiceAccountToken: true
-
     metrics:
       main:
         enabled: true
