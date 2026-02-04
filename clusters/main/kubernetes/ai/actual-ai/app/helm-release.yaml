@@ -4,7 +4,7 @@ metadata:
   name: actual-ai
   namespace: actual-ai
 spec:
-  interval: 5m
+  interval: 30m
   chart:
     spec:
       chart: app-template
@@ -13,7 +13,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 5m
+      interval: 30m
   install:
     createNamespace: true
     crds: CreateReplace
@@ -94,7 +94,6 @@ spec:
                 #        * Payee: {{importedPayee}}
                 #        {{/if}}
                 #        ANSWER BY A CATEGORY ID - DO NOT CREATE ENTIRE SENTENCE - DO NOT WRITE CATEGORY NAME, JUST AN ID. Do not guess, if you don't know the answer, return "uncategorized".
- 
     cnpg:
       main:
         enabled: false
