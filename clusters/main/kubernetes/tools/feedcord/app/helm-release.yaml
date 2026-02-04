@@ -5,7 +5,7 @@ metadata:
   name: feedcord
   namespace: feedcord
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: feedcord
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 20m
   maxHistory: 3
   install:
@@ -27,7 +27,7 @@ spec:
       retries: 3
   uninstall:
     keepHistory: false
-  values:    
+  values:
     global:
       stopAll: false
     feedcord:

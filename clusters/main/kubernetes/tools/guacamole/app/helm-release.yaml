@@ -5,7 +5,7 @@ metadata:
   name: guacamole
   namespace: guacamole
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: guacamole
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 5m
   maxHistory: 3
   install:

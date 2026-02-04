@@ -5,7 +5,7 @@ metadata:
   name: mend-renovate
   namespace: mend-renovate
 spec:
-  interval: 15m
+  interval: 30m
   chart:
     spec:
       chart: mend-renovate
@@ -14,7 +14,7 @@ spec:
         kind: HelmRepository
         name: truecharts
         namespace: flux-system
-      interval: 15m
+      interval: 30m
   timeout: 20m
   maxHistory: 3
   install:
@@ -103,4 +103,3 @@ spec:
       logs:
         enabled: true
         mountPath: /logs
-
