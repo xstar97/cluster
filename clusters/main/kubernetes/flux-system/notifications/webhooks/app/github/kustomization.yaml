@@ -4,3 +4,4 @@ resources:
 - ./secret.sops.yaml
 - ./receiver.yaml
 - ./ingress.yaml
+  - .decrypted~secret.sops.yaml

@@ -1,0 +1,115 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: dozzle
+  namespace: dozzle
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.29.83
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+      skipEmptyWalArchiveCheck: true
+    image:
+      repository: amir20/dozzle
+      pullPolicy: IfNotPresent
+      tag: v9.0.3@sha256:2d59d09503f2c947133a4f231fdeb1f4c99e23aa0d4137f81bb1a6318e0e06cf
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-dozzle"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      readOnlyRootFilesystem: false
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 8080
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: dozzle.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                DOZZLE_ADDR: '{{ printf ":%v" .Values.service.main.ports.main.port }}'
+                DOZZLE_ENABLE_ACTIONS: true
+                DOZZLE_ENABLE_SHELL: true
+                DOZZLE_NO_ANALYTICS: true
+                DOZZLE_MODE: k8s
+    # -- Whether Role Based Access Control objects like roles and rolebindings should be created
+    rbac:
+      main:
+        enabled: true
+        primary: true
+        clusterWide: true
+        rules:
+          - apiGroups: [""]
+            resources:
+              - "pods"
+              - "pods/log"
+              - "nodes"
+            verbs:
+              - "get"
+              - "list"
+              - "watch"
+          # - apiGroups: ["metrics.k8s.io"]
+          #   resources:
+          #     - "pods"
+          #   verbs:
+          #     - "get"
+          #     - "list"
+    # -- The service account the pods will use to interact with the Kubernetes API
+    serviceAccount:
+      main:
+        enabled: true
+        primary: true
+    podOptions:
+      automountServiceAccountToken: true
+    metrics:
+      main:
+        enabled: false
+        type: "servicemonitor"
+        endpoints:
+          - port: main
+            path: /metrics
