@@ -15,7 +15,7 @@ spec:
       sourceRef:
         kind: HelmRepository
         name: truecharts
-        namespa5mce: flux-system
+        namespace: flux-system
       interval: 15m
   timeout: 20m
   maxHistory: 3
