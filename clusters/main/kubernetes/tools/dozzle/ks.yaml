@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/observability/dozzle/app
+  path: clusters/main/kubernetes/tools/dozzle/app
   prune: true
   sourceRef:
     kind: GitRepository
