@@ -6,7 +6,7 @@
       //"setup": "bash ${containerWorkspaceFolder}/.devcontainer/postCreateCommand.sh"
     },
   "postStartCommand": {
-      "git": "git config --global --add safe.directory ${containerWorkspaceFolder}",
+      "git": "git config --global --add safe.directory ${containerWorkspaceFolder}"//,
       //"srcutils": "bash ${containerWorkspaceFolder}/.devcontainer/srcutils.sh"
     },
   "customizations": {

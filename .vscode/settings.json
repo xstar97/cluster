@@ -53,5 +53,6 @@
         "TWOFAUTH",
         "VAULTWARDEN",
         "volsync"
-    ]
+    ],
+    "sops.creationEnabled": true
 }
