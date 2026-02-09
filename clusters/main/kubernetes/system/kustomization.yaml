@@ -14,4 +14,5 @@ resources:
   - generic-device-plugin/ks.yaml
   - nvidia-device-plugin/ks.yaml
   - kube-prometheus-stack/ks.yaml
-  - system-upgrade
+  # - system-upgrade
+  # - system-upgrade-controller
