@@ -10,9 +10,6 @@ yq = "4.52.2"
 flux2 = "2.7.5"
 viddy = "1.3.0"
 
-[tasks]
-hello = { description = "hello world", run = "echo hi" }
-
 [settings]
 auto_install = true
 
@@ -30,3 +27,35 @@ tcl = "talosctl"
 badPods = 'kubecolor get pods -A --field-selector=status.phase!=Running'
 badFlux = "flux get kustomizations -A --status-selector ready=false"
 
+[tasks.decrypted_clean]
+description = "Delete all SOPS .decrypted temp files"
+run = """
+find . \
+  -type f \
+  -name '*.decrypted~*.yaml' \
+  -print -delete
+"""
+
+[tasks.decrypted_find]
+description = "List kustomization/ks.yaml files that reference .decrypted temp files"
+run = """
+set -e
+
+FILES=$(find . \
+  -type f \
+  \\( -iname 'kustomization.yaml' -o -iname 'kustomization.yml' -o -iname 'ks.yaml' \\))
+
+FOUND=0
+
+for file in $FILES; do
+  MATCHES=$(grep -nE '\\.decrypted~.*\\.yaml' "$file" || true)
+  if [ -n "$MATCHES" ]; then
+    echo "$file"
+    echo "$MATCHES"
+    echo
+    FOUND=1
+  fi
+done
+
+[ "$FOUND" -eq 0 ]
+"""
