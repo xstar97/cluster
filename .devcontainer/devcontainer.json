@@ -3,12 +3,13 @@
   "name": "TalosCluster",
   "image": "oci.trueforge.org/containerforge/devcontainer:3.0.2@sha256:41b9c1d266b520392461ea860cdb82c4f481f64bd7442db9485005675eeec2ce",
   "postCreateCommand": {
-      "setup": "bash ${containerWorkspaceFolder}/.devcontainer/postCreateCommand.sh",
-      "mise": "curl https://mise.run/fish | sh"
+      "setup": "bash ${containerWorkspaceFolder}/.devcontainer/postCreateCommand.sh"
     },
   "postStartCommand": {
       "git": "git config --global --add safe.directory ${containerWorkspaceFolder}",
-      "scripts": "git config --global --add safe.directory ${containerWorkspaceFolder}/scripts"
+      "scripts": "git config --global --add safe.directory ${containerWorkspaceFolder}/scripts",
+      "mise": "curl https://mise.run/fish | sh",
+      "mise-fish": "source ~/.config/fish/config.fish"
     },
   "customizations": {
     "vscode": {
