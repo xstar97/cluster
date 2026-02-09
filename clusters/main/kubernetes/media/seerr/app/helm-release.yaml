@@ -31,11 +31,11 @@ spec:
     gatus:
       group: media
     global:
-      stopAll: true
+      stopAll: false
     image:
-      repository: ghcr.io/seerr-team/seerr
+      repository: ghcr.io/trueforge-org/seerr
       pullPolicy: IfNotPresent
-      tag: develop@sha256:dfb4103faf5486c2696c548c8b816127a20040d57e7db6f438e95f871a9f265c
+      tag: 2.7.3@sha256:e8c16a32d41a7c19d92d4d956f6fa39c19d7150dfb22befcc19a86b7e7b57315
     credentials:
       cf-restic:
         type: s3
