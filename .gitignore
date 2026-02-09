@@ -15,6 +15,7 @@ output/*
 kubeconfig
 charts.md
 scripts
+.mise
 /configs/output/
 kubectl
 bwdc
