@@ -21,3 +21,4 @@ kubectl
 bwdc
 keytar.node
 venv
+.mise/tasks
