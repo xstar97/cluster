@@ -75,6 +75,6 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              enabled: false
+              enabled: true
             src:
-              enabled: false
+              enabled: true
