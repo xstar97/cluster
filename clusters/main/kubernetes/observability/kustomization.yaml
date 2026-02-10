@@ -6,3 +6,4 @@ resources:
   - gatus/ks.yaml
   - myspeed/ks.yaml
   - speedtest-tracker/ks.yaml
+  - headlamp/ks.yaml
