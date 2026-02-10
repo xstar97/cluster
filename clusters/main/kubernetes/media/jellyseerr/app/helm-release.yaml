@@ -52,7 +52,7 @@ spec:
         enabled: true
         ingressClassName: "external"
         hosts:
-          - host: jellyseerr.${DOMAIN_2}
+          - host: seerr.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
