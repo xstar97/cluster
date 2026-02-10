@@ -10,7 +10,7 @@ resources:
   - kavita/ks.yaml
   - lidarr/ks.yaml
   - metube/ks.yaml
-  - overseerr/ks.yaml
+  # - overseerr/ks.yaml
   - posterr/ks.yaml
   - prowlarr/ks.yaml
   - radarr/ks.yaml
