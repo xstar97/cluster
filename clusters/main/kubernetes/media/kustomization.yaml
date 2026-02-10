@@ -10,7 +10,6 @@ resources:
   - kavita/ks.yaml
   - lidarr/ks.yaml
   - metube/ks.yaml
-  # - overseerr/ks.yaml
   - posterr/ks.yaml
   - prowlarr/ks.yaml
   - radarr/ks.yaml
@@ -43,6 +42,5 @@ resources:
   - ytptube/ks.yaml
   - deezer-downloader/ks.yaml
   - streamrip/ks.yaml
-  - seerr/ks.yaml
   - listenarr/ks.yaml
   - utilities

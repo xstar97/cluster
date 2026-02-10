@@ -46,26 +46,7 @@ spec:
         ports:
           main:
             port: 10241
-    workload:
-      main:
-        podSpec:
-          containers:
-            main:
-              env:
-                # JELLYFIN_TYPE: ""
-                # DB_TYPE: postgres
-                DB_HOST:
-                  secretKeyRef:
-                    name: cnpg-main-urls
-                    key: host
-                DB_PORT: "5432"
-                DB_USER: "{{ .Values.cnpg.main.user }}"
-                DB_PASS:
-                  secretKeyRef:
-                    name: cnpg-main-user
-                    key: password
-                DB_NAME: "{{ .Values.cnpg.main.database }}"
-                DB_LOG_QUERIES: "false"
+
     ingress:
       main:
         enabled: true
@@ -97,25 +78,3 @@ spec:
               enabled: false
             src:
               enabled: false
-    cnpg:
-      main:
-        enabled: false
-        user: jellyseerr
-        database: jellyseerr
-        mode: recovery
-        cluster:
-          singleNode: true
-        backups:
-          enabled: true
-          credentials: cf-restic
-          retentionPolicy: "7d"
-          scheduledBackups:
-            - name: daily-backup
-              # https://crontab.guru/#50_0_*_*_*
-              schedule: "50 0 * * *"
-              backupOwnerReference: self
-              immediate: true
-              suspend: false
-        recovery:
-          method: object_store
-          credentials: cf-restic
