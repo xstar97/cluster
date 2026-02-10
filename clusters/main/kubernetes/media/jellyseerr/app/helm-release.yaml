@@ -31,7 +31,7 @@ spec:
     gatus:
       group: media
     global:
-      stopAll: true
+      stopAll: false
     credentials:
       cf-restic:
         type: s3
@@ -53,7 +53,7 @@ spec:
             main:
               env:
                 # JELLYFIN_TYPE: ""
-                DB_TYPE: postgres
+                # DB_TYPE: postgres
                 DB_HOST:
                   secretKeyRef:
                     name: cnpg-main-urls
@@ -94,12 +94,12 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              enabled: true
+              enabled: false
             src:
-              enabled: true
+              enabled: false
     cnpg:
       main:
-        enabled: true
+        enabled: false
         user: jellyseerr
         database: jellyseerr
         mode: recovery
