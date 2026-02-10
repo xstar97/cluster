@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - helm-release.yaml
   - ingress.yaml
+  - rbac.yaml
 components:
   - ../../../../components/ns
   - ../../../../components/notifications/discord
