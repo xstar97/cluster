@@ -1,11 +1,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: qbittorrent
+  name: metube
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/media/qbittorrent/app
+  path: clusters/main/kubernetes/media/downloaders/metube/app
   prune: true
   sourceRef:
     kind: GitRepository

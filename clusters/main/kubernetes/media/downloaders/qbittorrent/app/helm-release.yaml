@@ -25,7 +25,7 @@ spec:
       retries: 3
   values:
     gatus:
-      group: media
+      group: media-downloaders
     global:
       stopAll: false
     credentials:

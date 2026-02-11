@@ -5,11 +5,8 @@ resources:
   - plex/ks.yaml
   - fileflows/ks.yaml
   - fileflows-external-node/ks.yaml
-  - metube/ks.yaml
   - posterr/ks.yaml
-  - sabnzbd/ks.yaml
   - tautulli/ks.yaml
-  - qbittorrent/ks.yaml
   - pasta/ks.yaml
   - plex-auto-languages/ks.yaml
   - theme-park/ks.yaml
@@ -19,13 +16,11 @@ resources:
   - checkrr/ks.yaml
   - calendarr/ks.yaml
   - cloudcmd/ks.yaml
-  - reaparr/ks.yaml
   - sonobarr/ks.yaml
   - guardian/ks.yaml
-  - ytptube/ks.yaml
-  - streamrip/ks.yaml
   - utilities
   - indexers
   - managers
   - requests
   - books
+  - downloaders

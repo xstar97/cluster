@@ -1,11 +1,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: streamrip
+  name: reaparr
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/media/streamrip/app
+  path: clusters/main/kubernetes/media/downloaders/reaparr/app
   prune: true
   sourceRef:
     kind: GitRepository

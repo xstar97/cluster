@@ -2,14 +2,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: reaparr
-  namespace: reaparr
+  name: sabnzbd
+  namespace: sabnzbd
 spec:
   interval: 30m
   chart:
     spec:
-      chart: reaparr
-      version: 1.1.6
+      chart: sabnzbd
+      version: 23.2.20
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -29,35 +29,64 @@ spec:
     keepHistory: false
   values:
     gatus:
-      group: media
+      group: media-downloaders
     global:
-      stopAll: true
+      stopAll: false
+    securityContext:
+      readOnlyRootFilesystem: false
+    image:
+      repository: ghcr.io/home-operations/sabnzbd
+      pullPolicy: IfNotPresent
+      tag: 4.5.5@sha256:485440a3e9209a3515c01e1c73d6088726491a292302a721d4cb9e7c6375c768
     credentials:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-reaparr"
+        bucket: "${CF_S3_RESTIC_BUCKET}-sabnzbd"
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 10097
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                SABNZBD__HOST_WHITELIST_ENTRIES: "sabd.${DOMAIN_2}"
+                SABNZBD__PORT: "{{ .Values.service.main.ports.main.port }}"
+            exportarr:
+              env:
+                URL: http://sabnzbd.sabnzbd.svc.cluster.local:10097
     ingress:
       main:
         enabled: true
         ingressClassName: "internal"
         hosts:
-          - host: reaparr.${DOMAIN_2}
+          - host: sabd.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
         integrations:
           nginx:
             enabled: true
+          homepage:
+            enabled: true
+            group: "Media Downloads"
+            widget:
+              custom:
+                url: http://sabnzbd.sabnzbd.svc.cluster.local:10097
+                key: "${SAB_KEY}"
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
     persistence:
       config:
-        enabled: true
         volsync:
           - name: config
             type: restic
@@ -72,6 +101,13 @@ spec:
         server: ${SCALE_IP}
         path: ${DOWNLOADS_NFS}
         mountPath: "${DOWNLOADS_LOCAL}"
-    cnpg:
+    metrics:
       main:
-        enabled: false
+        enabled: true
+        type: "servicemonitor"
+        endpoints:
+          - port: metrics
+            path: /metrics
+        targetSelector: metrics
+        # Required for exportarr
+        apiKey: "${SAB_KEY}"
