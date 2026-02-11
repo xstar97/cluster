@@ -29,7 +29,7 @@ spec:
     keepHistory: false
   values:
     gatus:
-      group: media
+      group: media-utilities
     global:
       stopAll: false
     ingress:

@@ -7,3 +7,4 @@ resources:
   - radarr/ks.yaml
   - huntarr/ks.yaml
   - profilarr/ks.yaml
+  - starrproxy/ks.yaml

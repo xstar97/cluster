@@ -1,7 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - doublecommander/ks.yaml
   - plex/ks.yaml
   - fileflows/ks.yaml
   - fileflows-external-node/ks.yaml
@@ -9,13 +8,10 @@ resources:
   - tautulli/ks.yaml
   - pasta/ks.yaml
   - plex-auto-languages/ks.yaml
-  - theme-park/ks.yaml
   - tauticord/ks.yaml
-  - starrproxy/ks.yaml
   - muse/ks.yaml
   - checkrr/ks.yaml
   - calendarr/ks.yaml
-  - cloudcmd/ks.yaml
   - sonobarr/ks.yaml
   - guardian/ks.yaml
   - utilities

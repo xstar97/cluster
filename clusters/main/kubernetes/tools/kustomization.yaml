@@ -18,3 +18,5 @@ resources:
   - fileshelter/ks.yaml
   - rackula/ks.yaml
   - dozzle/ks.yaml
+  - doublecommander/ks.yaml
+  - cloudcmd/ks.yaml
