@@ -4,6 +4,6 @@ namespace: lazylibrarian
 resources:
 - helm-release.yaml
 components:
-- ../../../../components/ns
-- ../../../../components/notifications/discord
-- ../../../../components/gatus/service
+- ../../../../../components/ns
+- ../../../../../components/notifications/discord
+- ../../../../../components/gatus/service
