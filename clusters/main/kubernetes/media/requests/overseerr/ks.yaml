@@ -1,11 +1,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: deemix
+  name: overseerr
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/media/deemix/app
+  path: clusters/main/kubernetes/media/requests/overseerr/app
   prune: true
   sourceRef:
     kind: GitRepository

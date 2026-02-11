@@ -2,14 +2,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: requestrr
-  namespace: requestrr
+  name: overseerr
+  namespace: overseerr
 spec:
   interval: 30m
   chart:
     spec:
-      chart: requestrr
-      version: 13.13.16
+      chart: overseerr
+      version: 16.13.16
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -29,14 +29,14 @@ spec:
     keepHistory: false
   values:
     gatus:
-      group: media
+      group: media-requests
     global:
       stopAll: false
     credentials:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-requestrr"
+        bucket: "${CF_S3_RESTIC_BUCKET}-overseerr"
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
@@ -45,23 +45,25 @@ spec:
         type: ClusterIP
         ports:
           main:
-            port: 4545
+            port: 5055
     ingress:
       main:
         enabled: true
-        ingressClassName: "internal"
+        ingressClassName: "external"
         hosts:
-          - host: requestrr.${DOMAIN_2}
+          - host: overseerr.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
         integrations:
           nginx:
             enabled: true
-            auth:
-              type: "authelia"
-              internalHost: "authelia.authelia.svc.cluster.local:9091"
-              externalHost: "auth.${DOMAIN_2}"
+          homepage:
+            enabled: false
+            group: "Media Requests"
+            widget:
+              custom:
+                key: "${OVERSEERR_KEY}"
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
@@ -75,5 +77,3 @@ spec:
               enabled: true
             src:
               enabled: true
-      varrun:
-        enabled: true

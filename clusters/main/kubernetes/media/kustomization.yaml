@@ -3,13 +3,11 @@ kind: Kustomization
 resources:
   - doublecommander/ks.yaml
   - plex/ks.yaml
-  - deemix/ks.yaml
   - fileflows/ks.yaml
   - fileflows-external-node/ks.yaml
   - kavita/ks.yaml
   - metube/ks.yaml
   - posterr/ks.yaml
-  - requestrr/ks.yaml
   - sabnzbd/ks.yaml
   - tautulli/ks.yaml
   - qbittorrent/ks.yaml
@@ -24,8 +22,6 @@ resources:
   - calendarr/ks.yaml
   - huntarr/ks.yaml
   - cloudcmd/ks.yaml
-  - jellyseerr/ks.yaml
-  - overseerr/ks.yaml
   - reaparr/ks.yaml
   - jelu/ks.yaml
   - lazylibrarian/ks.yaml
@@ -34,9 +30,9 @@ resources:
   - sonobarr/ks.yaml
   - guardian/ks.yaml
   - ytptube/ks.yaml
-  - deezer-downloader/ks.yaml
   - streamrip/ks.yaml
   - listenarr/ks.yaml
   - utilities
   - indexers
   - managers
+  - requests
