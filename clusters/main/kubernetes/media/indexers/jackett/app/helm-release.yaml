@@ -2,14 +2,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: prowlarr
-  namespace: prowlarr
+  name: jackett
+  namespace: jackett
 spec:
   interval: 30m
   chart:
     spec:
-      chart: prowlarr
-      version: 21.3.20
+      chart: jackett
+      version: 26.2.53
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -29,52 +29,35 @@ spec:
     keepHistory: false
   values:
     gatus:
-      group: media
+      group: media-indexers
     global:
       stopAll: false
     credentials:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-prowlarr"
+        bucket: "${CF_S3_RESTIC_BUCKET}-jackett"
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-    securityContext:
-      readOnlyRootFilesystem: false
-    workload:
-      main:
-        podSpec:
-          containers:
-            main:
-              env:
-                PROWLARR__SERVER__PORT: "{{ .Values.service.main.ports.main.port }}"
-                PROWLARR__AUTH__METHOD: External
-                PROWLARR__AUTH__REQUIRED: DisabledForLocalAddresses
-                PROWLARR__APP__THEME: dark
     ingress:
       main:
         enabled: true
         ingressClassName: "internal"
         hosts:
-          - host: prowlarr.${DOMAIN_2}
+          - host: jackett.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
         integrations:
           nginx:
             enabled: true
-          homepage:
-            enabled: true
-            group: "Media Indexer"
-            widget:
-              custom:
-                key: "${PROWLARR_KEY}"
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
     persistence:
       config:
+        enabled: true
         volsync:
           - name: config
             type: restic

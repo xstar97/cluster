@@ -29,7 +29,7 @@ spec:
     keepHistory: false
   values:
     gatus:
-      group: media
+      group: media-indexers
     global:
       stopAll: false
     service:

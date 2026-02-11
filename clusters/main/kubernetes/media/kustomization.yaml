@@ -6,12 +6,10 @@ resources:
   - deemix/ks.yaml
   - fileflows/ks.yaml
   - fileflows-external-node/ks.yaml
-  - flaresolverr/ks.yaml
   - kavita/ks.yaml
   - lidarr/ks.yaml
   - metube/ks.yaml
   - posterr/ks.yaml
-  - prowlarr/ks.yaml
   - radarr/ks.yaml
   - requestrr/ks.yaml
   - sabnzbd/ks.yaml
@@ -44,3 +42,4 @@ resources:
   - streamrip/ks.yaml
   - listenarr/ks.yaml
   - utilities
+  - indexers
