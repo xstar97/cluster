@@ -5,3 +5,5 @@ resources:
   - sonarr-animes/ks.yaml
   - lidarr/ks.yaml
   - radarr/ks.yaml
+  - huntarr/ks.yaml
+  - profilarr/ks.yaml

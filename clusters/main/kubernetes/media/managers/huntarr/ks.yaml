@@ -1,11 +1,11 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: profilarr
+  name: huntarr
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/media/profilarr/app
+  path: clusters/main/kubernetes/media/managers/huntarr/app
   prune: true
   sourceRef:
     kind: GitRepository
