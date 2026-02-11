@@ -23,7 +23,6 @@ resources:
   - reaparr/ks.yaml
   - jelu/ks.yaml
   - lazylibrarian/ks.yaml
-  - cwa-dl/ks.yaml
   - booklore/ks.yaml
   - sonobarr/ks.yaml
   - guardian/ks.yaml

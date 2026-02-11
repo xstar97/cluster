@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: clusters/main/kubernetes/media/cwa-dl/app
+  path: clusters/main/kubernetes/media/requests/cwa-dl/app
   prune: true
   sourceRef:
     kind: GitRepository
