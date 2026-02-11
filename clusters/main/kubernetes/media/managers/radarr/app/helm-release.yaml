@@ -2,14 +2,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: sonarr
-  namespace: sonarr
+  name: radarr
+  namespace: radarr
 spec:
   interval: 30m
   chart:
     spec:
-      chart: sonarr
-      version: 25.2.19
+      chart: radarr
+      version: 26.3.19
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -29,14 +29,14 @@ spec:
     keepHistory: false
   values:
     gatus:
-      group: media
+      group: media-managers
     global:
       stopAll: false
     credentials:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-sonarr"
+        bucket: "${CF_S3_RESTIC_BUCKET}-radarr"
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
@@ -48,22 +48,16 @@ spec:
           containers:
             main:
               env:
-                SONARR__SERVER__PORT: "{{ .Values.service.main.ports.main.port }}"
-                SONARR__AUTH__METHOD: External
-                SONARR__AUTH__REQUIRED: DisabledForLocalAddresses
-                SONARR__APP__THEME: dark
-    service:
-      main:
-        type: ClusterIP
-        ports:
-          main:
-            port: 8989
+                RADARR__SERVER__PORT: "{{ .Values.service.main.ports.main.port }}"
+                RADARR__AUTH__METHOD: External
+                RADARR__AUTH__REQUIRED: DisabledForLocalAddresses
+                RADARR__APP__THEME: dark
     ingress:
       main:
         enabled: true
         ingressClassName: "internal"
         hosts:
-          - host: series.sonarr.${DOMAIN_2}
+          - host: radarr.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
@@ -72,12 +66,10 @@ spec:
             enabled: true
           homepage:
             enabled: true
-            name: Sonarr (Series)
             group: "Media Manager"
-            siteMonitor: http://sonarr.sonarr.svc.cluster.local:8989
             widget:
               custom:
-                key: "${SONARR_SERIES_KEY}"
+                key: "${RADARR_KEY}"
           certManager:
             enabled: true
             certificateIssuer: general-le-prod

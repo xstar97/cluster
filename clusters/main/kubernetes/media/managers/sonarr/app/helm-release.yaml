@@ -2,8 +2,8 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: sonarr-animes
-  namespace: sonarr-animes
+  name: sonarr
+  namespace: sonarr
 spec:
   interval: 30m
   chart:
@@ -29,14 +29,14 @@ spec:
     keepHistory: false
   values:
     gatus:
-      group: media
+      group: media-managers
     global:
       stopAll: false
     credentials:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-sonarr-animes"
+        bucket: "${CF_S3_RESTIC_BUCKET}-sonarr"
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
@@ -63,7 +63,7 @@ spec:
         enabled: true
         ingressClassName: "internal"
         hosts:
-          - host: animes.sonarr.${DOMAIN_2}
+          - host: series.sonarr.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
@@ -72,11 +72,12 @@ spec:
             enabled: true
           homepage:
             enabled: true
-            name: Sonarr (Animes)
+            name: Sonarr (Series)
             group: "Media Manager"
+            siteMonitor: http://sonarr.sonarr.svc.cluster.local:8989
             widget:
               custom:
-                key: "${SONARR_ANIMES_KEY}"
+                key: "${SONARR_SERIES_KEY}"
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
