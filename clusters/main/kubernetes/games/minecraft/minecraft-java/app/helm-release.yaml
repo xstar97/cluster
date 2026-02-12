@@ -132,6 +132,7 @@ spec:
       # - deathlocator
       - bluemap
       - viaversion
+      - buildpaste
     configmap:
       plugins:
         enabled: true
