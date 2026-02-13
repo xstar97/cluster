@@ -34,7 +34,7 @@ spec:
       stopAll: false
     bluemapImage:
       repository: ghcr.io/bluemap-minecraft/bluemap
-      tag: v5.15@sha256:79113006811c3e9e8549d66d9e02be5a244b10c988a72aa41e7c174898f838a4
+      tag: v5.16@sha256:43c8c431ca6584227877ffa5807329dadc78bda4313f6e1218475d85800cb49a
       pullPolicy: Always
     credentials:
       cf-restic:
