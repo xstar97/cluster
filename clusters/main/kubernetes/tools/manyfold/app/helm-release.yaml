@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: manyfold
-      version: 4.41.5
+      version: 4.41.6
       sourceRef:
         kind: HelmRepository
         name: truecharts
