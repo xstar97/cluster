@@ -35,7 +35,7 @@ spec:
     image:
       repository: ghcr.io/jaredharper1/sortarr
       pullPolicy: IfNotPresent
-      tag: 0.8.0@sha256:ecc7a37aa572a8b6f6bb46fbd50553115686f55063ded0c9d0eb150679257f1c
+      tag: 0.8.1@sha256:e94136199605991d8fb96fedbba2dcdcc39bf89e5bf673014da8091911fc9d05
     credentials:
       cf-restic:
         type: s3
