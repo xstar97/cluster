@@ -31,7 +31,7 @@ spec:
     gatus:
       group: media-requests
     global:
-      stopAll: true
+      stopAll: false
     credentials:
       cf-restic:
         type: s3
@@ -50,6 +50,8 @@ spec:
       main:
         enabled: true
         ingressClassName: "external"
+        annotations:
+          nginx.ingress.kubernetes.io/custom-http-errors: "599"
         hosts:
           - host: overseerr.${DOMAIN_2}
             paths:
