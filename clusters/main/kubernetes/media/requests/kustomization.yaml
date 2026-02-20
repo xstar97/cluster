@@ -4,4 +4,5 @@ resources:
   - cwa-dl/ks.yaml
   - jellyseerr/ks.yaml
   - overseerr/ks.yaml
+  - seerr/ks.yaml
   - requestrr/ks.yaml

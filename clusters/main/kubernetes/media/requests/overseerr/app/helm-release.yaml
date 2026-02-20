@@ -31,7 +31,7 @@ spec:
     gatus:
       group: media-requests
     global:
-      stopAll: false
+      stopAll: true
     credentials:
       cf-restic:
         type: s3

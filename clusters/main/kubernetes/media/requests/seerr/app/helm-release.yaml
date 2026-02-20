@@ -2,14 +2,14 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: jellyseerr
-  namespace: jellyseerr
+  name: seerr
+  namespace: seerr
 spec:
   interval: 30m
   chart:
     spec:
-      chart: jellyseerr
-      version: 13.14.2
+      chart: app-template
+      version: 15.31.4
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -29,47 +29,67 @@ spec:
     keepHistory: false
   values:
     gatus:
-      group: media
+      group: media-requests
     global:
       stopAll: false
+    image:
+      repository: ghcr.io/seerr-team/seerr
+      pullPolicy: IfNotPresent
+      tag: v3.0.1@sha256:1b5fc1ea825631d9d165364472663b817a4c58ef6aa1013f58d82c1570d7c866
     credentials:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-jellyseerr"
+        bucket: "${CF_S3_RESTIC_BUCKET}-seerr"
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsGroup: 0
+        runAsUser: 0
     service:
       main:
-        type: ClusterIP
         ports:
           main:
-            port: 10241
-
+            port: 5055
     ingress:
       main:
-        enabled: false
-        ingressClassName: "external"
+        enabled: true
+        ingressClassName: "internal"
         hosts:
-          - host: jellyseerr.${DOMAIN_2}
+          - host: seerr.${DOMAIN_2}
             paths:
               - path: /
                 pathType: Prefix
         integrations:
           nginx:
             enabled: true
-          homepage:
-            enabled: true
-            group: "Media Requests"
-            widget:
-              custom:
-                key: "${JELLYSEERR_KEY}"
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              probes:
+                liveness:
+                  enabled: true
+                  path: /api/v1/status
+                readiness:
+                  enabled: true
+                  path: /api/v1/status
+                startup:
+                  enabled: true
+                  path: /api/v1/status
+              env:
+                PORT: "{{ .Values.service.main.ports.main.port }}"
     persistence:
       config:
+        enabled: true
+        mountPath: "/app/config"
         volsync:
           - name: config
             type: restic
@@ -78,3 +98,6 @@ spec:
               enabled: true
             src:
               enabled: true
+    cnpg:
+      main:
+        enabled: false
