@@ -51,6 +51,8 @@ spec:
       main:
         enabled: false
         ingressClassName: "external"
+        annotations:
+          nginx.ingress.kubernetes.io/custom-http-errors: "599"
         hosts:
           - host: jellyseerr.${DOMAIN_2}
             paths:
