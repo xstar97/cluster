@@ -57,7 +57,9 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "internal"
+        ingressClassName: "external"
+        annotations:
+          nginx.ingress.kubernetes.io/custom-http-errors: "599"
         hosts:
           - host: seerr.${DOMAIN_2}
             paths:
