@@ -2,7 +2,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - cwa-dl/ks.yaml
-  - jellyseerr/ks.yaml
-  - overseerr/ks.yaml
   - seerr/ks.yaml
   - requestrr/ks.yaml

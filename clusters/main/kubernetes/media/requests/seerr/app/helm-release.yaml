@@ -88,6 +88,19 @@ spec:
                   path: /api/v1/status
               env:
                 PORT: "{{ .Values.service.main.ports.main.port }}"
+                DB_TYPE: postgres
+                DB_HOST:
+                  secretKeyRef:
+                    name: cnpg-main-urls
+                    key: host
+                DB_PORT: "5432"
+                DB_USER: "{{ .Values.cnpg.main.user }}"
+                DB_PASS:
+                  secretKeyRef:
+                    name: cnpg-main-user
+                    key: password
+                DB_NAME: "{{ .Values.cnpg.main.database }}"
+                DB_LOG_QUERIES: "false"
     persistence:
       config:
         enabled: true
@@ -102,4 +115,25 @@ spec:
               enabled: true
     cnpg:
       main:
-        enabled: false
+        enabled: true
+        user: seerr
+        database: seerr
+        # mode: recovery
+        cluster:
+          singleNode: true
+          walStorage:
+            size: 10Gi
+        backups:
+          enabled: true
+          credentials: cf-restic
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              # https://crontab.guru/#0_8_*_*_*
+              schedule: "0 8 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic
