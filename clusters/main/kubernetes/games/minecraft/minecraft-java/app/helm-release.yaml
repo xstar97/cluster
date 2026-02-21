@@ -107,7 +107,7 @@ spec:
       # - clickvillagers
       # - mob-health-bars
       - networks
-      - modular-storage-system
+      # - modular-storage-system
     configmap:
       plugins:
         enabled: true
@@ -116,6 +116,7 @@ spec:
             https://github.com/pdinklag/MinecraftStats/releases/download/v3.3.1/MinecraftStats.jar
             https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
             https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
+            https://cdn.modrinth.com/data/sa1v20Ua/versions/QGyiMsPN/modularstoragesystem-BETA-1.7.0.jar
     workload:
       main:
         # type: StatefulSet
