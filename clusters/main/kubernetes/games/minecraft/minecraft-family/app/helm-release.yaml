@@ -192,9 +192,9 @@ spec:
                 SPAWN_MONSTERS: true
                 SPAWN_NPCS: true
                 VIEW_DISTANCE: 16
-                SERVER_NAME: "The Noob Server"
+                SERVER_NAME: "Minecraft Family"
                 MODE: survival
-                MOTD: "Welcome to the ShitSHow!"
+                MOTD: "Welcome to the Greene Family Server!"
                 PVP: false
                 # minecraft:normal
                 # minecraft:flat
