@@ -103,8 +103,9 @@ spec:
       - buildpaste
       - hopperplus
       - theclanforge
-      # - networks
-      # - modular-storage-system
+      - ultradrawer
+      - clickvillagers
+      - mob-health-bars
     configmap:
       plugins:
         enabled: true
