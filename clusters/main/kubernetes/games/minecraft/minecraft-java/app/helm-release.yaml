@@ -89,50 +89,24 @@ spec:
             enabled: true
             protocol: http
             port: 8100
-          plan:
-            enabled: true
-            protocol: http
-            port: 8804
     resources:
       limits:
         memory: 8Gi
     plugins:
       # vault
       - 34315
-      # shopkeeper
-      # - 80756
       # placeholderapi
       - 6245
-      # luckyperms
-      # - 28140
-      # chunky
-      # - 81534
-      # hopper-filter
-      # - 119651
-      # command API
-      # - 62353
-      # packetevents-api
-      # - 80279
-      # fakeplayer
-      # - 118375
-      # DiscordSRV
-      # - 18494
-      # deathlocator
-      # - 96266
-      # customcreatures
-      # - 68711
-      # takeaim
-      # - 68713
     modrinth:
-      # - discordsrv
-      # - hopperfilter
-      # - luckperms
-      # - chunky
-      # - auraskills
-      # - deathlocator
       - bluemap
       - viaversion
       - buildpaste
+      - hopperplus
+      - deathlocator
+      - infinitestorage
+      - theclanforge
+      # - networks
+      # - modular-storage-system
     configmap:
       plugins:
         enabled: true
@@ -195,9 +169,9 @@ spec:
                 SPAWN_MONSTERS: true
                 SPAWN_NPCS: true
                 VIEW_DISTANCE: 16
-                SERVER_NAME: "The Noob Server"
+                SERVER_NAME: "The GreeneFam Server"
                 MODE: survival
-                MOTD: "Welcome to the ShitSHow!"
+                MOTD: "Welcome to the Greene Family Server!"
                 PVP: false
                 # minecraft:normal
                 # minecraft:flat
@@ -244,8 +218,8 @@ spec:
               enabled: false
     ingress:
       bluemap:
-        enabled: true
-        primary: true
+        enabled: false
+        primary: false
         ingressClassName: external
         annotations:
           #   nginx.ingress.kubernetes.io/configuration-snippet: |
@@ -314,50 +288,7 @@ spec:
               enabled: true
             src:
               enabled: true
-      bm-cfg:
-        enabled: true
-        targetSelector:
-          main:
-            bluemap:
-              mountPath: /app/config
-            codeserver:
-              mountPath: /app/config
-      bm-wb:
-        enabled: true
-        targetSelector:
-          main:
-            bluemap:
-              mountPath: /app/web
-      bm-d:
-        enabled: true
-        targetSelector:
-          main:
-            bluemap:
-              mountPath: /app/data
-      bm-w:
-        enabled: true
-        targetSelector:
-          main:
-            main:
-              mountPath: /data/world
-            bluemap:
-              mountPath: /app/world
-      bm-wn:
-        enabled: true
-        targetSelector:
-          main:
-            main:
-              mountPath: "/data/world_nether"
-            bluemap:
-              mountPath: "/app/world_nether"
-      bm-we:
-        enabled: true
-        targetSelector:
-          main:
-            main:
-              mountPath: "/data/world_the_end"
-            bluemap:
-              mountPath: "/app/world_the_end"
+
     addons:
       codeserver:
         enabled: true
@@ -373,7 +304,7 @@ spec:
             gatus.home-operations.com/endpoint: |
               enabled: false
           hosts:
-            - host: editor.survival.${DOMAIN_2}
+            - host: editor.java.${DOMAIN_2}
               paths:
                 - path: /
                   # Ignored if not kubeVersion >= 1.14-0

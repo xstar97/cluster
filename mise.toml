@@ -8,7 +8,7 @@ sops = "3.11.0"
 talosctl = "1.12.4"
 yq = "4.52.2"
 flux2 = "2.7.5"
-viddy = "1.3.0"
+viddy = "latest"
 
 [settings]
 auto_install = true

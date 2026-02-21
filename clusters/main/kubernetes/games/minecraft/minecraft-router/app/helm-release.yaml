@@ -59,6 +59,17 @@ spec:
           api:
             enabled: true
             port: 25564
+      bedrock:
+        enabled: true
+        type: LoadBalancer
+        loadBalancerIP: ${MC_ROUTER_IP}
+        integrations:
+          metallb:
+            enabled: true
+        ports:
+          bedrock:
+            enabled: true
+            port: 19132
     mcrouter:
       # vanilla:25565
       default: "" # "minecraft-lobby-minecraft-java.minecraft-lobby.svc.cluster.local:25565"
