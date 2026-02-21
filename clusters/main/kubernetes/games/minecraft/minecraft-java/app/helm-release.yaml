@@ -103,7 +103,6 @@ spec:
       - buildpaste
       - hopperplus
       - deathlocator
-      - infinitestorage
       - theclanforge
       # - networks
       # - modular-storage-system
