@@ -1,0 +1,241 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: minecraft-family
+  namespace: minecraft-family
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: minecraft-java
+      version: 33.8.2
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: games
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-minecraft-family"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        capabilities:
+          add:
+            - CAP_NET_RAW
+    service:
+      main:
+        enabled: true
+        type: LoadBalancer
+        loadBalancerIP: ${MC_FAMILY_IP}
+        integrations:
+          metallb:
+            enabled: true
+        # annotations:
+          # mc-router.itzg.me/defaultServer: "true"
+          # mc-router.itzg.me/externalServerName: "family.${DOMAIN_1}"
+        ports:
+          main:
+            enabled: true
+            protocol: tcp
+            port: 25565
+          query:
+            enabled: true
+            protocol: udp
+            port: 25566
+          bedrock:
+            enabled: true
+            port: 19132
+            protocol: udp
+      rcon:
+        enabled: true
+        type: ClusterIP
+        ports:
+          rcon:
+            enabled: true
+            port: 25575
+      web:
+        enabled: true
+        type: ClusterIP
+        ports:
+          map:
+            enabled: true
+            protocol: http
+            port: 8100
+          plan:
+            enabled: true
+            protocol: http
+            port: 8804
+    resources:
+      limits:
+        memory: 8Gi
+    plugins:
+      # vault
+      - 34315
+      # shopkeeper
+      # - 80756
+      # placeholderapi
+      - 6245
+      # luckyperms
+      # - 28140
+      # chunky
+      # - 81534
+      # hopper-filter
+      # - 119651
+      # command API
+      # - 62353
+      # packetevents-api
+      # - 80279
+      # fakeplayer
+      # - 118375
+      # DiscordSRV
+      # - 18494
+      # deathlocator
+      # - 96266
+      # customcreatures
+      # - 68711
+      # takeaim
+      # - 68713
+    modrinth:
+      # - discordsrv
+      # - hopperfilter
+      # - luckperms
+      # - chunky
+      # - auraskills
+      # - deathlocator
+      # - bluemap
+      - viaversion
+      - buildpaste
+      - hopperplus
+      
+    configmap:
+      plugins:
+        enabled: true
+        data:
+          plugins.txt: |
+            https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
+            https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
+    workload:
+      main:
+        # type: StatefulSet
+        podSpec:
+          containers:
+            main:
+              imageSelector: image
+              probes:
+                liveness:
+                  enabled: true
+                  type: exec
+                  command:
+                    - mc-health
+                readiness:
+                  enabled: true
+                  type: exec
+                  command:
+                    - mc-health
+                startup:
+                  enabled: true
+                  type: exec
+                  command:
+                    - mc-health
+              env:
+                SERVER_PORT: "{{ .Values.service.main.ports.main.port }}"
+                QUERY_PORT: "{{ .Values.service.main.ports.query.port }}"
+                RCON_PORT: "{{ .Values.service.rcon.ports.rcon.port }}"
+                DISABLE_HEALTHCHECK: true
+                SERVER_HOST: '{{ printf "%s" (include "tc.v1.common.lib.chart.names.fullname" $) }}'
+                ENABLE_RCON: true
+                EXEC_DIRECTLY: "true"
+                ENABLE_QUERY: "true"
+                EULA: "TRUE"
+                GUI: "FALSE"
+                OVERRIDE_SERVER_PROPERTIES: true
+                VERSION: "1.21.11" # "LATEST" # "1.21.8"
+                TYPE: "PAPER"
+                # PAPER_BUILD: "138"
+                DIFFICULTY: easy
+                MAX_PLAYERS: 20
+                MAX_WORLD_SIZE: 10000
+                ALLOW_NETHER: true
+                ANNOUNCE_PLAYER_ACHIEVEMENTS: true
+                ENABLE_COMMAND_BLOCK: false
+                FORCE_GAMEMODE: false
+                GENERATE_STRUCTURES: true
+                HARDCORE: false
+                MAX_BUILD_HEIGHT: 256
+                ENABLE_AUTOPAUSE: false
+                MAX_TICK_TIME: 60000
+                SPAWN_ANIMALS: true
+                SPAWN_MONSTERS: true
+                SPAWN_NPCS: true
+                VIEW_DISTANCE: 16
+                SERVER_NAME: "The Noob Server"
+                MODE: survival
+                MOTD: "Welcome to the ShitSHow!"
+                PVP: false
+                # minecraft:normal
+                # minecraft:flat
+                # minecraft:large_biomes
+                # minecraft:amplified
+                # minecraft:single_biome_surface
+                LEVEL_TYPE: minecraft:amplified
+                SEED: 4856003741753513181
+                LEVEL: world
+                ONLINE_MODE: true
+                MEMORY: 4096M
+                JVM_XX_OPTS: "-XX:MaxRAMPercentage=75"
+                RCON_PASSWORD: "${RCON_PASS}"
+                USE_AIKAR_FLAGS: false
+                USE_FLARE_FLAGS: false
+                DEBUG_AUTOPAUSE: true
+                SKIP_SUDO: true
+                REMOVE_OLD_MODS: true
+                PLUGINS_FILE: "/data/plugins.txt"
+                SPIGET_RESOURCES: '{{ join "," .Values.plugins }}'
+                MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
+            mcbackup:
+              enabled: false
+    persistence:
+      plugins:
+        enabled: true
+        type: configmap
+        mountPath: /data/plugins.txt
+        objectName: plugins
+        readOnly: true
+        subPath: plugins.txt
+      data:
+        targetSelector:
+          main:
+            codeserver:
+              mountPath: /data
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
