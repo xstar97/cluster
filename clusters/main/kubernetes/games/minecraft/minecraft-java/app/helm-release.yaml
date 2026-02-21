@@ -107,6 +107,7 @@ spec:
       # - clickvillagers
       # - mob-health-bars
       - networks
+      - modular-storage-system
     configmap:
       plugins:
         enabled: true
