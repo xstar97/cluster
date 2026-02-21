@@ -191,34 +191,12 @@ spec:
                 PLUGINS_FILE: "/data/plugins.txt"
                 SPIGET_RESOURCES: '{{ join "," .Values.plugins }}'
                 MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
-            bluemap:
-              enabled: false
-              imageSelector: bluemapImage
-              probes:
-                liveness:
-                  enabled: true
-                  type: http
-                  port: "{{ .Values.service.web.ports.map.port }}"
-                readiness:
-                  enabled: true
-                  type: http
-                  port: "{{ .Values.service.web.ports.map.port }}"
-                startup:
-                  enabled: true
-                  type: http
-                  port: "{{ .Values.service.web.ports.map.port }}"
-              args:
-                - r
-                - u
-                - w
-              env:
-                SERVER_PORT: "{{ .Values.service.main.ports.main.port }}"
             mcbackup:
               enabled: false
     ingress:
       bluemap:
-        enabled: false
-        primary: false
+        enabled: true
+        primary: true
         ingressClassName: external
         annotations:
           #   nginx.ingress.kubernetes.io/configuration-snippet: |
