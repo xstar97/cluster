@@ -102,10 +102,10 @@ spec:
       - viaversion
       - buildpaste
       - hopperplus
-      - theclanforge
+      # - theclanforge
       - ultradrawer
-      - clickvillagers
-      - mob-health-bars
+      # - clickvillagers
+      # - mob-health-bars
       - networks
     configmap:
       plugins:
