@@ -103,7 +103,7 @@ spec:
       - placeholderapi
       - clickvillagers
       - clickmobs
-      - mob-health-bars
+      # - mob-health-bars
       # - auto-mine
       # - autosmeltfood
       # - autosmelting
