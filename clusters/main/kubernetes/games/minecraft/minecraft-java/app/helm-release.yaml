@@ -103,10 +103,10 @@ spec:
       - placeholderapi
       - clickvillagers
       - clickmobs
-      # - better-health-bar
-      - auto-mine
-      - autosmeltfood
-      - autosmelting
+      - mob-health-bars
+      # - auto-mine
+      # - autosmeltfood
+      # - autosmelting
       # - skillstree
       # - auraskills
       # - theclanforge
