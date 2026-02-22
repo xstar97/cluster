@@ -96,18 +96,21 @@ spec:
       # vault
       - 34315
       # placeholderapi
-      - 6245
+      # - 6245
     modrinth:
       - bluemap
       - viaversion
-      - buildpaste
-      - hopperplus
+      - placeholderapi
+      - clickvillagers
+      - clickmobs
+      - better-health-bar
+      - auto-mine
+      - autosmeltfood
+      - autosmelting
+      # - skillstree
+      # - auraskills
       # - theclanforge
-      - ultradrawer
-      # - clickvillagers
-      # - mob-health-bars
-      - networks
-      # - modular-storage-system
+      # physics-drop
     configmap:
       plugins:
         enabled: true
