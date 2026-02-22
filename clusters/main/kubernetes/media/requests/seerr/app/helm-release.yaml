@@ -66,6 +66,17 @@ spec:
               - path: /
                 pathType: Prefix
         integrations:
+          homepage:
+            enabled: true
+            group: Media Requests
+            name: "Seerr"
+            description: "Open-source media request and discovery manager for Jellyfin, Plex, and Emby."
+            icon: "https://cdn.jsdelivr.net/gh/selfhst/icons@main/webp/seerr.webp"
+            # href: ""
+            widget:
+              type: "overseerr"
+              custom:
+                key: ${SEERR_KEY}
           nginx:
             enabled: true
           certManager:
