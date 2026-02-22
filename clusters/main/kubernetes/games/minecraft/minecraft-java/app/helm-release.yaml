@@ -104,6 +104,8 @@ spec:
       - clickvillagers
       - clickmobs
       - theclanforge
+      - packetevents
+      - holomobhealth-packetevents
       - holomobhealth
 
     configmap:
