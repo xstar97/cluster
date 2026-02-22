@@ -103,14 +103,9 @@ spec:
       - placeholderapi
       - clickvillagers
       - clickmobs
-      # - mob-health-bars
-      # - auto-mine
-      # - autosmeltfood
-      # - autosmelting
-      # - skillstree
-      # - auraskills
-      # - theclanforge
-      # physics-drop
+      - theclanforge
+      - holomobhealth
+
     configmap:
       plugins:
         enabled: true
