@@ -28,14 +28,14 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    image:
+      repository: ghcr.io/itzg/minecraft-server
+      tag: 2026.2.1-java25@sha256:44aacf3902c1c2e18dddfe8585dd44badbf56a0a768c773a5e0bcfe4bc1d0443
+      pullPolicy: Always
     gatus:
       group: games
     global:
       stopAll: false
-    bluemapImage:
-      repository: ghcr.io/bluemap-minecraft/bluemap
-      tag: v5.16@sha256:43c8c431ca6584227877ffa5807329dadc78bda4313f6e1218475d85800cb49a
-      pullPolicy: Always
     credentials:
       cf-restic:
         type: s3
@@ -74,6 +74,14 @@ spec:
             enabled: true
             port: 19132
             protocol: udp
+          ssh:
+            enabled: true
+            port: 2222
+            protocol: tcp
+          console:
+            enabled: true
+            port: 8080
+            protocol: tcp
       rcon:
         enabled: true
         type: ClusterIP
@@ -108,6 +116,17 @@ spec:
       - holomobhealth-packetevents
       - holomobhealth
       - chunky
+      - lagfixer
+      - rosestacker
+      - customdeaths
+      # bad habits in MC
+      - cigarette
+      # - discordsrv
+      # - discordsrvutils
+      # - mannecorpses
+      # - regensystem
+      # requires protocollib https://www.spigotmc.org/resources/protocollib.1997/
+      # - customdisasters
 
     configmap:
       plugins:
@@ -147,6 +166,9 @@ spec:
                 RCON_PORT: "{{ .Values.service.rcon.ports.rcon.port }}"
                 DISABLE_HEALTHCHECK: true
                 SERVER_HOST: '{{ printf "%s" (include "tc.v1.common.lib.chart.names.fullname" $) }}'
+                ENABLE_SSH: true
+                WEBSOCKET_CONSOLE: true
+                WEBSOCKET_ADDRESS: "0.0.0.0:8080"
                 ENABLE_RCON: true
                 EXEC_DIRECTLY: "true"
                 ENABLE_QUERY: "true"
