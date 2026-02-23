@@ -118,7 +118,8 @@ spec:
       - rosestacker
       - customdeaths
       - discordsrv
-      - discordsrvutils
+      # [mc-image-helper] 11:53:28.074 ERROR : Invalid parameter provided for 'modrinth' command: No files are available for the project 'DiscordSRVUtils' for loader paper and Minecraft version 1.21.11
+      # - discordsrvutils
       # - mannecorpses
       # - regensystem
       # requires protocollib https://www.spigotmc.org/resources/protocollib.1997/
