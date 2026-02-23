@@ -118,7 +118,7 @@ spec:
       - rosestacker
       - customdeaths
       - discordsrv
-      # - discordsrvutils
+      - discordsrvutils
       # - mannecorpses
       # - regensystem
       # requires protocollib https://www.spigotmc.org/resources/protocollib.1997/
@@ -165,7 +165,8 @@ spec:
                 ENABLE_SSH: true
                 WEBSOCKET_CONSOLE: true
                 WEBSOCKET_ADDRESS: "0.0.0.0:8080"
-                WEBSOCKET_ALLOWED_ORIGINS: "*"
+                # WEBSOCKET_ALLOWED_ORIGINS: "*"
+                WEBSOCKET_DISABLE_ORIGIN_CHECK: true
                 ENABLE_RCON: true
                 EXEC_DIRECTLY: "true"
                 ENABLE_QUERY: "true"
