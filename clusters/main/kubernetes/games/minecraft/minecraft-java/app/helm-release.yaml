@@ -107,6 +107,7 @@ spec:
       - packetevents
       - holomobhealth-packetevents
       - holomobhealth
+      - chunky
 
     configmap:
       plugins:
