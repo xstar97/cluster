@@ -15,4 +15,5 @@ resources:
   - kube-prometheus-stack/ks.yaml
   - spegel/ks.yaml
   # - system-upgrade
-  # - system-upgrade-controller  - system-upgrade-controller/ks.yaml
+  # - system-upgrade-controller  
+  # - system-upgrade-controller/ks.yaml
