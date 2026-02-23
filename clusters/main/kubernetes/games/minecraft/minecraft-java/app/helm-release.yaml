@@ -103,8 +103,6 @@ spec:
     plugins:
       # vault
       - 34315
-      # placeholderapi
-      # - 6245
     modrinth:
       - bluemap
       - viaversion
@@ -119,9 +117,7 @@ spec:
       - lagfixer
       - rosestacker
       - customdeaths
-      # bad habits in MC
-      - cigarette
-      # - discordsrv
+      - discordsrv
       # - discordsrvutils
       # - mannecorpses
       # - regensystem
@@ -169,6 +165,7 @@ spec:
                 ENABLE_SSH: true
                 WEBSOCKET_CONSOLE: true
                 WEBSOCKET_ADDRESS: "0.0.0.0:8080"
+                WEBSOCKET_ALLOWED_ORIGINS: "*"
                 ENABLE_RCON: true
                 EXEC_DIRECTLY: "true"
                 ENABLE_QUERY: "true"
