@@ -118,6 +118,7 @@ spec:
       - rosestacker
       - customdeaths
       - discordsrv
+      - dropper-auto-craft
       # [mc-image-helper] 11:53:28.074 ERROR : Invalid parameter provided for 'modrinth' command: No files are available for the project 'DiscordSRVUtils' for loader paper and Minecraft version 1.21.11
       # - discordsrvutils
       # - mannecorpses
