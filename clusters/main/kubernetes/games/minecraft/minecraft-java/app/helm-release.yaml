@@ -114,12 +114,11 @@ spec:
       - holomobhealth-packetevents
       - holomobhealth
       - chunky
-      # - lagfixer
-      # too many issues with geyser bedrock players
-      # - rosestacker
+      - lagfixer
       - customdeaths
       - discordsrv
       - networks
+      - bytesessionrestore
       # - storagev3
       # - regensystem
       # requires protocollib https://www.spigotmc.org/resources/protocollib.1997/
