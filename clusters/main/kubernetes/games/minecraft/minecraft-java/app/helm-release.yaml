@@ -118,6 +118,7 @@ spec:
       - rosestacker
       - customdeaths
       - discordsrv
+      - storagev3
       # - regensystem
       # requires protocollib https://www.spigotmc.org/resources/protocollib.1997/
       # - customdisasters
