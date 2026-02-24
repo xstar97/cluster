@@ -181,7 +181,7 @@ spec:
                 TYPE: "PAPER"
                 # PAPER_BUILD: "138"
                 DIFFICULTY: easy
-                MAX_PLAYERS: 20
+                MAX_PLAYERS: 420
                 MAX_WORLD_SIZE: 10000
                 ALLOW_NETHER: true
                 ANNOUNCE_PLAYER_ACHIEVEMENTS: true
@@ -208,11 +208,12 @@ spec:
                 LEVEL_TYPE: minecraft:amplified
                 LEVEL: world
                 ONLINE_MODE: true
-                MEMORY: 4096M
-                JVM_XX_OPTS: "-XX:MaxRAMPercentage=75"
+                MEMORY: 6144M
+                JVM_XX_OPTS: "" # "-XX:MaxRAMPercentage=75"
                 RCON_PASSWORD: "${RCON_PASS}"
                 USE_AIKAR_FLAGS: false
                 USE_FLARE_FLAGS: false
+                USE_MEOWICE_FLAGS: true
                 DEBUG_AUTOPAUSE: true
                 SKIP_SUDO: true
                 REMOVE_OLD_MODS: true
