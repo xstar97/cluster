@@ -107,25 +107,20 @@ spec:
       - bluemap
       - viaversion
       - placeholderapi
-      # - clickvillagers
-      # - clickmobs
+      - clickvillagers
+      - clickmobs
       # - theclanforge
       - packetevents
-      # - holomobhealth-packetevents
-      # - holomobhealth
-      # - chunky
+      - holomobhealth-packetevents
+      - holomobhealth
+      - chunky
       - lagfixer
-      # - rosestacker
-      # - customdeaths
-      # - discordsrv
-      # - dropper-auto-craft
-      # [mc-image-helper] 11:53:28.074 ERROR : Invalid parameter provided for 'modrinth' command: No files are available for the project 'DiscordSRVUtils' for loader paper and Minecraft version 1.21.11
-      # - discordsrvutils
-      # - mannecorpses
+      - rosestacker
+      - customdeaths
+      - discordsrv
       # - regensystem
       # requires protocollib https://www.spigotmc.org/resources/protocollib.1997/
       # - customdisasters
-      # https://cdn.modrinth.com/data/HQCF0DEG/versions/HlwiKb4T/DropperAutoCraft-0.7-SNAPSHOT.jar
 
     configmap:
       plugins:
@@ -135,7 +130,8 @@ spec:
             https://github.com/pdinklag/MinecraftStats/releases/download/v3.3.1/MinecraftStats.jar
             https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
             https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
-            https://cdn.modrinth.com/data/sa1v20Ua/versions/QGyiMsPN/modularstoragesystem-BETA-1.7.0.jar
+            https://cdn.modrinth.com/data/HQCF0DEG/versions/HlwiKb4T/DropperAutoCraft-0.7-SNAPSHOT.jar
+
     workload:
       main:
         # type: StatefulSet
