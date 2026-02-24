@@ -115,7 +115,8 @@ spec:
       - holomobhealth
       - chunky
       # - lagfixer
-      - rosestacker
+      # too many issues with geyser bedrock players
+      # - rosestacker
       - customdeaths
       - discordsrv
       - networks
