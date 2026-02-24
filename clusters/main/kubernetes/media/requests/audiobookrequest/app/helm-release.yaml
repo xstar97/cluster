@@ -35,7 +35,7 @@ spec:
     image:
       repository: markbeep/audiobookrequest
       pullPolicy: IfNotPresent
-      tag: 1.9.0@sha256:7f399de9283236390cd35d1f22577727f761749de2abe8c1ecf4700a88f5b749
+      tag: 1.10.0@sha256:a90a17a27cde3b0305fa4764f2908f2bcc7af077b4aee73bf00b11eca71ffa71
     credentials:
       cf-restic:
         type: s3
