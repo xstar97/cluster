@@ -118,7 +118,7 @@ spec:
       - customdeaths
       - discordsrv
       - networks
-      - bytesessionrestore
+      # - bytesessionrestore
       # - storagev3
       # - regensystem
       # requires protocollib https://www.spigotmc.org/resources/protocollib.1997/
