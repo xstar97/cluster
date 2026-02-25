@@ -17,6 +17,5 @@ resources:
   - media
   - networking
   - observability
-  - projects
   - system
   - tools
