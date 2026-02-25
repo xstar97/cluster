@@ -133,6 +133,7 @@ spec:
 
 
             - Networking:
+
               - opnsense:
                   icon: opnsense.png
                   href: "https://router.greenehomelab.com"
@@ -143,6 +144,7 @@ spec:
                     username: ${OPNSENSE_USER_NAME}
                     password: ${OPNSENSE_USER_PASS}
                     # wan: opt1 # optional, defaults to wan
+
               - cloudflared:
                   icon: cloudflare.png
                   id: talos-cf-tunnel
@@ -153,6 +155,7 @@ spec:
                     key: ${CF_TUNNEL_KEY}
 
             - Games:
+
               - minecraft-router:
                   icon: minecraft.png
                   namespace: minecraft-router
@@ -162,6 +165,7 @@ spec:
                     serverType: minecraft # see https://github.com/gamedig/node-gamedig#games-list
                     url: tcp://minecraft-router.minecraft-router.svc.cluster.local:25565
                     fields: ["status", "name", "currentPlayers", "ping"]
+
               - minecraft-java:
                   icon: minecraft.png
                   namespace: minecraft-java
@@ -171,6 +175,7 @@ spec:
                     serverType: minecraft # see https://github.com/gamedig/node-gamedig#games-list
                     url: tcp://minecraft-java.minecraft-java.svc.cluster.local:25565
                     fields: ["status", "name", "currentPlayers", "ping"]
+
               - minecraft-bedrock:
                   icon: minecraft.png
                   namespace: minecraft-java
@@ -180,6 +185,7 @@ spec:
                     serverType: minecraft # see https://github.com/gamedig/node-gamedig#games-list
                     url: udp://minecraft-java.minecraft-java.svc.cluster.local:19132
                     fields: ["status", "name", "currentPlayers", "ping"]
+
               - minecraft-lobby:
                   icon: minecraft.png
                   namespace: minecraft-lobby
@@ -189,7 +195,9 @@ spec:
                     serverType: minecraft # see https://github.com/gamedig/node-gamedig#games-list
                     url: tcp://minecraft-lobby-minecraft-java.minecraft-lobby.svc.cluster.local:25565
                     fields: ["status", "name", "currentPlayers", "ping"]
+
             - Servers:
+
                 - Truenas:
                     icon: truenas.svg
                     href: https://scale.${DOMAIN_2}
@@ -200,12 +208,15 @@ spec:
                       url: https://${SCALE_IP}:444
                       key: ${SCALE_HP_KEY} # not required if using username / password
                       nasType: scale # defaults to scale, must be set to 'core' if using enablePools with TrueNAS Core
+
             - Monitoring:
+
                 - apcups:
                     description: "apcups"
                     widget:
                       type: apcups
                       url: tcp://${ROUTER_IP}:3551
+
 
           bookmarks.yaml: |
             ---
