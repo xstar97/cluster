@@ -34,7 +34,7 @@ spec:
     image:
       repository: amir20/dozzle
       pullPolicy: IfNotPresent
-      tag: v10.0.4@sha256:626e30d0df54ea1a5d1ecfbe01337d93813af2789e823c17a69afcd7fcce0c3a
+      tag: v10.0.5@sha256:b677dd4b37ca35862593eb99fccb44236e726a8741b15e0bf81213d376bdbb73
     credentials:
       cf-restic:
         type: s3
