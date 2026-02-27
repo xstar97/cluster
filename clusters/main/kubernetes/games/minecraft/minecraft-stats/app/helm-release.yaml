@@ -100,7 +100,7 @@ spec:
       stats-config:
         enabled: true
         data:
-          appsettings.json: |
+          config.json: |
             {{- $.Values.mcstats | toJson | nindent 2 }}
     persistence:
       config:
