@@ -280,6 +280,7 @@ spec:
         readOnly: true
         subPath: plugins.txt
       data:
+        accessModes: ReadWriteMany
         targetSelector:
           main:
             codeserver:
