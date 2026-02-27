@@ -74,14 +74,6 @@ spec:
             enabled: true
             port: 19132
             protocol: udp
-          ssh:
-            enabled: true
-            port: 2222
-            protocol: tcp
-          console:
-            enabled: true
-            port: 8080
-            protocol: tcp
       rcon:
         enabled: true
         type: ClusterIP
@@ -163,8 +155,8 @@ spec:
                 RCON_PORT: "{{ .Values.service.rcon.ports.rcon.port }}"
                 DISABLE_HEALTHCHECK: true
                 SERVER_HOST: '{{ printf "%s" (include "tc.v1.common.lib.chart.names.fullname" $) }}'
-                ENABLE_SSH: true
-                WEBSOCKET_CONSOLE: true
+                ENABLE_SSH: false
+                WEBSOCKET_CONSOLE: false
                 WEBSOCKET_ADDRESS: "0.0.0.0:8080"
                 # WEBSOCKET_ALLOWED_ORIGINS: "*"
                 WEBSOCKET_DISABLE_ORIGIN_CHECK: true
