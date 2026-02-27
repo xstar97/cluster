@@ -210,8 +210,6 @@ spec:
                 PLUGINS_FILE: "/data/plugins.txt"
                 SPIGET_RESOURCES: '{{ join "," .Values.plugins }}'
                 MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
-            mcbackup:
-              enabled: false
     ingress:
       bluemap:
         enabled: true
