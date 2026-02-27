@@ -12,7 +12,6 @@ resources:
   - feedcord/ks.yaml
   - omni-tools/ks.yaml
   - guacamole/ks.yaml
-  - open-archiver/ks.yaml
   - restreamer/ks.yaml
   - fileshelter/ks.yaml
   - rackula/ks.yaml
