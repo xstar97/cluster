@@ -292,6 +292,8 @@ spec:
               enabled: true
             src:
               enabled: true
+      backups:
+        enabled: false
 
     addons:
       codeserver:
