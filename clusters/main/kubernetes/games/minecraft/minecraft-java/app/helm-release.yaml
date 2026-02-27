@@ -274,7 +274,7 @@ spec:
       data:
         accessModes:
           - ReadWriteOnce
-          - ReadWriteMany
+          # - ReadWriteMany
         targetSelector:
           main:
             codeserver:
