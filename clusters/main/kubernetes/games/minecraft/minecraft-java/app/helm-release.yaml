@@ -47,9 +47,9 @@ spec:
     securityContext:
       container:
         readOnlyRootFilesystem: false
-        capabilities:
-          add:
-            - CAP_NET_RAW
+        runAsGroup: 0
+        runAsUser: 0
+  
     service:
       main:
         enabled: true
