@@ -1,0 +1,134 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: minecraft-stats
+  namespace: minecraft-stats
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.36.3
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: tools
+    global:
+      stopAll: false
+    image:
+      repository: ghcr.io/xstar97/mc-stats
+      pullPolicy: IfNotPresent
+      tag: 3.3.1@sha256:770f0b492c9fd8e7ebb5027bd47c16f6b26b326380640c1a8a0e127e8a3e19d9
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-minecraft-stats"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+    service:
+      main:
+        ports:
+          main:
+            port: 8080
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: statsmc.${DOMAIN_1}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+
+    mcstats:
+      server:
+        sources:
+          - path: /data/java
+            worldName: world
+      data:
+        documentRoot: /public
+        eventsDir: /config/events
+        statsDir: /config/stats
+      crown:
+        silver: 2
+        gold: 4
+        bronze: 1
+      client:
+        defaultLanguage: en
+        playersPerPage: 100
+        playerCacheUUIDPrefix: 2
+        serverName: null
+        showLastOnline: true
+      players:
+        inactiveDays: 7
+        updateInactive: false
+        profileUpdateInterval: 3
+        minPlaytime: 60
+        excludeBanned: true
+        excludeOps: false
+        excludeUUIDs: []
+
+    configmap:
+      stats-config:
+        enabled: true
+        data:
+          appsettings.json: |
+            {{- $.Values.mcstats | toJson | nindent 2 }}
+    persistence:
+      config:
+        enabled: true
+        mountPath: /config
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      stats-config:
+        enabled: true
+        type: configmap
+        mountPath: /config/config.json
+        objectName: mcstats-config
+        readOnly: true
+        subPath: config.json
+      public:
+        enabled: true
+        mountPath: /public
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
