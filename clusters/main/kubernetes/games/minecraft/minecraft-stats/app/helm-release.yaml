@@ -118,7 +118,7 @@ spec:
         enabled: true
         type: configmap
         mountPath: /config/config.json
-        objectName: mcstats-config
+        objectName: stats-config
         readOnly: true
         subPath: config.json
       public:
