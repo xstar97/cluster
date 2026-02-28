@@ -162,6 +162,6 @@ spec:
         dataSource:
           kind: "PersistentVolumeClaim"
           name: "existingPVC"
-        existingClaim: minecraft-lobby-test-data
+        existingClaim: minecraft-lobby-minecraft-java-data
         mountPath: /data/lobby
         readOnly: true
