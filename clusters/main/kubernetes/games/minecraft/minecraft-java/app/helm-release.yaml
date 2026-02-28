@@ -307,7 +307,7 @@ spec:
         enabled: true
         ingressClassName: external
         targetSelector:
-          web: map
+          web: stats
         hosts:
           - host: statsmcjava.${DOMAIN_1}
             paths:
