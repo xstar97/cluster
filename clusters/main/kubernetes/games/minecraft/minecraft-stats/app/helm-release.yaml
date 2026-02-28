@@ -157,7 +157,7 @@ spec:
         mountPath: /data/java
         readOnly: true
       mc-lobby-test-data:
-        enabled: true
+        enabled: false
         type: pvc    
         dataSource:
           kind: "PersistentVolumeClaim"
