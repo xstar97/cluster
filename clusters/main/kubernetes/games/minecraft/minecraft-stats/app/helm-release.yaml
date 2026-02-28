@@ -157,11 +157,11 @@ spec:
         mountPath: /data/java
         readOnly: true
       mc-lobby-test-data:
-        enabled: false
+        enabled: true
         type: pvc    
         dataSource:
           kind: "PersistentVolumeClaim"
           name: "existingPVC"
-        existingClaim: minecraft-lobby-minecraft-java-data
+        existingClaim: minecraft-lobby-test-minecraft-java-data
         mountPath: /data/lobby
         readOnly: true
