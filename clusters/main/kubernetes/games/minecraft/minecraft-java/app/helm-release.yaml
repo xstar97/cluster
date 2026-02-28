@@ -171,7 +171,6 @@ spec:
 
     workload:
       main:
-        # type: StatefulSet
         podSpec:
           containers:
             main:
@@ -254,6 +253,7 @@ spec:
                 SPIGET_RESOURCES: '{{ join "," .Values.plugins }}'
                 MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
             mcstats:
+              enabled: true
               imageSelector: statsImage
               env:
                 PORT: "{{ .Values.service.web.ports.stats.port }}"
