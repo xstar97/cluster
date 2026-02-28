@@ -132,7 +132,7 @@ spec:
           - path: /data/
             worldName: world
       data:
-        documentRoot: /config/greenefam
+        documentRoot: /config/greenefam/public
         eventsDir: /config/greenefam/events
         statsDir: /config/greenefam/stats
       crown:
