@@ -145,7 +145,3 @@ spec:
               enabled: true
             src:
               enabled: true
-      tmp:
-        enabled: true
-        mountPath: "/tmp"
-        type: emptyDir
