@@ -5,3 +5,5 @@ resources:
   - minecraft-router/ks.yaml
   - minecraft-lobby/ks.yaml
   - minecraft-stats/ks.yaml
+  - minecraft-java-test/ks.yaml
+  
