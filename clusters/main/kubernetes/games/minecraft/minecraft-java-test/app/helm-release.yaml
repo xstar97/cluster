@@ -174,13 +174,7 @@ spec:
         readOnly: true
         subPath: plugins.txt
       data:
-        accessModes: ReadWriteMany
         mountPath: /data
-        volsync:
-          - name: data
-            type: restic
-            credentials: cf-restic
-            dest:
-              enabled: true
-            src:
-              enabled: true
+        accessModes:
+          - ReadWriteOnce
+          - ReadWriteMany
