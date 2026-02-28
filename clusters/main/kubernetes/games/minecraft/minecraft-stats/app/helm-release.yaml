@@ -75,7 +75,7 @@ spec:
     mcstats:
       server:
         sources:
-          - path: /data/java
+          - path: /data/test
             worldName: world
       data:
         documentRoot: /public
@@ -152,5 +152,5 @@ spec:
           kind: "PersistentVolumeClaim"
           name: "existingPVC"
         existingClaim: minecraft-java-test-data
-        mountPath: /data
+        mountPath: /data/test
         readOnly: true
