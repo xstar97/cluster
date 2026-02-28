@@ -77,6 +77,8 @@ spec:
         sources:
           - path: /data/test
             worldName: world
+          - path: /data/lobby
+            worldName: world
       data:
         documentRoot: /public
         eventsDir: /config/events
@@ -152,5 +154,14 @@ spec:
           kind: "PersistentVolumeClaim"
           name: "existingPVC"
         existingClaim: minecraft-java-test-data
-        mountPath: /data/test
+        mountPath: /data/java-test
+        readOnly: true
+      mc-lobby-test-data:
+        enabled: true
+        type: pvc    
+        dataSource:
+          kind: "PersistentVolumeClaim"
+          name: "existingPVC"
+        existingClaim: minecraft-lobby-test-data
+        mountPath: /data/lobby-test
         readOnly: true

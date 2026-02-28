@@ -6,4 +6,4 @@ resources:
   - minecraft-lobby/ks.yaml
   - minecraft-stats/ks.yaml
   - minecraft-java-test/ks.yaml
-  
+  - minecraft-lobby-test/ks.yaml
