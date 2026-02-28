@@ -147,7 +147,10 @@ spec:
               enabled: true
       mc-java-test-data:
         enabled: true
-        type: pvc
+        type: pvc    
+        dataSource:
+          kind: "PersistentVolumeClaim"
+          name: "existingPVC"
         existingClaim: minecraft-java-test-data
-        mountPath: /data/java
-        
+        mountPath: /data
+        readOnly: true
