@@ -32,6 +32,10 @@ spec:
     #   repository: ghcr.io/itzg/minecraft-server
     #   tag: 2026.2.1-java25@sha256:44aacf3902c1c2e18dddfe8585dd44badbf56a0a768c773a5e0bcfe4bc1d0443
     #   pullPolicy: Always
+    statsImage:
+      repository: ghcr.io/xstar97/mc-stats
+      pullPolicy: IfNotPresent
+      tag: 3.3.1@sha256:910fec6527c3ba6f0a509b3c746bac513f8f7634536e49be9313cd5cb21e787d
     gatus:
       group: games
     global:
@@ -47,8 +51,9 @@ spec:
     securityContext:
       container:
         readOnlyRootFilesystem: false
-        runAsGroup: 0
-        runAsUser: 0
+        capabilities:
+          add:
+            - CAP_NET_RAW
   
     service:
       main:
@@ -89,6 +94,11 @@ spec:
             enabled: true
             protocol: http
             port: 8100
+          stats:
+            enabled: true
+            protocol: http
+            port: 8080
+    
     resources:
       limits:
         memory: 8Gi
@@ -116,15 +126,48 @@ spec:
       # requires protocollib https://www.spigotmc.org/resources/protocollib.1997/
       # - customdisasters
 
+    mcstats:
+      server:
+        sources:
+          - path: /data/
+            worldName: world
+      data:
+        documentRoot: /public
+        eventsDir: /config/events
+        statsDir: /config/stats
+      crown:
+        silver: 2
+        gold: 4
+        bronze: 1
+      client:
+        defaultLanguage: en
+        playersPerPage: 100
+        playerCacheUUIDPrefix: 2
+        serverName: null
+        showLastOnline: true
+      players:
+        inactiveDays: 7
+        updateInactive: false
+        profileUpdateInterval: 3
+        minPlaytime: 60
+        excludeBanned: true
+        excludeOps: false
+        excludeUUIDs: []
+
     configmap:
       plugins:
         enabled: true
         data:
           plugins.txt: |
-            https://github.com/pdinklag/MinecraftStats/releases/download/v3.3.1/MinecraftStats.jar
+            # https://github.com/pdinklag/MinecraftStats/releases/download/v3.3.1/MinecraftStats.jar
             https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
             https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
             https://cdn.modrinth.com/data/HQCF0DEG/versions/HlwiKb4T/DropperAutoCraft-0.7-SNAPSHOT.jar
+      stats-config:
+        enabled: true
+        data:
+          config.json: |
+            {{- $.Values.mcstats | toJson | nindent 2 }}
 
     workload:
       main:
@@ -210,6 +253,10 @@ spec:
                 PLUGINS_FILE: "/data/plugins.txt"
                 SPIGET_RESOURCES: '{{ join "," .Values.plugins }}'
                 MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
+            mcstats:
+              imageSelector: statsImage
+              env:
+                PORT: "{{ .Values.service.web.ports.stats.port }}"
     ingress:
       bluemap:
         enabled: true
@@ -238,22 +285,12 @@ spec:
       stats:
         enabled: true
         ingressClassName: external
-        annotations:
-          nginx.ingress.kubernetes.io/preserve-trailing-slash: "true"
-          nginx.ingress.kubernetes.io/configuration-snippet: |
-            rewrite ^/$ /stats/ permanent;
-          gatus.home-operations.com/endpoint: |
-            group: "{{ .Values.gatus.group }}"
-            alerts:
-              - type: discord
-                description: "healthcheck failed"
-                send-on-resolved: true
         targetSelector:
           web: map
         hosts:
-          - host: stats.${DOMAIN_1}
+          - host: statsmcjava.${DOMAIN_1}
             paths:
-              - path: /stats/
+              - path: /
                 pathType: Prefix
         integrations:
           nginx:
@@ -272,10 +309,43 @@ spec:
       data:
         targetSelector:
           main:
+            main:
+              mountPath: /data
+            mcstats:
+              mountPath: /data
             codeserver:
               mountPath: /data
         volsync:
           - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      stats-config-json:
+        enabled: true
+        type: configmap
+        mountPath: /config/config.json
+        objectName: stats-config
+        readOnly: true
+        subPath: config.json
+      stats-public:
+        enabled: true
+        mountPath: /public
+        volsync:
+          - name: stats-public
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      stats-config:
+        enabled: true
+        mountPath: /config
+        volsync:
+          - name: config
             type: restic
             credentials: cf-restic
             dest:

@@ -75,9 +75,7 @@ spec:
     mcstats:
       server:
         sources:
-          - path: /data/java
-            worldName: world
-          - path: /data/lobby
+          - path: /data/
             worldName: world
       data:
         documentRoot: /public
