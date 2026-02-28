@@ -75,7 +75,7 @@ spec:
     mcstats:
       server:
         sources:
-          - path: /data/test
+          - path: /data/java
             worldName: world
           - path: /data/lobby
             worldName: world
@@ -154,7 +154,7 @@ spec:
           kind: "PersistentVolumeClaim"
           name: "existingPVC"
         existingClaim: minecraft-java-test-data
-        mountPath: /data/java-test
+        mountPath: /data/java
         readOnly: true
       mc-lobby-test-data:
         enabled: true
@@ -163,5 +163,5 @@ spec:
           kind: "PersistentVolumeClaim"
           name: "existingPVC"
         existingClaim: minecraft-lobby-test-data
-        mountPath: /data/lobby-test
+        mountPath: /data/lobby
         readOnly: true
