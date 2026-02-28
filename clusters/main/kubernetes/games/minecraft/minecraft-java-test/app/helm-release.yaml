@@ -8,7 +8,7 @@ spec:
   interval: 30m
   chart:
     spec:
-      chart: minecraft-java-test
+      chart: minecraft-java
       version: 34.0.0
       sourceRef:
         kind: HelmRepository
@@ -161,13 +161,13 @@ spec:
                 DEBUG_AUTOPAUSE: true
                 SKIP_SUDO: true
                 REMOVE_OLD_MODS: true
-                PLUGINS_FILE: "/data/plugins.txt"
+                # PLUGINS_FILE: "/data/plugins.txt"
                 SPIGET_RESOURCES: '{{ join "," .Values.plugins }}'
                 MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
   
     persistence:
       plugins:
-        enabled: true
+        enabled: false
         type: configmap
         mountPath: /data/plugins.txt
         objectName: plugins
