@@ -346,6 +346,20 @@ spec:
               enabled: true
             src:
               enabled: true
+      stats-config:
+        enabled: true
+        targetSelector:
+          main:
+            mcstats:
+              mountPath: /config
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
       stats-config-json:
         enabled: true
         type: configmap
@@ -356,14 +370,14 @@ spec:
         objectName: stats-config
         readOnly: true
         subPath: config.json
-      stats-config:
+      stats-public:
         enabled: true
         targetSelector:
           main:
             mcstats:
-              mountPath: /config
+              mountPath: /config/greenefam/public
         volsync:
-          - name: config
+          - name: stats-public
             type: restic
             credentials: cf-restic
             dest:
