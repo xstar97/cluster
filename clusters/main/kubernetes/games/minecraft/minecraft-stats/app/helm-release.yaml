@@ -145,3 +145,9 @@ spec:
               enabled: true
             src:
               enabled: true
+      mc-java-test-data:
+        enabled: true
+        type: pvc
+        existingClaim: minecraft-java-test-data
+        mountPath: /data/java
+        
