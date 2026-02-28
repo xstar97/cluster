@@ -108,13 +108,6 @@ spec:
         podSpec:
           containers:
             main:
-              probes:
-                liveness:
-                  enabled: false
-                readiness:
-                  enabled: false
-                startup:
-                  enabled: false
               env:
                 PORT: "{{ .Values.service.main.ports.main.port }}"
                 
@@ -148,3 +141,7 @@ spec:
               enabled: true
             src:
               enabled: true
+      tmp:
+        enabled: true
+        mountPath: "/tmp"
+        type: emptyDir
