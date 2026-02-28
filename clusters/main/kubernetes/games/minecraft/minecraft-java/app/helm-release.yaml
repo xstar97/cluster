@@ -255,6 +255,22 @@ spec:
             mcstats:
               enabled: true
               imageSelector: statsImage
+              probes:
+                liveness:
+                  enabled: true
+                  type: http
+                  path: /
+                  port: "{{ .Values.service.web.ports.stats.port }}"
+                readiness:
+                  enabled: true
+                  type: http
+                  path: /
+                  port: "{{ .Values.service.web.ports.stats.port }}"
+                startup:
+                  enabled: true
+                  type: http
+                  path: /
+                  port: "{{ .Values.service.web.ports.stats.port }}"
               env:
                 PORT: "{{ .Values.service.web.ports.stats.port }}"
     ingress:
