@@ -370,20 +370,6 @@ spec:
         objectName: stats-config
         readOnly: true
         subPath: config.json
-      stats-public:
-        enabled: true
-        targetSelector:
-          main:
-            mcstats:
-              mountPath: /config/greenefam/public
-        volsync:
-          - name: stats-public
-            type: restic
-            credentials: cf-restic
-            dest:
-              enabled: true
-            src:
-              enabled: true
 
     addons:
       codeserver:
