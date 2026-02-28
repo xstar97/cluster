@@ -257,8 +257,8 @@ spec:
               securityContext:
                 container:
                   readOnlyRootFilesystem: false
-                  runAsGroup: 0
-                  runAsUser: 0
+                  # runAsGroup: 0
+                  # runAsUser: 0
               imageSelector: statsImage
               probes:
                 liveness:
@@ -347,13 +347,19 @@ spec:
       stats-config-json:
         enabled: true
         type: configmap
-        mountPath: /config/config.json
+        targetSelector:
+          main:
+            mcstats:
+              mountPath: /config/config.json
         objectName: stats-config
         readOnly: true
         subPath: config.json
       stats-public:
         enabled: true
-        mountPath: /public
+        targetSelector:
+          main:
+            mcstats:
+              mountPath: /public
         volsync:
           - name: stats-public
             type: restic
@@ -364,7 +370,10 @@ spec:
               enabled: true
       stats-config:
         enabled: true
-        mountPath: /config
+        targetSelector:
+          main:
+            mcstats:
+              mountPath: /config
         volsync:
           - name: config
             type: restic
