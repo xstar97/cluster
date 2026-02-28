@@ -35,7 +35,7 @@ spec:
     gatus:
       group: games
     global:
-      stopAll: true
+      stopAll: false
     credentials:
       cf-restic:
         type: s3
