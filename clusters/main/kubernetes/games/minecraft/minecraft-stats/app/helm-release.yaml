@@ -29,7 +29,7 @@ spec:
     keepHistory: false
   values:
     gatus:
-      group: tools
+      group: games-status
     global:
       stopAll: false
     image:
