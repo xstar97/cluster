@@ -178,17 +178,23 @@ spec:
             [servers]
             # Configure your servers here. Each key represents the server's name, and the value
             # represents the IP address of the server to connect to.
-            lobby = "minecraft-lobby-minecraft-java.minecraft-lobby.svc.cluster.local:25565"
+            lobby = "minecraft-lobby-minecraft-java.minecraft.svc.cluster.local:25565"
+            creative = "minecraft-creative-minecraft-java.minecraft.svc.cluster.local:25565"
 
             # In what order we should try servers when a player logs in or is kicked from a server.
             try = [
                 "lobby"
+                "creative"
             ]
 
             [forced-hosts]
             # Configure your forced hosts here.
             "lobby.${DOMAIN_1}.com" = [
                 "lobby"
+            ]
+
+            "creative.${DOMAIN_1}.com" = [
+                "creative"
             ]
 
             [advanced]
