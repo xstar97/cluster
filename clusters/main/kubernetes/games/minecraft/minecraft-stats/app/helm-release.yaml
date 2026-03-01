@@ -29,7 +29,7 @@ spec:
     keepHistory: false
   values:
     gatus:
-      group: games-status
+      group: games-minecraft
     global:
       stopAll: false
     image:

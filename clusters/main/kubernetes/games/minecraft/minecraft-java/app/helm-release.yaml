@@ -37,7 +37,7 @@ spec:
       pullPolicy: Always
       tag: 3.3.1@sha256:c28c1bed1cb26762a1fbdab8ffc43512128c01f3b9342b569ef950ca60161b5d
     gatus:
-      group: games
+      group: games-minecraft
     global:
       stopAll: false
     credentials:
@@ -63,9 +63,6 @@ spec:
         integrations:
           metallb:
             enabled: true
-        annotations:
-          mc-router.itzg.me/defaultServer: "true"
-          mc-router.itzg.me/externalServerName: "java.${DOMAIN_1}"
         ports:
           main:
             enabled: true

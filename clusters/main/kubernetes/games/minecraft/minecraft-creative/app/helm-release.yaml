@@ -2,7 +2,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: minecraft-lobby
+  name: minecraft-creative
   namespace: minecraft
 spec:
   interval: 30m
@@ -29,14 +29,14 @@ spec:
     keepHistory: false
   values:
     gatus:
-      group: games
+      group: games-minecraft
     global:
       stopAll: false
     credentials:
       cf-restic:
         type: s3
         url: "${CF_S3_RESTIC_URL}"
-        bucket: "${CF_S3_RESTIC_BUCKET}-minecraft-lobby"
+        bucket: "${CF_S3_RESTIC_BUCKET}-minecraft-creative"
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
@@ -46,9 +46,11 @@ spec:
         capabilities:
           add:
             - CAP_NET_RAW
+  
     service:
       main:
         enabled: true
+        type: ClusterIP
         ports:
           main:
             enabled: true
@@ -59,15 +61,17 @@ spec:
             protocol: udp
             port: 25566
       rcon:
-        enabled: false
+        enabled: true
         type: ClusterIP
         ports:
           rcon:
-            enabled: false
+            enabled: true
             port: 25575
+    
     resources:
       limits:
-        memory: 2Gi
+        memory: 3Gi
+
     workload:
       main:
         podSpec:
@@ -95,23 +99,63 @@ spec:
                 QUERY_PORT: "{{ .Values.service.main.ports.query.port }}"
                 RCON_PORT: "{{ .Values.service.rcon.ports.rcon.port }}"
                 DISABLE_HEALTHCHECK: true
-                ONLINE_MODE: true
                 SERVER_HOST: '{{ printf "%s" (include "tc.v1.common.lib.chart.names.fullname" $) }}'
-                ENABLE_RCON: false
+                ENABLE_RCON: true
                 EXEC_DIRECTLY: "true"
                 ENABLE_QUERY: "true"
                 EULA: "TRUE"
                 GUI: "FALSE"
-                TYPE: "LIMBO"
-                LIMBO_BUILD: LATEST
-                SERVER_NAME: "The GreeneFam Lobby!"
-                MODE: survival
-                MOTD: "Welcome to the GreeneFam's Lobby!"
+                OVERRIDE_SERVER_PROPERTIES: true
+                VERSION: LATEST
+                TYPE: "PAPER"
+                # PAPER_BUILD: "138"
+                DIFFICULTY: easy
+                MAX_PLAYERS: 420
+                MAX_WORLD_SIZE: 10000
+                ALLOW_NETHER: true
+                ANNOUNCE_PLAYER_ACHIEVEMENTS: true
+                ENABLE_COMMAND_BLOCK: false
+                FORCE_GAMEMODE: false
+                GENERATE_STRUCTURES: true
+                HARDCORE: false
+                MAX_BUILD_HEIGHT: 256
+                ENABLE_AUTOPAUSE: false
+                MAX_TICK_TIME: 60000
+                SPAWN_ANIMALS: true
+                SPAWN_MONSTERS: true
+                SPAWN_NPCS: true
+                VIEW_DISTANCE: 16
+                SERVER_NAME: "The Creative Test Server"
+                MODE: creative
+                MOTD: "Welcome to the RedStone Server!"
+                PVP: false
+                # minecraft:normal
+                # minecraft:flat
+                # minecraft:large_biomes
+                # minecraft:amplified
+                # minecraft:single_biome_surface
+                LEVEL_TYPE: minecraft:flat
+                LEVEL: world
+                ONLINE_MODE: true
+                MEMORY: 2048M
+                JVM_XX_OPTS: "" # "-XX:MaxRAMPercentage=75"
+                RCON_PASSWORD: "${RCON_PASS}"
+                USE_AIKAR_FLAGS: false
+                USE_FLARE_FLAGS: false
+                USE_MEOWICE_FLAGS: true
+                DEBUG_AUTOPAUSE: true
+                SKIP_SUDO: true
+                # REMOVE_OLD_MODS: true
+                # PLUGINS_FILE: "/data/plugins.txt"
+                # SPIGET_RESOURCES: '{{ join "," .Values.plugins }}'
+                # MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
+
     persistence:
       data:
         accessModes:
           - ReadWriteOnce
           - ReadWriteMany
+        mountPath: /data
         volsync:
           - name: data
             type: restic
