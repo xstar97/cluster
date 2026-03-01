@@ -136,7 +136,12 @@ spec:
     persistence:
       config:
         enabled: true
-        mountPath: /config
+        targetSelector:
+          main:
+            mcstats:
+              mountPath: /config
+            update-config:
+              mountPath: /config
         volsync:
           - name: config
             type: restic
