@@ -160,7 +160,7 @@ spec:
 
     addons:
       codeserver:
-        enabled: false
+        enabled: true
         service:
           type: "ClusterIP"
           ports:
