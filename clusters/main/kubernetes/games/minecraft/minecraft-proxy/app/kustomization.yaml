@@ -3,7 +3,6 @@ kind: Kustomization
 namespace: minecraft
 resources:
   - helm-release.yaml
-  - minecraft-proxy-config.configmap.yaml
 components:
   - ../../../../../components/ns
   - ../../../../../components/notifications/discord

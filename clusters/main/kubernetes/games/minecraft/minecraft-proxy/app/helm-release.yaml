@@ -85,17 +85,21 @@ spec:
                 # PLUGINS: ""
 
     configmap:
+      velocity-config:
+        enabled: true
+        data:
+          velocity.toml: |
+            {{ .Files.Get "velocity.toml" | indent 8 }}
       forwarding-secret:
         enabled: true
         data:
           forwarding.secret: |
             ${VELOCITY_FORWARDING_SECRET}
-
     persistence:
-      configfile:
+      velocity:
         enabled: true
         type: configmap
-        objectName: minecraft-proxy-configfile 
+        objectName: velocity-config 
         expandObjectName: false
         mountPath: /config/velocity.toml
         subPath: velocity.toml
