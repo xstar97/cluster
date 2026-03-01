@@ -78,6 +78,9 @@ spec:
           containers:
             main:
               args:
+                - java
+                - -jar
+                - cli.jar
                 - -r 
                 - -u 
                 - -w
