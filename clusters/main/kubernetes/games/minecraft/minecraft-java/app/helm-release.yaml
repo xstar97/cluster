@@ -127,32 +127,60 @@ spec:
       # - customdisasters
 
     mcstats:
-      server:
-        sources:
-          - path: /data/
-            worldName: world
-      data:
-        documentRoot: /config/greenefam/public
-        eventsDir: /config/greenefam/events
-        statsDir: /config/greenefam/stats
-      crown:
-        silver: 2
-        gold: 4
-        bronze: 1
-      client:
-        defaultLanguage: en
-        playersPerPage: 100
-        playerCacheUUIDPrefix: 2
-        serverName: null
-        showLastOnline: true
-      players:
-        inactiveDays: 7
-        updateInactive: false
-        profileUpdateInterval: 3
-        minPlaytime: 60
-        excludeBanned: true
-        excludeOps: false
-        excludeUUIDs: []
+      greenefam:
+        server:
+          sources:
+            - path: /data/
+              worldName: world
+        data:
+          documentRoot: /config/greenefam/public
+          eventsDir: /config/greenefam/events
+          statsDir: /config/greenefam/stats
+        crown:
+          silver: 2
+          gold: 4
+          bronze: 1
+        client:
+          defaultLanguage: en
+          playersPerPage: 100
+          playerCacheUUIDPrefix: 2
+          serverName: null
+          showLastOnline: true
+        players:
+          inactiveDays: 7
+          updateInactive: false
+          profileUpdateInterval: 3
+          minPlaytime: 60
+          excludeBanned: true
+          excludeOps: false
+          excludeUUIDs: []
+      lobby:
+        server:
+          sources:
+            - path: /data/
+              worldName: world
+        data:
+          documentRoot: /config/lobby/public
+          eventsDir: /config/lobby/events
+          statsDir: /config/lobby/stats
+        crown:
+          silver: 2
+          gold: 4
+          bronze: 1
+        client:
+          defaultLanguage: en
+          playersPerPage: 100
+          playerCacheUUIDPrefix: 2
+          serverName: null
+          showLastOnline: true
+        players:
+          inactiveDays: 7
+          updateInactive: false
+          profileUpdateInterval: 3
+          minPlaytime: 60
+          excludeBanned: true
+          excludeOps: false
+          excludeUUIDs: []
 
     configmap:
       plugins:
@@ -178,14 +206,19 @@ spec:
               args:
                 - |
                   set -e
+                  for instance in {{- range $name, $cfg := $.Values.mcstats }}"{{$name}}" {{- end }}; do
+                    inst_name=$(echo $instance | tr -d '"')
+                    inst_dir="/config/$inst_name"
+                    mkdir -p "$inst_dir"
+                    
+                    # Render the JSON for this instance
+                    cat <<EOF > "$inst_dir/config.json"
+                    {{- $cfg := index $.Values.mcstats $inst_name }}
+                    {{ $cfg | toJson }}
+                    EOF
 
-                  mkdir -p /config/greenefam
-
-                  cat <<EOF > /config/greenefam/config.json
-                  {{ $.Values.mcstats | toJson }}
-                  EOF
-                  
-                  echo "Wrote config.json to /config/greenefam/"
+                    echo "Created $inst_dir/config.json"
+                  done
 
           containers:
             main:
