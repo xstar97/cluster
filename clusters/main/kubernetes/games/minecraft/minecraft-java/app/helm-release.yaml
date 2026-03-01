@@ -182,7 +182,7 @@ spec:
               args:
                 - -c
                 - |
-                  mkdir -p /config  && chown -R apps:apps /config
+                  mkdir -p /config && chown -R apps:apps /config && exit 0
 
           containers:
             main:
