@@ -203,6 +203,13 @@ spec:
         objectName: velocity
         readOnly: true
         subPath: velocity.toml
+      velocity-forwarding-secret:
+        enabled: true
+        type: configmap
+        mountPath: /config/forwarding.secret
+        objectName: forwarding-secret
+        readOnly: true
+        subPath: forwarding.secret
       config:
         targetSelectAll: true
         volsync:
