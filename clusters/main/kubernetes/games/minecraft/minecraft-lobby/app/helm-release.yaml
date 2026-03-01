@@ -102,8 +102,7 @@ spec:
                 ENABLE_QUERY: "true"
                 EULA: "TRUE"
                 GUI: "FALSE"
-                TYPE: "LIMBO"
-                LIMBO_BUILD: LATEST
+                TYPE: "NANOLIMBO"
                 SERVER_NAME: "The GreeneFam Lobby!"
                 MODE: survival
                 MOTD: "Welcome to the GreeneFam's Lobby!"
