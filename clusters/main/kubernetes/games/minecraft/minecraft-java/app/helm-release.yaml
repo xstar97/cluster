@@ -172,18 +172,6 @@ spec:
     workload:
       main:
         podSpec:
-          initContainers:
-            init-dirs:
-              type: install
-              enabled: true
-              imageSelector: "image"
-              command:
-                - /bin/bash
-              args:
-                - -c
-                - |
-                  mkdir -p /config && chown -R apps:apps /config && exit 0
-
           containers:
             main:
               imageSelector: image
@@ -364,8 +352,6 @@ spec:
           main:
             mcstats:
               mountPath: /config
-            init-dirs:
-              mountPath: "/config"
         volsync:
           - name: config
             type: restic
