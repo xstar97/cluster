@@ -35,7 +35,7 @@ spec:
     statsImage:
       repository: ghcr.io/xstar97/mc-stats
       pullPolicy: Always
-      tag: 3.3.1@sha256:3960f582341acfa707968c34620184f34a7538c4247cc3ae73001114e22eafc0
+      tag: 3.3.1@sha256:a714c1b324897c7bb3501fd37a1e03ff255f34f26202fdc17d10def871b05368
     gatus:
       group: games
     global:
