@@ -70,6 +70,7 @@ spec:
         data:
           plugins.txt: |
             https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/velocity
+            https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/velocity
       forwarding-secret:
         enabled: true
         data:
