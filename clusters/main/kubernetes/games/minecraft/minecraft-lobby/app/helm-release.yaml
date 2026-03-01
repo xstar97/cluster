@@ -95,7 +95,7 @@ spec:
                 QUERY_PORT: "{{ .Values.service.main.ports.query.port }}"
                 RCON_PORT: "{{ .Values.service.rcon.ports.rcon.port }}"
                 DISABLE_HEALTHCHECK: true
-                ONLINE_MODE: true
+                ONLINE_MODE: false
                 SERVER_HOST: '{{ printf "%s" (include "tc.v1.common.lib.chart.names.fullname" $) }}'
                 ENABLE_RCON: true
                 EXEC_DIRECTLY: "true"

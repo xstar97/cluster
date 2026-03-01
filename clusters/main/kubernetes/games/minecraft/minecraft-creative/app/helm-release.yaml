@@ -136,7 +136,7 @@ spec:
                 # minecraft:single_biome_surface
                 LEVEL_TYPE: minecraft:flat
                 LEVEL: world
-                ONLINE_MODE: true
+                ONLINE_MODE: false
                 MEMORY: 2048M
                 JVM_XX_OPTS: "" # "-XX:MaxRAMPercentage=75"
                 RCON_PASSWORD: "${RCON_PASS}"
