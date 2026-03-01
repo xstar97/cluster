@@ -48,8 +48,8 @@ spec:
     securityContext:
       container:
         readOnlyRootFilesystem: false
-        runAsGroup: 0
-        runAsUser: 0
+        # runAsGroup: 0
+        # runAsUser: 0
 
     service:
       main:
@@ -59,7 +59,7 @@ spec:
     ingress:
       main:
         enabled: true
-        ingressClassName: "internal"
+        ingressClassName: "external"
         hosts:
           - host: statsmc.${DOMAIN_1}
             paths:
@@ -73,47 +73,65 @@ spec:
             certificateIssuer: general-le-prod
 
     mcstats:
-      server:
-        sources:
-          - path: /data/
-            worldName: world
-      data:
-        documentRoot: /public
-        eventsDir: /config/events
-        statsDir: /config/stats
-      crown:
-        silver: 2
-        gold: 4
-        bronze: 1
-      client:
-        defaultLanguage: en
-        playersPerPage: 100
-        playerCacheUUIDPrefix: 2
-        serverName: null
-        showLastOnline: true
-      players:
-        inactiveDays: 7
-        updateInactive: false
-        profileUpdateInterval: 3
-        minPlaytime: 60
-        excludeBanned: true
-        excludeOps: false
-        excludeUUIDs: []
-
-    configmap:
-      stats-config:
-        enabled: true
+      creative:
+        server:
+          sources:
+            - path: /data/creative
+              worldName: world
         data:
-          config.json: |
-            {{- $.Values.mcstats | toJson | nindent 2 }}
-    
+          documentRoot: /public
+          eventsDir: /config/creative/events
+          statsDir: /config/creative/stats
+        crown:
+          silver: 2
+          gold: 4
+          bronze: 1
+        client:
+          defaultLanguage: en
+          playersPerPage: 100
+          playerCacheUUIDPrefix: 2
+          serverName: null
+          showLastOnline: true
+        players:
+          inactiveDays: 7
+          updateInactive: false
+          profileUpdateInterval: 3
+          minPlaytime: 60
+          excludeBanned: true
+          excludeOps: false
+          excludeUUIDs: []
+
     workload:
       main:
         podSpec:
+          initContainers:
+            update-config:
+              enabled: true
+              type: init
+              imageSelector: "image"
+              command:
+                - /bin/sh
+                - -c
+              args:
+                - |
+                  set -e
+                  {{- range $name, $cfg := $.Values.mcstats }}
+                  
+                  # Create instance dirs
+                  mkdir -p /config/{{ $name }}/
+                  
+                  # Write config.json
+                  cat <<EOF > /config/{{ $name }}/config.json
+                  {{ $cfg | toJson }}
+                  EOF
+                  echo "Created /config/{{ $name }}/config.json"
+                  {{- end }}
           containers:
             main:
               env:
-                PORT: "{{ .Values.service.main.ports.main.port }}"
+                PORT: "{{ .Values.service.web.ports.stats.port }}"
+                INSTANCES: "creative"
+                INTERVAL_SECONDS: 300
                 
     persistence:
       config:
@@ -127,39 +145,12 @@ spec:
               enabled: true
             src:
               enabled: true
-      stats-config:
-        enabled: true
-        type: configmap
-        mountPath: /config/config.json
-        objectName: stats-config
-        readOnly: true
-        subPath: config.json
-      public:
-        enabled: true
-        mountPath: /public
-        volsync:
-          - name: config
-            type: restic
-            credentials: cf-restic
-            dest:
-              enabled: true
-            src:
-              enabled: true
-      mc-java-test-data:
+      mc-java-creative-data:
         enabled: true
         type: pvc    
         dataSource:
           kind: "PersistentVolumeClaim"
           name: "existingPVC"
-        existingClaim: minecraft-java-test-data
-        mountPath: /data/java
-        readOnly: true
-      mc-lobby-test-data:
-        enabled: true
-        type: pvc    
-        dataSource:
-          kind: "PersistentVolumeClaim"
-          name: "existingPVC"
-        existingClaim: minecraft-lobby-test-minecraft-java-data
-        mountPath: /data/lobby
+        existingClaim: minecraft-creative-minecraft-java-data
+        mountPath: /data/creative
         readOnly: true
