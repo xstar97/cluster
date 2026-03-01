@@ -88,9 +88,9 @@ spec:
       velocity-config:
         enabled: true
         data:
-          velocity.toml: |
-            {{ .Files.Get "velocity.toml" | indent 8 }}
-      forwarding-secret:
+          velocity.toml: >-
+           {{ .Files.Get "velocity.toml" | indent 8 }}
+      velocity-dashboard:
         enabled: true
         data:
           forwarding.secret: |
