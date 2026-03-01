@@ -297,7 +297,7 @@ spec:
                   port: "{{ .Values.service.web.ports.stats.port }}"
               env:
                 PORT: "{{ .Values.service.web.ports.stats.port }}"
-                INSTANCES: "greenefam,lobby"
+                INSTANCES: "greenefam"
                 INTERVAL_SECONDS: 300
     ingress:
       bluemap:
