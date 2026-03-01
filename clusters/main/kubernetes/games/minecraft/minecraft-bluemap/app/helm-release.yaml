@@ -80,7 +80,8 @@ spec:
               args:
                 - java
                 - cli.jar
-                - -u 
+                - -r
+                - -u
                 - -w
 
     persistence:
