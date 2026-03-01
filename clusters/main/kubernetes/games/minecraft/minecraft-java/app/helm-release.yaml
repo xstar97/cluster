@@ -176,7 +176,7 @@ spec:
             init-dirs:
               type: install
               enabled: true
-              imageSelector: "statsImage"
+              imageSelector: "image"
               command:
                 - /bin/bash
               args:
