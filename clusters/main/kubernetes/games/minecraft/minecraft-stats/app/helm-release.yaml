@@ -35,7 +35,7 @@ spec:
     image:
       repository: ghcr.io/xstar97/mc-stats
       pullPolicy: IfNotPresent
-      tag: 3.3.1@sha256:3960f582341acfa707968c34620184f34a7538c4247cc3ae73001114e22eafc0
+      tag: 3.3.1@sha256:c28c1bed1cb26762a1fbdab8ffc43512128c01f3b9342b569ef950ca60161b5d
     credentials:
       cf-restic:
         type: s3
