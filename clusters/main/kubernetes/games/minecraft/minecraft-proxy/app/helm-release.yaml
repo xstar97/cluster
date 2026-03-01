@@ -60,35 +60,12 @@ spec:
       limits:
         memory: 1Gi
 
-    modrinth:
-      - geyser
-
-    workload:
-      main:
-        podSpec:
-          containers:
-            main:
-              imageSelector: image
-              env:
-                RCON_PORT: "{{ .Values.service.rcon.ports.rcon.port }}"
-                RCON_PASSWORD: "secretrconpass"
-                TYPE: "VELOCITY"
-                ONLINE_MODE: true
-                MEMORY: 512M
-                INIT_MEMORY: 512M
-                MAX_MEMORY: 512M
-                NETWORKADDRESS_CACHE_TTL: 60
-                REPLACE_ENV_VARIABLES: false
-                ENV_VARIABLE_PREFIX: "CFG_"
-                MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
-                MINECRAFT_VERSION: LATEST
-                # GENERIC_PACKS: "configs-v9.0.1,mods-v4.3.6"
-                # GENERIC_PACKS_PREFIX: "https://cdn.example.org/"
-                # GENERIC_PACKS_SUFFIX="".zip"
-                # JVM_OPTS: ""
-                # JVM_XX_OPTS: ""
-                # PLUGINS: ""
     configmap:
+      plugins:
+        enabled: true
+        data:
+          plugins.txt: |
+            https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/velocity
       forwarding-secret:
         enabled: true
         data:
@@ -200,6 +177,33 @@ spec:
 
             show-plugins = false
 
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              imageSelector: image
+              env:
+                RCON_PORT: "{{ .Values.service.rcon.ports.rcon.port }}"
+                RCON_PASSWORD: "secretrconpass"
+                TYPE: "VELOCITY"
+                ONLINE_MODE: true
+                MEMORY: 512M
+                INIT_MEMORY: 512M
+                MAX_MEMORY: 512M
+                NETWORKADDRESS_CACHE_TTL: 60
+                REPLACE_ENV_VARIABLES: false
+                ENV_VARIABLE_PREFIX: "CFG_"
+                # MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
+                # MINECRAFT_VERSION: LATEST
+                # GENERIC_PACKS: "configs-v9.0.1,mods-v4.3.6"
+                # GENERIC_PACKS_PREFIX: "https://cdn.example.org/"
+                # GENERIC_PACKS_SUFFIX="".zip"
+                # JVM_OPTS: ""
+                # JVM_XX_OPTS: ""
+                # PLUGINS: ""
+                PLUGINS_FILE: /extras/plugins.txt
+
     persistence:
       velocity:
         enabled: true
@@ -243,3 +247,10 @@ spec:
               enabled: true
             src:
               enabled: true
+      plugins-file:
+        enabled: true
+        type: configmap
+        mountPath: /extras/plugins.txt
+        objectName: plugins
+        readOnly: true
+        subPath: plugins.txt
