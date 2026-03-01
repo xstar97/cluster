@@ -81,6 +81,7 @@ spec:
                 REPLACE_ENV_VARIABLES: false
                 ENV_VARIABLE_PREFIX: "CFG_"
                 MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
+                MINECRAFT_VERSION: LATEST
                 # GENERIC_PACKS: "configs-v9.0.1,mods-v4.3.6"
                 # GENERIC_PACKS_PREFIX: "https://cdn.example.org/"
                 # GENERIC_PACKS_SUFFIX="".zip"
