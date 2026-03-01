@@ -154,33 +154,6 @@ spec:
           excludeBanned: true
           excludeOps: false
           excludeUUIDs: []
-      lobby:
-        server:
-          sources:
-            - path: /data/
-              worldName: world
-        data:
-          documentRoot: /config/lobby/public
-          eventsDir: /config/lobby/events
-          statsDir: /config/lobby/stats
-        crown:
-          silver: 2
-          gold: 4
-          bronze: 1
-        client:
-          defaultLanguage: en
-          playersPerPage: 100
-          playerCacheUUIDPrefix: 2
-          serverName: null
-          showLastOnline: true
-        players:
-          inactiveDays: 7
-          updateInactive: false
-          profileUpdateInterval: 3
-          minPlaytime: 60
-          excludeBanned: true
-          excludeOps: false
-          excludeUUIDs: []
 
     configmap:
       plugins:
