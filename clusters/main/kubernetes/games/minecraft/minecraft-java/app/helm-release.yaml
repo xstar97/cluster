@@ -208,6 +208,9 @@ spec:
                   set -e
                   {{- range $name, $cfg := $.Values.mcstats }}
                   
+                  # Create instance dirs
+                  mkdir -p /config/{{ $name }}/
+                  
                   # Write config.json
                   cat <<EOF > /config/{{ $name }}/config.json
                   {{ $cfg | toJson }}
