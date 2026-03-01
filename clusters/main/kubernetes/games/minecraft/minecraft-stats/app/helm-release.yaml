@@ -48,8 +48,8 @@ spec:
     securityContext:
       container:
         readOnlyRootFilesystem: false
-        # runAsGroup: 0
-        # runAsUser: 0
+        runAsGroup: 0
+        runAsUser: 0
 
     service:
       main:
@@ -138,7 +138,7 @@ spec:
         enabled: true
         targetSelector:
           main:
-            mcstats:
+            main:
               mountPath: /config
             update-config:
               mountPath: /config
