@@ -186,11 +186,12 @@ spec:
 
                   mkdir -p /config/greenefam
 
-                  cat <<'EOF' > /config/greenefam/config.json
-                  {{- $.Values.mcstats | toJson }}
+                  cat <<EOF > /config/greenefam/config.json
+                  {{ $.Values.mcstats | toJson }}
                   EOF
-
+                  
                   echo "Wrote config.json to /config/greenefam/"
+
           containers:
             main:
               imageSelector: image
