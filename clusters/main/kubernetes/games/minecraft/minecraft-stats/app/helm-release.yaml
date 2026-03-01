@@ -129,7 +129,7 @@ spec:
           containers:
             main:
               env:
-                PORT: "{{ .Values.service.web.ports.stats.port }}"
+                PORT: "{{ .Values.service.main.ports.main.port }}"
                 INSTANCES: "creative"
                 INTERVAL_SECONDS: 300
                 
