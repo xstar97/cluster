@@ -79,7 +79,7 @@ spec:
             - path: /data/creative
               worldName: world
         data:
-          documentRoot: /public
+          documentRoot: /config/creative/public
           eventsDir: /config/creative/events
           statsDir: /config/creative/stats
         crown:
