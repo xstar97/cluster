@@ -206,18 +206,13 @@ spec:
               args:
                 - |
                   set -e
-                  for instance in {{- range $name, $cfg := $.Values.mcstats }}"{{$name}}" {{- end }}; do
-                    inst_name=$(echo $instance | tr -d '"')
-                    inst_dir="/config/$inst_name"
-                    mkdir -p "$inst_dir"
-                    
-                    # Render the JSON for this instance
-                    cat <<EOF > "$inst_dir/config.json"
-                    {{- $cfg := index $.Values.mcstats $inst_name }}
-                    {{ $cfg | toJson }}
-                    EOF
-
-                    echo "Created $inst_dir/config.json"
+                  {{- range $name, $cfg := $.Values.mcstats }}
+                  mkdir -p /config/{{ $name }}
+                  cat <<EOF > /config/{{ $name }}/config.json
+                  {{ $cfg | toJson }}
+                  EOF
+                  echo "Created /config/{{ $name }}/config.json"
+                  {{- end }}
                   done
 
           containers:
