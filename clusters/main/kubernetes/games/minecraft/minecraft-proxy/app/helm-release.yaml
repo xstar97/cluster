@@ -55,6 +55,10 @@ spec:
             protocol: tcp
             port: 25565
             targetPort: 25565
+          bedrock:
+            enabled: true
+            port: 19132
+            protocol: udp
     
     resources:
       limits:
