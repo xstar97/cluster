@@ -187,7 +187,6 @@ spec:
               enabled: true
               certificateIssuer: general-le-prod
 
-
     mariadb:
       enabled: true
       mariadbUsername: bluemap
