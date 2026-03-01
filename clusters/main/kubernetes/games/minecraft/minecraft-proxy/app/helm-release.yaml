@@ -135,11 +135,11 @@ spec:
 
             [forced-hosts]
             
-            "lobby.${DOMAIN_1}.com" = [
+            "lobby.${DOMAIN_1}" = [
                 "lobby"
             ]
 
-            "creative.${DOMAIN_1}.com" = [
+            "creative.${DOMAIN_1}" = [
                 "creative"
             ]
 
