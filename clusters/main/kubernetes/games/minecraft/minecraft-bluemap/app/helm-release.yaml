@@ -86,7 +86,12 @@ spec:
     persistence:
       config:
         enabled: true
-        mountPath: /app/config
+        targetSelector:
+          main:
+            main:
+              mountPath: /app/config
+            codeserver:
+              mountPath: /app/config
         volsync:
           - name: config
             type: restic
@@ -97,7 +102,12 @@ spec:
               enabled: true
       web:
         enabled: true
-        mountPath: /app/web
+        targetSelector:
+          main:
+            main:
+              mountPath: /app/web
+            codeserver:
+              mountPath: /app/web
         volsync:
           - name: web
             type: restic
@@ -108,7 +118,12 @@ spec:
               enabled: true
       maps:
         enabled: true
-        mountPath: /app/web/maps
+        targetSelector:
+          main:
+            main:
+              mountPath: /app/web/maps
+            codeserver:
+              mountPath: /app/web/maps
         volsync:
           - name: maps
             type: restic
@@ -119,7 +134,12 @@ spec:
               enabled: true
       data:
         enabled: true
-        mountPath: /app/data
+        targetSelector:
+          main:
+            main:
+              mountPath: /app/data
+            codeserver:
+              mountPath: /app/data
         volsync:
           - name: data
             type: restic
@@ -137,3 +157,31 @@ spec:
         existingClaim: minecraft-creative-minecraft-java-data
         mountPath: /worlds/creative
         readOnly: true
+
+    addons:
+      codeserver:
+        enabled: false
+        service:
+          type: "ClusterIP"
+          ports:
+            codeserver:
+              port: 36107
+        ingress:
+          enabled: true
+          ingressClassName: "internal"
+          hosts:
+            - host: editor.maps.${DOMAIN_2}
+              paths:
+                - path: /
+                  # Ignored if not kubeVersion >= 1.14-0
+                  pathType: Prefix
+          integrations:
+            nginx:
+              enabled: true
+              auth:
+                type: "authelia"
+                internalHost: "authelia.authelia.svc.cluster.local:9091"
+                externalHost: "auth.${DOMAIN_2}"
+            certManager:
+              enabled: true
+              certificateIssuer: general-le-prod
