@@ -348,8 +348,8 @@ spec:
               mountPath: /data
             mcstats:
               mountPath: /data
-            codeserver:
-              mountPath: /data
+            # codeserver:
+            #   mountPath: /data
         volsync:
           - name: data
             type: restic
@@ -371,9 +371,9 @@ spec:
             type: restic
             credentials: cf-restic
             dest:
-              enabled: true
+              enabled: false
             src:
-              enabled: true
+              enabled: false
       stats-config-json:
         enabled: true
         type: configmap
@@ -387,7 +387,7 @@ spec:
 
     addons:
       codeserver:
-        enabled: true
+        enabled: false
         service:
           type: "ClusterIP"
           ports:
