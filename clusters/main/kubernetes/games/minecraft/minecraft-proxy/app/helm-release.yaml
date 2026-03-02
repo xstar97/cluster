@@ -111,31 +111,26 @@ spec:
 
             [servers]
       
+            family = "minecraft-fam-minecraft-java.minecraft.svc.cluster.local:25565"
+
             lobby = "minecraft-lobby-minecraft-java.minecraft.svc.cluster.local:25565"
 
             creative = "minecraft-creative-minecraft-java.minecraft.svc.cluster.local:25565"
 
-            family = "minecraft-fam-minecraft-java.minecraft.svc.cluster.local:25565"
 
             try = [
-                "lobby",
                 "family",
-                "creative"
+                "creative",
+                "lobby"
             ]
 
             [forced-hosts]
             
-            "lobby.${DOMAIN_1}" = [
-                "lobby"
-            ]
+            "lobby.${DOMAIN_1}" = ["lobby"]
 
-            "creative.${DOMAIN_1}" = [
-                "creative"
-            ]
+            "creative.${DOMAIN_1}" = ["creative", "lobby"]
 
-            "family.${DOMAIN_1}" = [
-                "family"
-            ]
+            "family.${DOMAIN_1}" = ["family", "lobby"]
 
             [advanced]
 
