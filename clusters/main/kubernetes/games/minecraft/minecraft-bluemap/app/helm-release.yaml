@@ -158,6 +158,15 @@ spec:
         existingClaim: minecraft-creative-minecraft-java-data
         mountPath: /worlds/creative
         readOnly: true
+      mc-java-family-data:
+        enabled: true
+        type: pvc    
+        dataSource:
+          kind: "PersistentVolumeClaim"
+          name: "existingPVC"
+        existingClaim: minecraft-fam-minecraft-java-data
+        mountPath: /worlds/family
+        readOnly: true
 
     addons:
       codeserver:
