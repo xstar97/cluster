@@ -24,6 +24,8 @@ t = "talosctl"
 gto = "gitops"
 ft = "forgetool"
 tcl = "talosctl"
-pods = 'kubecolor get pods'
 badPods = 'kubecolor get pods -A --field-selector=status.phase!=Running'
 badFlux = "flux get kustomizations -A --status-selector ready=false"
+stopAll = "mise chart:stop_all"
+vK = "viddy kubectl get pods,ingress,configmaps"
+getPods = "mise chart:pods"
