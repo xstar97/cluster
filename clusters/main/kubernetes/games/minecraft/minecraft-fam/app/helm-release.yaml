@@ -172,6 +172,13 @@ spec:
                 MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
 
     persistence:
+      plugins:
+        enabled: true
+        type: configmap
+        mountPath: /data/plugins.txt
+        objectName: plugins
+        readOnly: true
+        subPath: plugins.txt
       data:
         accessModes:
           - ReadWriteOnce
