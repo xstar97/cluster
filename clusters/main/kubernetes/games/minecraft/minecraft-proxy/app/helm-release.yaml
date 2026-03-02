@@ -115,8 +115,11 @@ spec:
 
             creative = "minecraft-creative-minecraft-java.minecraft.svc.cluster.local:25565"
 
+            family = "minecraft-fam-minecraft-java.minecraft.svc.cluster.local:25565"
+
             try = [
                 "lobby",
+                "family",
                 "creative"
             ]
 
@@ -128,6 +131,10 @@ spec:
 
             "creative.${DOMAIN_1}" = [
                 "creative"
+            ]
+
+            "family.${DOMAIN_1}" = [
+                "family"
             ]
 
             [advanced]
