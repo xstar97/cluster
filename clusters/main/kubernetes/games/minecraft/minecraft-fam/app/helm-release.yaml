@@ -84,6 +84,18 @@ spec:
       - chunky
       - lagfixer
       - customdeaths
+      # - malts
+      - auraskills
+      - clickvillagers
+      - smart-spawner-plugin
+      - coinsengine
+      # - thegoldeconomy
+      # - towny
+      # - axenvoys
+      # - axrewards
+      # - axvaults
+      # - axtrade
+      # - axplayerwarps
 
     configmap:
       plugins:
