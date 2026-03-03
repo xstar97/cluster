@@ -84,7 +84,10 @@ spec:
       - chunky
       - lagfixer
       - customdeaths
-      -  malts
+      # -  malts
+      # - virtualstorages-backpacks
+      - virtualfilter
+      # - storagev3
       - auraskills
       - auramobs
       - clickvillagers
