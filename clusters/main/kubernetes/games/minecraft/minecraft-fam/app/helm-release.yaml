@@ -84,8 +84,9 @@ spec:
       - chunky
       - lagfixer
       - customdeaths
-      # - malts
+      -  malts
       - auraskills
+      - auramobs
       - clickvillagers
       - smart-spawner-plugin
       # - coinsengine
