@@ -87,11 +87,7 @@ spec:
         enabled: true
         type: ClusterIP
         ports:
-          map:
-            enabled: true
-            protocol: http
-            port: 8100
-          stats:
+          web:
             enabled: true
             protocol: http
             port: 8080
@@ -108,7 +104,7 @@ spec:
       - placeholderapi
       - clickvillagers
       - clickmobs
-      # - theclanforge
+      - theclanforge
       - packetevents
       - holomobhealth-packetevents
       - holomobhealth
@@ -117,40 +113,6 @@ spec:
       - customdeaths
       - discordsrv
       - networks
-      # - bytesessionrestore
-      # - storagev3
-      # - regensystem
-      # requires protocollib https://www.spigotmc.org/resources/protocollib.1997/
-      # - customdisasters
-
-    mcstats:
-      greenefam:
-        server:
-          sources:
-            - path: /data/
-              worldName: world
-        data:
-          documentRoot: /config/greenefam/public
-          eventsDir: /config/greenefam/events
-          statsDir: /config/greenefam/stats
-        crown:
-          silver: 2
-          gold: 4
-          bronze: 1
-        client:
-          defaultLanguage: en
-          playersPerPage: 100
-          playerCacheUUIDPrefix: 2
-          serverName: null
-          showLastOnline: true
-        players:
-          inactiveDays: 7
-          updateInactive: false
-          profileUpdateInterval: 3
-          minPlaytime: 60
-          excludeBanned: true
-          excludeOps: false
-          excludeUUIDs: []
 
     configmap:
       plugins:
@@ -165,29 +127,6 @@ spec:
     workload:
       main:
         podSpec:
-          initContainers:
-            update-config:
-              enabled: false
-              type: init
-              imageSelector: "image"
-              command:
-                - /bin/sh
-                - -c
-              args:
-                - |
-                  set -e
-                  {{- range $name, $cfg := $.Values.mcstats }}
-                  
-                  # Create instance dirs
-                  mkdir -p /config/{{ $name }}/
-                  
-                  # Write config.json
-                  cat <<EOF > /config/{{ $name }}/config.json
-                  {{ $cfg | toJson }}
-                  EOF
-                  echo "Created /config/{{ $name }}/config.json"
-                  {{- end }}
-
           containers:
             main:
               imageSelector: image
@@ -268,71 +207,41 @@ spec:
                 PLUGINS_FILE: "/data/plugins.txt"
                 SPIGET_RESOURCES: '{{ join "," .Values.plugins }}'
                 MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
-            mcstats: # sws
+            sws: # sws
               enabled: true
-              securityContext:
-                container:
-                  readOnlyRootFilesystem: false
-                  # runAsGroup: 0
-                  # runAsUser: 0
               imageSelector: swsImage
               probes:
                 liveness:
                   enabled: true
                   type: http
                   path: /
-                  port: "{{ .Values.service.web.ports.stats.port }}"
+                  port: "{{ .Values.service.web.ports.web.port }}"
                 readiness:
                   enabled: true
                   type: http
                   path: /
-                  port: "{{ .Values.service.web.ports.stats.port }}"
+                  port: "{{ .Values.service.web.ports.web.port }}"
                 startup:
                   enabled: true
                   type: http
                   path: /
-                  port: "{{ .Values.service.web.ports.stats.port }}"
+                  port: "{{ .Values.service.web.ports.web.port }}"
               env:
-                SERVER_PORT: "{{ .Values.service.web.ports.stats.port }}"
-                SERVER_ROOT: /data/web/stats
-                # INSTANCES: "greenefam"
-                # INTERVAL_SECONDS: 300
+                SERVER_PORT: "{{ .Values.service.web.ports.web.port }}"
+                SERVER_ROOT: /data/web
     ingress:
-      bluemap:
+      web:
         enabled: true
         primary: true
         ingressClassName: external
-        annotations:
-          #   nginx.ingress.kubernetes.io/configuration-snippet: |
-          #     rewrite ^/stats$ / permanent;
-          gatus.home-operations.com/endpoint: |
-            name: minecraft-java-map
-            group: "{{ .Values.gatus.group }}"
-            alerts:
-              - type: discord
-                description: "healthcheck failed"
-                send-on-resolved: true
         targetSelector:
-          web: map
+          web: web
         hosts:
-          - host: map.${DOMAIN_1}
-        integrations:
-          nginx:
-            enabled: true
-          certManager:
-            enabled: true
-            certificateIssuer: general-le-prod
-      stats:
-        enabled: true
-        ingressClassName: external
-        # annotations:
-        #   nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
-        targetSelector:
-          web: stats
-        hosts:
-          - host: statsmcjava.${DOMAIN_1}
+          - host: survival.${DOMAIN_1}
             paths:
-              - path: /
+              - path: /stats
+                pathType: Prefix
+              - path: /map
                 pathType: Prefix
         integrations:
           nginx:
@@ -340,7 +249,6 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-    
     persistence:
       plugins:
         enabled: true
@@ -354,10 +262,8 @@ spec:
           main:
             main:
               mountPath: /data
-            mcstats:
+            sws:
               mountPath: /data
-            # codeserver:
-            #   mountPath: /data
         volsync:
           - name: data
             type: restic
@@ -366,50 +272,3 @@ spec:
               enabled: true
             src:
               enabled: true
-      stats-config:
-        enabled: false
-        targetSelector:
-          main:
-            mcstats:
-              mountPath: /config
-            update-config:
-              mountPath: /config
-        volsync:
-          - name: config
-            type: restic
-            credentials: cf-restic
-            dest:
-              enabled: false
-            src:
-              enabled: false
-
-    addons:
-      codeserver:
-        enabled: false
-        service:
-          type: "ClusterIP"
-          ports:
-            codeserver:
-              port: 36107
-        ingress:
-          enabled: true
-          ingressClassName: "internal"
-          annotations:
-            gatus.home-operations.com/endpoint: |
-              enabled: false
-          hosts:
-            - host: editor.java.${DOMAIN_2}
-              paths:
-                - path: /
-                  # Ignored if not kubeVersion >= 1.14-0
-                  pathType: Prefix
-          integrations:
-            nginx:
-              enabled: true
-              auth:
-                type: "authelia"
-                internalHost: "authelia.authelia.svc.cluster.local:9091"
-                externalHost: "auth.${DOMAIN_2}"
-            certManager:
-              enabled: true
-              certificateIssuer: general-le-prod
