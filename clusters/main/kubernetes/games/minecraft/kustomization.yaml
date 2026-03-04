@@ -4,7 +4,6 @@ resources:
   - minecraft-stats/ks.yaml
   - minecraft-proxy/ks.yaml
   - minecraft-java/ks.yaml
-  - minecraft-creative/ks.yaml
   - minecraft-lobby/ks.yaml
   - minecraft-fam/ks.yaml
   

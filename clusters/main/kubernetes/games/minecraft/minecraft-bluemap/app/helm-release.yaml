@@ -149,15 +149,6 @@ spec:
               enabled: true
             src:
               enabled: true
-      mc-java-creative-data:
-        enabled: true
-        type: pvc    
-        dataSource:
-          kind: "PersistentVolumeClaim"
-          name: "existingPVC"
-        existingClaim: minecraft-creative-minecraft-java-data
-        mountPath: /worlds/creative
-        readOnly: true
       mc-java-family-data:
         enabled: true
         type: pvc    

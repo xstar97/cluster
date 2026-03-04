@@ -70,33 +70,6 @@ spec:
             enabled: true
             certificateIssuer: general-le-prod
     mcstats:
-      creative:
-        server:
-          sources:
-            - path: /data/creative
-              worldName: world
-        data:
-          documentRoot: /config/creative/public
-          eventsDir: /config/creative/events
-          statsDir: /config/creative/stats
-        crown:
-          silver: 2
-          gold: 4
-          bronze: 1
-        client:
-          defaultLanguage: en
-          playersPerPage: 100
-          playerCacheUUIDPrefix: 2
-          serverName: null
-          showLastOnline: true
-        players:
-          inactiveDays: 7
-          updateInactive: false
-          profileUpdateInterval: 3
-          minPlaytime: 60
-          excludeBanned: true
-          excludeOps: false
-          excludeUUIDs: []
       family:
         server:
           sources:
@@ -153,7 +126,7 @@ spec:
             main:
               env:
                 PORT: "{{ .Values.service.main.ports.main.port }}"
-                INSTANCES: "creative,family"
+                INSTANCES: '{{ keys .Values.mcstats | sortAlpha | join "," }}'
                 INTERVAL_SECONDS: 300
                 
     persistence:
@@ -173,15 +146,6 @@ spec:
               enabled: true
             src:
               enabled: true
-      mc-java-creative-data:
-        enabled: true
-        type: pvc    
-        dataSource:
-          kind: "PersistentVolumeClaim"
-          name: "existingPVC"
-        existingClaim: minecraft-creative-minecraft-java-data
-        mountPath: /data/creative
-        readOnly: true
       mc-java-family-data:
         enabled: true
         type: pvc    
