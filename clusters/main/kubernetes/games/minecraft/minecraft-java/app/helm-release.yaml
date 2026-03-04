@@ -228,7 +228,7 @@ spec:
                   port: "{{ .Values.service.web.ports.web.port }}"
               env:
                 SERVER_PORT: "{{ .Values.service.web.ports.web.port }}"
-                SERVER_ROOT: /data/web
+                SERVER_ROOT: /data/web/map
     ingress:
       web:
         enabled: true
