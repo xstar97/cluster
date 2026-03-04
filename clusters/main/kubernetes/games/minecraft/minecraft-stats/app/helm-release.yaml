@@ -44,13 +44,11 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-
     securityContext:
       container:
         readOnlyRootFilesystem: false
         runAsGroup: 0
         runAsUser: 0
-
     service:
       main:
         ports:
@@ -71,7 +69,6 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
-
     mcstats:
       creative:
         server:
@@ -127,7 +124,6 @@ spec:
           excludeBanned: true
           excludeOps: false
           excludeUUIDs: []
-
     workload:
       main:
         podSpec:

@@ -28,10 +28,6 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    swsImage:
-      repository: ghcr.io/static-web-server/static-web-server
-      pullPolicy: IfNotPresent
-      tag: 2.41.0@sha256:34bb160fd62d2145dabd0598f36352653ec58cf80a8d58c8cd2617097d34564d
     gatus:
       group: games-minecraft
     global:
@@ -71,14 +67,6 @@ spec:
           rcon:
             enabled: true
             port: 25575
-      web:
-        enabled: true
-        type: ClusterIP
-        ports:
-          stats:
-            enabled: true
-            protocol: http
-            port: 8080
     
     resources:
       limits:
@@ -119,7 +107,6 @@ spec:
         data:
           plugins.txt: |
             # plugins to install on server startup, one per line.
-            https://github.com/pdinklag/MinecraftStats/releases/download/v3.3.1/MinecraftStats.jar
 
     workload:
       main:
@@ -199,31 +186,7 @@ spec:
                 PLUGINS_FILE: "/data/plugins.txt"
                 SPIGET_RESOURCES: '{{ join "," .Values.plugins }}'
                 MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
-            mcstats: # sws
-              enabled: true
-              securityContext:
-                container:
-                  readOnlyRootFilesystem: false
-              imageSelector: swsImage
-              probes:
-                liveness:
-                  enabled: true
-                  type: http
-                  path: /
-                  port: "{{ .Values.service.web.ports.stats.port }}"
-                readiness:
-                  enabled: true
-                  type: http
-                  path: /
-                  port: "{{ .Values.service.web.ports.stats.port }}"
-                startup:
-                  enabled: true
-                  type: http
-                  path: /
-                  port: "{{ .Values.service.web.ports.stats.port }}"
-              env:
-                SERVER_PORT: "{{ .Values.service.web.ports.stats.port }}"
-                SERVER_ROOT: /data/web/stats
+
     persistence:
       plugins:
         enabled: true
