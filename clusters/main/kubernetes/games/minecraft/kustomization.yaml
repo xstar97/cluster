@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   - minecraft-bluemap/ks.yaml
   - minecraft-proxy/ks.yaml
-  - minecraft-stats/ks.yaml
   - minecraft-fam/ks.yaml
   - minecraft-java/ks.yaml
   - minecraft-creative/ks.yaml
