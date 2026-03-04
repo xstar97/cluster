@@ -115,12 +115,12 @@ spec:
 
             lobby = "minecraft-lobby-minecraft-java.minecraft.svc.cluster.local:25565"
 
-            creative = "minecraft-creative-minecraft-java.minecraft.svc.cluster.local:25565"
+            # creative = "minecraft-creative-minecraft-java.minecraft.svc.cluster.local:25565"
 
 
             try = [
                 "family",
-                "creative",
+                # "creative",
                 "lobby"
             ]
 
@@ -128,7 +128,7 @@ spec:
             
             "lobby.${DOMAIN_1}" = ["lobby"]
 
-            "creative.${DOMAIN_1}" = ["creative", "lobby"]
+            # "creative.${DOMAIN_1}" = ["creative", "lobby"]
 
             "family.${DOMAIN_1}" = ["family", "lobby"]
 
