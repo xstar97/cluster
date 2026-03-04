@@ -349,16 +349,6 @@ spec:
         objectName: plugins
         readOnly: true
         subPath: plugins.txt
-      caddy:
-        enabled: true
-        type: configmap
-        targetSelector:
-          main:
-            mcstats:
-              mountPath: /etc/caddy/Caddyfile
-        objectName: caddy
-        readOnly: true
-        subPath: Caddyfile
       data:
         targetSelector:
           main:
@@ -377,7 +367,7 @@ spec:
             src:
               enabled: true
       stats-config:
-        enabled: true
+        enabled: false
         targetSelector:
           main:
             mcstats:
