@@ -239,9 +239,7 @@ spec:
         hosts:
           - host: survival.${DOMAIN_1}
             paths:
-              - path: /stats
-                pathType: Prefix
-              - path: /map
+              - path: /
                 pathType: Prefix
         integrations:
           nginx:
