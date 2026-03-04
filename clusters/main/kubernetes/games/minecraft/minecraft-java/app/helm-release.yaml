@@ -32,10 +32,10 @@ spec:
       repository: ghcr.io/xstar97/mc-stats
       pullPolicy: Always
       tag: 3.3.1@sha256:7e83f726c0bbc9bed3f2cd9219863a76e6c42ed3d6c1b5d7fe949998305aa647
-    caddyImage:
-      repository: caddy
+    swsImage:
+      repository: ghcr.io/static-web-server/static-web-server
       pullPolicy: IfNotPresent
-      tag: "2.11.1@sha256:9068f76202c0a03545036d32bf2d424d3b46c1174f254070f605002a2dbc9657"
+      tag: 2.41.0@sha256:34bb160fd62d2145dabd0598f36352653ec58cf80a8d58c8cd2617097d34564d
     gatus:
       group: games-minecraft
     global:
@@ -161,15 +161,7 @@ spec:
             https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
             https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
             https://cdn.modrinth.com/data/HQCF0DEG/versions/HlwiKb4T/DropperAutoCraft-0.7-SNAPSHOT.jar
-      caddy:
-        enabled: true
-        data:
-          Caddyfile: |
-            :{{ .Values.service.web.ports.stats.port }} {
-                root * /data/web/stats
-                file_server
-            }
-
+      
     workload:
       main:
         podSpec:
@@ -276,34 +268,35 @@ spec:
                 PLUGINS_FILE: "/data/plugins.txt"
                 SPIGET_RESOURCES: '{{ join "," .Values.plugins }}'
                 MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
-            mcstats: # caddy
+            mcstats: # sws
               enabled: true
               securityContext:
                 container:
                   readOnlyRootFilesystem: false
                   # runAsGroup: 0
                   # runAsUser: 0
-              imageSelector: caddyImage
+              imageSelector: swsImage
               probes:
                 liveness:
                   enabled: true
-                  type: https
+                  type: http
                   path: /
                   port: "{{ .Values.service.web.ports.stats.port }}"
                 readiness:
                   enabled: true
-                  type: https
+                  type: http
                   path: /
                   port: "{{ .Values.service.web.ports.stats.port }}"
                 startup:
                   enabled: true
-                  type: https
+                  type: http
                   path: /
                   port: "{{ .Values.service.web.ports.stats.port }}"
-              # env:
-              #   PORT: "{{ .Values.service.web.ports.stats.port }}"
-              #   INSTANCES: "greenefam"
-              #   INTERVAL_SECONDS: 300
+              env:
+                SERVER_PORT: "{{ .Values.service.web.ports.stats.port }}"
+                SERVER_ROOT: /data/web/stats
+                # INSTANCES: "greenefam"
+                # INTERVAL_SECONDS: 300
     ingress:
       bluemap:
         enabled: true
@@ -332,8 +325,8 @@ spec:
       stats:
         enabled: true
         ingressClassName: external
-        annotations:
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        # annotations:
+        #   nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         targetSelector:
           web: stats
         hosts:
