@@ -28,18 +28,10 @@ spec:
   uninstall:
     keepHistory: false
   values:
-    statsImage:
-      repository: ghcr.io/xstar97/mc-stats
-      pullPolicy: Always
-      tag: 3.3.1@sha256:dd6bbec342624c8b7f443f1d8a008ca5f187daf845c1156bd38da0e0da21d2b1
-    swsImage:
-      repository: ghcr.io/static-web-server/static-web-server
-      pullPolicy: IfNotPresent
-      tag: 2.41.0@sha256:34bb160fd62d2145dabd0598f36352653ec58cf80a8d58c8cd2617097d34564d
-    gatus:
-      group: games-minecraft
     global:
       stopAll: false
+    gatus:
+      group: games-minecraft
     credentials:
       cf-restic:
         type: s3
@@ -54,7 +46,6 @@ spec:
         capabilities:
           add:
             - CAP_NET_RAW
-  
     service:
       main:
         enabled: true
@@ -87,11 +78,10 @@ spec:
         enabled: true
         type: ClusterIP
         ports:
-          web:
+          map:
             enabled: true
             protocol: http
-            port: 8080
-    
+            port: 8100
     resources:
       limits:
         memory: 8Gi
@@ -207,35 +197,13 @@ spec:
                 PLUGINS_FILE: "/data/plugins.txt"
                 SPIGET_RESOURCES: '{{ join "," .Values.plugins }}'
                 MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
-            sws: # sws
-              enabled: true
-              imageSelector: swsImage
-              probes:
-                liveness:
-                  enabled: true
-                  type: http
-                  path: /
-                  port: "{{ .Values.service.web.ports.web.port }}"
-                readiness:
-                  enabled: true
-                  type: http
-                  path: /
-                  port: "{{ .Values.service.web.ports.web.port }}"
-                startup:
-                  enabled: true
-                  type: http
-                  path: /
-                  port: "{{ .Values.service.web.ports.web.port }}"
-              env:
-                SERVER_PORT: "{{ .Values.service.web.ports.web.port }}"
-                SERVER_ROOT: /data/web/map
     ingress:
       web:
         enabled: true
         primary: true
         ingressClassName: external
         targetSelector:
-          web: web
+          web: map
         hosts:
           - host: survival.${DOMAIN_1}
             paths:
@@ -259,8 +227,6 @@ spec:
         targetSelector:
           main:
             main:
-              mountPath: /data
-            sws:
               mountPath: /data
         volsync:
           - name: data
