@@ -46,7 +46,6 @@ spec:
         capabilities:
           add:
             - CAP_NET_RAW
-  
     service:
       main:
         enabled: true
@@ -67,11 +66,9 @@ spec:
           rcon:
             enabled: true
             port: 25575
-    
     resources:
       limits:
         memory: 3Gi
-
     workload:
       main:
         podSpec:
@@ -149,7 +146,6 @@ spec:
                 # PLUGINS_FILE: "/data/plugins.txt"
                 # SPIGET_RESOURCES: '{{ join "," .Values.plugins }}'
                 # MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
-
     persistence:
       data:
         accessModes:
