@@ -31,7 +31,7 @@ spec:
     gatus:
       group: media-utilities
     global:
-      stopAll: true
+      stopAll: false
     image:
       repository: ghcr.io/connorgallopo/tracearr
       pullPolicy: IfNotPresent
@@ -120,3 +120,14 @@ spec:
           credentials: cf-restic
     redis:
       enabled: true
+      backups:
+        enabled: true
+        credentials: cf-restic
+        retentionPolicy: "7d"
+        scheduledBackups:
+          - name: daily-backup
+            # https://crontab.guru/#10_0_*_*_*
+            schedule: "50 0 * * *"
+            backupOwnerReference: self
+            immediate: true
+            suspend: false
