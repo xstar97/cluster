@@ -74,6 +74,16 @@ spec:
         podSpec:
           containers:
             main:
+              probes:
+                liveness:
+                  enabled: true
+                  path: /api/health
+                readiness:
+                  enabled: true
+                  path: /api/health
+                startup:
+                  enabled: true
+                  path: /api/health
               env:
                 FLASK_HOST: "0.0.0.0"
                 FLASK_PORT: "{{ .Values.service.main.ports.main.port }}"
