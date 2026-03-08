@@ -1,0 +1,165 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: shelfmark
+  namespace: shelfmark
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.38.1
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: media-requests
+    global:
+      stopAll: false
+    image:
+      pullPolicy: IfNotPresent
+      repository: ghcr.io/calibrain/shelfmark
+      tag: 2.1.0@sha256:8140f9513f89d8617871316cf8778e4a3d71957ca290a0e59d58caf3ccbb24d7
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-shelfmark"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsGroup: 0
+        runAsUser: 0
+    service:
+      main:
+        ports:
+          main:
+            port: 8084
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: shelfmark.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                FLASK_HOST: "0.0.0.0"
+                FLASK_PORT: "{{ .Values.service.main.ports.main.port }}"
+                CONFIG_DIR: "{{ .Values.persistence.config.mountPath }}"
+                INGEST_DIR: "{{ .Values.persistence.imports.mountPath }}"
+                LOG_ROOT: "/var/log/"
+                TMP_DIR: "/tmp/shelfmark"
+                ENABLE_LOGGING: true
+                SESSION_COOKIE_SECURE: false # https will be done through ingress, keep false
+                DOCKERMODE: true # runs in "docker"
+                ONBOARDING: true
+                SEARCH_MODE: direct
+                AA_DEFAULT_SORT	Default: relevance
+                METADATA_PROVIDER: openlibrary
+                METADATA_PROVIDER_AUDIOBOOK: "" # Metadata provider for audiobook searches. Uses the book provider if not set.
+                DEFAULT_RELEASE_SOURCE: "direct_download"
+                # BOOKS_OUTPUT_MODE: ""
+                # BOOKLORE_HOST: booklore-app-template.booklore.svc.cluster.local:6060
+                # BOOKLORE_USERNAME: ""
+                # BOOKLORE_PASSWORD: ""
+                # BOOKLORE_DESTINATION: "Bookdrop"
+                # BOOKLORE_LIBRARY_ID: ""
+                # BOOKLORE_PATH_ID: ""
+                # EMAIL_RECIPIENT: ""
+                # EMAIL_ATTACHMENT_SIZE_LIMIT_MB: 25
+                # EMAIL_SMTP_HOST: smtp.gmail.com
+                # EMAIL_SMTP_PORT: 587
+                # EMAIL_SMTP_SECURITY: starttls
+                # EMAIL_SMTP_USERNAME: ""
+                # EMAIL_SMTP_PASSWORD: ""
+                # EMAIL_FROM: ""
+                # EMAIL_SUBJECT_TEMPLATE: "{Title}"
+                # EMAIL_SMTP_TIMEOUT_SECONDS: 60
+                # EMAIL_ALLOW_UNVERIFIED_TLS: false
+                # DESTINATION_AUDIOBOOK: ""
+                # FILE_ORGANIZATION_AUDIOBOOK: rename
+                # TEMPLATE_AUDIOBOOK_RENAME: "{Author} - {Title}"
+                # TEMPLATE_AUDIOBOOK_ORGANIZE: "{Author}/{Title}"
+                # HARDLINK_TORRENTS_AUDIOBOOK: true
+                # AUTO_OPEN_DOWNLOADS_SIDEBAR: false
+                # DOWNLOAD_TO_BROWSER: false
+                # MAX_CONCURRENT_DOWNLOADS: 3
+                # STATUS_TIMEOUT: 3600
+                # auth
+                # AUTH_METHOD: "oidc"
+                # PROXY_AUTH_USER_HEADER: "X-Auth-User"
+                # PROXY_AUTH_EMAIL_HEADER: "X-Auth-Email"
+                # PROXY_AUTH_NAME_HEADER: "X-Auth-Name"
+                # PROXY_AUTH_GROUPS_HEADER: "X-Auth-Groups"
+                # PROXY_AUTH_LOGOUT_URL: ""
+                # PROXY_AUTH_ADMIN_GROUP_HEADER: "X-Auth-Groups"
+                # PROXY_AUTH_ADMIN_GROUP_NAME: ""
+                # OIDC_DISCOVERY_URL: ""
+                # IDC_CLIENT_ID: ""
+                # OIDC_CLIENT_SECRET: ""
+                # OIDC_SCOPES: openid,email,profile
+                # OIDC_GROUP_CLAIM: groups
+                # OIDC_ADMIN_GROUP: ""
+                # OIDC_USE_ADMIN_GROUP: true
+                # OIDC_AUTO_PROVISION: true
+                # OIDC_BUTTON_LABEL: ""
+
+                # https://github.com/calibrain/shelfmark/blob/main/docs/environment-variables.md#prowlarr
+                USE_CF_BYPASS: true
+                USING_EXTERNAL_BYPASSER: false
+                # EXT_BYPASSER_URL: http://flaresolverr.flaresolverr.svc.cluster.local:8191
+                # EXT_BYPASSER_PATH: /v1
+                # EXT_BYPASSER_TIMEOUT: 60000
+    persistence:
+      config:
+        enabled: true
+        mountPath: "/config"
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      imports:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: "${MEDIA_NFS}/Literature/imports"
+        mountPath: "/cwa-book-ingest"
+    cnpg:
+      main:
+        enabled: false
