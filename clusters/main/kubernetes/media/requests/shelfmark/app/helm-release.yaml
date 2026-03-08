@@ -83,7 +83,7 @@ spec:
                 TMP_DIR: "/tmp/shelfmark"
                 ENABLE_LOGGING: true
                 SESSION_COOKIE_SECURE: false # https will be done through ingress, keep false
-                DOCKERMODE: true # runs in "docker"
+                DOCKERMODE: false # true # runs in "docker"
                 ONBOARDING: true
                 SEARCH_MODE: direct
                 AA_DEFAULT_SORT: relevance
