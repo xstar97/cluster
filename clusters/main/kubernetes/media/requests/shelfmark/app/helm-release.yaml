@@ -86,8 +86,9 @@ spec:
                 DOCKERMODE: true # runs in "docker"
                 ONBOARDING: true
                 SEARCH_MODE: direct
-                AA_DEFAULT_SORT	Default: relevance
-                METADATA_PROVIDER: openlibrary
+                AA_DEFAULT_SORT: relevance
+                METADATA_PROVIDER: 
+                OPENLIBRARY_ENABLED: true
                 METADATA_PROVIDER_AUDIOBOOK: "" # Metadata provider for audiobook searches. Uses the book provider if not set.
                 DEFAULT_RELEASE_SOURCE: "direct_download"
                 # BOOKS_OUTPUT_MODE: ""
