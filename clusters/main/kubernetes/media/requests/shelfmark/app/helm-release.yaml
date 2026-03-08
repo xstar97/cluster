@@ -82,8 +82,9 @@ spec:
                 LOG_ROOT: "/var/log/"
                 TMP_DIR: "/tmp/shelfmark"
                 ENABLE_LOGGING: true
+                DEBUG: true
                 SESSION_COOKIE_SECURE: false # https will be done through ingress, keep false
-                DOCKERMODE: false # true # runs in "docker"
+                DOCKERMODE: true # true # runs in "docker"
                 ONBOARDING: true
                 SEARCH_MODE: direct
                 AA_DEFAULT_SORT: relevance
@@ -136,8 +137,8 @@ spec:
                 # OIDC_USE_ADMIN_GROUP: true
                 # OIDC_AUTO_PROVISION: true
                 # OIDC_BUTTON_LABEL: ""
-
                 # https://github.com/calibrain/shelfmark/blob/main/docs/environment-variables.md#prowlarr
+                # bypass
                 USE_CF_BYPASS: true
                 USING_EXTERNAL_BYPASSER: false
                 # EXT_BYPASSER_URL: http://flaresolverr.flaresolverr.svc.cluster.local:8191
