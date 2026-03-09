@@ -54,7 +54,7 @@ spec:
         ports:
           main:
             port: 8084
-            protocol: https
+            # protocol: https
     workload:
       main:
         podSpec:
@@ -63,15 +63,15 @@ spec:
               probes:
                 liveness:
                   enabled: true
-                  type: https
+                  # type: https
                   path: /api/health
                 readiness:
                   enabled: true
-                  type: https
+                  # type: https
                   path: /api/health
                 startup:
                   enabled: true
-                  type: https
+                  # type: https
                   path: /api/health
               env:
                 FLASK_HOST: "0.0.0.0"
