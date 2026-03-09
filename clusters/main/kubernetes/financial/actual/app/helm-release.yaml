@@ -61,6 +61,8 @@ spec:
       main:
         enabled: true
         ingressClassName: "internal"
+        # annotations:
+        #  nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         hosts:
           - host: actual.${DOMAIN_2}
             paths:
@@ -69,10 +71,10 @@ spec:
         integrations:
           nginx:
             enabled: true
-            auth:
-              type: "authelia"
-              internalHost: "authelia.authelia.svc.cluster.local:9091"
-              externalHost: "auth.${DOMAIN_2}"
+            # auth:
+            #   type: "authelia"
+            #   internalHost: "authelia.authelia.svc.cluster.local:9091"
+            #   externalHost: "auth.${DOMAIN_2}"
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
