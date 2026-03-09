@@ -114,15 +114,8 @@ spec:
               enabled: true
       uploads:
         enabled: true
+        type: emptyDir
         mountPath: /app/temp-uploads
-        volsync:
-          - name: uploads
-            type: restic
-            credentials: cf-restic
-            dest:
-              enabled: true
-            src:
-              enabled: true
 
     cnpg:
       main:
