@@ -54,7 +54,6 @@ spec:
         ports:
           main:
             port: 8084
-            protocol: https
     workload:
       main:
         podSpec:
@@ -82,7 +81,7 @@ spec:
                 TMP_DIR: "/tmp/shelfmark"
                 ENABLE_LOGGING: true
                 DEBUG: true
-                SESSION_COOKIE_SECURE: true # https will be done through ingress, keep false
+                SESSION_COOKIE_SECURE: false # https will be done through ingress, keep false
                 DOCKERMODE: true # true # runs in "docker"
                 ONBOARDING: true
                 SEARCH_MODE: direct
@@ -149,7 +148,8 @@ spec:
         enabled: true
         ingressClassName: "internal"
         annotations:
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          # nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          nginx.ingress.kubernetes.io/custom-http-errors: "599"
         hosts:
           - host: shelfmark.${DOMAIN_2}
             paths:
