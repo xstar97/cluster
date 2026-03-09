@@ -31,7 +31,7 @@ spec:
     gatus:
       group: assets
     global:
-      stopAll: true
+      stopAll: false
     image:
       repository: inigochoa/yarnl
       pullPolicy: IfNotPresent
