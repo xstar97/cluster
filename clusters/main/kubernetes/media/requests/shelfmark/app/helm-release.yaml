@@ -35,7 +35,7 @@ spec:
     image:
       pullPolicy: IfNotPresent
       repository: ghcr.io/calibrain/shelfmark
-      tag: 2.1.0@sha256:8140f9513f89d8617871316cf8778e4a3d71957ca290a0e59d58caf3ccbb24d7
+      tag: 1.2.0@sha256:8140f9513f89d8617871316cf8778e4a3d71957ca290a0e59d58caf3ccbb24d7
     credentials:
       cf-restic:
         type: s3
@@ -179,7 +179,7 @@ spec:
         type: nfs
         server: ${SCALE_IP}
         path: "${MEDIA_NFS}/Literature/imports"
-        mountPath: "/cwa-book-ingest"
+        mountPath: "/imports"
     cnpg:
       main:
         enabled: false
