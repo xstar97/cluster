@@ -3,5 +3,5 @@ kind: Kustomization
 resources:
   - lldap/ks.yaml
   - vaultwarden/ks.yaml
-  # - authelia/ks.yaml
+  - authelia/ks.yaml
   - authentik/ks.yaml

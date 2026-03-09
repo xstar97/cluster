@@ -1,0 +1,134 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: yarnl
+  namespace: yarnl
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.38.1
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: assets
+    global:
+      stopAll: true
+    image:
+      repository: inigochoa/yarnl
+      pullPolicy: IfNotPresent
+      tag: 0.24.0@sha256:009567247c2815e806a05c9dc4bf1d101dd752b2986bdcd1f6b735314b685082
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-yarnl"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+
+    service:
+      main:
+        ports:
+          main:
+            port: 9080
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                POSTGRES_HOST:
+                  secretKeyRef:
+                    name: cnpg-main-urls
+                    key: host
+                POSTGRES_PORT: "5432"
+                POSTGRES_DB: "{{ .Values.cnpg.main.database }}"
+                POSTGRES_USER: "{{ .Values.cnpg.main.user }}"
+                POSTGRES_PASSWORD:
+                  secretKeyRef:
+                    name: cnpg-main-user
+                    key: password
+                ADMIN_USERNAME: ${YARNL_ADMIN_USER}
+                ADMIN_PASSWORD: ${YARNL_ADMIN_PASS}
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: yarnl.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      users:
+        enabled: true
+        mountPath: /app/users
+        volsync:
+          - name: users
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      backups:
+        enabled: true
+        mountPath: /backups
+        volsync:
+          - name: backups
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+
+    cnpg:
+      main:
+        enabled: true
+        user: yarnl
+        database: yarnl
+        # mode: recovery
+        cluster:
+          singleNode: true
+          walStorage:
+            size: 10Gi
+        backups:
+          enabled: true
+          credentials: cf-restic
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              # https://crontab.guru/#0_8_*_*_*
+              schedule: "0 8 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic

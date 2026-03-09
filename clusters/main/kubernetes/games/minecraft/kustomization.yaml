@@ -7,4 +7,4 @@ resources:
   - minecraft-java/ks.yaml
   - minecraft-lobby/ks.yaml
   - minecraft-fam/ks.yaml
-  
+  - minecraft-phpmyadmin/ks.yaml
