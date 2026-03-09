@@ -54,7 +54,7 @@ spec:
         ports:
           main:
             port: 8084
-            # protocol: https
+            protocol: https
     workload:
       main:
         podSpec:
@@ -148,8 +148,8 @@ spec:
       main:
         enabled: true
         ingressClassName: "internal"
-        # annotations:
-        #   nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
         hosts:
           - host: shelfmark.${DOMAIN_2}
             paths:
