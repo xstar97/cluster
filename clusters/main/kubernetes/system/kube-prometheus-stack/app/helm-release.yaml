@@ -18,6 +18,8 @@ spec:
       interval: 15m
   timeout: 20m
   maxHistory: 3
+  driftDetection:
+    mode: warn
   install:
     createNamespace: true
     remediation:
@@ -29,6 +31,14 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    gatus:
+      group: core
+    grafana:
+      enabled: false
+      forceDeployDashboards: true
+      defaultDashboardsEnabled: true
+      forceDeployDatasources: true
+      defaultDashboardsTimezone: America/New_York
     crds:
       enabled: true
       upgradeJob:
@@ -37,17 +47,24 @@ spec:
     cleanPrometheusOperatorObjectNames: true
     alertmanager:
       enabled: false
-    kubeEtcd:
-      service:
-        selector:
-          component: kube-apiserver
     kubeProxy:
       enabled: false
+    kubeEtcd:
+      enabled: false
+      # service:
+      #   port: 2379
+      #   targetPort: 2379
+      #   selector:
+      #     component: kube-apiserver # etcd runs on control plane nodes
+      # serviceMonitor:
+      #   scheme: https
+      #   insecureSkipVerify: false
+      #   serverName: "localhost"
+      #   caFile: "/etc/prometheus/secrets/etcd-client-cert/etcd-ca.crt"
+      #   certFile: "/etc/prometheus/secrets/etcd-client-cert/etcd-client.crt"
+      #   keyFile: "/etc/prometheus/secrets/etcd-client-cert/etcd-client-key.key"
     prometheus:
-      ingress:
-        enabled: false
       prometheusSpec:
-        disableCompaction: true
         podMonitorSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         ruleSelectorNilUsesHelmValues: false
@@ -57,29 +74,38 @@ spec:
         walCompression: true
         enableFeatures:
           - memory-snapshot-on-shutdown
-        # Prometheus metrics retention time in PV
         retention: 14d
         retentionSize: 50GB
-        # External labels to add to any time series or
-        # alerts when communicating with external systems
-        externalLabels:
-          cluster: cluster_main
-          env: prod
-        # High availability
-        replicas: 1
         resources:
           requests:
-            cpu: 75m
+            cpu: 100m
             memory: 500Mi
           limits:
             memory: 2000Mi
-        # storageSpec:
-        #   volumeClaimTemplate:
-        #     spec:
-        #       resources:
-        #         requests:
-        #           storage: 60Gi
-
+        # secrets:
+        #   - etcd-client-cert
+      ingress:
+        enabled: true
+        ingressClassName: internal
+        annotations:
+          cert-manager.io/cluster-issuer: general-le-prod
+          cert-manager.io/private-key-rotation-policy: Always
+          gatus.home-operations.com/enabled: "false"
+          gatus.home-operations.com/endpoint: |
+            group: "core"
+            alerts:
+              - type: discord
+                description: "healthcheck failed"
+                send-on-resolved: true
+        hosts:
+          - prometheus.${DOMAIN_2}
+        paths:
+          - /
+        pathType: Prefix
+        tls:
+          - secretName: prometheus-stack-tls
+            hosts:
+              - prometheus.${DOMAIN_2}
     prometheus-node-exporter:
       fullnameOverride: node-exporter
       prometheus:
@@ -91,23 +117,3 @@ spec:
               replacement: $1
               sourceLabels: ["__meta_kubernetes_pod_node_name"]
               targetLabel: kubernetes_node
-    kube-state-metrics:
-      fullnameOverride: kube-state-metrics
-      # metricLabelsAllowlist:
-      #   - pods=[*]
-      #   - deployments=[*]
-      #   - persistentvolumeclaims=[*]
-      prometheus:
-        monitor:
-          enabled: true
-          relabelings:
-            - action: replace
-              regex: (.*)
-              replacement: $1
-              sourceLabels: ["__meta_kubernetes_pod_node_name"]
-              targetLabel: kubernetes_node
-    grafana:
-      enabled: false
-      forceDeployDashboards: true
-      defaultDashboardsEnabled: true
-      forceDeployDatasources: true
