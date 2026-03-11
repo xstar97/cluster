@@ -13,7 +13,7 @@ resources:
   - assets
   - financial
   - games
-  #- media
+  - media
   - medical
   - observability
   - tools
