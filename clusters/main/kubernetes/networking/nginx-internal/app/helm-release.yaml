@@ -1,0 +1,90 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nginx-internal
+  namespace: nginx
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: ingress-nginx
+      version: 4.13.0
+      sourceRef:
+        kind: HelmRepository
+        name: home-ops-mirror
+        namespace: flux-system
+      interval: 15m
+  install:
+    createNamespace: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  values:
+    gatus:
+      group: core
+    nameOverride: nginx-internal
+    controller:
+      replicaCount: 1
+      service:
+        externalTrafficPolicy: Local
+        annotations:
+          metallb.io/ip-allocated-from-pool: main
+          metallb.io/loadBalancerIPs: ${NGINX_INTERNAL_IP}
+          metallb.universe.tf/ip-allocated-from-pool: main
+      ingressClassByName: true
+      watchIngressWithoutClass: true
+      ingressClassResource:
+        name: internal
+        default: true
+        controllerValue: k8s.io/internal
+      config:
+        custom-http-errors: >-
+          401,403,404,500,501,502,503
+        allow-snippet-annotations: true
+        annotations-risk-level: Critical
+        client-body-buffer-size: 100M
+        client-body-timeout: 120
+        client-header-timeout: 120
+        enable-brotli: "true"
+        enable-ocsp: "true"
+        enable-real-ip: "true"
+        force-ssl-redirect: "true"
+        hide-headers: Server,X-Powered-By
+        hsts-max-age: "31449600"
+        keep-alive-requests: 10000
+        keep-alive: 120
+        proxy-body-size: 0
+        proxy-buffer-size: 16k
+        proxy-busy-buffers-size: 32k
+        ssl-protocols: TLSv1.3 TLSv1.2
+        use-forwarded-headers: "true"
+        proxy-real-ip-cidr: "${PODNET},${SVCNET}"
+      metrics:
+        enabled: false
+        serviceMonitor:
+          enabled: false
+      extraArgs:
+        default-ssl-certificate: "clusterissuer/certificate-issuer-general-wildcard"
+        publish-status-address: ${NGINX_INTERNAL_IP}
+      terminationGracePeriodSeconds: 120
+      publishService:
+        enabled: false
+      resources:
+        requests:
+          cpu: 2000m
+        limits:
+          memory: 4096Mi
+    defaultBackend:
+      enabled: true
+      image:
+        repository: ghcr.io/tarampampam/error-pages
+        tag: '3' # using the latest tag is highly discouraged
+      extraEnvs:
+        - name: TEMPLATE_NAME # Optional: change the default theme
+          value: app-down
+        - name: SHOW_DETAILS # Optional: enables the output of additional information on error pages
+          value: 'true'

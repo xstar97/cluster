@@ -1,0 +1,31 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: webhook-receiver
+  namespace: flux-system
+  annotations:
+    cert-manager.io/cluster-issuer: general-le-prod
+    cert-manager.io/private-key-rotation-policy: Always
+    gatus.home-operations.com/endpoint: |
+      group: "core"
+      alerts:
+        - type: discord
+          description: "healthcheck failed"
+          send-on-resolved: true
+spec:
+  ingressClassName: "external"
+  rules:
+  - host: fluxwh.${DOMAIN_2}
+    http:
+      paths:
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: webhook-receiver
+            port:
+              number: 80
+  tls:
+    - hosts:
+      - fluxwh.${DOMAIN_2}
+      secretName: flux-webhook-tls-0

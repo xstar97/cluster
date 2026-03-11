@@ -1,0 +1,49 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: feedcord
+  namespace: feedcord
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: feedcord
+      version: 1.16.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    feedcord:
+      Instances:
+        - Id: Awesome SelfHosted News Feed
+          YoutubeUrls:
+            - ""
+          RssUrls:
+            - "https://www.trackawesomelist.com/awesome-selfhosted/awesome-selfhosted/rss.xml"
+            - "https://selfh.st/rss/"
+          Forum: false
+          DiscordWebhookUrl: ${FEEDCORD_AWESOME_SELF_HOSTED_WEBHOOK_DISCORD}
+          RssCheckIntervalMinutes: 10
+          EnableAutoRemove: false
+          Color: 8411391
+          DescriptionLimit: 250
+          MarkdownFormat: true
+          PersistenceOnShutdown: true
+      ConcurrentRequests: 40

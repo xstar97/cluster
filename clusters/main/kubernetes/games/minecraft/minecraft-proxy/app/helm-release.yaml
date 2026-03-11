@@ -1,0 +1,263 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: minecraft-proxy
+  namespace: minecraft
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: minecraft-proxy
+      version: 2.18.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: games-minecraft
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-minecraft-proxy"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+  
+    service:
+      main:
+        enabled: true
+        type: LoadBalancer
+        loadBalancerIP: ${MC_ROUTER_IP}
+        integrations:
+          metallb:
+            enabled: true
+        ports:
+          main:
+            enabled: true
+            protocol: tcp
+            port: 25565
+            targetPort: 25565
+          bedrock:
+            enabled: true
+            port: 19132
+            protocol: udp
+    
+    resources:
+      limits:
+        memory: 1Gi
+
+    configmap:
+      plugins:
+        enabled: true
+        data:
+          plugins.txt: |
+            https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/velocity
+            https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/velocity
+      forwarding-secret:
+        enabled: true
+        data:
+          forwarding.secret: |
+            ${VELOCITY_FORWARDING_SECRET}
+      velocity:
+        enabled: true
+        data:
+          velocity.toml: |
+            
+            config-version = "2.7"
+
+            bind = "0.0.0.0:25565"
+
+            motd = "<#09add3>A Velocity Server"
+            
+            show-max-players = 500
+
+            online-mode = true
+            
+            force-key-authentication = true
+            
+            prevent-client-proxy-connections = false
+            
+            player-info-forwarding-mode = "modern"
+
+            forwarding-secret-file = "forwarding.secret"
+            
+            announce-forge = false
+            
+            kick-existing-players = false
+            
+            ping-passthrough = "all"
+
+            sample-players-in-ping = false
+
+            enable-player-address-logging = true
+
+            [servers]
+      
+            family = "minecraft-fam-minecraft-java.minecraft.svc.cluster.local:25565"
+
+            lobby = "minecraft-lobby-minecraft-java.minecraft.svc.cluster.local:25565"
+
+            # creative = "minecraft-creative-minecraft-java.minecraft.svc.cluster.local:25565"
+
+
+            try = [
+                "family",
+                # "creative",
+                "lobby"
+            ]
+
+            [forced-hosts]
+            
+            "lobby.${DOMAIN_1}" = ["lobby"]
+
+            # "creative.${DOMAIN_1}" = ["creative", "lobby"]
+
+            "family.${DOMAIN_1}" = ["family", "lobby"]
+
+            [advanced]
+
+            compression-threshold = 256
+            
+            compression-level = -1
+            
+            login-ratelimit = 3000
+
+            connection-timeout = 5000
+
+            read-timeout = 30000
+
+            haproxy-protocol = false
+
+            tcp-fast-open = true
+
+            bungee-plugin-message-channel = true
+
+            show-ping-requests = false
+
+            failover-on-unexpected-server-disconnect = true
+
+            announce-proxy-commands = true
+
+            log-command-executions = false
+
+            log-player-connections = true
+
+            accepts-transfers = true
+
+            enable-reuse-port = true
+
+            command-rate-limit = 50
+
+            forward-commands-if-rate-limited = true
+
+            kick-after-rate-limited-commands = 0
+
+            tab-complete-rate-limit = 10
+
+            kick-after-rate-limited-tab-completes = 0
+
+            [query]
+
+            enabled = true
+
+            port = 25565
+
+            map = "Velocity"
+
+            show-plugins = false
+
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              imageSelector: image
+              env:
+                RCON_PORT: "{{ .Values.service.rcon.ports.rcon.port }}"
+                RCON_PASSWORD: "secretrconpass"
+                TYPE: "VELOCITY"
+                ONLINE_MODE: true
+                MEMORY: 512M
+                INIT_MEMORY: 512M
+                MAX_MEMORY: 512M
+                NETWORKADDRESS_CACHE_TTL: 60
+                REPLACE_ENV_VARIABLES: false
+                ENV_VARIABLE_PREFIX: "CFG_"
+                # MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
+                # MINECRAFT_VERSION: LATEST
+                # GENERIC_PACKS: "configs-v9.0.1,mods-v4.3.6"
+                # GENERIC_PACKS_PREFIX: "https://cdn.example.org/"
+                # GENERIC_PACKS_SUFFIX="".zip"
+                # JVM_OPTS: ""
+                # JVM_XX_OPTS: ""
+                # PLUGINS: ""
+                PLUGINS_FILE: /extras/plugins.txt
+
+    persistence:
+      velocity:
+        enabled: true
+        type: configmap
+        mountPath: /config/velocity.toml
+        objectName: velocity
+        readOnly: true
+        subPath: velocity.toml
+      velocity-forwarding-secret:
+        enabled: true
+        type: configmap
+        mountPath: /config/forwarding.secret
+        objectName: forwarding-secret
+        readOnly: true
+        subPath: forwarding.secret
+      config:
+        targetSelectAll: true
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      server:
+        volsync:
+          - name: server
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      plugins:
+        volsync:
+          - name: plugins
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      plugins-file:
+        enabled: true
+        type: configmap
+        mountPath: /extras/plugins.txt
+        objectName: plugins
+        readOnly: true
+        subPath: plugins.txt

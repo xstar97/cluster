@@ -1,0 +1,274 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: homepage
+  namespace: homepage
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: homepage
+      version: 11.23.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: dashboard
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-homepage"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 3000
+
+    forceConfigFromValues: true
+
+    configmap:
+      config:
+        enabled: true
+        data:
+          # https://gethomepage.dev/configs/custom-css-js/
+          custom.js: ""
+          custom.css: ""
+          kubernetes.yaml: |
+            ---
+            # For configuration options and examples, please see:
+            # https://gethomepage.dev/configs/kubernetes/
+
+            mode: cluster
+          settings.yaml: |
+            ---
+            # For configuration options and examples, please see:
+            # https://gethomepage.dev/configs/
+
+            providers:
+              openweathermap: openweathermapapikey
+              weatherapi: weatherapiapikey
+              longhorn:
+                url: http://longhorn-frontend.longhorn-system.svc.cluster.local:80
+
+            quicklaunch:
+              searchDescriptions: true
+              hideInternetSearch: true
+              showSearchSuggestions: true
+              hideVisitURL: true
+              provider: google # google, duckduckgo, bing, baidu, brave or custom
+
+            layout:
+              Media Server:
+                tab: Media
+              Media Downloads:
+                tab: Media
+              Media Transcoder:
+                tab: Media
+              Media Requests:
+                tab: Media
+              Media Indexer:
+                tab: Media
+              Media Manager:
+                tab: Media
+                style: row
+                columns: 3
+              Games:
+                tab: Games
+              Networking:
+                tab: Networking
+              Monitoring:
+                tab: Monitoring
+              Inventory:
+                tab: Monitoring
+              Servers:
+                tab: Monitoring
+
+          widgets.yaml: |
+            ---
+            # For configuration options and examples, please see:
+            # https://gethomepage.dev/widgets/
+
+            - resources:
+                cpu: true
+                memory: true
+                # disk: /
+
+            - longhorn:
+                # Show the expanded view
+                expanded: true
+                # Shows a node representing the aggregate values
+                total: true
+                # Shows the node names as labels
+                labels: true
+                # Show the nodes
+                nodes: true
+
+          services.yaml: |
+            ---
+            # For configuration options and examples, please see:
+            # https://gethomepage.dev/configs/services/
+
+
+            - Networking:
+
+              - opnsense:
+                  icon: opnsense.png
+                  href: "https://router.greenehomelab.com"
+                  siteMonitor: http://${ROUTER_IP}:444
+                  widget:
+                    type: opnsense
+                    url: http://${ROUTER_IP}:444
+                    username: ${OPNSENSE_USER_NAME}
+                    password: ${OPNSENSE_USER_PASS}
+                    # wan: opt1 # optional, defaults to wan
+
+              - cloudflared:
+                  icon: cloudflare.png
+                  id: talos-cf-tunnel
+                  widget:
+                    type: cloudflared
+                    accountid: ${CF_ACCOUNT_ID} 
+                    tunnelid: ${CF_TUNNEL_ID} 
+                    key: ${CF_TUNNEL_KEY}
+
+            - Games:
+
+              - minecraft-router:
+                  icon: minecraft.png
+                  namespace: minecraft-router
+                  app: minecraft-router
+                  widget:
+                    type: gamedig
+                    serverType: minecraft # see https://github.com/gamedig/node-gamedig#games-list
+                    url: tcp://minecraft-router.minecraft-router.svc.cluster.local:25565
+                    fields: ["status", "name", "currentPlayers", "ping"]
+
+              - minecraft-java:
+                  icon: minecraft.png
+                  namespace: minecraft-java
+                  app: minecraft-java
+                  widget:
+                    type: gamedig
+                    serverType: minecraft # see https://github.com/gamedig/node-gamedig#games-list
+                    url: tcp://minecraft-java.minecraft-java.svc.cluster.local:25565
+                    fields: ["status", "name", "currentPlayers", "ping"]
+
+              - minecraft-bedrock:
+                  icon: minecraft.png
+                  namespace: minecraft-java
+                  app: minecraft-java
+                  widget:
+                    type: gamedig
+                    serverType: minecraft # see https://github.com/gamedig/node-gamedig#games-list
+                    url: udp://minecraft-java.minecraft-java.svc.cluster.local:19132
+                    fields: ["status", "name", "currentPlayers", "ping"]
+
+              - minecraft-lobby:
+                  icon: minecraft.png
+                  namespace: minecraft-lobby
+                  app: minecraft-java
+                  widget:
+                    type: gamedig
+                    serverType: minecraft # see https://github.com/gamedig/node-gamedig#games-list
+                    url: tcp://minecraft-lobby-minecraft-java.minecraft-lobby.svc.cluster.local:25565
+                    fields: ["status", "name", "currentPlayers", "ping"]
+
+            - Servers:
+
+                - Truenas:
+                    icon: truenas.svg
+                    href: https://scale.${DOMAIN_2}
+                    siteMonitor: https://${SCALE_IP}:444
+                    description: "Nas"
+                    widget:
+                      type: truenas
+                      url: https://${SCALE_IP}:444
+                      key: ${SCALE_HP_KEY} # not required if using username / password
+                      nasType: scale # defaults to scale, must be set to 'core' if using enablePools with TrueNAS Core
+
+            - Monitoring:
+
+                - apcups:
+                    description: "apcups"
+                    widget:
+                      type: apcups
+                      url: tcp://${ROUTER_IP}:3551
+
+
+          bookmarks.yaml: |
+            ---
+            # For configuration options and examples, please see:
+            # https://gethomepage.dev/configs/bookmarks/
+
+            - Developer:
+                - GitHubCluster:
+                    - abbr: GH
+                      href: https://github.com/xstar97/cluster
+                - GitHubHomeOps:
+                    - abbr: HO
+                      href: https://github.com/xstar97/docker-home-ops
+                - GitOps:
+                    - abbr: GO
+                      href: https://gitops.${DOMAIN_2}
+
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: homepage.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            auth:
+              type: "authelia"
+              internalHost: "authelia.authelia.svc.cluster.local:9091"
+              externalHost: "auth.${DOMAIN_2}"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                HOMEPAGE_ALLOWED_HOSTS: "homepage.${DOMAIN_2}"
+
+    persistence:
+      config:
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true

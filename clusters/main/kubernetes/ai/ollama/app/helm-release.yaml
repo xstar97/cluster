@@ -1,0 +1,108 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ollama
+  namespace: ollama
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.38.1
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  install:
+    createNamespace: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  timeout: 20m
+  values:
+    gatus:
+      group: AI
+    global:
+      stopAll: true
+    image:
+      repository: ollama/ollama
+      pullPolicy: IfNotPresent
+      tag: 0.17.7@sha256:0ff452f6a4c3c5bb4ab063a1db190b261d5834741a519189ed5301d50e4434d1
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-ollama"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        runAsNonRoot: false
+        readOnlyRootFilesystem: false
+        runAsUser: 0
+        runAsGroup: 0
+    service:
+      main:
+        ports:
+          main:
+            port: 11434
+    ollama:
+      origins:
+        - "*"
+        - "https://*.${DOMAIN_2}"
+    workload:
+      main:
+        podSpec:
+          runtimeClassName: nvidia
+          containers:
+            main:
+              env:
+                OLLAMA_HOST: '{{ printf "http://0.0.0.0:%v" .Values.service.main.ports.main.port }}'
+                OLLAMA_MODELS: "{{.Values.persistence.models.mountPath }}"
+                # OLLAMA_NEW_ENGINE: true
+                OLLAMA_DEBUG: true
+                OLLAMA_ORIGINS: '{{ join "," .Values.ollama.origins }}'
+              resources:
+                limits:
+                  nvidia.com/gpu: 1
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        annotations:
+          gatus.home-operations.com/enabled: "false"
+        hosts:
+          - host: ollama.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      config:
+        enabled: true
+        mountPath: /root/.ollama
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      models:
+        enabled: true
+        mountPath: /models
+    cnpg:
+      main:
+        enabled: false

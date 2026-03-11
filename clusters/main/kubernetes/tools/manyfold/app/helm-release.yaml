@@ -1,0 +1,108 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: manyfold
+  namespace: manyfold
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: manyfold
+      version: 4.51.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  timeout: 5m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: tools
+      path: "/health"
+    global:
+      stopAll: true
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-manyfold"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 3214
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        annotations:
+          gatus.home-operations.com/enabled: "false"
+          gatus.home-operations.com/endpoint: |
+            url: "https://{{ .Release.Name }}.${DOMAIN_2}/health"
+            group: "${GROUP}"
+            alerts:
+              - type: discord
+                description: "healthcheck failed"
+                send-on-resolved: true
+        hosts:
+          - host: manyfold.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            auth:
+              type: "authelia"
+              internalHost: "authelia.authelia.svc.cluster.local:9091"
+              externalHost: "auth.${DOMAIN_2}"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      libraries:
+        volsync:
+          - name: libraries
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+              trigger:
+                schedule: 10 0 * * *
+    cnpg:
+      main:
+        mode: recovery
+        cluster:
+          singleNode: true
+        backups:
+          enabled: true
+          credentials: cf-restic
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              # https://crontab.guru/#25_0_*_*_*
+              schedule: "25 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic

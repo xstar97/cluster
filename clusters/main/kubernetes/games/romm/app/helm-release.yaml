@@ -1,0 +1,135 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: romm
+  namespace: romm
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: romm
+      version: 14.37.1
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: games
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-romm"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                IGDB_CLIENT_ID: "${ROMM_CLIENT_ID}"
+                IGDB_CLIENT_SECRET: "${ROMM_CLIENT_SECRET}"
+                ROMM_AUTH_SECRET_KEY: "${ROMM_AUTH_SECRET_KEY}"
+                DISABLE_EMULATOR_JS: false
+                DISABLE_RUFFLE_RS: false
+                OIDC_ENABLED: true
+                OIDC_PROVIDER: authelia
+                OIDC_CLIENT_ID: romm
+                OIDC_CLIENT_SECRET: "${AUTHELIA_CLIENT_ROMM_SECRET}"
+                OIDC_REDIRECT_URI: https://romm.${DOMAIN_2}/api/oauth/openid
+                OIDC_SERVER_APPLICATION_URL: https://auth.${DOMAIN_2}
+                PLAYMATCH_API_ENABLED: true
+                LAUNCHBOX_API_ENABLED: true
+                HASHEOUS_API_ENABLED: true
+                FLASHPOINT_API_ENABLED: true
+                HLTB_API_ENABLED: true
+                TGDB_API_ENABLED: true
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: romm.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            # auth:
+            #   type: "authelia"
+            #   internalHost: "authelia.authelia.svc.cluster.local:9091"
+            #   externalHost: "auth.${DOMAIN_2}"
+          homepage:
+            enabled: true
+            group: "Games"
+            widget:
+              custom:
+                username: "${ROMM_ADMIN_USER}"
+                password: "${ROMM_ADMIN_PASS}"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      config:
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      resources:
+        volsync:
+          - name: resources
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      assets:
+        volsync:
+          - name: assets
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      library:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${ROMS_NFS}
+        mountPath: /romm/library
+    mariadb:
+      enabled: true
+      credentials:
+        minio:
+          type: s3
+          url: "${CF_S3_RESTIC_URL}"
+          bucket: "${CF_S3_RESTIC_BUCKET}-romm"
+          accessKey: "${CF_S3_RESTIC_ID}"
+          secretKey: "${CF_S3_RESTIC_KEY}"
+          encrKey: "${CF_S3_RESTIC_KEY}"

@@ -1,0 +1,89 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ytptube
+  namespace: ytptube
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.38.1
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: media-downloaders
+    global:
+      stopAll: false
+    image:
+      repository: ghcr.io/arabcoders/ytptube
+      pullPolicy: IfNotPresent
+      tag: v1.2.7@sha256:50ab5d847354d2f385819f3925e57932a37819549d1867efdd059c933992164a
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-ytptube"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    service:
+      main:
+        ports:
+          main:
+            port: 8081
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: ytptube.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      config:
+        enabled: true
+        mountPath: /config
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      downloads:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: "${DOWNLOADS_NFS}/complete/manual"
+        mountPath: "${DOWNLOADS_LOCAL}"
+    redis:
+      enabled: false
+    cnpg:
+      main:
+        enabled: false

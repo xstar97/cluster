@@ -1,0 +1,77 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: grocy
+  namespace: grocy
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: grocy
+      version: 21.18.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  install:
+    createNamespace: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  timeout: 20m
+  values:
+    gatus:
+      group: assets
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-grocy"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: grocy.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                GROCY_AUTH_CLASS: 'Grocy\Middleware\LdapAuthMiddleware'
+                GROCY_LDAP_ADDRESS: "${LLDAP_URL_CLUSTER}"
+                GROCY_LDAP_BASE_DN: "ou=people,${LLDAP_LDAP_BASE_DN}"
+                GROCY_LDAP_BIND_DN: "${LLDAP_LDAP_PWDMANAGER_USER}"
+                GROCY_LDAP_BIND_PW: "${LLDAP_LDAP_PWDMANAGER_PASS}"
+                GROCY_LDAP_USER_FILTER: "(&(objectClass=person)(memberof=cn=lldap_grocy,ou=groups,${LLDAP_LDAP_BASE_DN}))"
+                GROCY_LDAP_UID_ATTR: "uid"
+    persistence:
+      config:
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true

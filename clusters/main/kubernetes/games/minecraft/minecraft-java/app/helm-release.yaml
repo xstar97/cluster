@@ -1,0 +1,219 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: minecraft-java
+  namespace: minecraft-java
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: minecraft-java
+      version: 34.10.9
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+    gatus:
+      group: games-minecraft
+
+    mcStatsImage:
+      repository: ghcr.io/xstar97/mc-stats
+      pullPolicy: IfNotPresent
+      tag: 3.3.1@sha256:35ebcd0f219cd7c14103e31e95cf38afffc408fd551a693dfe7643361b8d4254
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-minecraft-java"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        capabilities:
+          add:
+            - CAP_NET_RAW
+    service:
+      main:
+        enabled: true
+        type: LoadBalancer
+        loadBalancerIP: ${MC_JAVA_IP}
+        integrations:
+          metallb:
+            enabled: true
+        ports:
+          main:
+            enabled: true
+            protocol: tcp
+            port: 25565
+          query:
+            enabled: true
+            protocol: udp
+            port: 25566
+          bedrock:
+            enabled: true
+            port: 19132
+            protocol: udp
+      rcon:
+        enabled: true
+        type: ClusterIP
+        ports:
+          rcon:
+            enabled: true
+            port: 25575
+
+    resources:
+      limits:
+        memory: 8Gi
+    plugins:
+      # vault
+      - 34315
+    modrinth:
+      # - bluemap
+      - viaversion
+      - placeholderapi
+      - clickvillagers
+      - clickmobs
+      - theclanforge
+      - packetevents
+      - holomobhealth-packetevents
+      - holomobhealth
+      - chunky
+      - lagfixer
+      - customdeaths
+      - discordsrv
+      - networks
+
+    configmap:
+      plugins:
+        enabled: true
+        data:
+          plugins.txt: |
+            # https://github.com/pdinklag/MinecraftStats/releases/download/v3.3.1/MinecraftStats.jar
+            https://download.geysermc.org/v2/projects/floodgate/versions/latest/builds/latest/downloads/spigot
+            https://download.geysermc.org/v2/projects/geyser/versions/latest/builds/latest/downloads/spigot
+            https://cdn.modrinth.com/data/HQCF0DEG/versions/HlwiKb4T/DropperAutoCraft-0.7-SNAPSHOT.jar
+      
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              imageSelector: image
+              probes:
+                liveness:
+                  enabled: true
+                  type: exec
+                  command:
+                    - mc-health
+                readiness:
+                  enabled: true
+                  type: exec
+                  command:
+                    - mc-health
+                startup:
+                  enabled: true
+                  type: exec
+                  command:
+                    - mc-health
+              env:
+                SERVER_PORT: "{{ .Values.service.main.ports.main.port }}"
+                QUERY_PORT: "{{ .Values.service.main.ports.query.port }}"
+                RCON_PORT: "{{ .Values.service.rcon.ports.rcon.port }}"
+                DISABLE_HEALTHCHECK: true
+                SERVER_HOST: '{{ printf "%s" (include "tc.v1.common.lib.chart.names.fullname" $) }}'
+                ENABLE_SSH: false
+                WEBSOCKET_CONSOLE: false
+                WEBSOCKET_ADDRESS: "0.0.0.0:8080"
+                # WEBSOCKET_ALLOWED_ORIGINS: "*"
+                WEBSOCKET_DISABLE_ORIGIN_CHECK: true
+                WEBSOCKET_DISABLE_AUTHENTICATION: true
+                ENABLE_RCON: true
+                EXEC_DIRECTLY: "true"
+                ENABLE_QUERY: "true"
+                EULA: "TRUE"
+                GUI: "FALSE"
+                OVERRIDE_SERVER_PROPERTIES: true
+                VERSION: "1.21.11" # "LATEST" # "1.21.8"
+                TYPE: "PAPER"
+                # PAPER_BUILD: "138"
+                DIFFICULTY: easy
+                MAX_PLAYERS: 420
+                MAX_WORLD_SIZE: 10000
+                ALLOW_NETHER: true
+                ANNOUNCE_PLAYER_ACHIEVEMENTS: true
+                ENABLE_COMMAND_BLOCK: false
+                FORCE_GAMEMODE: false
+                GENERATE_STRUCTURES: true
+                HARDCORE: false
+                MAX_BUILD_HEIGHT: 256
+                ENABLE_AUTOPAUSE: false
+                MAX_TICK_TIME: 60000
+                SPAWN_ANIMALS: true
+                SPAWN_MONSTERS: true
+                SPAWN_NPCS: true
+                VIEW_DISTANCE: 16
+                SERVER_NAME: "The GreeneFam Server"
+                MODE: survival
+                MOTD: "Welcome to the Greene Family Server!"
+                PVP: false
+                # minecraft:normal
+                # minecraft:flat
+                # minecraft:large_biomes
+                # minecraft:amplified
+                # minecraft:single_biome_surface
+                LEVEL_TYPE: minecraft:amplified
+                LEVEL: world
+                ONLINE_MODE: true
+                MEMORY: 6144M
+                JVM_XX_OPTS: "" # "-XX:MaxRAMPercentage=75"
+                RCON_PASSWORD: "${RCON_PASS}"
+                USE_AIKAR_FLAGS: false
+                USE_FLARE_FLAGS: false
+                USE_MEOWICE_FLAGS: true
+                DEBUG_AUTOPAUSE: true
+                SKIP_SUDO: true
+                REMOVE_OLD_MODS: true
+                PLUGINS_FILE: "/data/plugins.txt"
+                SPIGET_RESOURCES: '{{ join "," .Values.plugins }}'
+                MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
+
+    persistence:
+      plugins:
+        enabled: true
+        type: configmap
+        mountPath: /data/plugins.txt
+        objectName: plugins
+        readOnly: true
+        subPath: plugins.txt
+      data:
+        targetSelector:
+          main:
+            main:
+              mountPath: /data
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true

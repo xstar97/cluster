@@ -1,0 +1,140 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tauticord
+  namespace: tauticord
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: tauticord
+      version: 9.19.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: media
+      path: "/health"
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-tauticord"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 8283
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              probes:
+                liveness:
+                  enabled: "{{ .Values.service.main.enabled }}"
+                  path: "/ping"
+                readiness:
+                  enabled: "{{ .Values.service.main.enabled }}"
+                  path: "/ping"
+                startup:
+                  enabled: "{{ .Values.service.main.enabled }}"
+                  path: "/ping"
+              env: {}
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        annotations:
+          gatus.home-operations.com/enabled: "false"
+        hosts:
+          - host: tauticord.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            auth:
+              type: "authelia"
+              internalHost: "authelia.authelia.svc.cluster.local:9091"
+              externalHost: "auth.${DOMAIN_2}"
+          homepage:
+            enabled: false
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      config:
+        enabled: true
+        mountPath: "/config"
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      logs:
+        enabled: true
+      monitor:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${MEDIA_NFS}
+        mountPath: "/monitor"
+    addons:
+      codeserver:
+        enabled: true
+        service:
+          type: "ClusterIP"
+          ports:
+            codeserver:
+              port: 36107
+        ingress:
+          enabled: true
+          ingressClassName: "internal"
+          annotations:
+            gatus.home-operations.com/endpoint: |
+              enabled: false
+              group: "${GROUP}"
+          integrations:
+            nginx:
+              enabled: true
+              auth:
+                type: "authelia"
+                internalHost: "authelia.authelia.svc.cluster.local:9091"
+                externalHost: "auth.${DOMAIN_2}"
+            certManager:
+              enabled: true
+              certificateIssuer: general-le-prod
+          hosts:
+            - host: editor.tauticord.${DOMAIN_2}
+              paths:
+                - path: /
+                  # Ignored if not kubeVersion >= 1.14-0
+                  pathType: Prefix
+          tls: []

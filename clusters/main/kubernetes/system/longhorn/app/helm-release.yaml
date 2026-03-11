@@ -1,0 +1,60 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: longhorn
+  namespace: longhorn-system
+spec:
+  interval: 5m
+  releaseName: longhorn
+  chart:
+    spec:
+      chart: longhorn
+      version: 1.11.0
+      sourceRef:
+        kind: HelmRepository
+        name: home-ops-mirror
+        namespace: flux-system
+  install:
+    createNamespace: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  values:
+    gatus:
+      group: core
+    defaultSettings:
+      # Increase to 3 for a multi-node cluster
+      defaultReplicaCount: "1"
+      # Overprovisioning might be needed when using volsync
+      storageOverProvisioningPercentage: "100000"
+      storageReservedPercentageForDefaultDisk: "10"
+      # v2DataEngine: true
+    csi:
+      attacherReplicaCount: 1
+      provisionerReplicaCount: 1
+      resizerReplicaCount: 1
+      snapshotterReplicaCount: 1
+    persistence:
+      # Set to false to pick another CSI as default
+      defaultClass: true
+      # Increase to 3 for a multi-node cluster
+      defaultClassReplicaCount: 1
+    longhornUI:
+      replicas: 1
+    metrics:
+      serviceMonitor:
+        enabled: true
+    ## Temp fix for longhorn/longhorn#12573
+    image:
+      longhorn:
+        instanceManager:
+          # -- Registry for the Longhorn Instance Manager image.
+          registry: ""
+          # -- Repository for the Longhorn Instance Manager image.
+          repository: derekbit/longhorn-instance-manager
+          # -- Tag for the Longhorn Instance Manager image.
+          tag: v1.11.0-fix-leak@sha256:1ba4526862acce68253f848ae33ce590b8ed1443119519f49c009ae66a74902b

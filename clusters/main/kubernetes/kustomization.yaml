@@ -1,0 +1,21 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - apps
+  - core
+  - flux-entry.yaml
+  - flux-system
+  - kube-system
+  - networking
+  - system
+  - auth
+  - ai
+  - assets
+  - financial
+  - games
+  #- media
+  - medical
+  - observability
+  - tools
+  - automations
+  - external-services

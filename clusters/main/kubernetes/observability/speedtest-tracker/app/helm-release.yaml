@@ -1,0 +1,114 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: speedtest-tracker
+  namespace: speedtest-tracker
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: speedtest-tracker
+      version: 8.41.1
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: networking
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-stt"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    service:
+      backend:
+        enabled: true
+        ports:
+          apprise:
+            enabled: true
+            port: 8000
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                APP_URL: "{{ .Values.chartContext.appUrl }}"
+                ASSET_URL: "{{ .Values.chartContext.appUrl }}"
+                APP_TIMEZONE: "America/New_York"
+                DISPLAY_TIMEZONE: "America/New_York"
+                SPEEDTEST_SCHEDULE: "0 */3 * * *"
+                APP_KEY: "${STT_APP_KEY}"
+                # inital install only
+                ADMIN_NAME: "${STT_ADMIN_NAME}"
+                ADMIN_EMAIL: "${STT_ADMIN_EMAIL}"
+                ADMIN_PASSWORD: "${STT_ADMIN_PASSWORD}"
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: stt.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          homepage:
+            enabled: true
+            group: "Monitoring"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      config:
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      varrun:
+        enabled: false
+    cnpg:
+      main:
+        mode: recovery
+        cluster:
+          singleNode: true
+        backups:
+          enabled: true
+          credentials: cf-restic
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              # https://crontab.guru/#35_0_*_*_*
+              schedule: "35 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic

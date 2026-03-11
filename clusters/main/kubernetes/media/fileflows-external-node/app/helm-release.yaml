@@ -1,0 +1,88 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: fileflows-external-node
+  namespace: fileflows
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: fileflows
+      version: 15.5.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: media
+      path: "/api/system/version"
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-fileflows-external-node"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
+    workload:
+      main:
+        podSpec:
+          runtimeClassName: nvidia
+          hostname: fileflows-external-node
+          containers:
+            main:
+              probes:
+                liveness:
+                  enabled: false
+                readiness:
+                  enabled: false
+                startup:
+                  enabled: false
+              env:
+                ServerUrl: "http://fileflows.fileflows.svc.cluster.local:10242"
+                FFNODE: 1
+              resources:
+                limits:
+                  cpu: 4000m
+                  memory: 8000Mi
+                  nvidia.com/gpu: 1
+    persistence:
+      temp:
+        enabled: true
+        type: emptyDir
+        mountPath: /temp
+        medium: "" # Memory
+      media:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${MEDIA_NFS}
+        mountPath: ${MEDIA_LOCAL}
+      downloads:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${DOWNLOADS_NFS}
+        mountPath: ${DOWNLOADS_LOCAL}

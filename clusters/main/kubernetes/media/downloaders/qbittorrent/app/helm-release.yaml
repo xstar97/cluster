@@ -1,0 +1,126 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: qbittorrent
+  namespace: qbittorrent
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: qbittorrent
+      version: 24.6.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  install:
+    createNamespace: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  values:
+    gatus:
+      group: media-downloaders
+    global:
+      stopAll: false
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-qbittorrent"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    service:
+      glue:
+        enabled: false
+        type: ClusterIP
+        ports:
+          control:
+            enabled: true
+            port: 8080
+            protocol: http
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: qbit.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          homepage:
+            enabled: true
+            group: "Media Downloads"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    configmap:
+      gluetun-auth-config:
+        enabled: false
+        data:
+          config.toml: >-
+            [[roles]]
+
+            name = "qbittorrent"
+
+            routes = ["GET /v1/vpn/status","GET /v1/publicip/ip","GET /v1/openvpn/portforwarded"]
+
+            auth = "none"
+    persistence:
+      config:
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      downloads:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${DOWNLOADS_NFS}
+        mountPath: "${DOWNLOADS_LOCAL}"
+      gluetun-auth-config:
+        enabled: false
+        type: configmap
+        mountPath: /gluetun/auth/config.toml
+        objectName: gluetun-auth-config
+        readOnly: true
+        subPath: config.toml
+        targetSelectAll: true
+    addons:
+      gluetun:
+        enabled: false
+        container:
+          resources:
+            limits:
+              truecharts.org/tun: 1
+          env:
+            FIREWALL: "on"
+            FIREWALL_OUTBOUND_SUBNETS: "10.0.0.0/24"
+            HTTPPROXY: "on"
+            VPN_TYPE: "wireguard"
+            VPN_SERVICE_PROVIDER: "custom"
+            WIREGUARD_ENDPOINT_IP: "${WIREGUARD_ENDPOINT_IP}"
+            WIREGUARD_ENDPOINT_PORT: 1443
+            WIREGUARD_PUBLIC_KEY: "${WIREGUARD_PUBLIC_KEY}"
+            WIREGUARD_PRIVATE_KEY: "${WIREGUARD_PRIVATE_KEY}"
+            WIREGUARD_ADDRESSES: "${WIREGUARD_ADDRESSES}"
+            WIREGUARD_MTU: 1390
+            WIREGUARD_PERSISTENT_KEEPALIVE_INTERVAL: 25s
+            PUBLICIP_API: cloudflare
+            FIREWALL_VPN_INPUT_PORTS: "{{ .Values.service.torrent.ports.torrent.port }}"
+            VPN_PORT_FORWARDING_LISTENING_PORT: "{{ .Values.service.torrent.ports.torrent.port }}"
+            FIREWALL_INPUT_PORTS: '{{ .Values.service.glue.ports.control.port }}'
+            HTTP_CONTROL_SERVER_ADDRESS: '{{ printf "0.0.0.0:%v" .Values.service.glue.ports.control.port }}'

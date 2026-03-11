@@ -1,0 +1,64 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: it-tools
+  namespace: it-tools
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.38.1
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: tools
+    global:
+      stopAll: false
+    image:
+      repository: ghcr.io/sharevb/it-tools
+      pullPolicy: IfNotPresent
+      tag: 2025.8.31-13b8f041@sha256:823f70ea2bf55dea0e1a4ae23db97e6bace07bfe883d7e3b7e2900975486aa0e
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 8080
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: it.tools.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      cache:
+        enabled: true
+        type: emptyDir
+        mountPath: "/var/cache/nginx"

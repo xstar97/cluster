@@ -1,0 +1,77 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: es-scale
+  namespace: es-scale
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: external-service
+      version: 16.18.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  install:
+    createNamespace: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  values:
+    portal:
+      open:
+        enabled: false
+    service:
+      main:
+        enabled: true
+        type: ExternalIP
+        externalIP: ${SCALE_IP}
+        ports:
+          main:
+            enabled: true
+            port: 444
+            protocol: https
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          gatus.home-operations.com/enabled: "false"
+        hosts:
+          - host: scale.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            auth:
+              type: "authelia"
+              internalHost: "authelia.authelia.svc.cluster.local:9091"
+              externalHost: "auth.${DOMAIN_2}"
+          homepage:
+            enabled: false
+            name: "TrueNas Scale"
+            description: "Noob homelab"
+            group: "Servers"
+            icon: "truenas.svg"
+            weight: 0
+            podSelector: []
+            siteMonitor: "https://${SCALE_IP}:444"
+            widget:
+              type: "truenas"
+              # url: "https://${SCALE_IP}:444"
+              custom:
+                key: "${SCALE_HP_KEY}"
+                enablePools: "true"
+                nasType: "scale"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod

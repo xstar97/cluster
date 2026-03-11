@@ -1,0 +1,150 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: seerr
+  namespace: seerr
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.38.1
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: media-requests
+    global:
+      stopAll: false
+    image:
+      repository: ghcr.io/seerr-team/seerr
+      pullPolicy: IfNotPresent
+      tag: v3.1.0@sha256:b35ba0461c4a1033d117ac1e5968fd4cbe777899e4cbfbdeaf3d10a42a0eb7e9
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-seerr"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsGroup: 0
+        runAsUser: 0
+    service:
+      main:
+        ports:
+          main:
+            port: 5055
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "external"
+        annotations:
+          nginx.ingress.kubernetes.io/custom-http-errors: "599"
+        hosts:
+          - host: seerr.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          homepage:
+            enabled: true
+            group: Media Requests
+            name: "Seerr"
+            description: "Open-source media request and discovery manager for Jellyfin, Plex, and Emby."
+            icon: "https://cdn.jsdelivr.net/gh/selfhst/icons@main/webp/seerr.webp"
+            # href: ""
+            widget:
+              type: "overseerr"
+              custom:
+                key: ${SEERR_KEY}
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              probes:
+                liveness:
+                  enabled: true
+                  path: /api/v1/status
+                readiness:
+                  enabled: true
+                  path: /api/v1/status
+                startup:
+                  enabled: true
+                  path: /api/v1/status
+              env:
+                PORT: "{{ .Values.service.main.ports.main.port }}"
+                DB_TYPE: postgres
+                DB_HOST:
+                  secretKeyRef:
+                    name: cnpg-main-urls
+                    key: host
+                DB_PORT: "5432"
+                DB_USER: "{{ .Values.cnpg.main.user }}"
+                DB_PASS:
+                  secretKeyRef:
+                    name: cnpg-main-user
+                    key: password
+                DB_NAME: "{{ .Values.cnpg.main.database }}"
+                DB_LOG_QUERIES: "false"
+    persistence:
+      config:
+        enabled: true
+        mountPath: "/app/config"
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+    cnpg:
+      main:
+        enabled: true
+        user: seerr
+        database: seerr
+        # mode: recovery
+        cluster:
+          singleNode: true
+          walStorage:
+            size: 10Gi
+        backups:
+          enabled: true
+          credentials: cf-restic
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              # https://crontab.guru/#0_8_*_*_*
+              schedule: "0 8 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic

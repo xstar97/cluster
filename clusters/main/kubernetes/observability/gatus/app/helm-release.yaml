@@ -1,0 +1,283 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: gatus
+  namespace: gatus
+  annotations:
+    reloader.stakater.com/rollout-strategy: "restart"
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.38.1
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    global:
+      stopAll: false
+      skipEmptyWalArchiveCheck: true
+    image:
+      repository: ghcr.io/twin/gatus
+      pullPolicy: IfNotPresent
+      tag: v5.35.0@sha256:21609f31be8c4e680ce3004b24276305666239c99aff58391503f3fb6142f39d
+    configsImage:
+      repository: ghcr.io/home-operations/k8s-sidecar
+      pullPolicy: IfNotPresent
+      tag: 2.5.0@sha256:ae958215a6124c6d09dbf6cf568dc72176791bfba8630f4300d4eaaf1caa5b10
+    sidecarImage:
+      repository: ghcr.io/home-operations/gatus-sidecar
+      pullPolicy: IfNotPresent
+      tag: 0.0.13@sha256:40d549ea5ae89acac94bdf4cee1233e718a96c6e382c67f7e28de688511169d2
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-gatus"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    securityContext:
+      readOnlyRootFilesystem: false
+    service:
+      main:
+        type: LoadBalancer
+        loadBalancerIP: ${GATUS_IP}
+        integrations:
+          metallb:
+            enabled: true
+        ports:
+          main:
+            port: 8080
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "external"
+        annotations:
+          gatus.home-operations.com/enabled: "false"
+        hosts:
+          - host: gatus.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          homepage:
+            enabled: true
+            description: "Automated service health dashboard"
+            icon: "sh-gatus.svg"
+            group: Monitoring
+            widget:
+              type: gatus
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    workload:
+      main:
+        podSpec:
+          annotations:
+            reloader.stakater.com/auto: "true"
+          containers:
+            main:
+              imageSelector: image
+              env:
+                GATUS_CONFIG_PATH: "{{ .Values.persistence.config.mountPath }}"
+            sidecar:
+              enabled: true
+              imageSelector: sidecarImage
+              probes:
+                liveness:
+                  enabled: true
+                  port: "{{ .Values.service.main.ports.main.port }}"
+                readiness:
+                  enabled: true
+                  port: "{{ .Values.service.main.ports.main.port }}"
+                startup:
+                  enabled: true
+                  port: "{{ .Values.service.main.ports.main.port }}"
+              extraArgs:
+                - --output=/config/config-eps.yaml
+                - --enable-service
+                - --enable-ingress
+            configs:
+              enabled: true
+              imageSelector: configsImage
+              probes:
+                liveness:
+                  enabled: true
+                  port: "{{ .Values.service.main.ports.main.port }}"
+                readiness:
+                  enabled: true
+                  port: "{{ .Values.service.main.ports.main.port }}"
+                startup:
+                  enabled: true
+                  port: "{{ .Values.service.main.ports.main.port }}"
+              env:
+                FOLDER: "/config"
+                LABEL: gatus.io/enabled
+                NAMESPACE: ALL
+                RESOURCE: both
+                UNIQUE_FILENAMES: true
+                METHOD: WATCH
+    gatus:
+      endpoints:
+        - name: seb-minipc
+          group: external
+          url: "https://10.0.0.102:9090"
+          interval: 1m
+          client:
+            insecure: true
+            timeout: 30s
+          conditions:
+            - "[STATUS] == 200"
+          alerts:
+            - type: discord
+              description: "healthcheck failed"
+              send-on-resolved: true
+    configmap:
+      gatus-config:
+        enabled: true
+        data:
+          config.yaml: |
+            {{- if .Values.cnpg.main.enabled }}
+            storage:
+              type: postgres
+              path: {{ (printf "%s?client_encoding=utf8" (.Values.cnpg.main.creds.std | trimAll "\"")) | quote }}
+            {{- end }}
+            alerting:
+              discord:
+                webhook-url: "${GATUS_DISCORD_WEBHOOK_GLOBAL}"
+            skip-invalid-config-update: true
+            metrics: true
+            {{- $.Values.gatus | toYaml | nindent 2 }}
+    persistence:
+      config:
+        enabled: true
+        mountPath: /config
+        targetSelectAll: true
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      gatus-config:
+        enabled: true
+        type: configmap
+        mountPath: /config/config.yaml
+        objectName: gatus-config
+        readOnly: true
+        subPath: config.yaml
+    cnpg:
+      main:
+        enabled: true
+        user: gatus
+        database: gatus
+        # mode: recovery
+        cluster:
+          singleNode: true
+          walStorage:
+            size: 10Gi
+        backups:
+          enabled: true
+          credentials: cf-restic
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              # https://crontab.guru/#0_8_*_*_*
+              schedule: "0 8 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic
+    addons:
+      codeserver:
+        enabled: true
+        service:
+          type: "ClusterIP"
+          ports:
+            codeserver:
+              port: 36107
+        ingress:
+          enabled: true
+          ingressClassName: "internal"
+          annotations:
+            gatus.home-operations.com/enabled: "false"
+          hosts:
+            - host: editor.gatus.${DOMAIN_2}
+              paths:
+                - path: /
+                  pathType: Prefix
+          integrations:
+            nginx:
+              enabled: true
+            certManager:
+              enabled: true
+              certificateIssuer: general-le-prod
+    # -- Whether Role Based Access Control objects like roles and rolebindings should be created
+    rbac:
+      main:
+        enabled: true
+        primary: true
+        clusterWide: true
+        rules:
+          - apiGroups:
+              - "networking.k8s.io"
+            resources:
+              - "ingresses"
+            verbs:
+              - "get"
+              - "list"
+              - "watch"
+          - apiGroups: [""]
+            resources:
+              - "configmaps"
+              - "secrets"
+              - "services"
+            verbs:
+              - "get"
+              - "list"
+              - "watch"
+          - apiGroups:
+              - "gateway.networking.k8s.io"
+            resources:
+              - "httproutes"
+            verbs:
+              - "get"
+              - "list"
+              - "watch"
+    # -- The service account the pods will use to interact with the Kubernetes API
+    serviceAccount:
+      main:
+        enabled: true
+        primary: true
+    podOptions:
+      automountServiceAccountToken: true
+    metrics:
+      main:
+        enabled: true
+        type: "servicemonitor"
+        endpoints:
+          - port: main
+            path: /metrics

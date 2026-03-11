@@ -1,0 +1,82 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: peanut
+  namespace: peanut
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: peanut
+      version: 8.29.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: observability
+    global:
+      stopAll: false
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 10688
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        hosts:
+          - host: peanut.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            auth:
+              type: "authelia"
+              internalHost: "authelia.authelia.svc.cluster.local:9091"
+              externalHost: "auth.${DOMAIN_2}"
+          homepage:
+            enabled: true
+            group: "Monitoring"
+            widget:
+              custom:
+                key: "${NUT_ROUTER_NAME}"
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                NUT_HOST: "${NUT_ROUTER_IP}"
+                NUT_PORT: 3493
+                USERNAME: "${NUT_ROUTER_USER}"
+                PASSWORD: "${NUT_ROUTER_PASS}"
+    metrics:
+      main:
+        enabled: true
+        type: "servicemonitor"
+        endpoints:
+          - port: main
+            path: /api/v1/metrics

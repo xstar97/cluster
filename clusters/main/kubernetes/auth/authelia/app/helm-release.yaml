@@ -1,0 +1,166 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: authelia
+  namespace: authelia
+  annotations:
+    reloader.stakater.com/rollout-strategy: "restart"
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: authelia
+      version: 29.35.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: auth
+    global:
+      stopAll: false
+      skipEmptyWalArchiveCheck: true
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-authelia"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 9091
+    workload:
+      main:
+        replicas: 1
+        podSpec:
+          annotations:
+            # reloader.stakater.com/auto: "true"
+            reloader.stakater.com/search: "true"
+          containers:
+            main:
+              env:
+                AUTHELIA_SESSION_SECRET: ${AUTHELIA_SESSION_KEY}
+                AUTHELIA_IDENTITY_VALIDATION_RESET_PASSWORD_JWT_SECRET: ${AUTHELIA_JWT_KEY}
+                AUTHELIA_STORAGE_ENCRYPTION_KEY: ${AUTHELIA_ENCRYPTION_KEY}
+                X_AUTHELIA_CONFIG_FILTERS: template
+                AUTHELIA_LOG_LEVEL: info
+                AUTHELIA_SERVER_BUFFERS_READ: 16384
+                AUTHELIA_SERVER_BUFFERS_WRITE: 16384
+                AUTHELIA_THEME: dark
+                AUTHELIA_TOTP_ISSUER: ${DOMAIN_2}
+                AUTHELIA_AUTHENTICATION_BACKEND_LDAP_ADDRESS: ${LLDAP_URL_CLUSTER}
+                AUTHELIA_AUTHENTICATION_BACKEND_LDAP_TLS_SERVER_NAME: lldap.${DOMAIN_2}
+                AUTHELIA_AUTHENTICATION_BACKEND_LDAP_BASE_DN: ${LLDAP_LDAP_BASE_DN}
+                AUTHELIA_AUTHENTICATION_BACKEND_LDAP_ATTRIBUTES_USERNAME: uid
+                AUTHELIA_AUTHENTICATION_BACKEND_LDAP_ADDITIONAL_USERS_DN: ou=people
+                AUTHELIA_AUTHENTICATION_BACKEND_LDAP_USERS_FILTER: (&(|({username_attribute}={input})({mail_attribute}={input}))(objectClass=person))
+                AUTHELIA_AUTHENTICATION_BACKEND_LDAP_ADDITIONAL_GROUPS_DN: ou=groups
+                AUTHELIA_AUTHENTICATION_BACKEND_LDAP_GROUPS_FILTER: (member={dn})
+                AUTHELIA_AUTHENTICATION_BACKEND_LDAP_USER: ${LLDAP_LDAP_PWDMANAGER_USER}
+                AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD: ${LLDAP_LDAP_PWDMANAGER_PASS}
+                AUTHELIA_NOTIFIER_SMTP_ADDRESS: 'smtp://${SMTP_GMAIL_HOST}:${SMTP_GMAIL_PORT}'
+                AUTHELIA_NOTIFIER_SMTP_USERNAME: ${SMTP_GMAIL_EMAIL}
+                AUTHELIA_NOTIFIER_SMTP_PASSWORD: ${SMTP_GMAIL_PASS_AUTHELIA}
+                AUTHELIA_NOTIFIER_SMTP_SENDER: auth@${DOMAIN_2}
+                AUTHELIA_NOTIFIER_SMTP_STARTUP_CHECK_ADDRESS: auth@${DOMAIN_2}
+                AUTHELIA_NOTIFIER_SMTP_DISABLE_HTML_EMAILS: true
+                AUTHELIA_NOTIFIER_SMTP_TLS_SERVER_NAME: ${SMTP_GMAIL_HOST}
+
+    secret:
+      authelia-configfile:
+        enabled: false
+    
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "external"
+        hosts:
+          - host: auth.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      config:
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: false
+            src:
+              enabled: false
+              trigger:
+                schedule: 10 0 * * *
+      configfile:
+        enabled: true
+        type: configmap
+        objectName: authelia-configfile  
+        expandObjectName: false
+        mountPath: /configuration.yaml
+        subPath: configuration.yaml
+        readOnly: true
+      secrets:
+        enabled: true
+        type: secret
+        objectName: authelia-oidc-secret
+        expandObjectName: false
+        mountPath: /config/secret
+        readOnly: true
+    cnpg:
+      main:
+        # mode: recovery
+        cluster:
+          singleNode: true
+        backups:
+          enabled: true
+          credentials: cf-restic
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              # https://crontab.guru/#10_0_*_*_*
+              schedule: "10 0 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: cf-restic
+
+    redis:
+      backups:
+        enabled: true
+        credentials: cf-restic
+        retentionPolicy: "7d"
+        scheduledBackups:
+          - name: daily-backup
+            # https://crontab.guru/#10_0_*_*_*
+            schedule: "10 0 * * *"
+            backupOwnerReference: self
+            immediate: true
+            suspend: false

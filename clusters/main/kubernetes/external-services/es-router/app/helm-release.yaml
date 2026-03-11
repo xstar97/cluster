@@ -1,0 +1,60 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: es-router
+  namespace: es-router
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: external-service
+      version: 16.18.0
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  install:
+    createNamespace: true
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  upgrade:
+    crds: CreateReplace
+    remediation:
+      retries: 3
+  values:
+    global:
+      stopAll: false
+    service:
+      main:
+        enabled: true
+        type: ExternalIP
+        externalIP: ${ROUTER_IP}
+        ports:
+          main:
+            enabled: true
+            port: 444
+            protocol: https
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+          # gatus.home-operations.com/enabled: "false"
+        hosts:
+          - host: router.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+            auth:
+              type: "authelia"
+              internalHost: "authelia.authelia.svc.cluster.local:9091"
+              externalHost: "auth.${DOMAIN_2}"
+          certManager:
+            certificateIssuer: general-le-prod
+            enabled: true

@@ -1,0 +1,184 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: omada-controller
+  namespace: omada-controller
+spec:
+  interval: 15m
+  chart:
+    spec:
+      chart: omada-controller
+      version: 18.7.2
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 15m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: networking
+    global:
+      stopAll: false
+    resources:
+      limits:
+        cpu: 4000m
+        memory: 4000Mi
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-omada-controllerv6"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+    service:
+      main:
+        ports:
+          main:
+            port: 8043
+          comm:
+            protocol: https
+            enabled: true
+            port: 8843
+      omada:
+        enabled: true
+        type: LoadBalancer
+        loadBalancerIP: "${OMADA_IP}"
+        integrations:
+          metallb:
+            enabled: true
+        ports:
+          managerv1:
+            enabled: true
+            protocol: tcp
+            port: 29811
+          adoptv1:
+            enabled: true
+            protocol: tcp
+            port: 29812
+          upgradev1:
+            enabled: true
+            protocol: tcp
+            port: 29813
+          managerv2:
+            enabled: true
+            protocol: tcp
+            port: 29814
+          transferv2:
+            enabled: true
+            protocol: tcp
+            port: 29815
+          rtty:
+            enabled: true
+            protocol: tcp
+            port: 29816
+          discovery:
+            enabled: true
+            protocol: udp
+            port: 29810
+          app:
+            enabled: true
+            protocol: udp
+            port: 27001
+          management:
+            enabled: true
+            protocol: udp
+            port: 19810
+      comm:
+        enabled: false
+        ports:
+          comm:
+            enabled: false
+      omada-tcp:
+        enabled: false
+        ports:
+          omada-tcp1:
+            enabled: false
+          omada-tcp2:
+            enabled: false
+          omada-tcp3:
+            enabled: false
+          omada-tcp4:
+            enabled: false
+      omada-udp:
+        enabled: false
+        ports:
+          omada-udp1:
+            enabled: false
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "internal"
+        annotations:
+          nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+        hosts:
+          - host: omada.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          homepage:
+            enabled: true
+            group: "Networking"
+            widget:
+              custom:
+                type: omada
+                username: "${OMADA_USER}"
+                password: '${OMADA_PASS}'
+                site: '${OMADA_SITE}'
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                MANAGE_HTTPS_PORT: "{{ .Values.service.main.ports.main.port }}"
+                PORTAL_HTTPS_PORT: "{{ .Values.service.main.ports.comm.port }}"
+                PORT_ADOPT_V1: "{{ .Values.service.omada.ports.adoptv1.port }}"
+                PORT_APP_DISCOVERY: "{{ .Values.service.omada.ports.app.port }}"
+                PORT_DISCOVERY: "{{ .Values.service.omada.ports.discovery.port }}"
+                PORT_MANAGER_V1: "{{ .Values.service.omada.ports.managerv1.port }}"
+                PORT_MANAGER_V2: "{{ .Values.service.omada.ports.managerv2.port }}"
+                PORT_TRANSFER_V2: "{{ .Values.service.omada.ports.transferv2.port }}"
+                PORT_RTTY: "{{ .Values.service.omada.ports.rtty.port }}"
+                PORT_UPGRADE_V1: "{{ .Values.service.omada.ports.upgradev1.port }}"
+                # ROOTLESS: "true"
+                # PUSERNAME: 568
+                # PGROUP: 568
+    persistence:
+      data:
+        volsync:
+          - name: data
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      work:
+        volsync:
+          - name: work
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
