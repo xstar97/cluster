@@ -52,7 +52,7 @@ nodes:
       patches:
         - "@./patches/nvidia.yaml"
         - '@./patches/gc.yaml'
-        - '@./patches/etcd.yaml'
+        # - '@./patches/etcd.yaml'
 controlPlane:
     patches:
         - '@./patches/controlplane.yaml'
