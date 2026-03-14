@@ -51,7 +51,7 @@ spec:
       # Disk protection
       storageMinimalAvailablePercentage: 25
       storageReservedPercentageForDefaultDisk: 10
-      storageOverProvisioningPercentage: 200 # "100000"
+      storageOverProvisioningPercentage: "100000"
       # Rebuild / IO protection
       concurrentReplicaRebuildPerNodeLimit: 2
       rebuildConcurrentSyncLimit: 2
