@@ -26,23 +26,50 @@ spec:
   values:
     gatus:
       group: core
+    persistence:
+      defaultClass: true
+      defaultClassReplicaCount: 1
+      reclaimPolicy: Delete
+      defaultDataLocality: disabled
     defaultSettings:
-      # Increase to 3 for a multi-node cluster
-      defaultReplicaCount: "1"
-      # Overprovisioning might be needed when using volsync
-      storageOverProvisioningPercentage: "100000"
-      storageReservedPercentageForDefaultDisk: "10"
-      # v2DataEngine: true
+      # Replica behavior
+      defaultReplicaCount: '{"v1":"1","v2":"1"}'
+      replicaAutoBalance: best-effort
+      replicaSoftAntiAffinity: false
+      replicaZoneSoftAntiAffinity: true
+      replicaDiskSoftAntiAffinity: true
+      # Self-healing
+      autoSalvage: true
+      autoDeletePodWhenVolumeDetachedUnexpectedly: true
+      # Snapshot cleanup
+      autoCleanupSystemGeneratedSnapshot: true
+      autoCleanupRecurringJobBackupSnapshot: true
+      snapshotMaxCount: 250
+      # Orphan cleanup
+      orphanResourceAutoDeletion: "replica-data;instance"
+      orphanResourceAutoDeletionGracePeriod: 300
+      # Disk protection
+      storageMinimalAvailablePercentage: 25
+      storageReservedPercentageForDefaultDisk: 10
+      storageOverProvisioningPercentage: 200 # "100000"
+      # Rebuild / IO protection
+      concurrentReplicaRebuildPerNodeLimit: 2
+      rebuildConcurrentSyncLimit: 2
+      # Node handling
+      disableSchedulingOnCordonedNode: true
+      nodeDrainPolicy: block-if-contains-last-replica
+      nodeDownPodDeletionPolicy: delete-both-statefulset-and-deployment-pod
+      # Logging
+      logLevel: Info
+      # Backup
+      backupCompressionMethod: lz4
+      backupConcurrentLimit: 2
+      restoreConcurrentLimit: 2
     csi:
       attacherReplicaCount: 1
       provisionerReplicaCount: 1
       resizerReplicaCount: 1
       snapshotterReplicaCount: 1
-    persistence:
-      # Set to false to pick another CSI as default
-      defaultClass: true
-      # Increase to 3 for a multi-node cluster
-      defaultClassReplicaCount: 1
     longhornUI:
       replicas: 1
     metrics:
