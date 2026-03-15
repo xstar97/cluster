@@ -14,3 +14,4 @@ resources:
   - dozzle/ks.yaml
   - doublecommander/ks.yaml
   - cloudcmd/ks.yaml
+  - manyfold/ks.yaml
