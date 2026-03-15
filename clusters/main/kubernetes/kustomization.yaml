@@ -14,7 +14,7 @@ resources:
   - financial
   - games
   - media
-  - medical
+  # - medical
   - observability
   - tools
   - automations
