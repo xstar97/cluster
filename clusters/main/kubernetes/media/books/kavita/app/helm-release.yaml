@@ -44,7 +44,7 @@ spec:
         accessKey: "${CF_S3_RESTIC_ID}"
         secretKey: "${CF_S3_RESTIC_KEY}"
         encrKey: "${CF_S3_RESTIC_KEY}"
-      rustfs-restic:
+      rfs-restic:
         type: s3
         url: "${RUSTFS_S3_RESTIC_URL}"
         bucket: "${RUSTFS_S3_RESTIC_BUCKET}-kavita"
@@ -98,9 +98,9 @@ spec:
               enabled: true
             src:
               enabled: true
-          - name: config
+          - name: kavita-config
             type: restic
-            credentials: rustfs-restic
+            credentials: rfs-restic
             dest:
               enabled: true
             src:
