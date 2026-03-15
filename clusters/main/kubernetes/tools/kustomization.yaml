@@ -6,15 +6,11 @@ resources:
   - reubah/ks.yaml
   - stirling-pdf/ks.yaml
   - string-is/ks.yaml
-  # - manyfold/ks.yaml
   - mend-renovate/ks.yaml
-  - spoolman/ks.yaml
   - feedcord/ks.yaml
   - omni-tools/ks.yaml
-  - guacamole/ks.yaml
-  - restreamer/ks.yaml
+  # - restreamer/ks.yaml
   - fileshelter/ks.yaml
-  - rackula/ks.yaml
   - dozzle/ks.yaml
   - doublecommander/ks.yaml
   - cloudcmd/ks.yaml

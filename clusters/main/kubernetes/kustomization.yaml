@@ -9,7 +9,7 @@ resources:
   - networking
   - system
   - auth
-  - ai
+  # - ai
   - assets
   - financial
   - games

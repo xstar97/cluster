@@ -6,4 +6,4 @@ resources:
   - lidarr/ks.yaml
   - radarr/ks.yaml
   - profilarr/ks.yaml
-  - starrproxy/ks.yaml
+  # - starrproxy/ks.yaml

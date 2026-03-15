@@ -13,7 +13,6 @@ resources:
   - checkrr/ks.yaml
   - calendarr/ks.yaml
   - sonobarr/ks.yaml
-  - guardian/ks.yaml
   - utilities
   - indexers
   - managers
