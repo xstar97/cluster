@@ -69,7 +69,7 @@ spec:
           containers:
             main:
               env:
-                NEXTAUTH_URL: https://readmeabook.${DOMAIN_2}
+                PUBLIC_URL: https://readmeabook.${DOMAIN_2}
                 DATABASE_URL:
                   secretKeyRef:
                     name: cnpg-main-urls
