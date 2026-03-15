@@ -51,6 +51,11 @@ spec:
         accessKey: "${RUSTFS_S3_RESTIC_ID}"
         secretKey: "${RUSTFS_S3_RESTIC_KEY}"
         encrKey: "${RUSTFS_S3_RESTIC_KEY}"
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsGroup: 0
+        runAsUser: 0
     service:
       main:
         type: ClusterIP
