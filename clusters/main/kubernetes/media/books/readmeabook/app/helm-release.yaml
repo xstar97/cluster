@@ -1,0 +1,160 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: readmeabook
+  namespace: readmeabook
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: app-template
+      version: 15.38.6
+      sourceRef:
+        kind: HelmRepository
+        name: truecharts
+        namespace: flux-system
+      interval: 30m
+  timeout: 20m
+  maxHistory: 3
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  values:
+    gatus:
+      group: media-books
+    global:
+      stopAll: false
+    image:
+      pullPolicy: IfNotPresent
+      repository: ghcr.io/kikootwo/readmeabook
+      tag: 1.1.6@sha256:9309ae5b0c3466befa6e4fadebef94776fd10942fec0415e97bd99bb752c88b2
+    credentials:
+      cf-restic:
+        type: s3
+        url: "${CF_S3_RESTIC_URL}"
+        bucket: "${CF_S3_RESTIC_BUCKET}-readmeabook"
+        accessKey: "${CF_S3_RESTIC_ID}"
+        secretKey: "${CF_S3_RESTIC_KEY}"
+        encrKey: "${CF_S3_RESTIC_KEY}"
+      rfs-restic:
+        type: s3
+        url: "${RUSTFS_S3_RESTIC_URL}"
+        bucket: "${RUSTFS_S3_RESTIC_BUCKET}-readmeabook"
+        accessKey: "${RUSTFS_S3_RESTIC_ID}"
+        secretKey: "${RUSTFS_S3_RESTIC_KEY}"
+        encrKey: "${RUSTFS_S3_RESTIC_KEY}"
+    service:
+      main:
+        type: ClusterIP
+        ports:
+          main:
+            port: 3030
+
+    workload:
+      main:
+        podSpec:
+          containers:
+            main:
+              env:
+                NEXTAUTH_URL: https://readmeabook.${DOMAIN_2}
+                DATABASE_URL:
+                  secretKeyRef:
+                    name: cnpg-main-urls
+                    key: std
+                REDIS_URL: 
+                  secretKeyRef:
+                    expandObjectName: false
+                    name: '{{ printf "%s-%s" .Release.Name "rediscreds" }}'
+                    key: url
+                NEXTAUTH_SECRET: "${READMEABOOK_JWT_SECRET}"
+                TURBOPACK: 0  # Use Webpack, not Turbopack
+    ingress:
+      main:
+        enabled: true
+        ingressClassName: "external"
+        annotations:
+          nginx.ingress.kubernetes.io/custom-http-errors: "599"
+        hosts:
+          - host: readmeabook.${DOMAIN_2}
+            paths:
+              - path: /
+                pathType: Prefix
+        integrations:
+          nginx:
+            enabled: true
+          homepage:
+            enabled: false
+          certManager:
+            enabled: true
+            certificateIssuer: general-le-prod
+    persistence:
+      config:
+        enabled: true
+        mountPath: "/app/config"
+        volsync:
+          - name: config
+            type: restic
+            credentials: rfs-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      cache:
+        enabled: true
+        mountPath: "/app/cache"
+        volsync:
+          - name: cache
+            type: restic
+            credentials: rfs-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+      media:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${MEDIA_NFS}
+        mountPath: "${MEDIA_LOCAL}"
+      downloads:
+        enabled: true
+        type: nfs
+        server: ${SCALE_IP}
+        path: ${DOWNLOADS_NFS}
+        mountPath: ${DOWNLOADS_LOCAL}
+
+    redis:
+      enabled: true
+
+    cnpg:
+      main:
+        enabled: true
+        user: readmeabook
+        database: readmeabook
+        # mode: recovery
+        cluster:
+          singleNode: true
+          walStorage:
+            size: 10Gi
+        backups:
+          enabled: true
+          credentials: rfs-restic
+          retentionPolicy: "7d"
+          scheduledBackups:
+            - name: daily-backup
+              # https://crontab.guru/#0_8_*_*_*
+              schedule: "0 8 * * *"
+              backupOwnerReference: self
+              immediate: true
+              suspend: false
+        recovery:
+          method: object_store
+          credentials: rfs-restic
