@@ -62,6 +62,9 @@ spec:
       main:
         enabled: true
         ingressClassName: "internal"
+        annotations:
+          nginx.ingress.kubernetes.io/custom-http-errors: "599"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         hosts:
           - host: series.sonarr.${DOMAIN_2}
             paths:
@@ -71,12 +74,9 @@ spec:
           nginx:
             enabled: true
             auth:
-              type: "authelia"
-              internalHost: "authelia.authelia.svc.cluster.local:9091"
-              externalHost: "auth.${DOMAIN_2}"
-              # type: "authentik"
-              # internalHost: "authentik-http.authentik.svc.cluster.local:10230"
-              # externalHost: "authentik.${DOMAIN_2}"
+              type: "authentik"
+              internalHost: "authentik-http.authentik.svc.cluster.local:10230"
+              externalHost: "authentik.${DOMAIN_2}"
           homepage:
             enabled: true
             name: Sonarr (Series)
