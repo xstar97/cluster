@@ -134,6 +134,13 @@ data:
                 subject: 'group:lldap_admin'
               - policy: 'one_factor'
                 subject: 'group:lldap_yarnl'
+          kavita:
+            default_policy: 'deny'
+            rules:
+              - policy: 'one_factor'
+                subject: 'group:lldap_admin'
+              - policy: 'one_factor'
+                subject: 'group:lldap_kavita'
         clients:
           - client_id: "romm" # read above for how generate
             client_name: "RomM" # will be displayed in Authelia to users
@@ -350,3 +357,25 @@ data:
             access_token_signed_response_alg: 'none'
             userinfo_signed_response_alg: 'none'
             token_endpoint_auth_method: 'none'
+          - client_id: kavita
+            client_name: kavita
+            client_secret: {{ secret "/config/secret/clients_kavita_client_secret" }}
+            consent_mode: implicit
+            claims_policy: default
+            public: false
+            authorization_policy: kavita
+            scopes:
+              - openid
+              - groups
+              - profile
+              - email
+              - offline_access
+            redirect_uris:
+              - https://kavita.${DOMAIN_2}/signin-oidc
+            userinfo_signed_response_alg: none
+            response_types:
+              - 'code'
+            grant_types:
+              - 'authorization_code'
+            access_token_signed_response_alg: 'none'
+            token_endpoint_auth_method: 'client_secret_post' 
