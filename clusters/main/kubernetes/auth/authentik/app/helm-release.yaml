@@ -48,7 +48,7 @@ spec:
         password: ${AUTHENTIK_ADMIN_PASSWORD}
       outposts:
         proxy:
-          enabled: true
+          enabled: false
     ingress:
       main:
         enabled: true
