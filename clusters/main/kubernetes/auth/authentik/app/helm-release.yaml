@@ -46,6 +46,9 @@ spec:
       credentials:
         email: ${AUTHENTIK_ADMIN_EMAIL}
         password: ${AUTHENTIK_ADMIN_PASSWORD}
+      outposts:
+        proxy:
+          enabled: true
     ingress:
       main:
         enabled: true
