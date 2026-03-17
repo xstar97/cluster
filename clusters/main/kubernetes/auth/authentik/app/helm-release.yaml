@@ -67,10 +67,6 @@ spec:
             paths:
               - path: /outpost.goauthentik.io
                 pathType: ImplementationSpecific
-          - host: "*.*.${DOMAIN_2}"
-            paths:
-              - path: /outpost.goauthentik.io
-                pathType: ImplementationSpecific
         integrations:
           certManager:
             enabled: true
