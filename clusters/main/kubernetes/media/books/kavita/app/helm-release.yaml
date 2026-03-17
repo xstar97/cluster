@@ -63,6 +63,7 @@ spec:
         ingressClassName: "external"
         annotations:
           nginx.ingress.kubernetes.io/custom-http-errors: "599"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         hosts:
           - host: kavita.${DOMAIN_2}
             paths:
