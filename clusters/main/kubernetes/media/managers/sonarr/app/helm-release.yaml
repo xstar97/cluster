@@ -64,6 +64,7 @@ spec:
         ingressClassName: "internal"
         annotations:
           nginx.ingress.kubernetes.io/custom-http-errors: "599"
+          nginx.ingress.kubernetes.io/ssl-passthrough: "true"
           nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         hosts:
           - host: series.sonarr.${DOMAIN_2}
