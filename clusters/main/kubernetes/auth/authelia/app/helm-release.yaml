@@ -85,6 +85,7 @@ spec:
                 AUTHELIA_NOTIFIER_SMTP_STARTUP_CHECK_ADDRESS: auth@${DOMAIN_2}
                 AUTHELIA_NOTIFIER_SMTP_DISABLE_HTML_EMAILS: true
                 AUTHELIA_NOTIFIER_SMTP_TLS_SERVER_NAME: ${SMTP_GMAIL_HOST}
+                AUTHELIA_ACCESS_CONTROL_DEFAULT_POLICY: deny
 
     secret:
       authelia-configfile:
