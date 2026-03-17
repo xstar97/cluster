@@ -68,9 +68,9 @@ spec:
           nginx:
             enabled: true
             auth:
-              type: "authelia"
-              internalHost: "authelia.authelia.svc.cluster.local:9091"
-              externalHost: "auth.${DOMAIN_2}"
+              type: "authentik"
+              internalHost: "authentik-http.authentik.svc.cluster.local:10230"
+              externalHost: "authentik.${DOMAIN_2}"
           homepage:
             enabled: true
             group: "Media Manager"
