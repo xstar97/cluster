@@ -46,10 +46,10 @@ spec:
       credentials:
         email: ${AUTHENTIK_ADMIN_EMAIL}
         password: ${AUTHENTIK_ADMIN_PASSWORD}
-      outposts:
-        proxy:
-          enabled: true
-          token: "${AUTHENTIK_TOKEN_KEY}"
+      # outposts:
+      #   proxy:
+      #     enabled: true
+      #     token: "${AUTHENTIK_TOKEN_KEY}"
     ingress:
       main:
         enabled: true
