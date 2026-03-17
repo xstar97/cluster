@@ -70,6 +70,10 @@ spec:
         integrations:
           nginx:
             enabled: true
+            auth:
+              type: "authentik"
+              internalHost: "authentik-http.authentik.svc.cluster.local:10230"
+              externalHost: "authentik.${DOMAIN_1}"
           homepage:
             enabled: true
             name: Sonarr (Series)
