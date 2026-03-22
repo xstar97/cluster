@@ -175,9 +175,9 @@ spec:
                 SPAWN_MONSTERS: true
                 SPAWN_NPCS: true
                 VIEW_DISTANCE: 16
-                SERVER_NAME: "The GreeneFam Server"
+                SERVER_NAME: "The Noob Server"
                 MODE: survival
-                MOTD: "Welcome to the Greene Family Server!"
+                MOTD: "enjoy the shit show"
                 PVP: false
                 # minecraft:normal
                 # minecraft:flat
