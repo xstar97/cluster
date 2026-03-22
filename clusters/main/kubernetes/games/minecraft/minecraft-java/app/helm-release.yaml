@@ -101,6 +101,10 @@ spec:
       - customdeaths
       - discordsrv
       - networks
+    whitelist:
+      - xstar97
+      - 17a120e6-6905-4ad7-995a-509c12ff5c98 # xstar97's UUID
+      - 
 
     configmap:
       plugins:
@@ -195,6 +199,9 @@ spec:
                 PLUGINS_FILE: "/data/plugins.txt"
                 SPIGET_RESOURCES: '{{ join "," .Values.plugins }}'
                 MODRINTH_PROJECTS: '{{ join "," .Values.modrinth }}'
+                WHITELIST: '{{ join "," .Values.whitelist }}'
+                ENABLE_WHITELIST: true
+                OVERRIDE_WHITELIST: true
 
     persistence:
       plugins:
@@ -217,3 +224,31 @@ spec:
               enabled: true
             src:
               enabled: true
+
+    addons:
+      codeserver:
+        enabled: true
+        service:
+          type: "ClusterIP"
+          ports:
+            codeserver:
+              port: 36107
+        ingress:
+          enabled: true
+          ingressClassName: "internal"
+          hosts:
+            - host: editor.survival.${DOMAIN_2}
+              paths:
+                - path: /
+                  # Ignored if not kubeVersion >= 1.14-0
+                  pathType: Prefix
+          integrations:
+            nginx:
+              enabled: true
+              auth:
+                type: "authelia"
+                internalHost: "authelia.authelia.svc.cluster.local:9091"
+                externalHost: "auth.${DOMAIN_2}"
+            certManager:
+              enabled: true
+              certificateIssuer: general-le-prod
