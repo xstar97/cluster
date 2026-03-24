@@ -65,7 +65,7 @@ spec:
               internalHost: "authelia.authelia.svc.cluster.local:9091"
               externalHost: "auth.${DOMAIN_2}"
           homepage:
-            enabled: false
+            enabled: true
             group: "Monitoring"
             widget:
               custom:
