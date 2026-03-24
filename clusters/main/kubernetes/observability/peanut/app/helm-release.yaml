@@ -42,8 +42,8 @@ spec:
       main:
         enabled: true
         ingressClassName: "internal"
-        annotations:
-          nginx.ingress.kubernetes.io/custom-http-errors: "599"
+        # annotations:
+        #   nginx.ingress.kubernetes.io/custom-http-errors: "599"
         hosts:
           - host: peanut.${DOMAIN_2}
             paths:
@@ -57,7 +57,7 @@ spec:
               internalHost: "authelia.authelia.svc.cluster.local:9091"
               externalHost: "auth.${DOMAIN_2}"
           homepage:
-            enabled: true
+            enabled: false
             group: "Monitoring"
             widget:
               custom:
@@ -65,16 +65,26 @@ spec:
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
+
     workload:
       main:
         podSpec:
           containers:
             main:
               env:
-                NUT_HOST: "${NUT_PI_IP}"
-                NUT_PORT: 3493
-                USERNAME: "${NUT_PI_USER}"
-                PASSWORD: "${NUT_PI_PASS}"
+                DEBUG: true
+
+    persistence:
+      config:
+        volsync:
+          - name: config
+            type: restic
+            credentials: cf-restic
+            dest:
+              enabled: true
+            src:
+              enabled: true
+
     metrics:
       main:
         enabled: true
