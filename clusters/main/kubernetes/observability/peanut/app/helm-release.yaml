@@ -59,7 +59,7 @@ spec:
             group: "Monitoring"
             widget:
               custom:
-                key: "${NUT_ROUTER_NAME}"
+                key: "${NUT_PI_NAME}"
           certManager:
             enabled: true
             certificateIssuer: general-le-prod
@@ -69,10 +69,10 @@ spec:
           containers:
             main:
               env:
-                NUT_HOST: "${NUT_ROUTER_IP}"
+                NUT_HOST: "${NUT_PI_IP}"
                 NUT_PORT: 3493
-                USERNAME: "${NUT_ROUTER_USER}"
-                PASSWORD: "${NUT_ROUTER_PASS}"
+                USERNAME: "${NUT_PI_USER}"
+                PASSWORD: "${NUT_PI_PASS}"
     metrics:
       main:
         enabled: true
