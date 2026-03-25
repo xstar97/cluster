@@ -35,7 +35,7 @@ spec:
     image:
       repository: inigochoa/cookcli
       pullPolicy: IfNotPresent
-      tag: 0.26.0@sha256:38614ab94076ccff7f6fd953fad44a342742876f4fd666f35c4a4a75a2ecd52d
+      tag: 0.27.1@sha256:4ad49e7cfda91e0b43255637ef007fcbd99d75f2a8b6c7727b08a0f7425ded77
     credentials:
       cf-restic:
         type: s3
