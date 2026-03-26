@@ -34,3 +34,4 @@ resources:
   - ingress-nginx.yaml
   - home-ops-mirror.yaml
   - kubernetes-sigs-headlamp.yaml
+  - grafana-community.yaml

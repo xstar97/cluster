@@ -6,3 +6,4 @@ resources:
   - flux-manifests.yaml
   - capacitor-manifests.yaml
   - tuppr.yaml
+  - envoy-gateway.yaml
