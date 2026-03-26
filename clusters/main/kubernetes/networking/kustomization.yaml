@@ -6,4 +6,4 @@ resources:
   - apprise/ks.yaml
   - cloudflared/ks.yaml
   - omada-controller/ks.yaml
-  - envoy-gateway/ks.yaml
+  # - envoy-gateway/ks.yaml
