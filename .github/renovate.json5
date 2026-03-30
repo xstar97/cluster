@@ -4,6 +4,8 @@
     "config:recommended",
     "github>trueforge-org/truecharts//.github/renovate/main.json5",
     "github>xstar97/cluster//.github/renovate/custom.json5",
-    "github>xstar97/cluster//.github/renovate/kubectl.json5"
+    "github>xstar97/cluster//.github/renovate/kubectl.json5",
+    "github>xstar97/cluster//.github/renovate/minecraft-java.json5",
+    "github>xstar97/cluster//.github/renovate/plex.json5"
   ]
 }
