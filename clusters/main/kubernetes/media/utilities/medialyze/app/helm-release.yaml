@@ -35,7 +35,7 @@ spec:
     image:
       repository: ghcr.io/frederikemmer/medialyze
       pullPolicy: IfNotPresent
-      tag: 0.3.0@sha256:e0fb779adcef9c73dfaaab1ff5a63aff2607cfc0ab007ec33ef49b35d784cc73
+      tag: 0.4.0@sha256:4b158ab4174a8add29c279a7a459e00a94926d71e533d3b1481962726991f0b3
     credentials:
       cf-restic:
         type: s3
