@@ -36,6 +36,12 @@ spec:
       pullPolicy: IfNotPresent
       repository: ghcr.io/grimmory-tools/grimmory
       tag: v2.3.0@sha256:9014247f591074529894f81115ca40f899db697e89f72c2fe91ec530e3f19597
+    securityContext:
+      container:
+        readOnlyRootFilesystem: false
+        runAsNonRoot: false
+        runAsUser: 0
+        runAsGroup: 0
     credentials:
       cf-restic:
         type: s3
