@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - jelu/ks.yaml
   - kavita/ks.yaml
+  - grimmory/ks.yaml
   - lazylibrarian/ks.yaml
   - listenarr/ks.yaml
   

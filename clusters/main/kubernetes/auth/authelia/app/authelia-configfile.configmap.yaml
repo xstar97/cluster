@@ -52,6 +52,8 @@ data:
             id_token: ['email', 'preferred_username', 'name']
           yarnl:
             id_token: ['preferred_username', 'name', 'email']
+          grimmory:
+            id_token: ['preferred_username', 'name', 'email', 'groups']
         hmac_secret: {{ secret "/config/secret/hmac_secret" }}
         jwks:
           - key: |
@@ -127,6 +129,13 @@ data:
                 subject: 'group:lldap_admin'
               - policy: 'one_factor'
                 subject: 'group:lldap_booklore'
+          grimmory:
+            default_policy: 'deny'
+            rules:
+              - policy: 'one_factor'
+                subject: 'group:lldap_admin'
+              - policy: 'one_factor'
+                subject: 'group:lldap_grimmory'
           yarnl:
             default_policy: 'deny'
             rules:
@@ -357,6 +366,21 @@ data:
             access_token_signed_response_alg: 'none'
             userinfo_signed_response_alg: 'none'
             token_endpoint_auth_method: 'none'
+          - client_name: Grimmory
+            client_id: grimmory
+            client_secret: {{ secret "/config/secret/clients_grimmory_client_secret" }}
+            authorization_policy: grimmory
+            claims_policy: grimmory
+            require_pkce: true
+            pkce_challenge_method: S256
+            scopes:
+              - openid
+              - profile
+              - email
+              - groups
+              - offline_access
+            redirect_uris:
+              - https://grimmory.${DOMAIN_2}/oauth2-callback
           - client_id: kavita
             client_name: kavita
             client_secret: {{ secret "/config/secret/clients_kavita_client_secret" }}
