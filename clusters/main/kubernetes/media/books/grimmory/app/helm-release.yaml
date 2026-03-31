@@ -127,7 +127,6 @@ spec:
         path: "${MEDIA_NFS}/Literature/imports"
         mountPath: "/bookdrop"
 
-
     mariadb:
       enabled: true
       mariadbUsername: grimmory
