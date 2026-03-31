@@ -366,22 +366,30 @@ data:
             access_token_signed_response_alg: 'none'
             userinfo_signed_response_alg: 'none'
             token_endpoint_auth_method: 'none'
-          - client_name: Grimmory
-            client_id: grimmory
-            client_secret: {{ secret "/config/secret/clients_grimmory_client_secret" }}
-            authorization_policy: grimmory
+          - client_id: 'grimmory'
+            client_name: 'Grimmory'
+            public: true
+            authorization_policy: 'grimmory'
             claims_policy: grimmory
+            # consent_mode: implicit
             require_pkce: true
-            pkce_challenge_method: S256
-            scopes:
-              - openid
-              - profile
-              - email
-              - groups
-              - offline_access
+            pkce_challenge_method: 'S256'
             redirect_uris:
-              - https://grimmory.${DOMAIN_2}/oauth2-callback
-              - https://grimmory.${DOMAIN_2}/api/v1/auth/oidc/callback
+              - 'https://grimmory.${DOMAIN_2}/oauth2-callback'
+              - 'https://grimmory.${DOMAIN_2}/api/v1/auth/oidc/callback'
+            scopes:
+              - 'openid'
+              - 'offline_access'
+              - 'profile'
+              - 'email'
+            response_types:
+              - 'code'
+            grant_types:
+              - 'authorization_code'
+              - 'refresh_token'
+            access_token_signed_response_alg: 'none'
+            userinfo_signed_response_alg: 'none'
+            token_endpoint_auth_method: 'none'
           - client_id: kavita
             client_name: kavita
             client_secret: {{ secret "/config/secret/clients_kavita_client_secret" }}
