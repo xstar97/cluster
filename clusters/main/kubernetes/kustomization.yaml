@@ -18,4 +18,4 @@ resources:
   - observability
   - tools
   # - automations
-  - external-services
+  # - external-services
