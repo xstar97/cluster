@@ -3,9 +3,9 @@ kind: Kustomization
 resources:
   - it-tools/ks.yaml
   - snippet-box/ks.yaml
-  - reubah/ks.yaml
-  - stirling-pdf/ks.yaml
-  - string-is/ks.yaml
+  # - reubah/ks.yaml
+  # - stirling-pdf/ks.yaml
+  # - string-is/ks.yaml
   - mend-renovate/ks.yaml
   - feedcord/ks.yaml
   - omni-tools/ks.yaml
@@ -13,4 +13,4 @@ resources:
   - fileshelter/ks.yaml
   - dozzle/ks.yaml
   - doublecommander/ks.yaml
-  - cloudcmd/ks.yaml
+  # - cloudcmd/ks.yaml

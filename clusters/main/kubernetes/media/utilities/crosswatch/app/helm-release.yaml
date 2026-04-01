@@ -31,7 +31,7 @@ spec:
     gatus:
       group: media-utilities
     global:
-      stopAll: false
+      stopAll: true
     image:
       repository: ghcr.io/cenodude/crosswatch
       pullPolicy: IfNotPresent

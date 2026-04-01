@@ -9,10 +9,10 @@ resources:
   - pasta/ks.yaml
   - plex-auto-languages/ks.yaml
   - tauticord/ks.yaml
-  - muse/ks.yaml
-  - checkrr/ks.yaml
+  # - muse/ks.yaml
+  # - checkrr/ks.yaml
   - calendarr/ks.yaml
-  - sonobarr/ks.yaml
+  # - sonobarr/ks.yaml
   - utilities
   - indexers
   - managers

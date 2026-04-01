@@ -17,5 +17,5 @@ resources:
   # - medical
   - observability
   - tools
-  - automations
+  # - automations
   - external-services
