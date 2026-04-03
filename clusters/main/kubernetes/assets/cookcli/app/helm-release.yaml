@@ -9,7 +9,7 @@ spec:
   chart:
     spec:
       chart: app-template
-      version: 17.0.5
+      version: 17.0.6
       sourceRef:
         kind: HelmRepository
         name: truecharts
@@ -35,7 +35,7 @@ spec:
     image:
       repository: inigochoa/cookcli
       pullPolicy: IfNotPresent
-      tag: 0.27.1@sha256:4ad49e7cfda91e0b43255637ef007fcbd99d75f2a8b6c7727b08a0f7425ded77
+      tag: 0.27.2@sha256:225ebf3728e3fbf951d2c0f609e4210d0d01ee25bc4b4f2df75ad05b13c3f126
     credentials:
       cf-restic:
         type: s3
