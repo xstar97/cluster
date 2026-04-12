@@ -35,7 +35,7 @@ spec:
     image:
       repository: ghcr.io/bluemap-minecraft/bluemap
       pullPolicy: IfNotPresent
-      tag: v5.19@sha256:78a4e452165bd082032f0e5c06c2b181c765ad56a76d0f624c186c3419d61ba6
+      tag: v5.20@sha256:97aa05f0ef959fbba30383f9591036959b45fa6c9875259214b6bda23a89f878
     credentials:
       cf-restic:
         type: s3
