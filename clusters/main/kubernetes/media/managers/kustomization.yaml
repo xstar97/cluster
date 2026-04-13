@@ -4,6 +4,7 @@ resources:
   - sonarr/ks.yaml
   - sonarr-animes/ks.yaml
   - lidarr/ks.yaml
+  - beets/ks.yaml
   - radarr/ks.yaml
   - profilarr/ks.yaml
   # - starrproxy/ks.yaml
