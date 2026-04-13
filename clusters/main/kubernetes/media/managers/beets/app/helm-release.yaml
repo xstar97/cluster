@@ -73,8 +73,8 @@ spec:
         enabled: true
         type: nfs
         server: ${SCALE_IP}
-        path: ${MEDIA_NFS}
-        mountPath: "${MEDIA_LOCAL}"
+        path: "${MEDIA_NFS}/Music"
+        mountPath: "/music"
       downloads:
         enabled: true
         type: nfs
