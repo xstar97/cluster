@@ -28,6 +28,10 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    image:
+      repository: ghcr.io/linuxserver/beets
+      pullPolicy: IfNotPresent
+      tag: 2.9.0@sha256:98ae4d846d2e5e00f9d8f771288e4be9b963c0f1fb69003d599c470c435ccc76
     gatus:
       group: media-managers
     global:
