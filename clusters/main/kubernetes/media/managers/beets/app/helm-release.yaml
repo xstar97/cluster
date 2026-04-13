@@ -44,8 +44,8 @@ spec:
       main:
         enabled: true
         ingressClassName: "internal"
-        annotations:
-          nginx.ingress.kubernetes.io/custom-http-errors: "599"
+        # annotations:
+        #   nginx.ingress.kubernetes.io/custom-http-errors: "599"
         hosts:
           - host: beets.${DOMAIN_2}
             paths:
