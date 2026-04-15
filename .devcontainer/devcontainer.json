@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
   "name": "TalosCluster",
-  "image": "oci.trueforge.org/containerforge/devcontainer:3.0.2@sha256:e48a182a1da20b2362ed8deccfe4cb5f893e52ad2263246cd68a6f35f4986607",
+  "image": "oci.trueforge.org/containerforge/devcontainer:3.0.2@sha256:db3c10cb122754c64a07c63ab5c2a0de99bc027a7635df6bd2662ae9b4fa9d5b",
   "postCreateCommand": {
       "setup": "bash ${containerWorkspaceFolder}/.devcontainer/postCreateCommand.sh"
     },
