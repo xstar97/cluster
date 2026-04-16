@@ -35,7 +35,7 @@ spec:
     image:
       repository: titandrive/yarnl
       pullPolicy: IfNotPresent
-      tag: 0.9.8@sha256:56bfe2d22aef3ff7ba50bb377d014e050dcefbf2415072e3ae64178bf8e8bfdc
+      tag: 0.9.9@sha256:e2b791dcea26cf91cec8a6332d64aecde4abd99e8e20095c59f05bcccbbe24ac
     credentials:
       cf-restic:
         type: s3
