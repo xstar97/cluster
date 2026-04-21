@@ -57,7 +57,8 @@ spec:
                 ASSET_URL: "{{ .Values.chartContext.appUrl }}"
                 APP_TIMEZONE: "America/New_York"
                 DISPLAY_TIMEZONE: "America/New_York"
-                SPEEDTEST_SCHEDULE: "0 */3 * * *"
+                # https://crontab.guru/every-30-minutes
+                SPEEDTEST_SCHEDULE: "*/30 * * * *"
                 APP_KEY: "${STT_APP_KEY}"
                 # inital install only
                 ADMIN_NAME: "${STT_ADMIN_NAME}"
