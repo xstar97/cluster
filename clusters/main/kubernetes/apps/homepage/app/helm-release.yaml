@@ -200,7 +200,7 @@ spec:
 
                 - Truenas:
                     icon: truenas.svg
-                    href: https://scale.${DOMAIN_2}
+                    href: https://truenas.${DOMAIN_0}
                     siteMonitor: https://${SCALE_IP}:444
                     description: "Nas"
                     widget:
