@@ -67,6 +67,9 @@ spec:
       main:
         enabled: true
         ingressClassName: "internal"
+        annotations:
+          nginx.ingress.kubernetes.io/custom-http-errors: "599"
+          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
         hosts:
           - host: romm.${DOMAIN_2}
             paths:
