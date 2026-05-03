@@ -3,6 +3,6 @@ kind: Kustomization
 resources:
   - crosswatch/ks.yaml
   - tracearr/ks.yaml
+  - medialyze/ks.yaml
   # - sortarr/ks.yaml
   # - theme-park/ks.yaml
-  # - medialyze/ks.yaml
