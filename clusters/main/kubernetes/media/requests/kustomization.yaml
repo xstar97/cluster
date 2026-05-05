@@ -3,5 +3,5 @@ kind: Kustomization
 resources:
   - shelfmark/ks.yaml
   - seerr/ks.yaml
-  - requestrr/ks.yaml  
+  # - requestrr/ks.yaml  
   # - audiobookrequest/ks.yaml
