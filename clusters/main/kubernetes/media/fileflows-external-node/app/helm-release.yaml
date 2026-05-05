@@ -31,7 +31,7 @@ spec:
       group: media
       path: "/api/system/version"
     global:
-      stopAll: false
+      stopAll: true
     credentials:
       cf-restic:
         type: s3
