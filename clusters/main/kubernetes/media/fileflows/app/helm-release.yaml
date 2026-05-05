@@ -27,6 +27,10 @@ spec:
   uninstall:
     keepHistory: false
   values:
+    image:
+      repository: docker.io/revenz/fileflows
+      tag: modded-26.04@sha256:6ab2257ff33d2bacd25db2645a53a78b9233c095712c203c3d8bcbf2ce34580b
+      pullPolicy: IfNotPresent
     gatus:
       group: media
       path: "/api/system/version"
