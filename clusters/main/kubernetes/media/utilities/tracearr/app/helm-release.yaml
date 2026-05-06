@@ -90,7 +90,7 @@ spec:
                 pathType: Prefix
         integrations:
           homepage:
-            enabled: true
+            enabled: false
             group: Monitoring
             name: "Traceerr"
             description: "Real-time monitoring for Plex, Jellyfin, and Emby servers."
