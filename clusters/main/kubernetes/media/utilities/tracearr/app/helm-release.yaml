@@ -113,9 +113,10 @@ spec:
     cnpg:
       main:
         enabled: true
+        type: timescaledb # time-series data
         user: tracearr
         database: tracearr
-        # mode: recovery
+        mode: recovery
         cluster:
           singleNode: true
           walStorage:
