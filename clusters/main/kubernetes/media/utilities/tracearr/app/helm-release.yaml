@@ -89,6 +89,17 @@ spec:
               - path: /
                 pathType: Prefix
         integrations:
+          homepage:
+            enabled: true
+            group: Monitoring
+            name: "Traceerr"
+            description: "Real-time monitoring for Plex, Jellyfin, and Emby servers."
+            icon: "https://cdn.jsdelivr.net/gh/selfhst/icons@main/webp/seerr.webp"
+            # href: ""
+            widget:
+              type: "traceerr"
+              custom:
+                key: ${TRACEARR_KEY}
           nginx:
             enabled: true
           certManager:
