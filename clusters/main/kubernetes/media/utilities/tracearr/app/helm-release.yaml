@@ -37,9 +37,9 @@ spec:
       pullPolicy: IfNotPresent
       tag: 1.4.27@sha256:4802c793336ec2393de8db1088b0c8aa170c8b8b0aa7bba33a56a599c5d72544
     postgresTimescaledb16Image:
-      repository: timescale/timescaledb
+      repository: docker.io/timescale/timescaledb
       pullPolicy: IfNotPresent
-      tag: 2.26.4-pg16@sha256:15e00162766bd6f0019afaad4e57b850dcf882de5909bd7633899eebd4c03d57
+      tag: 2.26.4-pg18@sha256:9ecddf2c88356f01f2986a0349ea525a5f7c56b81935bbfd58e9590c93f7d859
     credentials:
       cf-restic:
         type: s3
