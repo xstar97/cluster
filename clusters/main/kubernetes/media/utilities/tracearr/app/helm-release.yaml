@@ -94,12 +94,17 @@ spec:
             group: Monitoring
             name: "Traceerr"
             description: "Real-time monitoring for Plex, Jellyfin, and Emby servers."
-            icon: "https://cdn.jsdelivr.net/gh/selfhst/icons@main/webp/seerr.webp"
+            icon: "https://cdn.jsdelivr.net/gh/selfhst/icons@main/webp/tracearr.webp"
             # href: ""
             widget:
-              type: "traceerr"
+              type: "tracearr"
               custom:
                 key: ${TRACEARR_KEY}
+                # url: http://tracearr.host.or.ip:3000
+                view: both # optional, "summary", "details", or "both", defaults to "details"
+                enableUser: true # optional, defaults to false
+                showEpisodeNumber: true # optional, defaults to false
+                expandOneStreamToTwoRows: false # optional, defaults to true
           nginx:
             enabled: true
           certManager:
