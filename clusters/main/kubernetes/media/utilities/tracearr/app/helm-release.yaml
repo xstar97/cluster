@@ -37,7 +37,7 @@ spec:
       pullPolicy: IfNotPresent
       tag: 1.4.27@sha256:4802c793336ec2393de8db1088b0c8aa170c8b8b0aa7bba33a56a599c5d72544
     postgresTimescaledb16Image:
-      repository: timescale/timescaledb
+      repository: docker.io/timescale/timescaledb
       pullPolicy: IfNotPresent
       tag: 2.26.4-pg16-oss@sha256:30bea69c8e66281bc260f8eba768145e39a49bd91456a20fc88fa806e771efdb
     credentials:
