@@ -39,7 +39,7 @@ spec:
     postgresTimescaledb16Image:
       repository: timescale/timescaledb
       pullPolicy: IfNotPresent
-      tag: latest-pg16@sha256:a810cbfca32dd03c79087a3686f37ae896d1819548fefdfcc1d2e908ab7c7cff
+      tag: 2.26.4-pg16-oss@sha256:30bea69c8e66281bc260f8eba768145e39a49bd91456a20fc88fa806e771efdb
     credentials:
       cf-restic:
         type: s3
