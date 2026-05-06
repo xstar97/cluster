@@ -118,6 +118,7 @@ spec:
       main:
         enabled: true
         type: timescaledb # time-series data
+        pgVersion: 16
         user: tracearr
         database: tracearr
         # mode: recovery
