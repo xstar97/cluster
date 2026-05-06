@@ -39,7 +39,7 @@ spec:
     postgresTimescaledb16Image:
       repository: docker.io/timescale/timescaledb
       pullPolicy: IfNotPresent
-      tag: 2.26.4-pg18@sha256:9ecddf2c88356f01f2986a0349ea525a5f7c56b81935bbfd58e9590c93f7d859
+      tag: latest-pg16 # @sha256:9ecddf2c88356f01f2986a0349ea525a5f7c56b81935bbfd58e9590c93f7d859
     credentials:
       cf-restic:
         type: s3
