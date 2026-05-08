@@ -9,7 +9,7 @@ concurrency:
 
 env:
   KUBERNETES_DIR: ./clusters/main/kubernetes
-  KUBECONFORM_SCRIPT: ./.github/scripts/kubeconform.sh
+  KUBECONFORM_SCRIPT: .github/scripts/kubeconform.sh
 
 jobs:
   kubeconform:
