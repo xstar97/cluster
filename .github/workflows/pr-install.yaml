@@ -3,17 +3,12 @@ name: "Pull Request: Install"
 on:
   workflow_dispatch:
   pull_request:
-#    paths:
-#      - "**/helm-release.yaml"
 
 jobs:
   detect:
-    name: Detect changed HelmReleases
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set.outputs.matrix }}
-      tested: ${{ steps.set.outputs.tested }}
-      skipped: ${{ steps.set.outputs.skipped }}
 
     steps:
       - name: Checkout repository
@@ -37,7 +32,7 @@ jobs:
           
           echo "🔍 Detected HelmReleases:"
           printf '%s\n' "$files"
-          
+
           # --------------------------------------------------
           # Filter releases using YAML skip list
           # --------------------------------------------------
@@ -72,7 +67,6 @@ jobs:
               filtered+=("$file")
             fi
           done
-
 
           echo ""
           echo "===== HelmRelease CI scan result ====="
@@ -112,33 +106,7 @@ jobs:
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
-          # ---------- Prepare Outputs ----------
-
-          tested_list="_none_"
-          skipped_list="_none_"
-
-          if [ ${#filtered[@]} -gt 0 ]; then
-            tested_list=$(printf '%s\n' "${filtered[@]}")
-          fi
-
-          if [ ${#skipped[@]} -gt 0 ]; then
-            skipped_list=$(printf '%s\n' "${skipped[@]}")
-          fi
-
-          {
-            echo "tested<<EOF"
-            echo "$tested_list"
-            echo "EOF"
-          } >> "$GITHUB_OUTPUT"
-
-          {
-            echo "skipped<<EOF"
-            echo "$skipped_list"
-            echo "EOF"
-          } >> "$GITHUB_OUTPUT"
-
           # ---------- Matrix handling ----------
-
           if [ ${#filtered[@]} -eq 0 ]; then
             echo "matrix=[]" >> "$GITHUB_OUTPUT"
             exit 0
@@ -154,7 +122,6 @@ jobs:
 
   test:
     needs: detect
-    name: Test HelmReleases
     if: needs.detect.outputs.matrix != '[]'
     runs-on: ubuntu-latest
 
@@ -187,8 +154,6 @@ jobs:
       - name: Load dummy env vars from config
         run: |
           yq e '.dummyEnv | to_entries | .[] | "\(.key)=\(.value)"' ci/.config.yaml >> $GITHUB_ENV
-
-          
           
       # --------------------------------------------------
       # Create ephemeral k3d cluster
@@ -219,7 +184,7 @@ jobs:
           bash .github/scripts/deploy_helmrelease.sh "${{ matrix.helmrelease }}"
 
   test-summary:
-    name: Summary
+    name: test-summary
     runs-on: ubuntu-latest
     needs:
       - detect
@@ -249,53 +214,6 @@ jobs:
               echo "❌ One or more HelmRelease tests failed."
             fi
           } >> "$GITHUB_STEP_SUMMARY"
-      - name: Generate Token
-        uses: actions/create-github-app-token@1b10c78c7865c340bc4f6099eb2f838309f1e8c3 # v3.1.1
-        id: app-token
-        with:
-          app-id: ${{ secrets.BOT_APP_ID }}
-          private-key: ${{ secrets.BOT_APP_PRIVATE_KEY }}
-      - name: Add PR Comment
-        if: github.event_name == 'pull_request'
-        continue-on-error: true
-        uses: mshick/add-pr-comment@9302b90c1c7d26c4aebe20b7846b4a8a434bee94
-        with:
-          repo-token: ${{ steps.app-token.outputs.token }}
-          message-id: "${{ github.event.pull_request.number }}/helmrelease-tests"
-          header: "HelmRelease CI"
-          message: |
-            ## 🚀 HelmRelease CI Report
-
-            ### Overall Status
-
-            | Stage | Result |
-            |-------|--------|
-            | 🔍 Detect HelmReleases | **${{ needs.detect.result }}** |
-            | 🧪 Helm Tests | **${{ needs.test.result }}** |
-
-            ---
-
-            ### 🧪 HelmReleases Tested
-
-            ${{ needs.detect.outputs.tested }}
-
-            ---
-
-            ### ⏭️ HelmReleases Skipped
-
-            ${{ needs.detect.outputs.skipped }}
-
-            ---
-
-            ### Result
-
-            ${{ needs.test.result == 'skipped' && 'ℹ️ **No HelmReleases required testing**' || '' }}
-
-            ${{ needs.test.result == 'success' && '✅ **All HelmRelease tests passed**' || '' }}
-
-            ${{ needs.test.result == 'failure' && '❌ **One or more HelmRelease tests failed**\n\nCheck workflow logs for details.' || '' }}
-
-            ${{ needs.test.result == 'cancelled' && '⚠️ **Tests were cancelled**' || '' }}
 
       - name: Enforce final status
         run: |
