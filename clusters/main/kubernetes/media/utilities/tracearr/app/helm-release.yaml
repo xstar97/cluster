@@ -36,10 +36,10 @@ spec:
       repository: ghcr.io/connorgallopo/tracearr
       pullPolicy: IfNotPresent
       tag: 1.4.27@sha256:4802c793336ec2393de8db1088b0c8aa170c8b8b0aa7bba33a56a599c5d72544
-    postgresTimescaledb16Image:
-      repository: timescale/timescaledb-ha
-      pullPolicy: IfNotPresent
-      tag: pg16-ts2.26@sha256:ae70d94ec1c797e682f85aa38d5eef9960e862607c0e9aa7075792c35265ff3f
+    # postgresTimescaledb16Image:
+    #   repository: timescale/timescaledb-ha
+    #   pullPolicy: IfNotPresent
+    #   tag: pg16-ts2.26@sha256:ae70d94ec1c797e682f85aa38d5eef9960e862607c0e9aa7075792c35265ff3f
     credentials:
       cf-restic:
         type: s3
@@ -117,15 +117,12 @@ spec:
     cnpg:
       main:
         enabled: true
-        type: timescaledb # time-series data
-        pgVersion: 16
+        # type: timescaledb # time-series data
+        # pgVersion: 16
         user: tracearr
         database: tracearr
         # mode: recovery
         cluster:
-          # initdb:
-          #   postInitApplicationSQL:
-          #     - CREATE EXTENSION IF NOT EXISTS some-extension;
           singleNode: true
           walStorage:
             size: 10Gi
@@ -145,14 +142,3 @@ spec:
           credentials: cf-restic
     redis:
       enabled: true
-      backups:
-        enabled: true
-        credentials: cf-restic
-        retentionPolicy: "7d"
-        scheduledBackups:
-          - name: daily-backup
-            # https://crontab.guru/#10_0_*_*_*
-            schedule: "50 0 * * *"
-            backupOwnerReference: self
-            immediate: true
-            suspend: false
