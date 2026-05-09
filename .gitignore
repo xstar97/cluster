@@ -14,7 +14,7 @@ charts/*
 output/*
 kubeconfig
 charts.md
-scripts
+./scripts
 .mise
 /configs/output/
 kubectl
