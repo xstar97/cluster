@@ -4,6 +4,9 @@ on:
   workflow_dispatch:
   pull_request:
 
+env:
+  SCRIPT_FILE_DEPLOY: .github/scripts/deploy_helmrelease.sh
+
 jobs:
   detect:
     runs-on: ubuntu-latest
@@ -180,8 +183,8 @@ jobs:
       # --------------------------------------------------
       - name: Test HelmRelease
         run: |
-          chmod +x .github/scripts/deploy_helmrelease.sh
-          bash .github/scripts/deploy_helmrelease.sh "${{ matrix.helmrelease }}"
+          chmod +x ${{ env.SCRIPT_FILE_DEPLOY }}
+          bash ${{ env.SCRIPT_FILE_DEPLOY }} "${{ matrix.helmrelease }}"
 
   test-summary:
     name: test-summary
