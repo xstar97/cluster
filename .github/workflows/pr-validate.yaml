@@ -13,7 +13,7 @@ permissions:
   
 env:
   KUBERNETES_DIR: ./clusters/main/kubernetes
-  SCRIPT_FILE_KUBECONFORM: .github/scripts/kubeconform.sh
+  SCRIPT_FILE_KUBECONFORM: .github/workflows/scripts/kubeconform.sh
 
 jobs:
   kubeconform:

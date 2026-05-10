@@ -5,7 +5,7 @@ on:
   pull_request:
 
 env:
-  SCRIPT_FILE_DEPLOY: .github/scripts/deploy_helmrelease.sh
+  SCRIPT_FILE_DEPLOY: .github/workflows/scripts/deploy_helmrelease.sh
 
 jobs:
   detect:
