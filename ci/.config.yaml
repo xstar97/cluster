@@ -7,8 +7,22 @@ skipList:
   - clusters/main/kubernetes/auth/authelia/app
   - clusters/main/kubernetes/core/clusterissuer/app
 dummyEnv:
+  CF_S3_RESTIC_BUCKET: "restic-bucket"
+  CF_S3_RESTIC_ID: "restic-id"
+  CF_S3_RESTIC_KEY: "restic-bucket"
+  CF_S3_RESTIC_URL: "https://restic.example.com"
+  DOWNLOADS_LOCAL: "/downloads"
+  DOWNLOADS_NFS: "/mnt/SSD/downloads"
+  MEDIA_LOCAL: "/media"
+  MEDIA_NFS: "/mnt/plex/media"
+  SCALE_IP: "192.168.20.210"
+  WIREGUARD_ADDRESSES: 192.168.20.202/24
+  WIREGUARD_ENDPOINT_IP: "192.168.20.201"
+  WIREGUARD_PRIVATE_KEY: "private-key"
+  WIREGUARD_PUBLIC_KEY: "public-key"
   DOMAIN_0: base.dummy0.local
   DOMAIN_1: base.dummy1.local
+  DOMAIN_2: base.dummy1.local
   DOMAIN: dummy.local
   PODNET: 10.42.0.0/16
   METALLB_RANGE: 192.168.20.211-192.168.20.219
