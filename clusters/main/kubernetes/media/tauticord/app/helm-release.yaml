@@ -33,6 +33,10 @@ spec:
       path: "/health"
     global:
       stopAll: false
+    image:
+      repository: codeberg.org/nwithan8/tauticord
+      pullPolicy: IfNotPresent
+      tag: 6.0.1@sha256:470f99de894e3d93e08ed0f7f505e54a102ba56a90fd39f86043a63a22aeefd7
     credentials:
       cf-restic:
         type: s3
