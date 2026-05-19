@@ -1,7 +1,7 @@
 name: gitops
-working_dir: apps/
+working_dir: ./apps/
 auto_discovery:
   enabled: true
-  depth: 1
+  depth: 0
 env_files:
   - .env
