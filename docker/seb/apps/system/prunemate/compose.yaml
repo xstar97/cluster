@@ -1,0 +1,44 @@
+x-healthcheck: &healthcheck
+  # wget and curl do not exist since 1.3.2
+  test: ["CMD","/usr/bin/httpcheck","-t","5","http://localhost:8080"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  prunemate:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PRUNEMATE_VERSION: 1.3.2
+        MC_VERSION: 1.3.0
+    image: prunemate-custom:1.3.2
+    container_name: prunemate
+    restart: on-failure
+    environment:
+      PRUNEMATE_TIME_24H: true
+    networks:
+      - network_internal
+    ports:
+      - 8080
+    healthcheck: *healthcheck
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/xstar97/docker/data/prunemate/config:/config
+      - /home/xstar97/docker/data/prunemate/logs:/var/log
+    labels:
+      traefik.enable: true
+      traefik.http.routers.prunemate.rule: Host(`prunemate.${BASE_DOMAIN_0}`)
+      traefik.http.services.prunemate.loadbalancer.server.port: 8080
+      traefik.http.routers.prunemate.entrypoints: websecure
+      traefik.http.routers.prunemate.tls: true
+      traefik.http.routers.prunemate.tls.certResolver: cf
+      traefik.http.routers.prunemate.middlewares: error-pages-middleware
+      wud.tag.include: ^\d+\.\d+\.\d+$
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

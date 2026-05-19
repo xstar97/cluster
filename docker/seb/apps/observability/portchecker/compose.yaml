@@ -1,0 +1,56 @@
+x-healthcheckWeb: &healthcheckWeb
+  test: ["CMD", "wget", "--spider", "-S", "http://127.0.0.1"]
+  interval: 30s
+  timeout: 30s
+  retries: 3
+  start_period: 30s
+
+x-healthcheckApi: &healthcheckApi
+  test: ["CMD", "wget", "--spider", "-S", "http://127.0.0.1:8000/healthz"]
+  interval: 30s
+  timeout: 30s
+  retries: 3
+  start_period: 30s
+
+services:
+  portchecker-web:
+    image: ghcr.io/dsgnr/portcheckerio-web:4.0.1
+    container_name: portchecker
+    restart: on-failure
+    healthcheck: *healthcheckWeb
+    networks:
+      - network_internal
+      - internal
+    ports:
+      - "80"
+    environment:
+      # DEFAULT_HOST: ""  # Optional, Populates a default host address value to be populataed in the in the UI input. Defaults to external/WAN IP.
+      # DEFAULT_PORT: 443  # Optional, Populates a default port value to be populataed in the in the UI input
+      API_URL: http://portchecker-api:8000  # Optional, the URL of the API service. The scheme and port is required. Defaults to http://api:8000 if not set.
+    labels:
+      wud.tag.include: ^\d+\.\d+\.\d+$
+      traefik.enable: true
+      traefik.http.routers.portchecker.rule: Host(`portchecker.${BASE_DOMAIN_0}`)
+      traefik.http.services.portchecker.loadbalancer.server.port: 80
+      traefik.http.routers.portchecker.entrypoints: websecure
+      traefik.http.routers.portchecker.tls: true
+      traefik.http.routers.portchecker.tls.certResolver: cf
+      traefik.http.routers.portchecker.middlewares: error-pages-middleware
+  portchecker-api:
+    image: ghcr.io/dsgnr/portcheckerio-api:4.0.1
+    container_name: portchecker-api
+    restart: on-failure
+    healthcheck: *healthcheckApi
+    networks:
+      - internal
+    ports:
+      - "8080" 
+    environment:
+      ALLOW_PRIVATE: false  # Prevent usage of private IP addresses
+    labels:
+      wud.tag.include: ^\d+\.\d+\.\d+$
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

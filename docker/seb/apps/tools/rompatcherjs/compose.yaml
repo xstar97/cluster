@@ -1,0 +1,31 @@
+x-healthcheck: &healthcheck
+  test: curl -f http://localhost:3314/health || exit 1
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  rompatcherjs:
+    container_name: rompatcherjs
+    image: ghcr.io/xstar97/rompatcherjs:v3.2.1
+    networks:
+      - network_internal
+    ports:
+      - 3314
+    healthcheck: *healthcheck
+    environment:
+      SERVER_PORT: 3314
+    labels:
+      traefik.enable: true
+      traefik.http.routers.rompatcherjs.rule: Host(`rompatcherjs.${BASE_DOMAIN_0}`)
+      traefik.http.services.rompatcherjs.loadbalancer.server.port: 3314
+      traefik.http.routers.rompatcherjs.entrypoints: websecure
+      traefik.http.routers.rompatcherjs.tls: true
+      traefik.http.routers.rompatcherjs.tls.certResolver: cf
+      traefik.http.routers.rompatcherjs.middlewares: error-pages-middleware
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

@@ -1,0 +1,36 @@
+x-healthcheck: &healthcheck
+  test: curl -f http://localhost:3000/health || exit 1
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  wud:
+    image: ghcr.io/getwud/wud:8.2.2
+    container_name: wud
+    restart: on-failure
+    environment:
+      WUD_SERVER_PORT: 3000
+    networks:
+      - network_internal
+    ports:
+      - 3000
+    healthcheck: *healthcheck
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      traefik.enable: true
+      traefik.http.routers.wud.rule: Host(`wud.${BASE_DOMAIN_0}`)
+      traefik.http.services.wud.loadbalancer.server.port: 3000
+      traefik.http.routers.wud.entrypoints: websecure
+      traefik.http.routers.wud.tls: true
+      traefik.http.routers.wud.tls.certResolver: cf
+      traefik.http.routers.wud.middlewares: error-pages-middleware
+      wud.tag.include: ^\d+\.\d+\.\d+$
+      wud.link.template: https://github.com/getwud/wud/releases/tag/$${major}.$${minor}.$${patch}
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

@@ -1,0 +1,33 @@
+x-healthcheck: &healthcheck
+  test: ["CMD", "cloudflared", "tunnel", "--metrics", "localhost:8080", "ready"]
+  interval: 30s
+  timeout: 30s
+  retries: 3
+  start_period: 30s
+
+services:
+  cloudflared:
+    image: cloudflare/cloudflared:2026.5.0
+    container_name: cloudflared
+    restart: on-failure
+    command: tunnel --no-autoupdate --metrics 127.0.0.1:8080 run --token ${CF_TUNNEL_TOKEN_0}
+    networks:
+      - network_internal
+    ports:
+      # metrics
+      - "8080" 
+    healthcheck: *healthcheck
+    labels:
+      wud.tag.include: ^\d+\.\d+\.\d+$
+      homepage.group: Networking
+      homepage.name: CloudFlared
+      homepage.icon: cloudflare.png
+      homepage.widget.type: cloudflared
+      homepage.widget.tunnelid: ${CF_TUNNEL_ID_0}
+      homepage.widget.accountid: ${CF_ACCOUNT_ID_0}
+      homepage.widget.key: ${CF_KEY_TOKEN_0}
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

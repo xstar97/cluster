@@ -1,0 +1,34 @@
+x-healthcheck: &healthcheck
+  test: curl -fs http://localhost:8080/healthz | grep -E '\"status\"[[:space:]]*:[[:space:]]*\"(alive|expired)\"' >/dev/null
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  code-server:
+    image: ghcr.io/coder/code-server:4.118.0
+    container_name: code
+    restart: on-failure
+    networks:
+      - network_internal
+    ports:
+      - 8080
+    healthcheck: *healthcheck
+    volumes:
+      - /home/xstar97/docker/data/code:/home/coder/.config
+      - /home/xstar97/docker:/config
+    labels:
+      traefik.enable: true
+      traefik.http.routers.code.rule: Host(`code.${BASE_DOMAIN_0}`)
+      traefik.http.services.code.loadbalancer.server.port: 8080
+      traefik.http.routers.code.entrypoints: websecure
+      traefik.http.routers.code.tls: true
+      traefik.http.routers.code.tls.certResolver: cf
+      traefik.http.routers.code.middlewares: error-pages-middleware
+      wud.tag.include: ^\d+\.\d+\.\d+$
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

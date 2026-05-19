@@ -1,0 +1,38 @@
+x-healthcheck: &healthcheck
+  test: ["CMD", "/dozzle", "healthcheck"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  dozzle:
+    image: amir20/dozzle:v10.5.3
+    container_name: dozzle
+    restart: on-failure
+    environment:
+      DOZZLE_ADDR: :8080
+      DOZZLE_ENABLE_ACTIONS: true
+      DOZZLE_ENABLE_SHELL: true
+      DOZZLE_NO_ANALYTICS: true
+    networks:
+      - network_internal
+    ports:
+      - 8080
+    healthcheck: *healthcheck
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      traefik.enable: true
+      traefik.http.routers.dozzle.rule: Host(`dozzle.${BASE_DOMAIN_0}`)
+      traefik.http.services.dozzle.loadbalancer.server.port: 8080
+      traefik.http.routers.dozzle.entrypoints: websecure
+      traefik.http.routers.dozzle.tls: true
+      traefik.http.routers.dozzle.tls.certResolver: cf
+      traefik.http.routers.dozzle.middlewares: error-pages-middleware
+      wud.tag.include: ^\d+\.\d+\.\d+$
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

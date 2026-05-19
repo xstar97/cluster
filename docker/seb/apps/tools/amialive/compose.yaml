@@ -1,0 +1,33 @@
+x-healthcheck: &healthcheck
+  test: ["CMD","httpcheck","-t","5","http://localhost:6969/healthz"]
+  interval: 30s
+  timeout: 30s
+  retries: 3
+  start_period: 10s
+
+services:
+  amialive:
+    container_name: amialive
+    image: ghcr.io/xstar97/amialive:0.0.3
+    restart: unless-stopped
+    networks:
+      - network_internal
+    ports:
+      - 6969
+    healthcheck: *healthcheck
+    environment:
+      PORT: 6969
+    labels:
+      traefik.enable: true
+      traefik.http.routers.amialive.rule: Host(`amialive.${BASE_DOMAIN_0}`)
+      traefik.http.services.amialive.loadbalancer.server.port: 6969
+      traefik.http.routers.amialive.entrypoints: websecure
+      traefik.http.routers.amialive.tls: true
+      traefik.http.routers.amialive.tls.certResolver: cf
+      traefik.http.routers.amialive.middlewares: error-pages-middleware
+      wud.tag.include: ^\d+\.\d+\.\d+$
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

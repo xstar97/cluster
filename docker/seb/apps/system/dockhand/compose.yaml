@@ -1,0 +1,36 @@
+services:
+  # postgres:
+    # image: postgres:16-alpine
+    # networks:
+    #   - internal # Assign to the custom network
+    # volumes:
+    #   - /home/xstar97/docker/data/dockhand/db:/var/lib/postgresql/data
+    # labels:
+    #   - wud.tag.include=^\d+\.\d+\.\d+$
+  dockhand:
+    container_name: dockhand
+    image: fnsys/dockhand:v1.0.29
+    restart: on-failure
+    networks:
+      - network_internal
+    ports:
+      - 3000:3000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/xstar97/docker/data/dockhand/data:/app/data
+    labels:
+      traefik.enable: true
+      traefik.http.routers.dockhand.rule: Host(`dockhand.${BASE_DOMAIN_0}`)
+      traefik.http.services.dockhand.loadbalancer.server.port: 3000
+      traefik.http.routers.dockhand.entrypoints: websecure
+      traefik.http.routers.dockhand.tls: true
+      traefik.http.routers.dockhand.tls.certResolver: cf
+      traefik.http.routers.dockhand.middlewares: error-pages-middleware
+      wud.tag.include: ^\d+\.\d+\.\d+$$
+    # depends_on:
+    #   - postgres
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

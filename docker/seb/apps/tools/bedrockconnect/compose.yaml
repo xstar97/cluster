@@ -1,0 +1,34 @@
+services:
+  bedrockconnect:
+    container_name: bedrockconnect
+    image: pugmatt/bedrock-connect:1.66
+    restart: unless-stopped
+    ports:
+      - "19132:19132/udp"
+    network_mode: host
+    environment:
+      BC_SERVER_LIMIT: 100
+      BC_PORT: 19132
+      BC_BINDIP: 0.0.0.0
+      BC_ONLINE_MODE: true
+      BC_AUTO_RECONNECT: false
+      BC_GENERATEDNS: false
+      BC_KICK_INACTIVE: true
+      BC_USER_SERVERS: false
+      BC_FEATURED_SERVERS: false
+      BC_FETCH_FEATURED_IPS: true
+      BC_FETCH_IPS: false
+      BC_DEBUG: false
+      BC_MOTD_FIRST_JOIN: true
+      BC_MOTD_COOLDOWN: 0
+      BC_STORE_DISPLAY_NAMES: true
+      BC_PACKET_LIMIT: 200
+      BC_GLOBAL_PACKET_LIMIT: 100000
+      BC_CUSTOM_SERVERS: /app/custom_servers.json
+    volumes:
+      - /home/xstar97/docker/data/bedrockconnect/config/custom_servers.json:/app/custom_servers.json
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

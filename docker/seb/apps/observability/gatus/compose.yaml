@@ -1,0 +1,49 @@
+x-healthcheck: &healthcheck
+  test: ["CMD","/usr/bin/httpcheck","-t","5","http://localhost:8080/health"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  gatus:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        GATUS_VERSION: v5.34.0
+        MC_VERSION: 1.3.0
+    image: gatus-custom:v5.34.0
+    container_name: gatus
+    restart: on-failure
+    environment:
+      - GATUS_CONFIG_PATH=/config
+    networks:
+      - network_internal
+    ports:
+      - 8080
+    healthcheck: *healthcheck
+    volumes:
+      - /home/xstar97/docker/data/gatus/config:/config
+      - /home/xstar97/docker/data/gatus/data:/data
+    labels:
+      traefik.enable: true
+      traefik.http.routers.gatus.rule: Host(`gatus.${BASE_DOMAIN_0}`)
+      traefik.http.services.gatus.loadbalancer.server.port: 8080
+      traefik.http.routers.gatus.entrypoints: websecure
+      traefik.http.routers.gatus.tls: true
+      traefik.http.routers.gatus.tls.certResolver: cf
+      traefik.http.routers.gatus.middlewares: error-pages-middleware
+      homepage.group: Core
+      homepage.name: Gatus
+      homepage.icon: gatus.png
+      homepage.href: ${HP_HREF}
+      homepage.widget.type: gatus
+      homepage.widget.url: http://gatus:8080
+      homepage.description: Status Page
+      wud.tag.include: ^\d+\.\d+\.\d+$
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

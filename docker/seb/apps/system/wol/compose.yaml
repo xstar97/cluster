@@ -1,0 +1,48 @@
+x-healthcheck: &healthcheck
+  test: ["CMD","/usr/bin/httpcheck","-t","5","http://localhost:7777"]
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  wol:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        WOL_VERSION: 0.1.0
+        MC_VERSION: 1.3.0
+    container_name: wol
+    image: wol-custom:0.1.0
+    network_mode: host # needed for wol to function
+    restart: on-failure
+    # networks:
+    #   - network_internal
+    healthcheck: *healthcheck
+    command: serve
+    environment:
+      WOL_CONFIG: |
+        machines:
+          - name: wife-gaming-pc
+            mac: "${GAMING_PC_W_MAC}"
+            ip: "${GAMING_PC_W_IP}"
+        server:
+          listen: ":7777"
+        ping:
+          privileged: false
+
+    labels:
+      traefik.enable: true
+      traefik.http.routers.wol.rule: Host(`wol.${BASE_DOMAIN_0}`)
+      traefik.http.routers.wol.entrypoints: websecure
+      traefik.http.routers.wol.tls: true
+      traefik.http.routers.wol.tls.certResolver: cf
+      traefik.http.services.wol.loadbalancer.server.url: http://${SEB_IP}:7777
+      traefik.http.routers.wol.middlewares: error-pages-middleware
+      wud.tag.include: ^\d+\.\d+\.\d+$
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge

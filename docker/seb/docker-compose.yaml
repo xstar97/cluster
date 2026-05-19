@@ -1,0 +1,87 @@
+services:
+  apprise:
+    image: caronc/apprise:v1.4.1
+    restart: unless-stopped
+    container_name: apprise
+    networks:
+      - internal
+    ports:
+      - "8000"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fs -o /dev/null http://localhost:8000/status || curl -fs http://localhost:8000/status | grep -q 'OK'"]
+      start_period: 15s
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    environment:
+      TZ: America/New_York
+      APPRISE_WORKER_COUNT: 1
+    labels:
+      - wud.tag.include=^\d+\.\d+\.\d+$
+  
+  doco-cd:
+    image: ghcr.io/kimdre/doco-cd:0.88.0
+    container_name: doco-cd
+    restart: unless-stopped
+    networks:
+      - network_internal
+      - internal
+    ports:
+      - "9080:9080" # Webhook endpoint
+      - "9120:9120" # Prometheus metrics
+    environment:
+      TZ: America/New_York
+      HTTP_PORT: 9080
+      API_SECRET_FILE: /run/secrets/key_api
+      WEBHOOK_SECRET_FILE: /run/secrets/key_webhook
+      SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
+      SSH_PRIVATE_KEY_PASSPHRASE: ""
+      SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
+      APPRISE_API_URL: http://apprise:8000/notify
+      APPRISE_NOTIFY_LEVEL: success
+      APPRISE_NOTIFY_URLS_FILE: /run/secrets/key_apprise
+      DOCKER_SWARM_FEATURES: "false"
+      DEPLOY_CONFIG_BASE_DIR: ./docker/seb/
+      POLL_CONFIG: |
+        - url: https://github.com/xstar97/cluster
+          reference: main
+          interval: 3600
+    secrets:
+      - ssh_private_key
+      - sops_age_key
+      - key_apprise
+      - key_api
+      - key_webhook
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - data:/data
+    depends_on:
+      - apprise
+    healthcheck:
+      test: ["CMD", "/doco-cd", "healthcheck"]
+      start_period: 15s
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    security_opt:
+      - no-new-privileges:true
+    labels:
+      - wud.tag.include=^\\d+\\.\\d+\\.\\d+$
+secrets:
+  ssh_private_key:
+    file: ./secrets/sshkey.secret
+  sops_age_key:
+    file: /home/xstar97/cluster/age.agekey
+  key_api:
+    file: ./secrets/api.secret
+  key_webhook:
+    file: ./secrets/webhook.secret
+  key_apprise:
+    file: ./secrets/apprise.secret
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge
+volumes:
+  data: {}

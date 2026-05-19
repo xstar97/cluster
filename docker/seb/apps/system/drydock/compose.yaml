@@ -1,0 +1,36 @@
+x-healthcheck: &healthcheck
+  test: curl -f http://localhost:3000/health || exit 1
+  interval: 30s
+  timeout: 10s
+  retries: 3
+  start_period: 15s
+
+services:
+  drydock:
+    image: ghcr.io/codeswhat/drydock:1.4.5
+    container_name: drydock
+    restart: on-failure
+    environment:
+      DD_SERVER_TRUSTPROXY: 1
+    networks:
+      - network_internal
+    ports:
+      - 3000
+    healthcheck: *healthcheck
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      traefik.enable: true
+      traefik.http.routers.drydock.rule: Host(`drydock.${BASE_DOMAIN_0}`)
+      traefik.http.services.drydock.loadbalancer.server.port: 3000
+      traefik.http.routers.drydock.entrypoints: websecure
+      traefik.http.routers.drydock.tls: true
+      traefik.http.routers.drydock.tls.certResolver: cf
+      traefik.http.routers.drydock.middlewares: error-pages-middleware
+      drydock.tag.include: ^\d+\.\d+\.\d+$
+      drydock.link.template: https://github.com/getdrydock/drydock/releases/tag/$${major}.$${minor}.$${patch}
+networks:
+  network_internal:
+    external: true
+  internal:
+    driver: bridge
