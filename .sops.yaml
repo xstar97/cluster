@@ -14,7 +14,7 @@ creation_rules:
   - path_regex: kubernetes/.*\.sops\.ya?ml
     age: age173y4f2c8lc5lrf3qjrzle0653fq2l8565u6at52gssfd7lwzeqhqpuuv2r
     encrypted_regex: "^(data|stringData)$"
-  - path_regex: ^docker/.*/secrets/.*\.secret$
+  - path_regex: ^docker/.*/secrets/.*\.secret\.txt$
     age: age173y4f2c8lc5lrf3qjrzle0653fq2l8565u6at52gssfd7lwzeqhqpuuv2r
   - path_regex: ^docker/.*/apps/.*/.*/\.env$
     age: age173y4f2c8lc5lrf3qjrzle0653fq2l8565u6at52gssfd7lwzeqhqpuuv2r
