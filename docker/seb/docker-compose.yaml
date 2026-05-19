@@ -42,6 +42,7 @@ services:
       APPRISE_NOTIFY_URLS_FILE: /run/secrets/key_apprise
       DOCKER_SWARM_FEATURES: "false"
       DEPLOY_CONFIG_BASE_DIR: ./docker/seb/
+      PASS_ENV: true
       POLL_CONFIG: |
         - url: https://github.com/xstar97/cluster
           reference: main
