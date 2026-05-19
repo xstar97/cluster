@@ -69,15 +69,15 @@ services:
       - wud.tag.include=^\\d+\\.\\d+\\.\\d+$
 secrets:
   ssh_private_key:
-    file: ./secrets/sshkey.secret
+    file: ./secrets/sshkey.txt
   sops_age_key:
     file: /home/xstar97/cluster/age.agekey
   key_api:
-    file: ./secrets/api.secret
+    file: ./secrets/api.txt
   key_webhook:
-    file: ./secrets/webhook.secret
+    file: ./secrets/webhook.txt
   key_apprise:
-    file: ./secrets/apprise.secret
+    file: ./secrets/apprise.txt
 networks:
   network_internal:
     external: true
