@@ -1,5 +1,5 @@
 name: gitops
-working_dir: ./apps/
+working_dir: ./docker/seb/apps
 auto_discovery:
   enabled: true
   depth: 0
