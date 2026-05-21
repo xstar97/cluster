@@ -2,6 +2,9 @@
   "$schema": "https://raw.githubusercontent.com/devcontainers/spec/main/schemas/devContainer.schema.json",
   "name": "TalosCluster",
   "image": "oci.trueforge.org/containerforge/devcontainer:3.0.2@sha256:bceea97d6afc37dcb71cac422f86d221170bd0e26da52456a70048565f54cf42",
+  "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind"
+  ],
   "postCreateCommand": {
       "setup": "bash ${containerWorkspaceFolder}/.devcontainer/postCreateCommand.sh"
     },
