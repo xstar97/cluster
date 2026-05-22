@@ -7,7 +7,7 @@ x-healthcheck: &healthcheck
 
 services:
   cloudflared:
-    scale: 0
+    scale: 1
     image: cloudflare/cloudflared:2026.5.0@sha256:59bab8d3aceec09bf6bdb07d6beca0225ca5cd7ab79436a87ea97978fe1dc4f9
     container_name: cloudflared
     restart: on-failure

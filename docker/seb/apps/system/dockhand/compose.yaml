@@ -8,7 +8,7 @@ services:
     # labels:
     #   - wud.tag.include=^\d+\.\d+\.\d+$
   dockhand:
-    scale: 0
+    scale: 1
     container_name: dockhand
     image: fnsys/dockhand:v1.0.29
     restart: on-failure

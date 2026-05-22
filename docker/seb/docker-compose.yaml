@@ -34,17 +34,19 @@ services:
       - "9120:9120" # Prometheus metrics
     env_file:
       - ./secrets.enc.env
+      - ./doco.enc.env
+      - ./base.enc.env
     environment:
       TZ: America/New_York
       HTTP_PORT: 9080
-      API_SECRET_FILE: /run/secrets/key_api
-      WEBHOOK_SECRET_FILE: /run/secrets/key_webhook
+      # API_SECRET_FILE: /run/secrets/key_api
+      # WEBHOOK_SECRET_FILE: /run/secrets/key_webhook
       SSH_PRIVATE_KEY_FILE: /run/secrets/ssh_private_key
       SSH_PRIVATE_KEY_PASSPHRASE: ""
       SOPS_AGE_KEY_FILE: /run/secrets/sops_age_key
       APPRISE_API_URL: http://apprise:8000/notify
       APPRISE_NOTIFY_LEVEL: success
-      APPRISE_NOTIFY_URLS_FILE: /run/secrets/key_apprise
+      # APPRISE_NOTIFY_URLS_FILE: /run/secrets/key_apprise
       DOCKER_SWARM_FEATURES: "false"
       DEPLOY_CONFIG_BASE_DIR: ./docker/seb/
       PASS_ENV: false
@@ -57,9 +59,9 @@ services:
       - data:/data
       - /home/xstar97/.ssh/id_ed25519:/run/secrets/ssh_private_key:ro
       - /home/xstar97/cluster/age.agekey:/run/secrets/sops_age_key:ro
-      - /home/xstar97/cluster/docker/seb/secrets/api.txt:/run/secrets/key_api:ro
-      - /home/xstar97/cluster/docker/seb/secrets/webhook.txt:/run/secrets/key_webhook:ro
-      - /home/xstar97/cluster/docker/seb/secrets/apprise.txt:/run/secrets/key_apprise:ro
+      # - /home/xstar97/cluster/docker/seb/secrets/api.txt:/run/secrets/key_api:ro
+      # - /home/xstar97/cluster/docker/seb/secrets/webhook.txt:/run/secrets/key_webhook:ro
+      # - /home/xstar97/cluster/docker/seb/secrets/apprise.txt:/run/secrets/key_apprise:ro
     depends_on:
       - apprise
     healthcheck:

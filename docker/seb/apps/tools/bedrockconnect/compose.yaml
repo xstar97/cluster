@@ -1,6 +1,6 @@
 services:
   bedrockconnect:
-    scale: 0
+    scale: 1
     container_name: bedrockconnect
     image: pugmatt/bedrock-connect:1.66
     restart: unless-stopped

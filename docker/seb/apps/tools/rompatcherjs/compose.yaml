@@ -7,7 +7,7 @@ x-healthcheck: &healthcheck
 
 services:
   rompatcherjs:
-    scale: 0
+    scale: 1
     container_name: rompatcherjs
     image: ghcr.io/xstar97/rompatcherjs:v3.2.1
     networks:

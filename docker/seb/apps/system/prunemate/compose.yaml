@@ -8,7 +8,7 @@ x-healthcheck: &healthcheck
 
 services:
   prunemate:
-    scale: 0
+    scale: 1
     build:
       context: .
       dockerfile: Dockerfile
