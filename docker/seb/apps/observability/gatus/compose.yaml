@@ -38,7 +38,7 @@ services:
       homepage.group: Core
       homepage.name: Gatus
       homepage.icon: gatus.png
-      homepage.href: ${HP_HREF}
+      homepage.href: https://gatus.${BASE_DOMAIN_0}
       homepage.widget.type: gatus
       homepage.widget.url: http://gatus:8080
       homepage.description: Status Page

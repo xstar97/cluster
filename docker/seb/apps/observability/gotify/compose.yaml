@@ -31,10 +31,10 @@ services:
       homepage.group: Core
       homepage.name: Gotify
       homepage.icon: gotify.png
-      homepage.href: ${HP_HREF}
+      homepage.href: https://gotify.${BASE_DOMAIN_0}
       homepage.widget.type: gotify
-      homepage.widget.url: ${HP_WIDGET_URL}
-      homepage.widget.key: ${HP_KEY}
+      homepage.widget.url: http://gotify:8080
+      homepage.widget.key: $HP_KEY
       homepage.description: Alert service
       wud.tag.include: ^\d+\.\d+\.\d+$$
 networks:
