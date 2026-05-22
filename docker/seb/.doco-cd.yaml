@@ -5,7 +5,7 @@ auto_discovery:
   depth: 0
   delete: true
 env_files:
-  - ./docker/seb/secrets.enc.env
+  - /home/xstar97/docker/cluster/docker/seb/secrets.enc.env
 force_recreate: false
 reconciliation:
   enabled: true
