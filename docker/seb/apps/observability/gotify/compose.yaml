@@ -18,8 +18,6 @@ services:
     healthcheck: *healthcheck
     env_file:
       - .env
-    # environment:
-    #   GOTIFY_SERVER_PORT: 8080
     volumes:
       - /home/xstar97/docker/data/gotify/data:/app/data
     labels:
@@ -36,7 +34,7 @@ services:
       homepage.href: https://gotify.${BASE_DOMAIN_0}
       homepage.widget.type: gotify
       homepage.widget.url: http://gotify:8080
-      homepage.widget.key: "${HOMEPAGE_WIDGET_KEY}"
+      homepage.widget.key: "$HOMEPAGE_WIDGET_KEY"
       homepage.description: Alert service
       wud.tag.include: ^\d+\.\d+\.\d+$$
 networks:
