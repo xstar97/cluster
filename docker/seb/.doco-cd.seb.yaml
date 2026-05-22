@@ -1,12 +1,19 @@
-name: gitops
-working_dir: ./docker/seb/apps
-auto_discovery:
-  enabled: true
-  depth: 1
-  delete: true
+# name: gitops
+# working_dir: ./docker/seb/apps
+# auto_discovery:
+#   enabled: true
+#   depth: 1
+#   delete: true
+# env_files:
+#   - ./secrets.enc.env
+# force_recreate: false
+# reconciliation:
+#   enabled: true
+#   interval: 3600
+name: test-deploy
+working_dir: ./docker/seb/apps/infrastructure/traefik
+reference: main
+compose_files:
+  - ./compose.yml
 env_files:
-  - ./secrets.enc.env
-force_recreate: false
-reconciliation:
-  enabled: true
-  interval: 3600
+  - ./docker/seb/secrets.enc.env
