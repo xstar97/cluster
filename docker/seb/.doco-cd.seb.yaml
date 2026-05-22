@@ -11,9 +11,9 @@
 #   enabled: true
 #   interval: 3600
 name: test-deploy
-working_dir: ./docker/seb/apps/infrastructure/traefik
+working_dir: ./docker/seb/apps
 reference: main
 compose_files:
-  - ./compose.yml
+  - infrastructure/traefik/compose.yml
 env_files:
-  - ./docker/seb/secrets.enc.env
+  - ./secrets.enc.env
