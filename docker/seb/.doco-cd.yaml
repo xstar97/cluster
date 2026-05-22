@@ -2,7 +2,7 @@ name: gitops
 working_dir: ./docker/seb/apps
 auto_discovery:
   enabled: true
-  depth: 1
+  depth: 0
   delete: true
 env_files:
   - ./secrets.enc.env
