@@ -34,7 +34,7 @@ services:
       homepage.href: https://gotify.${BASE_DOMAIN_0}
       homepage.widget.type: gotify
       homepage.widget.url: http://gotify:8080
-      homepage.widget.key: "${HOMEPAGE_WIDGET_KEY}"
+      homepage.widget.key: "${GOTIFY_HP_WIDGET_KEY}"
       homepage.description: Alert service
       wud.tag.include: ^\d+\.\d+\.\d+$$
 networks:
