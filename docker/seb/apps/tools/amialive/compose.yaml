@@ -7,6 +7,7 @@ x-healthcheck: &healthcheck
 
 services:
   amialive:
+    scale: 1
     container_name: amialive
     image: ghcr.io/xstar97/amialive:0.0.3
     restart: unless-stopped

@@ -7,6 +7,7 @@ x-healthcheck: &healthcheck
 
 services:
   wud:
+    scale: 0
     image: ghcr.io/getwud/wud:8.2.2
     container_name: wud
     restart: on-failure

@@ -1,7 +1,0 @@
-name: gitops
-working_dir: ./docker/seb/apps
-auto_discovery:
-  enabled: true
-  depth: 0
-env_files:
-  - .env

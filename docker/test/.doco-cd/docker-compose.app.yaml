@@ -2,7 +2,7 @@ services:
   apprise:
     image: caronc/apprise:v1.4.1
     restart: unless-stopped
-    container_name: apprise
+    container_name: apprise-test
     networks:
       - internal
     ports:
@@ -24,7 +24,7 @@ services:
   
   doco-cd:
     image: ghcr.io/kimdre/doco-cd:0.88.0
-    container_name: doco-cd
+    container_name: doco-cd-test
     restart: unless-stopped
     networks:
       - network_internal
@@ -33,7 +33,7 @@ services:
       - "9080:9080" # Webhook endpoint
       - "9120:9120" # Prometheus metrics
     env_file:
-      - ./secrets.enc.env
+      - ../secrets.enc.env
     environment:
       TZ: America/New_York
       HTTP_PORT: 9080
@@ -46,7 +46,7 @@ services:
       APPRISE_NOTIFY_LEVEL: success
       APPRISE_NOTIFY_URLS_FILE: /run/secrets/key_apprise
       DOCKER_SWARM_FEATURES: "false"
-      DEPLOY_CONFIG_BASE_DIR: ./docker/seb/
+      DEPLOY_CONFIG_BASE_DIR: ./docker/test/
       PASS_ENV: false
       POLL_CONFIG: |
         - url: https://github.com/xstar97/cluster
