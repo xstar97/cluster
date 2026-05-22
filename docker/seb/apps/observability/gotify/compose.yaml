@@ -16,8 +16,8 @@ services:
     ports:
       - 8080
     healthcheck: *healthcheck
-    # env_file:
-    #   - .env
+    env_file:
+      - .env
     volumes:
       - /home/xstar97/docker/data/gotify/data:/app/data
     labels:
